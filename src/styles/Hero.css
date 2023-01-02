@@ -1,0 +1,29 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@500&display=swap');
+
+.fourier {
+    /* font-family: 'Orbitron', sans-serif; */
+    font-family: 'Ubuntu Mono', monospace;
+    /* font-size: 45px; */
+}
+.main{
+    /* font-family: 'Orbitron', sans-serif; */
+
+    font-family: 'Satoshi', sans-serif;
+
+    /* font-size: 50px; */
+}
+
+/* .section {} */
+
+.example::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}

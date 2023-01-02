@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&family=Rubik+Vinyl&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@500;900&family=Rubik+Vinyl&display=swap');
+
+.selectt{
+    font-family: 'Rubik Vinyl', cursive;
+}
+
+.sub{
+    font-family: 'Michroma', sans-serif;
+}
+
+.hero{
+    font-family: 'Satoshi', sans-serif;
+}
