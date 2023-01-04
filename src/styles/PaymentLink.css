@@ -1,0 +1,12 @@
+.c-border-gray{
+    border: 1px solid #eee;
+}
+
+.status-pill{
+    background: #f8faf7;
+    display: inline-block;
+    padding: 0.05rem 1rem;
+    font-weight: bold;
+    border-radius: 0.8rem;
+    font-size: 70%;
+}

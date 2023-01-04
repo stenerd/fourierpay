@@ -19,6 +19,8 @@ import CircularProgress, {
 } from '@mui/material/CircularProgress';
 import { linearProgressClasses } from '@mui/material/LinearProgress';
 import PaymentsIcon from '@mui/icons-material/Payments';
+import Titlebar from '../components/TitleBar'
+import '../styles/Dashboard.css'
 const Dashboard = () => {
     const [state, setState] = React.useState({
         top: false,
@@ -34,6 +36,7 @@ const Dashboard = () => {
 
         setState({ ...state, [anchor]: open });
     };
+
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 10,
         borderRadius: 5,
@@ -48,11 +51,17 @@ const Dashboard = () => {
     return (
         <>
             <DashboardLayout>
-                <div className='px-4 py-8'>
-                    <div className='flex justify-between items-center w-[90%] mx-auto'>
-                        <h2 className='fourier text-xl font-bold'>DashBoard</h2>
+                <Titlebar>
+                    <h2 className='fourier font-bold'>DashBoard</h2>
+                    <div>
                         <button onClick={toggleDrawer("right", true)} className='px-4 py-2 rounded-md text-white bg-[#234243]'>Create Payment</button>
                     </div>
+                </Titlebar>
+                <div className='px-16 py-8'>
+                    {/* <div className='flex justify-between items-center w-[90%] mx-auto'>
+                        <h2 className='fourier text-xl font-bold'>DashBoard</h2>
+                        <button onClick={toggleDrawer("right", true)} className='px-4 py-2 rounded-md text-white bg-[#234243]'>Create Payment</button>
+                    </div> */}
                     {/* <div className='py-6'>
                         <div className='flex items-center w-[90%] space-x-5 mx-auto'>
                             <div className='bg-[#F8FAF7] py-4 h-[200px] w-[200px] shadow-md'>
@@ -127,23 +136,23 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div> */}
-                    <div className='py-6 px-3 w-[90%] mx-auto'>
-                        <Grid container spacing={2} alignItems="">
+                    <div className='py-4'>
+                        <Grid container spacing={4} alignItems="">
                             <Grid item xs={12} md={4}>
                                 <Stack spacing={4}>
-                                    <div className='bg-[#f1f3f0] rounded-md'>
+                                    <div className='bg-[#f1f3f0] rounded-md dashboard-wallet'>
                                         <div className='py-6 px-3 w-[90%] mx-auto'>
                                             <div className='spacing-y-3'>
-                                                <h1 className='fourier font-bold'>1200-0000-0000-****</h1>
-                                                <h3 className="py-2 text-gray-400">09/23</h3>
+                                                <h1 className='fourier font-bold'>1200-0000-0000-8889</h1>
+                                                <h3 className="text-gray-400 font-bold">Monday 9th May 2022</h3>
                                             </div>
                                         </div>
                                         <div className='py-2 px-2 bg-[#f8faf7]'>
                                             <div className='w-[90%] mx-auto'>
                                                 <div className='spacing-y-3 flex justify-between items-center'>
-                                                    <div>
+                                                    <div className='py-4'>
                                                         <h1 className='fourier text-[20px] font-bold'>$240,000</h1>
-                                                        <h3 className="py-2 text-gray-400">Total Balance</h3>
+                                                        <h3 className="text-gray-400 font-bold">Total Balance</h3>
                                                     </div>
                                                     <IconButton>
                                                         <NearMeIcon className='text-[#234243]' />
@@ -153,31 +162,35 @@ const Dashboard = () => {
 
                                         </div>
                                     </div>
-                                    <div className='bg-white shadow-md rounded-md'>
-                                        <div className='py-2 px-3 w-[90%] mx-auto'>
-                                            <div className='spacing-y-3'>
+                                    <div className='bg-white shadow-md rounded-md dashboard-spending-limit'>
+                                        <div className='py-6 px-3 w-[90%] mx-auto'>
+                                            <div className='spacing-y-3 mb-8'>
                                                 <h1 className='fourier text-xl font-bold'>Spending Limit</h1>
-                                                <p className="text-gray-400 text-sm">DAILY TRANSACTION LIMIT</p>
+                                                <p className="text-gray-400 text-sm font-bold">Daily Transaction Limit</p>
                                             </div>
-                                            <div className='py-4'>
+                                            <div className='py-2'>
                                                 <BorderLinearProgress variant="determinate" value={10} />
                                             </div>
-                                            <div className='py-2 flex justify-between items-center'>
-                                                <p className='text-[#234243] text-sm'>$199 spent out of $2,4000</p>
+                                            <div className='flex justify-between items-center'>
+                                                <p className='text-sm font-bold'>
+                                                    <span className='text-[#f10707]'>$199</span>
+                                                    <span className='text-[#9aa3ae]'> spent out of </span>
+                                                    <span className='text-[#234243]'>$2,4000</span>
+                                                </p>
                                                 <p className='text-sm font-bold'>10%</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='bg-white shadow-md rounded-md'>
+                                    <div className='bg-white shadow-md rounded-md dashboard-spending-limit'>
                                         <div className='py-6 px-3 w-[90%] mx-auto'>
-                                            <div className='spacing-y-3'>
+                                            <div className='spacing-y-3 mb-8'>
                                                 <h1 className='fourier font-bold'>OutCome Statistics</h1>
                                                 {/* <p className="py-2 text-sm text-gray-400">DAILY TRANSACTION LIMIT</p> */}
                                             </div>
-                                            <div className='py-4'>
+                                            <div className='py-2'>
                                                 <BorderLinearProgress variant="determinate" value={50} />
                                             </div>
-                                            <div className='py-2 flex justify-between items-center'>
+                                            <div className='flex justify-between items-center font-bold'>
                                                 <p className='text-[#234243] text-sm'>Withdrawals</p>
                                                 <p className='text-sm font-bold'>20</p>
                                             </div>
@@ -190,15 +203,19 @@ const Dashboard = () => {
                                 <div className='px-2'>
                                     <Grid container spacing={3}>
                                         <Grid item xs={3}>
-                                            <div className='bg-[#f8faf7] py-2 h-[120px]  rounded-md'>
+                                            <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
+                                                <div className='overlay'></div>
                                                 <div className="p-2 w-[90%] mx-auto">
                                                     <div className='space-y-3 flex flex-col items-start justify-start'>
                                                         {/* <IconButton> */}
-                                                        <AttachMoneyIcon className='text-[#234243]' />
+                                                        <div className='content'>
+                                                            <AttachMoneyIcon className='text-[#234243]' />
+                                                        </div>
                                                         {/* </IconButton> */}
-                                                        <h2 className='text-sm text-gray-400'>Income</h2>
-                                                        <h1 className='font-bold fourier'>$189,000</h1>
-
+                                                        <div className='pt-8'>
+                                                            <h2 className='text-sm text-gray-400 font-bold'>Income</h2>
+                                                            <h1 className='font-bold fourier'>$189,000</h1>
+                                                        </div>
                                                     </div>
 
                                                 </div>
@@ -207,13 +224,17 @@ const Dashboard = () => {
 
                                         </Grid>
                                         <Grid item xs={3}>
-                                            <div className='bg-[#f8faf7] py-2 h-[120px] rounded-md'>
+                                            <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
+                                                <div className='overlay'></div>
                                                 <div className="p-2 w-[90%] mx-auto">
                                                     <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                        <PaidIcon className='text-[#234243]' />
-                                                        <h2 className='text-sm text-gray-400'>Budget</h2>
-                                                        <h1 className='font-bold fourier'>$390,000</h1>
-
+                                                        <div className='content'>
+                                                            <PaidIcon className='text-[#234243]' />
+                                                        </div>
+                                                        <div className='pt-8'>
+                                                            <h2 className='text-sm text-gray-400 font-bold'>Budget</h2>
+                                                            <h1 className='font-bold fourier'>$390,000</h1>
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -222,23 +243,33 @@ const Dashboard = () => {
 
                                         </Grid>
                                         <Grid item xs={3}>
-                                            <div className='bg-[#f8faf7] py-2 h-[120px]  rounded-md'>
+                                            <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
+                                                <div className='overlay'></div>
                                                 <div className="p-2 w-[90%] mx-auto">
                                                     <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                        <PaymentsIcon className='text-[#234243]' />
-                                                        <h2 className='text-sm text-gray-400'>Withdrawal</h2>
-                                                        <h1 className='font-bold fourier'>$390,000</h1>
+                                                        <div className='content'>
+                                                            <PaymentsIcon className='text-[#234243]' />
+                                                        </div>
+                                                        <div className='pt-8'>
+                                                            <h2 className='text-sm text-gray-400 font-bold'>Withdrawal</h2>
+                                                            <h1 className='font-bold fourier'>$390,000</h1>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </Grid>
                                         <Grid item xs={3}>
-                                            <div className='bg-[#f8faf7] py-2 h-[120px]  rounded-md'>
+                                            <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
+                                                <div className='overlay'></div>
                                                 <div className="p-2 w-[90%] mx-auto">
                                                     <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                        <LinkIcon className='text-[#234243]' />
-                                                        <h2 className='text-sm text-gray-400'>Payment Links</h2>
-                                                        <h1 className='font-bold fourier'>50</h1>
+                                                        <div className='content'>
+                                                            <LinkIcon className='text-[#234243]' />
+                                                        </div>
+                                                        <div className='pt-8'>
+                                                            <h2 className='text-sm text-gray-400 font-bold'>Payment Links</h2>
+                                                            <h1 className='font-bold fourier'>50</h1>
+                                                        </div>
 
                                                     </div>
 
@@ -251,26 +282,130 @@ const Dashboard = () => {
 
                                     </Grid>
                                 </div>
-                                <div className='py-4 px-3'>
-                                    <Divider />
-                                    <div className="py-4">
-                                        <h1 className='fourier font-bold text-lg'>Transactions</h1>
+                                <div className="px-3 pt-8">
+                                    <h2 className='font-bold fourier text-xl'>Recent Links</h2>
+                                    <div className='py-2 dashboard-payment-link'>
+                                        <List>
+                                            <ListItem disablePadding alignItems="flex-center">
+                                                <ListItemButton>
+                                                    <div className='py-1 w-full'>
+                                                        <Grid container spacing={3}>
+                                                            <Grid item xs={5}>
+                                                                <div>
+                                                                    <h2 className='font-bold'>ELA DUES</h2>
+                                                                    <p className='text-sm text-gray-400'>https://fourierpay.netlify.app/eladues</p>
+                                                                </div>
+
+                                                            </Grid>
+                                                            <Grid item xs={3}>
+                                                                <div className='set-item-center'>
+                                                                    <h2 className='font-bold'>$ 4000</h2>
+                                                                </div>
+
+                                                            </Grid>
+                                                            <Grid item xs={4}>
+                                                                <div className='set-item-center'>
+                                                                    <small className='text-sm text-[#f10707] status-pill'>Expired - 24th May 2022</small>
+                                                                </div>
+
+                                                            </Grid>
+                                                            
+                                                            
+                                                        </Grid>
+                                                    </div>
+                                                </ListItemButton>
+                                                
+                                            </ListItem>
+                                            <ListItem disablePadding alignItems="flex-center">
+                                                <ListItemButton>
+                                                    <div className='py-1 w-full'>
+                                                        <Grid container spacing={3}>
+                                                            <Grid item xs={5}>
+                                                                <div>
+                                                                    <h2 className='font-bold'>THERMO MATERIALS</h2>
+                                                                    <p className='text-sm text-gray-400'>https://fourierpay.netlify.app/thermo-materials</p>
+                                                                </div>
+
+                                                            </Grid>
+                                                            <Grid item xs={3}>
+                                                                <div className='set-item-center'>
+                                                                    <h2 className='font-bold'>$ 1000</h2>
+                                                                </div>
+
+                                                            </Grid>
+                                                            <Grid item xs={4}>
+                                                                <div className='set-item-center'>
+                                                                    <small className='text-sm text-[#00bf00] status-pill'>Active - 24th March 2023</small>
+                                                                </div>
+
+                                                            </Grid>
+                                                            
+                                                            
+                                                        </Grid>
+                                                    </div>
+                                                </ListItemButton>
+                                                
+                                            </ListItem>
+
+                                            <ListItem disablePadding alignItems="flex-center">
+                                                <ListItemButton>
+                                                    <div className='py-1 w-full'>
+                                                        <Grid container spacing={3}>
+                                                            <Grid item xs={5}>
+                                                                <div>
+                                                                    <h2 className='font-bold'>ELA DUES</h2>
+                                                                    <p className='text-sm text-gray-400'>https://fourierpay.netlify.app/eladues</p>
+                                                                </div>
+
+                                                            </Grid>
+                                                            <Grid item xs={3}>
+                                                                <div className='set-item-center'>
+                                                                    <h2 className='font-bold'>$ 4000</h2>
+                                                                </div>
+
+                                                            </Grid>
+                                                            <Grid item xs={4}>
+                                                                <div className='set-item-center'>
+                                                                    <small className='text-sm text-[#f10707] status-pill'>Expired - 24th May 2022</small>
+                                                                </div>
+
+                                                            </Grid>
+                                                            
+                                                            
+                                                        </Grid>
+                                                    </div>
+                                                </ListItemButton>
+                                                
+                                            </ListItem>
+                                        </List>
+                                    </div>
+
+                                </div>
+
+
+                                <div className='pt-4 px-3'>
+                                    <div className=''>
+                                        <h1 className='fourier font-bold text-xl'>Recent Payments</h1>
                                         <div className='py-2'>
                                             <List>
                                                 <ListItem disablePadding alignItems="flex-center">
                                                     <ListItemButton>
                                                         <ListItemText>
-                                                            <h2 className='text-sm'>ELA dues</h2>
+                                                            <h2 className='text-sm font-bold'>LINK PAYMENT</h2>
+                                                            <small className='text-sm text-gray-400'>TMA9Khbat43aWcg</small>
                                                         </ListItemText>
                                                         <ListItemText>
-                                                            <p className='text-sm text-gray-400 text-center'>****-2098-3367-2900</p>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <h2 className='text-sm text-gray-400 text-center'>$2300</h2>
+                                                            <h2 className='text-sm font-bold text-center'>$2300</h2>
                                                         </ListItemText>
                                                         <ListItemText>
                                                             <div className="text-center">
-                                                                <button className='py-2 px-2 rounded-lg text-sm bg-[#f8faf7]'>Success</button>
+                                                                <p className='py-2 px-2 rounded-lg text-sm text-[#00bf00]'>CREDIT</p>
+                                                            </div>
+
+                                                        </ListItemText>
+                                                        <ListItemText>
+                                                            <div className="text-center">
+                                                                <p className='py-2 px-2 rounded-lg text-sm status-paid'>paid</p>
                                                             </div>
 
                                                         </ListItemText>
@@ -279,17 +414,21 @@ const Dashboard = () => {
                                                 <ListItem disablePadding alignItems="flex-center">
                                                     <ListItemButton>
                                                         <ListItemText>
-                                                            <h2 className='text-sm'>ELA dues</h2>
+                                                            <h2 className='text-sm font-bold'>WALLET DEBIT</h2>
+                                                            <small className='text-sm text-gray-400'>TMA9Khbat43aWcg</small>
                                                         </ListItemText>
                                                         <ListItemText>
-                                                            <p className='text-sm text-gray-400 text-center'>****-2098-3367-2900</p>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <h2 className='text-sm text-gray-400 text-center'>$2300</h2>
+                                                            <h2 className='text-sm font-bold text-center'>$2300</h2>
                                                         </ListItemText>
                                                         <ListItemText>
                                                             <div className="text-center">
-                                                                <button className='py-2 px-2 rounded-lg text-sm bg-[#f8faf7]'>Success</button>
+                                                                <p className='py-2 px-2 rounded-lg text-sm text-[#f10707]'>DEBIT</p>
+                                                            </div>
+
+                                                        </ListItemText>
+                                                        <ListItemText>
+                                                            <div className="text-center">
+                                                                <p className='py-2 px-2 rounded-lg text-sm status-fail'>abandoned</p>
                                                             </div>
 
                                                         </ListItemText>
@@ -301,49 +440,7 @@ const Dashboard = () => {
                                     </div>
                                 </div>
 
-                                <div className="px-3">
-                                    <h2 className='font-bold fourier text-lg'>Payment Links</h2>
-                                    <div className='py-2'>
-                                        <List>
-                                            <ListItem disablePadding alignItems="flex-center">
-                                                <ListItemButton>
-                                                    <ListItemText>
-                                                        <h2 className='text-sm'>ELA dues</h2>
-                                                    </ListItemText>
-                                                    <ListItemText>
-                                                        <p className='text-sm text-gray-400 text-center'>https://fourierpay.netlify.app/eladues</p>
-                                                    </ListItemText>
-                                                   
-                                                    <ListItemText>
-                                                        <div className="text-center">
-                                                            <button className='py-2 px-2 rounded-lg text-red-500 text-sm bg-[#f8faf7]'>Expired</button>
-                                                        </div>
-
-                                                    </ListItemText>
-                                                </ListItemButton>
-                                            </ListItem>
-                                            <ListItem disablePadding alignItems="flex-center">
-                                                <ListItemButton>
-                                                    <ListItemText>
-                                                        <h2 className='text-sm'>UBT dues</h2>
-                                                    </ListItemText>
-                                                    <ListItemText>
-                                                        <p className='text-sm text-gray-400 text-center px-2'>https://fourierpay.netlify.app/ubitdues</p>
-                                                    </ListItemText>
-                                                   
-                                                    <ListItemText>
-                                                        <div className="text-center">
-                                                            <button className='py-2 px-2 rounded-lg text-sm bg-[#f8faf7]'>Active</button>
-                                                        </div>
-
-                                                    </ListItemText>
-                                                </ListItemButton>
-                                            </ListItem>
-                                            
-                                        </List>
-                                    </div>
-
-                                </div>
+                                
                             </Grid>
                         </Grid>
 
