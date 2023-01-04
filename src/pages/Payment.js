@@ -9,7 +9,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import dayjs from 'dayjs';
-import { TextField } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 const Payment = () => {
     const [value, setValue] = React.useState(dayjs('2014-08-18T21:11:54'));
     const handleChange = (newValue) => {
@@ -19,35 +19,41 @@ const Payment = () => {
     return (
         <>
             <div className='min-h-screen'>
-                <div className='w-full'>
-                    <div className="w-2/5 mx-auto">
-                         <div className='flex items-center min-h-screen'>
-                            <form className='w-full space-y-4'>
-                                <h3 className='text-center main text-xl'>Create Payment Link</h3>
-                                <div className='flex flex-col space-y-3 w-4/5 mx-auto'>
-                                    <label className=''>Title</label>
-                                    <input placeholder='Title' className="py-2 px-4  bg-gray-200 rounded-md outline-none" />
-                                </div>
-                                <div className='flex flex-col space-y-3 w-4/5 mx-auto'>
-                                    <label className=''>Amount</label>
-                                    <input placeholder='Amount' type="number" className="py-2 px-4 bg-gray-200 rounded-md outline-none" />
-                                </div>
-                                <div className='flex flex-col space-y-3 w-4/5 mx-auto'>
-                                    <label className=''>Description</label>
-                                    <input placeholder='Description' className="py-2 px-4  bg-gray-200 rounded-md outline-none" />
-                                </div>
-                                <div className='flex flex-col space-y-3 w-4/5 mx-auto'>
-                                    <label>Field</label>
-                                    <input placeholder='Field' className="py-2 px-4  bg-gray-200 rounded-md outline-none" />
-                                </div>
-                                <div className='py-4 w-4/5 mx-auto'>
-                                    <button className='bg-[#0d1510] py-3 px-4 w-full rounded-md text-white'>Create Link</button>
-                                </div>
-                            </form>
-                         </div>
+                <Grid container>
+                    <Grid item xs={12} md={6}>
+                        <div className='min-h-[90vh] flex flex-col justify-center items-center p-3'>
+                            <div className='w-[60%] mx-auto'>
+                                <form className='w-full space-y-4'>
+                                    <h3 className='text-center main text-xl'>Create Payment Link</h3>
+                                    <div className='flex flex-col space-y-3 '>
+                                        <label className=''>Title</label>
+                                        <input placeholder='Title' className="py-2 px-4 w-full  bg-gray-200 rounded-md outline-none" />
+                                    </div>
+                                    <div className='flex flex-col space-y-3 '>
+                                        <label className=''>Amount</label>
+                                        <input placeholder='Amount' type="number" className="py-2  w-full  px-4 bg-gray-200 rounded-md outline-none" />
+                                    </div>
+                                    <div className='flex flex-col space-y-3 '>
+                                        <label className=''>Description</label>
+                                        <input placeholder='Description' className="py-2 px-4   w-full  bg-gray-200 rounded-md outline-none" />
+                                    </div>
+                                    <div className='flex flex-col space-y-3'>
+                                        <label>Field</label>
+                                        <input placeholder='Field' className="py-2 px-4  w-full   bg-gray-200 rounded-md outline-none" />
+                                    </div>
+                                    <div className='py-4'>
+                                        <button className='bg-[#0d1510] py-3 px-4 w-full rounded-md text-white'>Create Link</button>
+                                    </div>
+                                </form>
+                            </div>
 
-                    </div>
-                </div>
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                       <img src="/images/paymentt.jpg" className='w-full object-cover h-screen'/>
+                    </Grid>
+                </Grid>
+               
 
             </div>
         </>
