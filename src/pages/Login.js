@@ -43,10 +43,10 @@ const Login = () => {
                         </Link>
                     </div> */}
                     <Grid container>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} md={5}>
                             <div className='min-h-[90vh] flex flex-col justify-center items-center p-3'>
                                 <h2 className='text-xl font-bold main'>Welcome Back</h2>
-                                <div className='w-[30%] mx-auto py-8'>
+                                <div className='w-4/5 mx-auto py-8'>
                                     <form onSubmit={handleSubmit}>
                                         <Grid container spacing={3}>
                                             <Grid item xs={12} md={12}>
@@ -71,7 +71,7 @@ const Login = () => {
                                 </div>
                             </div>
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} md={7}>
                             <img src="/images/registration.jpg" className='w-full h-screen object-cover'/>
                         </Grid>
                     </Grid>

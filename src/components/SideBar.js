@@ -23,7 +23,7 @@ const Sidebar = () => {
                     <div className='py-4'>
                         <h2 className='text-xl fourier text-center text-white'>Fourier<span className='text-[#688c8d]'>Pay</span></h2>
                     </div>
-                    <div className='w-4/5 mx-auto'>
+                    <div className='w-5/6 mx-auto'>
                         {/* <div className='py-4'>
                             <input placeholder='Search' className='px-3 py-2 rounded-md bg-[#252728] text-white outline-none' />
                         </div> */}
@@ -32,7 +32,7 @@ const Sidebar = () => {
                         </div> */}
                         <div className='py-4 space-y-2'>
                             <Link to="/">
-                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 rounded-md">
+                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md">
                                     <IconButton>
                                         <HomeIcon className="text-white" />
                                     </IconButton>
@@ -40,7 +40,7 @@ const Sidebar = () => {
                                 </div>
                             </Link>
                             <Link to="/dashboard">
-                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 rounded-md">
+                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md">
                                     <IconButton>
                                         <DashboardIcon className="text-white" />
                                     </IconButton>
@@ -48,7 +48,7 @@ const Sidebar = () => {
                                 </div>
                             </Link>
                             <Link to="/dashboard/paymentlinks">
-                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 rounded-md">
+                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md">
                                     <IconButton>
                                         <LinkIcon className="text-white" />
                                     </IconButton>
@@ -57,21 +57,21 @@ const Sidebar = () => {
                             </Link>
 
                             <Link to="/dashboard/transaction">
-                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 rounded-md">
+                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md">
                                     <IconButton>
                                         <AccountBalanceWalletIcon className="text-white" />
                                     </IconButton>
                                     <h2 className='text-white'>Transactions</h2>
                                 </div>
                             </Link>
-                            <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 rounded-md">
+                            <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md">
                                 <IconButton>
                                     <VolunteerActivismIcon className="text-white" />
                                 </IconButton>
                                 <h2 className='text-white'>Refunds</h2>
                             </div>
                         </div>
-                        <div className="flex items-center space-x-3 cursor-pointer rounded-md py-6">
+                        <div className="flex items-center space-x-3 cursor-pointer rounded-md py-6 px-2">
                             <IconButton>
                                 <LogoutIcon className="text-white" />
                             </IconButton>

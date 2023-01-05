@@ -59,29 +59,29 @@ const Signup = () => {
                         </Link>
                     </div> */}
                     <Grid container>
-                        <Grid item  xs={12} md={6}>
+                        <Grid item  xs={12} md={7}>
                              <img src="/images/registration.jpg" className='w-full h-screen object-cover'/>
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} md={5}>
                             <div className='min-h-[90vh] flex flex-col justify-center items-center p-3'>
                                 <h2 className='text-xl font-bold home'>Get Started For Free</h2>
-                                <div className='w-[35%] mx-auto py-8'>
+                                <div className='w-4/5 mx-auto py-8'>
                                     <form onSubmit={handleSubmit}>
 
                                         <Grid container spacing={3}>
-                                            <Grid item xs={12} md={12}>
+                                            <Grid item xs={12} md={6}>
                                                 <label className='p-4'>First Name</label>
                                                 <input placeholder='First Name' onChange={handleChange} required name='firstname' type="text" className='py-2 bg-gray-200 px-4 w-full outline-none rounded-md' />
                                             </Grid>
-                                            <Grid item xs={12} md={12}>
+                                            <Grid item xs={12} md={6}>
                                                 <label className='p-4'>Last Name</label>
                                                 <input placeholder='Last Name' onChange={handleChange} required type="text" name='lastname' className='py-2 bg-gray-200 px-4 w-full outline-none rounded-md' />
                                             </Grid>
-                                            <Grid item xs={12} md={12}>
+                                            <Grid item xs={12} md={6}>
                                                 <label className='p-4'>Email</label>
                                                 <input placeholder='Email' onChange={handleChange} required type='email' name='email' className='py-2 px-4 bg-gray-200 w-full outline-none rounded-md' />
                                             </Grid>
-                                            <Grid item xs={12} md={12}>
+                                            <Grid item xs={12} md={6}>
                                                 <label className='p-4'>Password</label>
                                                 <input placeholder='Password' onChange={handleChange} name='password' required type="password" className='py-2 bg-gray-200 px-4 w-full outline-none rounded-md' />
                                             </Grid>
