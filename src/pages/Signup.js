@@ -1,65 +1,146 @@
-import { Grid, TextField } from '@mui/material'
+import { CircularProgress, Grid, TextField } from '@mui/material'
 
-import React from 'react'
-
+import React, { useState } from 'react'
+import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Signup = () => {
+    const [loading, setLoading] = useState(false)
+    const [state, setState] = useState({
+        firstname: '',
+        lastname: '',
+        email: '',
+        password: ''
+    })
+
+    const handleChange = (e) => {
+        setState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        console.log('processing....')
+        setLoading(true)
+        try {
+            const res = await axios.post(`http://localhost:4000/api/auth/registration`, state)
+
+            console.log(res)
+            console.log('done successfully')
+            setLoading(false)
+            toast.success('Registration Successful!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        } catch (error) {
+            console.log(error.response.data.message)
+            toast.error(error.response.data.message)
+            console.log('An erroe occurred')
+            setLoading(false)
+        }
+        console.log(state)
+
+    }
     return (
         <>
-            <div className='bg-gray-100 min-h-screen'>
-                <div className='py-6'>
-                    <div className='w-4/5 mx-auto flex flex-col justify-between'>
+            <div className='bg-gray-100 h-screen'>
+                <div className=''>
+                    {/* <div className='w-4/5 mx-auto flex flex-col justify-between'>
                         <Link to="/">
                             <h2 className='text-xl fourier'>Fourier<span className='text-[#234243]'>Pay</span></h2>
                         </Link>
-                    </div>
-                    <div className='min-h-[90vh] flex flex-col justify-center items-center p-3'>
-                        <h2 className='text-xl font-bold selectt'>Get Started For Free</h2>
-                        <div className='w-[35%] mx-auto py-8'>
-                            <form>
-                                <Grid container spacing={3}>
-                                    <Grid item xs={12} md={6}>
-                                        <label className='p-4'>Company Name</label>
-                                        <input placeholder='First Name' className='py-2 bg-gray-200 px-4 w-full outline-none rounded-md' />
-                                    </Grid>
-                                    <Grid item xs={12} md={6}>
-                                        <label className='p-4'>Email</label>
-                                        <input placeholder='Email' className='py-2 bg-gray-200 px-4 w-full outline-none rounded-md' />
-                                    </Grid>
-                                    <Grid item xs={12} md={6}>
-                                        <label className='p-4'>Phone Number</label>
-                                        <input placeholder='Email' className='py-2 px-4 bg-gray-200 w-full outline-none rounded-md' />
-                                    </Grid>
-                                    <Grid item xs={12} md={6}>
-                                        <label className='p-4'>Password</label>
-                                        <input placeholder='Password' type="password" className='py-2 bg-gray-200 px-4 w-full outline-none rounded-md' />
-                                    </Grid>
-                                    <Grid item xs={12} md={6}>
-                                        <label className='p-4'>First Name</label>
-                                        <input placeholder='First Name' type="text" className='py-2 bg-gray-200 px-4 w-full outline-none rounded-md' />
-                                    </Grid>
-                                    <Grid item xs={12} md={6}>
-                                        <label className='p-4'>Last Name</label>
-                                        <input placeholder='Last Name' type="text" className='py-2 bg-gray-200 px-4 w-full outline-none rounded-md' />
-                                    </Grid>
-                                    <Grid item xs={12} md={12}>
-                                        <label className='p-4'>Address</label>
-                                        <input placeholder='Address' type="text" className='py-2 bg-gray-200 px-4 w-full outline-none rounded-md' />
-                                    </Grid>
-                                </Grid>
-                                <div className='py-4'>
-                                    <button className='bg-[#234243] w-full rounded-md py-3 text-white'>Get Started</button>
+                    </div> */}
+                    <Grid container>
+                        <Grid item  xs={12} md={5}>
+                             <img src="/images/registration.jpg" className='w-full h-screen object-cover'/>
+                        </Grid>
+                        <Grid item xs={12} md={7}>
+                            <div className='min-h-[100vh] flex flex-col justify-center p-3'>
+                                <div className='w-[80%] mx-auto mb-0'>
+                                    <h2 className='text-xl mb-16 font-bold home c-auth-title'>Register</h2>
+                                    <p className='font-bold text-gray-700'>Manage and monitor your payment links.</p>
+                                    <small className='font-bold text-gray-500 inline-block w-[70%]'>Let's get you all set up so you can create your personal account and begin setting up your profile.</small>
                                 </div>
-                            </form>
-                            <div className='py-2 space-y-4'>
-                                <p className="text-center underline cursor-pointer text-gray-500">Do You Have an Account ?</p>
-                                <p className='text-center text-sm text-gray-400'>Signing into Fourier account means You agree to the Privacy </p>
+                                <div className='w-[80%] mx-auto py-8'>
+                                    <form onSubmit={handleSubmit}>
+
+                                        <Grid container spacing={3}>
+                                            <Grid item lg={6} md={12}>
+                                                <label className='text-sm font-bold block my-2 text-gray-700'>First Name</label>
+                                                <input placeholder='First Name' onChange={handleChange} required name='firstname' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                                            </Grid>
+                                            <Grid item lg={6} md={12}>
+                                                <label className='text-sm font-bold block my-2 text-gray-700'>Last Name</label>
+                                                <input placeholder='Last Name' onChange={handleChange} required type="text" name='lastname' className='py-2 px-4 w-full outline-none c-text-input' />
+                                            </Grid>
+                                            <Grid item lg={6} md={12}>
+                                                <label className='text-sm font-bold block my-2 text-gray-700'>Email</label>
+                                                <input placeholder='Email' onChange={handleChange} required type='email' name='email' className='py-2 px-4 w-full outline-none c-text-input' />
+                                            </Grid>
+                                            <Grid item lg={6} md={12}>
+                                                <label className='text-sm font-bold block my-2 text-gray-700'>Phone Number</label>
+                                                <input placeholder='Phone Number' onChange={handleChange} name='phone_number' required type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                                            </Grid>
+                                            <Grid item lg={6} md={12}>
+                                                <label className='text-sm font-bold block my-2 text-gray-700'>Password</label>
+                                                <input placeholder='Password' onChange={handleChange} name='password' required type="password" className='py-2 px-4 w-full outline-none c-text-input' />
+                                            </Grid>
+                                            <Grid item lg={6} md={12}>
+                                                <label className='text-sm font-bold block my-2 text-gray-700'>Confirm Password</label>
+                                                <input placeholder='Confirm Password' onChange={handleChange} name='confirm_password' required type="password" className='py-2 px-4 w-full outline-none c-text-input' />
+                                            </Grid>
+
+
+                                        </Grid>
+
+                                        <div className='mt-12 mb-6'>
+                                            <p className='text-sm font-bold text-gray-500'>👍 Signing into Fourier
+                                            <span className='c-primary-color'>pay</span> account means you agree to the 
+                                            <span className='c-primary-link-color'> Terms</span> and 
+                                            <span className='c-primary-link-color'> Privacy Policy</span></p>
+                                        </div>
+
+                                        <div>
+                                            <button className='c-primary-button'>
+                                                {loading ? 'Loading....' : 'Get Started'}
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <div className='py-4'>
+                                        <p className="text-gray-700 font-bold">Already have an account? 
+                                            <Link to="/login">
+                                                <span className='cursor-pointer c-primary-link-color'> Log in</span>
+                                            </Link>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        </Grid>
+
+                    </Grid>
+
                 </div>
             </div>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </>
     )
 }

@@ -27,3 +27,44 @@
     scrollbar-width: none;
     /* Firefox */
 }
+
+.c-auth-title{
+    color: #234244;
+    font-size: 167%;
+}
+
+.c-primary-color{
+    color: #234244;
+}
+
+.c-text-input{
+    border-radius: 0.1rem;
+    border: 1px Solid #dcdde0;
+    background: #f3f4f6;
+    box-shadow: 0 0 0.1rem #dcdee1;
+    padding: 0.6rem 1rem;
+    color: #6b7280;
+    font-weight: bold;
+    font-size: 96%;
+}
+
+.c-primary-button{
+    padding: 1rem 3rem;
+    color: white;
+    font-weight: bold;
+    border-radius: 0.2rem;
+    background: #234244;
+}
+.c-login-emoji{
+    font-size: 150%;
+}
+
+.c-primary-link-color{
+    color: #2178ff;
+}
+
+.c-logout-button{
+    bottom: 0px;
+    position: absolute;
+}
+

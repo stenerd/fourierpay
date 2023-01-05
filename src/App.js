@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
 import PaymentLinks from "./pages/PaymentLinks";
 import Payment from "./pages/Payment";
+import Profile from "./pages/Profile";
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/profile" element={<Profile />} />
         <Route path="/dashboard/transaction" element={<Transactions/>}/>
         <Route path="/dashboard/paymentlinks" element={<PaymentLinks/>}/>
         <Route path="/dashboard/payment" element={<Payment/>}/>
