@@ -219,7 +219,7 @@ const Profile = () => {
                                             {benefiaries && (
                                                 <List>
                                                     {benefiaries.map((beneficiary) => (
-                                                        <ListItem key={beneficiary.user_id} disablePadding alignItems="flex-center" onClick={() => Retrieve(beneficiary)}>
+                                                        <ListItem key={beneficiary._id} disablePadding alignItems="flex-center" onClick={() => Retrieve(beneficiary)}>
                                                             <div className='py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden'>
                                                                 <span className='profile-beneficiary-overlay'></span>
                                                                 <Grid container spacing={3}>
