@@ -1,5 +1,5 @@
 import { Divider, Grid, IconButton, LinearProgress, List, Stack } from '@mui/material'
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import WalletIcon from '@mui/icons-material/Wallet';
 import LinkIcon from '@mui/icons-material/Link';
@@ -23,7 +23,12 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import Titlebar from '../components/TitleBar'
 import AddIcon from '@mui/icons-material/Add';
 import '../styles/Dashboard.css'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import ProfileModal from '../components/Profile';
+import WithdrawalModal from '../components/Withdraw';
+import { DashBoardContext } from '../context/Dashboard';
+import BenificiaryModal from '../components/Beneficiary';
+import RecentWithDrawalModal from '../components/RecentWithdrawal';
 const Profile = () => {
     const [state, setState] = React.useState({
         top: false,
@@ -52,15 +57,39 @@ const Profile = () => {
         },
     }));
 
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const [open2, setOpen2] = React.useState(false);
+    const handleOpen2 = () => setOpen2(true);
+    const handleClose2 = () => setOpen2(false);
+
+    const [open3, setOpen3] = React.useState(false);
+    const handleOpen3 = () => setOpen3(true);
+    const handleClose3 = () => setOpen3(false);
+    const [open4, setOpen4] = React.useState(false);
+    const handleOpen4 = () => setOpen4(true);
+    const handleClose4 = () => setOpen4(false);
+    const [data, setData] = useState('')
+
+    const { benefiaries } = useContext(DashBoardContext)
+
 
     const navigate = useNavigate()
+
+    const Retrieve = (data) => {
+        setData(data)
+        handleOpen3()
+    }
     return (
         <>
             <DashboardLayout>
                 <Titlebar>
-                    <div>
-                        <h2 className='fourier profile font-bold relative'>Chinedu Ifediorah 
-                            <AutoFixHighIcon className="mx-2 mb-2 text-gray-500 fourier-profile-icon cursor-pointer" />
+                    <div className=''>
+                        <h2 className='fourier profile font-bold relative'>Chinedu Ifediorah
+                            {/* <IconButton onClick={() => handleOpen()}> */}
+                                <AutoFixHighIcon className="mx-2 mb-2 text-gray-500 fourier-profile-icon cursor-pointer" onClick={() => handleOpen()}/>
+                            {/* </IconButton> */}
                         </h2>
                         <small className='font-bold text-gray-500'>peter.drury@gmail.com | 09056567777</small>
                     </div>
@@ -170,87 +199,46 @@ const Profile = () => {
 
                                         </div>
                                     </div>
-                                    
-                                    
+
+
                                     <div className="px-0 pt-2">
                                         <div className='flex justify-between'>
                                             <h2 className='font-bold fourier text-xl'>Beneficiaries</h2>
-                                            <small className='font-bold text-lg c-primary-link-color' data-tooltip-target='tooltip-default'><AddIcon className='cursor-pointer font-bold text-lg c-primary-link-color' /></small>
+                                            <small className='font-bold text-lg c-primary-link-color' data-tooltip-target='tooltip-default'>
+                                                <IconButton onClick={() => handleOpen2()}>
+                                                    <AddIcon className='cursor-pointer font-bold text-lg c-primary-link-color' />
+                                                </IconButton>
+                                            </small>
                                             <div id="tooltip-default" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                                                 Tooltip content
                                                 <div class="tooltip-arrow" data-popper-arrow></div>
                                             </div>
                                         </div>
-                                        
+
                                         <div className='py-2 dashboard-payment-link'>
-                                            <List>
-                                                <ListItem disablePadding alignItems="flex-center">
-                                                    <div className='py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden'>
-                                                        <span className='profile-beneficiary-overlay'></span>
-                                                        <Grid container spacing={3}>
-                                                            <Grid item xs={12}>
-                                                                <div>
-                                                                    <h2 className='font-bold'>PETER SIMON DRURY</h2>
+                                            {benefiaries && (
+                                                <List>
+                                                    {benefiaries.map((beneficiary) => (
+                                                        <ListItem key={beneficiary._id} disablePadding alignItems="flex-center" onClick={() => Retrieve(beneficiary)}>
+                                                            <div className='py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden'>
+                                                                <span className='profile-beneficiary-overlay'></span>
+                                                                <Grid container spacing={3}>
+                                                                    <Grid item xs={12}>
+                                                                        <div>
+                                                                            <h2 className='font-bold'>{beneficiary.account_name}</h2>
+                                                                            <div className='mt-4'>
+                                                                                <p className='text-sm text-gray-400 font-bold'>{beneficiary.account_number}</p>
+                                                                                <p className='c-primary-color font-bold'>{beneficiary.bank_name}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </div>
+                                                        </ListItem>
+                                                    ))}
+                                                </List>
+                                            )}
 
-                                                                    <div className='mt-4'>
-                                                                        <p className='text-sm text-gray-400 font-bold'>6235832242</p>
-                                                                        <p className='c-primary-color font-bold'>FIDELITY BANK</p>
-                                                                    </div>
-                                                                </div>
-
-                                                            </Grid>
-                                                            
-                                                            
-                                                            
-                                                        </Grid>
-                                                    </div>
-                                                    
-                                                </ListItem>
-                                                <ListItem disablePadding alignItems="flex-center">
-                                                    <div className='py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden'>
-                                                        <span className='profile-beneficiary-overlay'></span>
-                                                        <Grid container spacing={3}>
-                                                            <Grid item xs={12}>
-                                                                <div>
-                                                                    <h2 className='font-bold'>PETER SIMON DRURY</h2>
-
-                                                                    <div className='mt-4'>
-                                                                        <p className='text-sm text-gray-400 font-bold'>304567789</p>
-                                                                        <p className='c-primary-color font-bold'>POLARIS BANK</p>
-                                                                    </div>
-                                                                </div>
-
-                                                            </Grid>
-                                                            
-                                                            
-                                                            
-                                                        </Grid>
-                                                    </div>
-                                                    
-                                                </ListItem>
-                                                <ListItem disablePadding alignItems="flex-center">
-                                                    <div className='py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden'>
-                                                        <span className='profile-beneficiary-overlay'></span>
-                                                        <Grid container spacing={3}>
-                                                            <Grid item xs={12}>
-                                                                <div>
-                                                                    <h2 className='font-bold'>PETER SIMON DRURY</h2>
-
-                                                                    <div className='mt-4'>
-                                                                        <p className='text-sm text-gray-400 font-bold'>2000323211</p>
-                                                                        <p className='c-primary-color font-bold'>KUDA BANK</p>
-                                                                    </div>
-                                                                </div>
-
-                                                            </Grid>
-                                                            
-                                                            
-                                                            
-                                                        </Grid>
-                                                    </div>
-                                                    
-                                                </ListItem>
-                                            </List>
                                         </div>
 
                                     </div>
@@ -258,10 +246,17 @@ const Profile = () => {
                             </Grid>
                             <Grid item xs={12} md={8}>
                                 <div className="px-3 pt-0">
-                                    <h2 className='font-bold fourier text-xl'>Recent Withdrawals</h2>
+                                    <div className='flex justify-between items-center'>
+                                        <h2 className='font-bold fourier text-xl'>Recent Withdrawals</h2>
+                                        {/* <Link to="/dashboard/transaction"> */}
+                                        <p className='text-sm c-primary-color cursor-pointer font-bold'>View All</p>
+                                        {/* </Link> */}
+
+                                    </div>
+
                                     <div className='py-2 dashboard-payment-link'>
                                         <List>
-                                            <ListItem disablePadding alignItems="flex-center">
+                                            <ListItem disablePadding alignItems="flex-center" onClick={()=>handleOpen4()}>
                                                 <ListItemButton>
                                                     <div className='py-1 w-full'>
                                                         <Grid container spacing={3}>
@@ -284,14 +279,14 @@ const Profile = () => {
                                                                 </div>
 
                                                             </Grid>
-                                                            
-                                                            
+
+
                                                         </Grid>
                                                     </div>
                                                 </ListItemButton>
-                                                
+
                                             </ListItem>
-                                            <ListItem disablePadding alignItems="flex-center">
+                                            <ListItem disablePadding alignItems="flex-center" onClick={()=>handleOpen4()}>
                                                 <ListItemButton>
                                                     <div className='py-1 w-full'>
                                                         <Grid container spacing={3}>
@@ -314,15 +309,13 @@ const Profile = () => {
                                                                 </div>
 
                                                             </Grid>
-                                                            
-                                                            
                                                         </Grid>
                                                     </div>
                                                 </ListItemButton>
-                                                
+
                                             </ListItem>
 
-                                            <ListItem disablePadding alignItems="flex-center">
+                                            <ListItem disablePadding alignItems="flex-center" onClick={()=>handleOpen4()}>
                                                 <ListItemButton>
                                                     <div className='py-1 w-full'>
                                                         <Grid container spacing={3}>
@@ -345,15 +338,15 @@ const Profile = () => {
                                                                 </div>
 
                                                             </Grid>
-                                                            
-                                                            
+
+
                                                         </Grid>
                                                     </div>
                                                 </ListItemButton>
-                                                
+
                                             </ListItem>
 
-                                            <ListItem disablePadding alignItems="flex-center">
+                                            <ListItem disablePadding alignItems="flex-center" onClick={()=>handleOpen4()}>
                                                 <ListItemButton>
                                                     <div className='py-1 w-full'>
                                                         <Grid container spacing={3}>
@@ -368,30 +361,27 @@ const Profile = () => {
                                                                 <div className='set-item-center'>
                                                                     <h2 className='font-bold'>$ 4000</h2>
                                                                 </div>
-
                                                             </Grid>
                                                             <Grid item xs={3}>
                                                                 <div className="text-center">
                                                                     <p className='py-2 px-2 rounded-lg text-sm status-fail'>abandoned</p>
                                                                 </div>
-
                                                             </Grid>
-                                                            
-                                                            
                                                         </Grid>
                                                     </div>
                                                 </ListItemButton>
-                                                
                                             </ListItem>
                                         </List>
                                     </div>
-
                                 </div>
-
-
                                 <div className='pt-4 px-3'>
                                     <div className=''>
-                                        <h1 className='fourier font-bold text-xl'>Recent Transactions</h1>
+                                        <div className='flex justify-between items-center'>
+                                            <h2 className='font-bold fourier text-xl'>Recent Transactions</h2>
+                                            <Link to="/dashboard/transaction">
+                                                <p className='text-sm c-primary-color cursor-pointer font-bold'>View All</p>
+                                            </Link>
+                                        </div>
                                         <div className='py-2'>
                                             <List>
                                                 <ListItem disablePadding alignItems="flex-center">
@@ -407,13 +397,11 @@ const Profile = () => {
                                                             <div className="text-center">
                                                                 <p className='py-2 px-2 rounded-lg text-sm text-[#00bf00] font-bold'>CREDIT</p>
                                                             </div>
-
                                                         </ListItemText>
                                                         <ListItemText>
                                                             <div className="text-center">
                                                                 <p className='py-2 px-2 rounded-lg text-sm status-paid'>paid</p>
                                                             </div>
-
                                                         </ListItemText>
                                                     </ListItemButton>
                                                 </ListItem>
@@ -430,7 +418,6 @@ const Profile = () => {
                                                             <div className="text-center">
                                                                 <p className='py-2 px-2 rounded-lg text-sm text-[#f10707] font-bold'>DEBIT</p>
                                                             </div>
-
                                                         </ListItemText>
                                                         <ListItemText>
                                                             <div className="text-center">
@@ -459,7 +446,6 @@ const Profile = () => {
                                                             <div className="text-center">
                                                                 <p className='py-2 px-2 rounded-lg text-sm status-paid'>paid</p>
                                                             </div>
-
                                                         </ListItemText>
                                                     </ListItemButton>
                                                 </ListItem>
@@ -486,13 +472,13 @@ const Profile = () => {
                                                         </ListItemText>
                                                     </ListItemButton>
                                                 </ListItem>
-                                               
+
                                             </List>
                                         </div>
                                     </div>
                                 </div>
 
-                                
+
                             </Grid>
                         </Grid>
 
@@ -500,6 +486,10 @@ const Profile = () => {
                 </div>
             </DashboardLayout>
             <PaymentDrawer state={state} setState={setState} toggleDrawer={toggleDrawer} />
+            <ProfileModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} />
+            <WithdrawalModal open2={open2} handleOpen2={handleOpen2} handleClose2={handleClose2} setOpen2={setOpen2} />
+            <BenificiaryModal open3={open3} setOpen3={setOpen3} handleOpen3={handleOpen3} handleClose3={handleClose3} data={data} />
+            <RecentWithDrawalModal open4={open4} setOpen4={setOpen4} handleOpen4={handleOpen4} handleClose4={handleClose4}/>
         </>
     )
 }
