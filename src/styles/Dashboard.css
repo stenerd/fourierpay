@@ -107,6 +107,7 @@
     right: -4rem;
     top: -4rem;
     rotate: 45deg;
+    z-index: -1;
 }
 
 .creat-payment-divider{
