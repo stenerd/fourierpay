@@ -26,7 +26,7 @@ export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, h
         e.preventDefault()
         setLoading(true)
         try {
-            const response = await Protected.delete(`http://localhost:4000/api/beneficiary/remove/${data.user_id}`)
+            const response = await Protected.delete(`http://localhost:4000/api/beneficiary/remove/${data._id}`)
             console.log(response.data)
             setLoading(false)
             toast.success('Beneficiary Deleted!', {

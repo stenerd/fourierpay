@@ -11,7 +11,7 @@ Protected.interceptors.request.use(
         const token = window.localStorage.getItem('bearer_token')
         console.log(token)
         const decodedToken = jwt_decode(token);
-        // console.log(decodedToken)
+        console.log('decodedToken >> ', decodedToken)
         if (decodedToken.exp * 1000 < currentDate.getTime()) {
              window.location.replace('/login')
         } else {

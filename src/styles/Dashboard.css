@@ -107,4 +107,58 @@
     right: -4rem;
     top: -4rem;
     rotate: 45deg;
+    z-index: -1;
+}
+
+.creat-payment-divider{
+    position: relative;
+    top: 1rem;
+}
+
+.create-payment-divider-title{
+    background: white;
+    z-index: 1;
+    padding-right: 0.5rem;
+}
+.create-payment-divider-options{
+    display: inline-block;
+    padding: 0.05rem 0.5rem;
+    background: #678c8d;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    color: white;
+    border: 1px solid #0d1510;
+    margin-right: .5rem;
+}
+
+.c-mt-0{
+    margin-top: 0 !important;
+}
+.create-payment-details{
+    background: #f8faf7;
+    border-left: 2px dashed #dedcdc;
+    min-height: 100%;
+}
+.create-payment-dynamic-form-close{
+    top: 1.8rem;
+    right: 0;
+    border-radius: 50%;
+    padding: 0.1rem;
+    color: #f30909;
+    cursor: pointer;
+}
+.create-payment-dynamic-form-options-close{
+    display: inline-block;
+    margin-bottom: 2px;
+}
+.dynamic-form-option-pill{
+    padding-top: 0 !important;
+    padding-bottom: 1rem;
+}
+.dynamic-form-option-cta{
+    display: inline-block;
+    padding: 0.5rem;
+    border: 1px solid #dbdddf;
+    background: #f3f4f6;
+    cursor: pointer;
 }
