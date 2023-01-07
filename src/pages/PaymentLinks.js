@@ -1,5 +1,5 @@
 import { Grid, IconButton, LinearProgress } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
@@ -9,8 +9,24 @@ import { styled } from '@mui/material/styles';
 import { linearProgressClasses } from '@mui/material/LinearProgress';
 import '../styles/PaymentLink.css'
 import { Link } from 'react-router-dom';
+import Protected from '../utils/axios'
 
 const PaymentLinks = () => {
+    const [loading,setLoading] = useState(false)
+    const FetchLinks=async()=>{
+        setLoading(true)
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/payment-link`)
+            console.log(response.data.data)
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
+    useEffect(()=>{
+        FetchLinks()
+    },[])
+    
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 3,

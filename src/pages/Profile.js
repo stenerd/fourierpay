@@ -1,5 +1,5 @@
-import { Divider, Grid, IconButton, LinearProgress, List, Stack } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import { Divider, Grid, IconButton, LinearProgress, List, Skeleton, Stack } from '@mui/material'
+import React, { useContext, useEffect, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import WalletIcon from '@mui/icons-material/Wallet';
 import LinkIcon from '@mui/icons-material/Link';
@@ -29,6 +29,10 @@ import WithdrawalModal from '../components/Withdraw';
 import { DashBoardContext } from '../context/Dashboard';
 import BenificiaryModal from '../components/Beneficiary';
 import RecentWithDrawalModal from '../components/RecentWithdrawal';
+import Protected from '../utils/axios';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { ADD_BENEFICIARY, ADD_PROFILE } from '../redux/DashboardSlice';
 const Profile = () => {
     const [state, setState] = React.useState({
         top: false,
@@ -71,27 +75,90 @@ const Profile = () => {
     const handleOpen4 = () => setOpen4(true);
     const handleClose4 = () => setOpen4(false);
     const [data, setData] = useState('')
+    const [bankList, setBankList] = useState('')
+    // const { beneficiaries } = useContext(DashBoardContext)
 
-    const { benefiaries } = useContext(DashBoardContext)
-
-
+   
+    // const [beneficiary, setbenificiary] = useState(beneficiaries)
+  
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
+    const {beneficiaries:beneficiary,profile:Profile} = useSelector((state)=>state.dashboard)
+    const [profile, setProfile] = useState(Profile)
+    const [beneficiaries, setBeneficiaries] = useState(beneficiary)
+    const dispatch = useDispatch()
+    console.log(beneficiary)
+    console.log(Profile)
 
     const Retrieve = (data) => {
         setData(data)
         handleOpen3()
     }
+    const FetchBeneficiary = async () => {
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/beneficiary/view`)
+            console.log(response.data.data)
+            setBeneficiaries(response.data.data)
+            dispatch(ADD_BENEFICIARY(response.data.data))
+           
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    const fetchBanks = async () => {
+        const response = await axios.get(`http://localhost:4000/api/paystack/bank-list`)
+        console.log(response?.data?.data)
+        setBankList(response.data.data)
+    }
+
+    useEffect(() => {
+        fetchBanks()
+        FetchBeneficiary()
+    }, [])
+
+    const fetchProfile = async () => {
+        const token = window.localStorage.getItem('bearer_token')
+        if (token) {
+            try {
+                setLoading(true)
+                const response = await Protected.get(`http://localhost:4000/api/user/profile`)
+                console.log(response?.data?.data)
+                dispatch(ADD_PROFILE(response?.data?.data))
+                setProfile(response?.data?.data)
+                setLoading(false)
+            } catch (error) {
+                setLoading(false)
+                console.log(error.response)
+            }
+
+        } else {
+            return;
+        }
+    }
+    useEffect(() => {
+        fetchProfile()
+        FetchBeneficiary()
+    }, [])
     return (
         <>
             <DashboardLayout>
                 <Titlebar>
                     <div className=''>
-                        <h2 className='fourier profile font-bold relative'>Chinedu Ifediorah
-                            {/* <IconButton onClick={() => handleOpen()}> */}
-                                <AutoFixHighIcon className="mx-2 mb-2 text-gray-500 fourier-profile-icon cursor-pointer" onClick={() => handleOpen()}/>
-                            {/* </IconButton> */}
-                        </h2>
-                        <small className='font-bold text-gray-500'>peter.drury@gmail.com | 09056567777</small>
+                        {loading ? <Skeleton variant="text" sx={{ fontSize: '1rem' }} /> : (
+                            <div className='flex items-center space-x-5'>
+                                <h2 className='fourier profile font-bold'>{profile?.firstname} {profile?.lastname}
+                                    {/* <IconButton onClick={() => handleOpen()}> */}
+                                    {/* </IconButton> */}
+                                   
+                                </h2>
+                                <AutoFixHighIcon className="mx-2 mb-2 text-gray-500 fourier-profile-icon cursor-pointer" onClick={() => handleOpen()} />
+                            </div>
+                        )}
+                        {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<small className='font-bold text-gray-500'>{profile?.email}  {profile?.phonenumber}</small>)}
+
+
                     </div>
                 </Titlebar>
                 <div className='px-16 py-8'>
@@ -199,8 +266,6 @@ const Profile = () => {
 
                                         </div>
                                     </div>
-
-
                                     <div className="px-0 pt-2">
                                         <div className='flex justify-between'>
                                             <h2 className='font-bold fourier text-xl'>Beneficiaries</h2>
@@ -216,9 +281,9 @@ const Profile = () => {
                                         </div>
 
                                         <div className='py-2 dashboard-payment-link'>
-                                            {benefiaries && (
+                                            {beneficiaries && (
                                                 <List>
-                                                    {benefiaries.map((beneficiary) => (
+                                                    {beneficiaries.map((beneficiary) => (
                                                         <ListItem key={beneficiary._id} disablePadding alignItems="flex-center" onClick={() => Retrieve(beneficiary)}>
                                                             <div className='py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden'>
                                                                 <span className='profile-beneficiary-overlay'></span>
@@ -238,7 +303,6 @@ const Profile = () => {
                                                     ))}
                                                 </List>
                                             )}
-
                                         </div>
 
                                     </div>
@@ -248,15 +312,15 @@ const Profile = () => {
                                 <div className="px-3 pt-0">
                                     <div className='flex justify-between items-center'>
                                         <h2 className='font-bold fourier text-xl'>Recent Withdrawals</h2>
-                                        {/* <Link to="/dashboard/transaction"> */}
-                                        <p className='text-sm c-primary-color cursor-pointer font-bold'>View All</p>
-                                        {/* </Link> */}
+                                        <Link to="/dashboard/withdrawal">
+                                            <p className='text-sm c-primary-color cursor-pointer font-bold'>View All</p>
+                                        </Link>
 
                                     </div>
 
                                     <div className='py-2 dashboard-payment-link'>
                                         <List>
-                                            <ListItem disablePadding alignItems="flex-center" onClick={()=>handleOpen4()}>
+                                            <ListItem disablePadding alignItems="flex-center" onClick={() => handleOpen4()}>
                                                 <ListItemButton>
                                                     <div className='py-1 w-full'>
                                                         <Grid container spacing={3}>
@@ -286,7 +350,7 @@ const Profile = () => {
                                                 </ListItemButton>
 
                                             </ListItem>
-                                            <ListItem disablePadding alignItems="flex-center" onClick={()=>handleOpen4()}>
+                                            <ListItem disablePadding alignItems="flex-center" onClick={() => handleOpen4()}>
                                                 <ListItemButton>
                                                     <div className='py-1 w-full'>
                                                         <Grid container spacing={3}>
@@ -315,7 +379,7 @@ const Profile = () => {
 
                                             </ListItem>
 
-                                            <ListItem disablePadding alignItems="flex-center" onClick={()=>handleOpen4()}>
+                                            <ListItem disablePadding alignItems="flex-center" onClick={() => handleOpen4()}>
                                                 <ListItemButton>
                                                     <div className='py-1 w-full'>
                                                         <Grid container spacing={3}>
@@ -346,7 +410,7 @@ const Profile = () => {
 
                                             </ListItem>
 
-                                            <ListItem disablePadding alignItems="flex-center" onClick={()=>handleOpen4()}>
+                                            <ListItem disablePadding alignItems="flex-center" onClick={() => handleOpen4()}>
                                                 <ListItemButton>
                                                     <div className='py-1 w-full'>
                                                         <Grid container spacing={3}>
@@ -472,13 +536,10 @@ const Profile = () => {
                                                         </ListItemText>
                                                     </ListItemButton>
                                                 </ListItem>
-
                                             </List>
                                         </div>
                                     </div>
                                 </div>
-
-
                             </Grid>
                         </Grid>
 
@@ -486,10 +547,10 @@ const Profile = () => {
                 </div>
             </DashboardLayout>
             <PaymentDrawer state={state} setState={setState} toggleDrawer={toggleDrawer} />
-            <ProfileModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} />
-            <WithdrawalModal open2={open2} handleOpen2={handleOpen2} handleClose2={handleClose2} setOpen2={setOpen2} />
-            <BenificiaryModal open3={open3} setOpen3={setOpen3} handleOpen3={handleOpen3} handleClose3={handleClose3} data={data} />
-            <RecentWithDrawalModal open4={open4} setOpen4={setOpen4} handleOpen4={handleOpen4} handleClose4={handleClose4}/>
+            <ProfileModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} profile={profile} setProfile={setProfile} fetchProfile={fetchProfile}/>
+            <WithdrawalModal open2={open2} handleOpen2={handleOpen2} handleClose2={handleClose2} setOpen2={setOpen2} bankList={bankList} FetchBeneficiary={FetchBeneficiary}/>
+            <BenificiaryModal open3={open3} setOpen3={setOpen3} handleOpen3={handleOpen3} handleClose3={handleClose3} data={data} beneficiaries={beneficiaries} setBeneficiaries={setBeneficiaries}/>
+            <RecentWithDrawalModal open4={open4} setOpen4={setOpen4} handleOpen4={handleOpen4} handleClose4={handleClose4} />
         </>
     )
 }
