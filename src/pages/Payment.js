@@ -19,6 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
 import SendIcon from '@mui/icons-material/Send';
+import Protected from '../utils/axios';
 
 
 
@@ -147,18 +148,14 @@ const Payment = () => {
             ...state,
             amount: Number(state.amount),
             expires_at: new Date(state.expires_at),
-            expected_number_of_payment: Number(state.expected_number_of_payment),
+            expected_number_of_payments: Number(state.expected_number_of_payment),
             form: selectedFields.map(e => ({
                 ...e,
                 required: e.required === 'true' ? true : false,
             }))
         }
         try {
-            const res = await axios.post(`http://localhost:4000/api/payment-link/create`, payload, {
-                headers: {
-                  'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdG5hbWUiOiJKb2huIiwibGFzdG5hbWUiOiJEb2UiLCJlbWFpbCI6ImpvaG4uZG9lQGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiIsIl9pZCI6IjYzYWNhYjk5ZDAxOTZjNzk5ODEzZDE2YSIsImlhdCI6MTY3Mjk2ODY1NSwiZXhwIjoxNjcyOTkzODU1fQ.DXCKt_Boo9ypN827K0g8jdB2vAj3q1e4EJsUSusERcU` 
-                }
-            })
+            await Protected.post(`http://localhost:4000/api/payment-link/create`, payload)
 
             console.log('done successfully')
             setLoading(false)
