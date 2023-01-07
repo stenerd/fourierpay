@@ -148,14 +148,14 @@ const Payment = () => {
             ...state,
             amount: Number(state.amount),
             expires_at: new Date(state.expires_at),
-            expected_number_of_payment: Number(state.expected_number_of_payment),
+            expected_number_of_payments: Number(state.expected_number_of_payment),
             form: selectedFields.map(e => ({
                 ...e,
                 required: e.required === 'true' ? true : false,
             }))
         }
         try {
-            const res = await Protected.post(`http://localhost:4000/api/payment-link/create`, payload)
+            await Protected.post(`http://localhost:4000/api/payment-link/create`, payload)
 
             console.log('done successfully')
             setLoading(false)

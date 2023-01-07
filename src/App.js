@@ -8,6 +8,7 @@ import Transactions from "./pages/Transactions";
 import PaymentLinks from "./pages/PaymentLinks";
 import Payment from "./pages/Payment";
 import Profile from "./pages/Profile";
+import MakePayment from "./pages/MakePayment";
 import Withdrawal from "./pages/Withdrawal";
 
 
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/pay/:code" element={<MakePayment />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/profile" element={<Profile />} />
         <Route path="/dashboard/transaction" element={<Transactions/>}/>

@@ -26,21 +26,21 @@ const DashboardProvider = ({ children }) => {
     //     setBankList(response.data.data)
     // }
 
-    const fetchLink = async () => {
-        const response = await Protected.get(`http://localhost:4000/api/payment-link/r5kbeINOcs`)
-        console.log(response)
-    }
-    const FetchBeneficiary = async () => {
-        try {
-            const response = await Protected.get(`http://localhost:4000/api/beneficiary/view`)
-            console.log(response.data.data)
-            setBeneficiary(response.data.data)
-            // dispatch({type:'ADD_BENEFICIARY',payload:response?.data.data})
-        } catch (error) {
-            console.log(error)
-        }
+    // const fetchLink = async () => {
+    //     const response = await Protected.get(`http://localhost:4000/api/payment-link/r5kbeINOcs`)
+    //     console.log(response)
+    // }
+    // const FetchBeneficiary = async () => {
+    //     try {
+    //         const response = await Protected.get(`http://localhost:4000/api/beneficiary/view`)
+    //         console.log(response.data.data)
+    //         setBeneficiary(response.data.data)
+    //         // dispatch({type:'ADD_BENEFICIARY',payload:response?.data.data})
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
 
-    }
+    // }
     // useEffect(()=>{
     //      fetchLink()
     // },[])
