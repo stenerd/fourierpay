@@ -18,9 +18,10 @@ const style = {
     p: 4,
 };
 
-export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, handleClose3 }) {
+export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, handleClose3,beneficiaries,setBeneficiaries }) {
     const [loading, setLoading] = React.useState(false)
     console.log(data)
+    console.log(beneficiaries)
 
     const DeleteBenefiary = async (e) => {
         e.preventDefault()
@@ -29,6 +30,8 @@ export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, h
             const response = await Protected.delete(`http://localhost:4000/api/beneficiary/remove/${data._id}`)
             console.log(response.data)
             setLoading(false)
+            const newBeneficiaries = beneficiaries.filter((e)=>e._id!==data._id)
+            setBeneficiaries(newBeneficiaries)
             toast.success('Beneficiary Deleted!', {
                 position: "top-right",
                 autoClose: 5000,
@@ -42,7 +45,7 @@ export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, h
             setTimeout(() => {
                 handleClose3()
             }, 1200)
-
+            // window.location.reload()
         } catch (error) {
             setLoading(false)
             toast.error(error.response.data.message)

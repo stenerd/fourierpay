@@ -14,6 +14,7 @@ import axios from 'axios';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Protected from '../utils/axios';
 
 
 const style = {
@@ -28,17 +29,14 @@ const style = {
     borderRadius: 2
 };
 
-export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleClose2 }) {
-
-
-
-
+export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleClose2,bankList,FetchBeneficiary }) {
     const [bank, setBank] = React.useState('');
     const [bank_name, setBankName] = React.useState('')
     const [bank_code, setBankCode] = React.useState('')
     const [account_no, setAccountNo] = React.useState('')
     const [account_name, setAcoountName] = React.useState('')
-    const { bankList } = React.useContext(DashBoardContext)
+    // const { bankList } = React.useContext(DashBoardContext)
+        // const [beneficiaries,setBeneficiary] = useState()
 
     const token = window.localStorage.getItem('bearer_token')
 
@@ -46,21 +44,16 @@ export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleCl
 
 
     // console.log(bankList)
-
-
+    const {state,dispatch} = React.useContext(DashBoardContext)
 
     const [loading, setLoading] = React.useState(false)
 
     const createBenefiary = async (e) => {
 
         e.preventDefault()
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
         setLoading(true)
         try {
-            const response = await axios.post(`http://localhost:4000/api/beneficiary/create`, { account_number: account_no, bank_name, bank_code }, { headers })
+            const response = await Protected.post(`http://localhost:4000/api/beneficiary/create`, { account_number: account_no, bank_name, bank_code })
             console.log(response.data)
             console.log({ account_name, account_no, bank_code })
             setLoading(false)
@@ -74,6 +67,7 @@ export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleCl
                 progress: undefined,
                 theme: "light",
             });
+            FetchBeneficiary()
             setAcoountName('')
             setAccountNo('')
             setBankName('')
@@ -109,7 +103,6 @@ export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleCl
             console.log(response.data.data.account_name)
             setAcoountName(response.data.data.account_name)
             setLoading(false)
-
         } catch (error) {
             console.log(error.response)
 
@@ -180,18 +173,7 @@ export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleCl
                     </form>
                 </Box>
             </Modal>
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
+          
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
