@@ -16,7 +16,11 @@ import { Logout } from '@mui/icons-material';
 const Sidebar = () => {
     const navigate = useNavigate()
     const token = JSON.parse(localStorage.getItem('token'))
-    let LogOut;
+    
+    const Logout = async ()=>{
+        window.localStorage.removeItem('bearer_token')
+        navigate('/')
+    }
     return (
         <>
             <div className="min-h-screen bg-[#0d1510] w-[20%] shadow-lg  fixed">
@@ -76,6 +80,14 @@ const Sidebar = () => {
                                     <h2 className='font-bold text-[#f8faf7]'>Transactions</h2>
                                 </div>
                             </Link>
+                            <Link to="/dashboard/withdrawal">
+                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
+                                    <IconButton>
+                                        <AccountBalanceWalletIcon className="text-white" />
+                                    </IconButton>
+                                    <h2 className='font-bold text-[#f8faf7]'>Withdrawal</h2>
+                                </div>
+                            </Link>
                             <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
                                 <IconButton>
                                     <VolunteerActivismIcon className="text-white" />
@@ -83,7 +95,8 @@ const Sidebar = () => {
                                 <h2 className='font-bold text-[#f8faf7]'>Refunds</h2>
                             </div>
                         </div>
-                        <div className="flex items-center space-x-3 cursor-pointer rounded-md py-6 px-2 c-logout-button">
+
+                        <div className="flex items-center space-x-3 cursor-pointer rounded-md py-6 px-2 c-logout-button" onClick={()=>Logout()}>
                             <IconButton>
                                 <LogoutIcon className="text-white" />
                             </IconButton>

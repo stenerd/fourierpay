@@ -46,7 +46,7 @@ const Payment = () => {
     ])
     const [selectedFieldsError, setSelectedFieldsError] = React.useState([''])
 
-  
+
     const handleChanges = (e) => {
         setState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
     }
@@ -76,7 +76,7 @@ const Payment = () => {
             empty_data.push('')
         }
         setSelectedFieldsError(empty_data)
-        if (!state.name || !state.amount || !state.description ) {
+        if (!state.name || !state.amount || !state.description) {
             setStateError('* name, amount and description are required fields.')
             return false
         }
@@ -102,7 +102,7 @@ const Payment = () => {
                     return data
                 })
             }
-            
+
         }
         return check
     }
@@ -181,7 +181,7 @@ const Payment = () => {
     }
 
     const generateField = () => {
-      
+
 
         const newSelectedField = selectedFields.concat([
             {
@@ -211,7 +211,7 @@ const Payment = () => {
                     <div className='px-16 py-12'>
                         <Grid container spacing={3}>
 
-                        
+
                             <Grid item xs={12} md={7}>
                                 <div className='flex flex-col justify-center items-center'>
                                     <div className='w-full'>
@@ -256,7 +256,7 @@ const Payment = () => {
                                                     </Grid>
                                                 </Grid>
                                             </div>
-                                            
+
 
                                             <div className='relative my-8'>
                                                 <h1 className='text-gray-700 text-lg font-bold home absolute create-payment-divider-title'>Generate Form</h1>
@@ -267,72 +267,72 @@ const Payment = () => {
                                                 {selectedFieldsError[0] && <small className='text-red-600'> {selectedFieldsError[0]}</small>}
                                                 {/* <span className='absolute create-payment-dynamic-form-close'> <CloseIcon /></span> */}
                                                 <Grid container spacing={2}>
-                                                        <Grid item xs={6} className='mb-0'>
-                                                            <div className='flex flex-col space-y-3 mb-4'>
-                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field name</label>
-                                                                <input placeholder='Field Name' name='field_name' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                    <Grid item xs={6} className='mb-0'>
+                                                        <div className='flex flex-col space-y-3 mb-4'>
+                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field name</label>
+                                                            <input placeholder='Field Name' name='field_name' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid item xs={6} className='mb-0'>
+                                                        <div className='flex flex-col space-y-3 mb-4'>
+                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field Type</label>
+                                                            <select placeholder='Field Type' name='field_type' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                                <option value={''}>Select One </option>
+                                                                <option value={'text'}>Text Field </option>
+                                                                <option value={'select'}>Select Field </option>
+                                                            </select>
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <div className='flex flex-col space-y-3 mb-0'>
+                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Required</label>
+                                                            <select placeholder='Required' name='required' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                                <option value={''}>Select One </option>
+                                                                <option value={true}>True </option>
+                                                                <option value={false}>False </option>
+                                                            </select>
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid item xs={6}>
+                                                        <div className='flex flex-col space-y-3 mb-0'>
+                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Options</label>
+                                                            <div className='flex'>
+                                                                <input placeholder='Options' name='options' id='option0' className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                <span className='dynamic-form-option-cta' onClick={(e) => onKeyDownHandler('option0', 0)}>
+                                                                    <SendIcon className='text-gray-500' />
+                                                                </span>
                                                             </div>
-                                                        </Grid>
-                                                        <Grid item xs={6} className='mb-0'>
-                                                            <div className='flex flex-col space-y-3 mb-4'>
-                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field Type</label>
-                                                                <select placeholder='Field Type' name='field_type' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input">
-                                                                    <option value={''}>Select One </option>
-                                                                    <option value={'text'}>Text Field </option>
-                                                                    <option value={'select'}>Select Field </option>
-                                                                </select>
-                                                            </div>
-                                                        </Grid>
-                                                        <Grid item xs={6}>
-                                                            <div className='flex flex-col space-y-3 mb-0'>
-                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Required</label>
-                                                                <select placeholder='Required' name='required' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input">
-                                                                    <option value={''}>Select One </option>
-                                                                    <option value={true}>True </option>
-                                                                    <option value={false}>False </option>
-                                                                </select>
-                                                            </div>
-                                                        </Grid>
-                                                        <Grid item xs={6}>
-                                                            <div className='flex flex-col space-y-3 mb-0'>
-                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Options</label>
-                                                                <div className='flex'>
-                                                                    <input placeholder='Options' name='options' id='option0' className="py-2 px-4 w-full outline-none c-text-input" />
-                                                                    <span className='dynamic-form-option-cta' onClick={(e) => onKeyDownHandler('option0', 0)}>
-                                                                        <SendIcon className='text-gray-500' />
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </Grid>
-                                                        <Grid item xs={12}>
-                                                            {selectedFields[0].options.map((e, index)=> (
-                                                                <small key={index} className='create-payment-divider-options'>{e} &nbsp; &nbsp; <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' onClick={(e) => handleRemoveFieldOption(e, 0, index)}> x</span></small>
-                                                            ))}
-                                                        </Grid>
-                                                    
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid item xs={12}>
+                                                        {selectedFields[0].options.map((e, index) => (
+                                                            <small key={index} className='create-payment-divider-options'>{e} &nbsp; &nbsp; <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' onClick={(e) => handleRemoveFieldOption(e, 0, index)}> x</span></small>
+                                                        ))}
+                                                    </Grid>
+
                                                 </Grid>
                                             </div>
 
                                             {/* {fields} */}
 
                                             {[...selectedFields].slice(1).map((e, i) => (
-                                                <div className='mt-8 relative' key={''+(i+1)}>
-                                                    <span className='absolute create-payment-dynamic-form-close' onClick={(e) => handleRemoveField(e, i+1)}> <CloseIcon /></span>
+                                                <div className='mt-8 relative' key={'' + (i + 1)}>
+                                                    <span className='absolute create-payment-dynamic-form-close' onClick={(e) => handleRemoveField(e, i + 1)}> <CloseIcon /></span>
                                                     <Divider className='creat-payment-divider' />
                                                     <Grid container spacing={2} className='pt-10'>
                                                         <Grid item xs={12}>
-                                                            {selectedFieldsError[i+1] && <small className='text-red-600'> {selectedFieldsError[i+1]}</small>}
+                                                            {selectedFieldsError[i + 1] && <small className='text-red-600'> {selectedFieldsError[i + 1]}</small>}
                                                         </Grid>
                                                         <Grid item xs={6} className='mb-0'>
                                                             <div className='flex flex-col space-y-3 mb-4'>
                                                                 <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field name</label>
-                                                                <input placeholder='Field Name' name={'field_name'+ (i+1)} onChange={(e) => handleFieldChanges(e, i+1)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                <input placeholder='Field Name' name={'field_name' + (i + 1)} onChange={(e) => handleFieldChanges(e, i + 1)} className="py-2 px-4 w-full outline-none c-text-input" />
                                                             </div>
                                                         </Grid>
                                                         <Grid item xs={6} className='mb-0'>
                                                             <div className='flex flex-col space-y-3 mb-4'>
                                                                 <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field Type</label>
-                                                                <select placeholder='Field Type' name={'field_type'+(i+1)} onChange={(e) => handleFieldChanges(e, i+1)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                                <select placeholder='Field Type' name={'field_type' + (i + 1)} onChange={(e) => handleFieldChanges(e, i + 1)} className="py-2 px-4 w-full outline-none c-text-input">
                                                                     <option value={''}>Select One </option>
                                                                     <option value={'text'}>Text Field </option>
                                                                     <option value={'select'}>Select Field </option>
@@ -342,7 +342,7 @@ const Payment = () => {
                                                         <Grid item xs={6}>
                                                             <div className='flex flex-col space-y-3 mb-8'>
                                                                 <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Required</label>
-                                                                <select placeholder='Required' name={'required' + (i+1)} onChange={(e) => handleFieldChanges(e, i+1)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                                <select placeholder='Required' name={'required' + (i + 1)} onChange={(e) => handleFieldChanges(e, i + 1)} className="py-2 px-4 w-full outline-none c-text-input">
                                                                     <option value={''}>Select One </option>
                                                                     <option value={true}>True </option>
                                                                     <option value={false}>False </option>
@@ -353,19 +353,19 @@ const Payment = () => {
                                                             <div className='flex flex-col space-y-3 mb-0'>
                                                                 <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Options</label>
                                                                 <div className='flex'>
-                                                                    <input placeholder='Options' id={'option' + (i+1)} name={'options' + (i+1)} className="py-2 px-4 w-full outline-none c-text-input" />
-                                                                    <span className='dynamic-form-option-cta' onClick={(e) => onKeyDownHandler('option' + (i+1), i+1)}>
+                                                                    <input placeholder='Options' id={'option' + (i + 1)} name={'options' + (i + 1)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                    <span className='dynamic-form-option-cta' onClick={(e) => onKeyDownHandler('option' + (i + 1), i + 1)}>
                                                                         <SendIcon className='text-gray-500' />
                                                                     </span>
                                                                 </div>
                                                             </div>
                                                         </Grid>
                                                         <Grid item xs={12} className='dynamic-form-option-pill'>
-                                                            {selectedFields[i+1].options.map((e, index)=> (
-                                                                <small key={index} className='create-payment-divider-options'>{e} &nbsp; &nbsp; <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' onClick={(e) => handleRemoveFieldOption(e, i+1, index)}> x</span></small>
+                                                            {selectedFields[i + 1].options.map((e, index) => (
+                                                                <small key={index} className='create-payment-divider-options'>{e} &nbsp; &nbsp; <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' onClick={(e) => handleRemoveFieldOption(e, i + 1, index)}> x</span></small>
                                                             ))}
                                                         </Grid>
-                                                        
+
                                                     </Grid>
                                                 </div>
                                             ))}
@@ -374,14 +374,14 @@ const Payment = () => {
                                             <div className='c-mt-0'>
                                                 <small className='cursor-pointer c-primary-link-color font-bold underline' onClick={generateField}>Add More</small>
                                             </div>
-                                            
-                                            
-                                            
-                                            
+
+
+
+
                                             {/* {fields}
                                             <div className='flex flex-col space-y-3'>
                                                 <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
-                                            </div> */} 
+                                            </div> */}
                                             <div className='py-4'>
                                                 <button className='c-primary-button' onClick={createLink}>
                                                     {loading ? 'Creating...' : 'Create Link'}
@@ -462,11 +462,11 @@ const Payment = () => {
                                     </div>
                                 </div>
                             </Grid>
-                        
-                        
 
-                        
-                        
+
+
+
+
 
                         </Grid>
                     </div>
