@@ -10,15 +10,15 @@ import { Button } from '@mui/material'
 import TuneIcon from '@mui/icons-material/Tune';
 
 
-function createData(Recipient, Bank_Name, Transaction_ref, Amount, Status) {
-    return { Recipient, Bank_Name, Transaction_ref, Amount, Status };
+function createData(Recipient, Bank_Name,Bank_Account, Transaction_ref, Amount, Status) {
+    return { Recipient, Bank_Name, Bank_Account,Transaction_ref, Amount, Status };
 }
 
 const rows = [
-    createData('Ofuzor Chukwuemeke', "GTbank", "#3252f62777716", 25000, "success"),
-    createData('FaithFulness Ukpebor', "Access Bank", "#3252f62777716", 20300, "success"),
-    createData('Osas Agbonze Celestine', "GTbank", "#3252f62777716", 28000, "success"),
-    createData('Divine Ubah', "GTbank", "$sjhsuw778282", 59099, "success")
+    createData('Ofuzor Chukwuemeke', "GTbank","0430775470", "#3252f62777716", 25000, "success"),
+    createData('FaithFulness Ukpebor', "Access Bank","0430775470" ,"#3252f62777716", 20300, "success"),
+    createData('Osas Agbonze Celestine', "GTbank", "0430775470","#3252f62777716", 28000, "success"),
+    createData('Divine Ubah', "GTbank","0430775470" ,"$sjhsuw778282", 59099, "success")
 ];
 
 export default function WithdrawalTable() {

@@ -10,6 +10,7 @@ import Payment from "./pages/Payment";
 import Profile from "./pages/Profile";
 import MakePayment from "./pages/MakePayment";
 import Withdrawal from "./pages/Withdrawal";
+import SinglePaymentLink from "./pages/SinglePaymentLink";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/dashboard/paymentlinks" element={<PaymentLinks/>}/>
         <Route path="/dashboard/payment" element={<Payment/>}/>
         <Route path="/dashboard/withdrawal" element={<Withdrawal/>}/>
+        <Route path="/dashboard/payment/:id" element={<SinglePaymentLink/>}/>
       </Routes>
     </div>
   );

@@ -1,5 +1,5 @@
 import { Divider, Grid, IconButton, LinearProgress, List, Stack } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import WalletIcon from '@mui/icons-material/Wallet';
 import LinkIcon from '@mui/icons-material/Link';
@@ -22,6 +22,9 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import Titlebar from '../components/TitleBar'
 import '../styles/Dashboard.css'
 import { useNavigate } from 'react-router-dom';
+import Protected from '../utils/axios';
+import { useDispatch } from 'react-redux';
+import { ADD_PAYMENTLINKS } from '../redux/DashboardSlice';
 const Dashboard = () => {
     const [state, setState] = React.useState({
         top: false,
@@ -38,6 +41,8 @@ const Dashboard = () => {
         setState({ ...state, [anchor]: open });
     };
 
+    const dispatch = useDispatch()
+
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 10,
         borderRadius: 5,
@@ -50,6 +55,33 @@ const Dashboard = () => {
         },
     }));
 
+    const FetchLinks = async () => {
+        // setLoading(true)
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/payment-link`)
+            console.log(response.data.data)
+            dispatch(ADD_PAYMENTLINKS(response?.data?.data))
+
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
+    // const FetchWallet = async()=>{
+    //     try {
+    //         const response = await Protected.get(`http://localhost:4000/api/wallet`)
+    //         console.log(response.data.data)
+    //     } catch (error) {
+    //         console.log(error.response)
+    //     }
+        
+    // }
+
+    useEffect(() => {
+        FetchLinks()
+        // FetchWallet()
+    }, [])
+
 
     const navigate = useNavigate()
     return (
@@ -58,7 +90,7 @@ const Dashboard = () => {
                 <Titlebar>
                     <h2 className='fourier font-bold'>DashBoard</h2>
                     <div>
-                        <button onClick={()=>navigate('/dashboard/payment')} className='px-4 py-2 rounded-md text-white bg-[#234243]'>Create Payment</button>
+                        <button onClick={() => navigate('/dashboard/payment')} className='px-4 py-2 rounded-md text-white bg-[#234243]'>Create Payment</button>
                     </div>
                 </Titlebar>
                 <div className='px-16 py-8'>
@@ -66,7 +98,7 @@ const Dashboard = () => {
                         <h2 className='fourier text-xl font-bold'>DashBoard</h2>
                         <button onClick={()=>navigate("/dashboard/payment")} className='px-4 py-2 rounded-md text-white bg-[#234243]'>Create Payment</button>
                     </div> */}
-                
+
                     <div className='py-4'>
                         <Grid container spacing={4} alignItems="">
                             <Grid item xs={12} md={4}>
@@ -240,12 +272,12 @@ const Dashboard = () => {
                                                                 </div>
 
                                                             </Grid>
-                                                            
-                                                            
+
+
                                                         </Grid>
                                                     </div>
                                                 </ListItemButton>
-                                                
+
                                             </ListItem>
                                             <ListItem disablePadding alignItems="flex-center">
                                                 <ListItemButton>
@@ -270,12 +302,12 @@ const Dashboard = () => {
                                                                 </div>
 
                                                             </Grid>
-                                                            
-                                                            
+
+
                                                         </Grid>
                                                     </div>
                                                 </ListItemButton>
-                                                
+
                                             </ListItem>
 
                                             <ListItem disablePadding alignItems="flex-center">
@@ -301,12 +333,12 @@ const Dashboard = () => {
                                                                 </div>
 
                                                             </Grid>
-                                                            
-                                                            
+
+
                                                         </Grid>
                                                     </div>
                                                 </ListItemButton>
-                                                
+
                                             </ListItem>
                                         </List>
                                     </div>
@@ -365,13 +397,13 @@ const Dashboard = () => {
                                                         </ListItemText>
                                                     </ListItemButton>
                                                 </ListItem>
-                                               
+
                                             </List>
                                         </div>
                                     </div>
                                 </div>
 
-                                
+
                             </Grid>
                         </Grid>
 
