@@ -28,6 +28,7 @@ import Protected from '../utils/axios';
 const Payment = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = React.useState(false);
+    const [uniqueSelection, setUniqueSelection] = React.useState(0);
     const [state, setState] = React.useState({
         name: '',
         description: '',
@@ -147,8 +148,8 @@ const Payment = () => {
         const payload = {
             ...state,
             amount: Number(state.amount),
-            expires_at: new Date(state.expires_at),
             expected_number_of_payments: Number(state.expected_number_of_payment),
+            unique_field: selectedFields[uniqueSelection].field_name,
             form: selectedFields.map(e => ({
                 ...e,
                 required: e.required === 'true' ? true : false,
@@ -425,11 +426,16 @@ const Payment = () => {
                                             {
                                                 selectedFields.map((each, index) => (
                                                     <div className='mt-4' key={index}>
-                                                        <Grid container spacing={1}>
+                                                        <Grid container onClick={() => setUniqueSelection(index)} spacing={1} className={uniqueSelection === index ? 'create-payment-details-unique-selection cursor-pointer' : 'cursor-pointer'}>
                                                             <Grid item md={1}>
                                                                 <div className='font-bold text-lg text-gray-700'>{index + 1})</div>
                                                             </Grid>
                                                             <Grid item md={11}>
+                                                                {
+                                                                    uniqueSelection === index ? (
+                                                                        <span className='create-payment-details-unique-selection-text'>Unique Field</span>
+                                                                    ): ''
+                                                                }
                                                                 <div>
                                                                     <div className='mb-4'>
                                                                         <small className='font-bold text-gray-500'>Field Name: </small>

@@ -162,3 +162,22 @@
     background: #f3f4f6;
     cursor: pointer;
 }
+
+.create-payment-details-unique-selection{
+    border: 2px dashed #1dc954;
+    border-radius: 0.2rem;
+    background: white;
+}
+
+.create-payment-details-unique-selection-text{
+    position: absolute;
+    right: 6rem;
+    font-weight: bold;
+    font-size: 70%;
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    background: #19c30b;
+    color: white;
+    text-transform: uppercase;
+    border-radius: 0.2rem;
+}
