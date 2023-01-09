@@ -78,12 +78,12 @@ const Profile = () => {
     const [bankList, setBankList] = useState('')
     // const { beneficiaries } = useContext(DashBoardContext)
 
-   
+
     // const [beneficiary, setbenificiary] = useState(beneficiaries)
-  
+
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
-    const {beneficiaries:beneficiary,profile:Profile} = useSelector((state)=>state.dashboard)
+    const { beneficiaries: beneficiary, profile: Profile } = useSelector((state) => state.dashboard)
     const [profile, setProfile] = useState(Profile)
     const [beneficiaries, setBeneficiaries] = useState(beneficiary)
     const dispatch = useDispatch()
@@ -100,24 +100,12 @@ const Profile = () => {
             console.log(response.data.data)
             setBeneficiaries(response.data.data)
             dispatch(ADD_BENEFICIARY(response.data.data))
-           
+
         } catch (error) {
             console.log(error)
         }
 
     }
-
-    const fetchBanks = async () => {
-        const response = await axios.get(`http://localhost:4000/api/paystack/bank-list`)
-        console.log(response?.data?.data)
-        setBankList(response.data.data)
-    }
-
-    useEffect(() => {
-        fetchBanks()
-        FetchBeneficiary()
-    }, [])
-
     const fetchProfile = async () => {
         const token = window.localStorage.getItem('bearer_token')
         if (token) {
@@ -137,10 +125,19 @@ const Profile = () => {
             return;
         }
     }
+
+    const fetchBanks = async () => {
+        const response = await axios.get(`http://localhost:4000/api/paystack/bank-list`)
+        console.log(response?.data?.data)
+        setBankList(response.data.data)
+    }
+
     useEffect(() => {
+        fetchBanks()
         fetchProfile()
         FetchBeneficiary()
     }, [])
+
     return (
         <>
             <DashboardLayout>
@@ -151,7 +148,7 @@ const Profile = () => {
                                 <h2 className='fourier profile font-bold'>{profile?.firstname} {profile?.lastname}
                                     {/* <IconButton onClick={() => handleOpen()}> */}
                                     {/* </IconButton> */}
-                                   
+
                                 </h2>
                                 <AutoFixHighIcon className="mx-2 mb-2 text-gray-500 fourier-profile-icon cursor-pointer" onClick={() => handleOpen()} />
                             </div>
@@ -547,9 +544,9 @@ const Profile = () => {
                 </div>
             </DashboardLayout>
             <PaymentDrawer state={state} setState={setState} toggleDrawer={toggleDrawer} />
-            <ProfileModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} profile={profile} setProfile={setProfile} fetchProfile={fetchProfile}/>
-            <WithdrawalModal open2={open2} handleOpen2={handleOpen2} handleClose2={handleClose2} setOpen2={setOpen2} bankList={bankList} FetchBeneficiary={FetchBeneficiary}/>
-            <BenificiaryModal open3={open3} setOpen3={setOpen3} handleOpen3={handleOpen3} handleClose3={handleClose3} data={data} beneficiaries={beneficiaries} setBeneficiaries={setBeneficiaries}/>
+            <ProfileModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} profile={profile} setProfile={setProfile} fetchProfile={fetchProfile} />
+            <WithdrawalModal open2={open2} handleOpen2={handleOpen2} handleClose2={handleClose2} setOpen2={setOpen2} bankList={bankList} FetchBeneficiary={FetchBeneficiary} />
+            <BenificiaryModal open3={open3} setOpen3={setOpen3} handleOpen3={handleOpen3} handleClose3={handleClose3} data={data} beneficiaries={beneficiaries} setBeneficiaries={setBeneficiaries} />
             <RecentWithDrawalModal open4={open4} setOpen4={setOpen4} handleOpen4={handleOpen4} handleClose4={handleClose4} />
         </>
     )

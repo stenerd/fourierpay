@@ -20,6 +20,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
 import SendIcon from '@mui/icons-material/Send';
 import Protected from '../utils/axios';
+import { useDispatch } from 'react-redux';
+import { ADD_PAYMENTLINKS } from '../redux/DashboardSlice';
 
 
 
@@ -28,6 +30,7 @@ import Protected from '../utils/axios';
 const Payment = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = React.useState(false);
+    const dispatch = useDispatch()
     const [state, setState] = React.useState({
         name: '',
         description: '',
@@ -131,6 +134,19 @@ const Payment = () => {
         setSelectedFields(data)
     };
 
+    const FetchLinks = async () => {
+        setLoading(true)
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/payment-link`)
+            console.log(response.data.data)
+            dispatch(ADD_PAYMENTLINKS(response?.data?.data))
+
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
+
     const createLink = async (e) => {
         if (e.keyCode === 13) {
             console.log('heddd')
@@ -169,7 +185,12 @@ const Payment = () => {
                 progress: undefined,
                 theme: "light",
             });
-            navigate('/dashboard/paymentlinks')
+            FetchLinks()
+            setTimeout(() => {
+                navigate('/dashboard/paymentlinks')
+            },1000)
+            // const data = FetchLinks()
+
         } catch (error) {
             console.log(error.response.data.message)
             toast.error(error.response.data.message)
@@ -179,6 +200,7 @@ const Payment = () => {
         console.log(state)
 
     }
+
 
     const generateField = () => {
 

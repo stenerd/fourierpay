@@ -7,15 +7,15 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-function createData(Recipient, Bank_Name, Transaction_ref, Amount, Status) {
-    return { Recipient, Bank_Name, Transaction_ref, Amount, Status };
+function createData(Recipient, Bank_Name,Bank_Account, Transaction_ref, Amount, Status) {
+    return { Recipient, Bank_Name, Bank_Account,Transaction_ref, Amount, Status };
 }
 
 const rows = [
-    createData('Ofuzor Chukwuemeke', "GTbank", "#3252f62777716", 25000, "success"),
-    createData('FaithFulness Ukpebor', "Access Bank", "#3252f62777716", 20300, "success"),
-    createData('Osas Agbonze Celestine', "GTbank", "#3252f62777716", 28000, "success"),
-    createData('Divine Ubah', "GTbank", "$sjhsuw778282", 59099, "success")
+    createData('Ofuzor Chukwuemeke', "GTbank","0430775470", "#3252f62777716", 25000, "success"),
+    createData('FaithFulness Ukpebor', "Access Bank","0430775470" ,"#3252f62777716", 20300, "success"),
+    createData('Osas Agbonze Celestine', "GTbank", "0430775470","#3252f62777716", 28000, "success"),
+    createData('Divine Ubah', "GTbank","0430775470" ,"$sjhsuw778282", 59099, "success")
 ];
 
 export default function WithdrawalTable() {
@@ -26,6 +26,7 @@ export default function WithdrawalTable() {
                     <TableRow className='font-bold'>
                         <TableCell className='font-bold' style={{ fontWeight: '600' }}>Recipient</TableCell>
                         <TableCell align="center" style={{ fontWeight: '600' }}>Bank Name</TableCell>
+                        <TableCell align="center" style={{ fontWeight: '600' }}>Bank Account</TableCell>
                         <TableCell align="center" style={{ fontWeight: '600' }}>Reference Number</TableCell>
                         <TableCell align="center" style={{ fontWeight: '600' }}>Amount</TableCell>
                         <TableCell align="center" style={{ fontWeight: '600' }}>Status</TableCell>
@@ -42,6 +43,7 @@ export default function WithdrawalTable() {
                                 {row.Recipient}
                             </TableCell>
                             <TableCell align="center" className='text-gray-400'>{row.Bank_Name}</TableCell>
+                            <TableCell align="center" className='text-gray-400'>{row.Bank_Account}</TableCell>
                             <TableCell align="center" style={{ color: 'rgb(156 163 175 / 1)' }}>{row.Transaction_ref}</TableCell>
                             <TableCell align="center" style={{ color: 'rgb(156 163 175 / 1)' }}>{row.Amount}</TableCell>
                             <TableCell align="center">

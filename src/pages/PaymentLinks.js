@@ -10,25 +10,17 @@ import { linearProgressClasses } from '@mui/material/LinearProgress';
 import '../styles/PaymentLink.css'
 import { Link } from 'react-router-dom';
 import Protected from '../utils/axios'
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { ADD_PAYMENTLINKS, SINGLE_PAYMENTLINK } from '../redux/DashboardSlice';
 
 const PaymentLinks = () => {
     const [loading,setLoading] = useState(false)
-    const [paymentLinks,setPaymentLinks] = useState([])
-    const FetchLinks=async()=>{
-        setLoading(true)
-        try {
-            const response = await Protected.get(`http://localhost:4000/api/payment-link`)
-            console.log(response.data.data)
-        } catch (error) {
-            console.log(error.response)
-        }
-    }
+    const {paymentLinks:PaymentLink} = useSelector((state)=>state.dashboard)
+    const [paymentLinks,setPaymentLinks] = useState(PaymentLink)
     
-
-    useEffect(()=>{
-        FetchLinks()
-    },[])
-    
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 3,
@@ -43,6 +35,28 @@ const PaymentLinks = () => {
     }));
 
     // const { paymentLinks } = useContext(DashBoardContext)
+    const FetchLinks = async () => {
+        // setLoading(true)
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/payment-link`)
+            console.log(response.data.data)
+            dispatch(ADD_PAYMENTLINKS(response?.data?.data))
+            setPaymentLinks(response.data.data)
+
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
+    const Payments = (link)=>{
+        dispatch(SINGLE_PAYMENTLINK(link))
+        navigate(`/dashboard/payment/${link._id}`)
+        console.log(link)
+    }
+
+    useEffect(()=>{
+       FetchLinks()
+    },[])
 
     return (
         <>
@@ -63,7 +77,7 @@ const PaymentLinks = () => {
                                     {
                                         paymentLinks.map((link, index) => (
                                             <Grid item xs={12} md={6} key={index}>
-                                                <div className='bg-[#f8faf7] h-full cursor-pointer border-dotted border-2 rounded-lg py-3 px-3'>
+                                                <div className='bg-[#f8faf7] h-full cursor-pointer border-dotted border-2 rounded-lg py-3 px-3' onClick={()=>Payments(link)}>
                                                     <div className='p-4'>
                                                         <div className='cursor-pointer'>
                                                             <div className='flex justify-between'>
