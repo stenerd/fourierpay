@@ -78,7 +78,6 @@
 
 .c-make-payment{
     border: 1px solid #dcdde0;
-    padding: 4rem;
     border-radius: 0.5rem;
     background: #f8faf7;
     box-shadow: 0 0 2rem #eef0ec;
@@ -87,4 +86,36 @@
 .c-status-border-pill{
     background: #f3f4f6;
     border: 1px solid #dcdde0;
+}
+
+.c-pay-error{
+    margin-top: 0 !important;
+    color: red !important;
+}
+
+.MuiTableContainer-root{
+    border: 1px solid #dedcdc;
+    border-radius: 0.2rem;
+    box-shadow: 0 0 2rem #f8faf7;
+}
+
+.MuiTableContainer-root thead{
+    background: #f8faf7;
+    text-transform: uppercase;
+}
+
+.MuiTableContainer-root th{
+    color: #0d1510;
+    text-align: left;
+}
+.MuiTableContainer-root td{
+    color: #0d1510;
+}
+
+.c-withdraw-page-filter{
+    background: #f8faf7;
+    border: 1px solid #dedcdc;
+    color: #9ca3af;
+    border-radius: 0.2rem;
+    font-weight: bold;
 }
