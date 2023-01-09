@@ -6,6 +6,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Button } from '@mui/material'
+import TuneIcon from '@mui/icons-material/Tune';
+
 
 function createData(Recipient, Bank_Name,Bank_Account, Transaction_ref, Amount, Status) {
     return { Recipient, Bank_Name, Bank_Account,Transaction_ref, Amount, Status };
@@ -20,41 +23,57 @@ const rows = [
 
 export default function WithdrawalTable() {
     return (
-        <TableContainer>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow className='font-bold'>
-                        <TableCell className='font-bold' style={{ fontWeight: '600' }}>Recipient</TableCell>
-                        <TableCell align="center" style={{ fontWeight: '600' }}>Bank Name</TableCell>
-                        <TableCell align="center" style={{ fontWeight: '600' }}>Bank Account</TableCell>
-                        <TableCell align="center" style={{ fontWeight: '600' }}>Reference Number</TableCell>
-                        <TableCell align="center" style={{ fontWeight: '600' }}>Amount</TableCell>
-                        <TableCell align="center" style={{ fontWeight: '600' }}>Status</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row, index) => (
-                        <TableRow
-                            key={index}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            className="hover:bg-gray-100 cursor-pointer"
-                        >
-                            <TableCell component="th" scope="row" style={{ fontWeight: '700' }} >
-                                {row.Recipient}
-                            </TableCell>
-                            <TableCell align="center" className='text-gray-400'>{row.Bank_Name}</TableCell>
-                            <TableCell align="center" className='text-gray-400'>{row.Bank_Account}</TableCell>
-                            <TableCell align="center" style={{ color: 'rgb(156 163 175 / 1)' }}>{row.Transaction_ref}</TableCell>
-                            <TableCell align="center" style={{ color: 'rgb(156 163 175 / 1)' }}>{row.Amount}</TableCell>
-                            <TableCell align="center">
-                                <div className="text-center">
-                                    <p className='py-2 px-2 rounded-lg text-sm status-paid'>paid</p>
-                                </div>
-                            </TableCell>
+        <>
+            <div className='flex justify-between mb-4'>
+                <div className='w-[20%]'>
+                    <input placeholder='Search' style={{backgroundColor: '#f8faf7'}} name='q' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                </div>
+                <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />}>
+                    Filter
+                </Button>
+            </div>
+             <TableContainer>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow className='font-bold'>
+                            <TableCell className='font-bold' style={{ fontWeight: '600' }}>Recipient</TableCell>
+                            <TableCell style={{ fontWeight: '600' }}>Reference Number</TableCell>
+                            <TableCell style={{ fontWeight: '600' }}>Amount</TableCell>
+                            <TableCell style={{ fontWeight: '600' }}>Date</TableCell>
+                            <TableCell style={{ fontWeight: '600' }}>Vendor</TableCell>
+                            <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row, index) => (
+                            <TableRow
+                                key={index}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                className="hover:bg-gray-100 cursor-pointer"
+                            >
+                                {/* <TableCell component="th" scope="row" style={{ fontWeight: '700' }} >
+                                    {row.Recipient}
+                                </TableCell> */}
+                                <TableCell align="left" style={{ fontWeight: '600' }} >
+                                    <div>
+                                        <p>{row.Recipient}</p>
+                                        <div className='text-sm text-gray-400'><span>{row.Bank_Name}</span> - <span>5433231243</span></div>
+                                    </div>
+                                </TableCell>
+                                <TableCell align="left">{row.Transaction_ref}</TableCell>
+                                <TableCell align="left" style={{ fontWeight: '600' }}>$ {row.Amount}</TableCell>
+                                <TableCell align="left" >Monday, 14th September 2022</TableCell>
+                                <TableCell align="left" >PAYSTACK</TableCell>
+                                <TableCell align="left">
+                                    <div className="">
+                                        <p className='py-2 px-2 rounded-lg text-sm status-paid'>paid</p>
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
     );
 }
