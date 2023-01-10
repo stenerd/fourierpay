@@ -65,7 +65,7 @@ const Login = () => {
                                             </Grid>
                                         </Grid>
                                         <div className='mt-12 mb-6'>
-                                            <button className='c-primary-button'>
+                                            <button disabled={loading ? true:false}  className='c-primary-button'>
                                                 {loading ? 'loading....' : 'Login'}
                                             </button>
                                         </div>

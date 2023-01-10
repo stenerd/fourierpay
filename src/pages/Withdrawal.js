@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DashboardLayout from '../components/DashboardLayout'
 import Titlebar from '../components/TitleBar'
@@ -7,11 +7,14 @@ import { Button } from '@mui/material';
 import TransactionTable from '../components/TransactionsTable';
 import WithdrawalTable from '../components/Withdrawal';
 import WithdrawalPopup from '../components/WIthdrawalPopup';
+import { DashBoardContext } from '../context/Dashboard';
 const Withdrawal = () => {
     const navigate = useNavigate()
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    // const [open, setOpen] = React.useState(false);
+    // const handleOpen = () => setOpen(true);
+    // const handleClose = () => setOpen(false);
+
+    const {state ,open,setOpen,handleOpen,handleClose} = useContext(DashBoardContext)
     return (
         <>
             <DashboardLayout>

@@ -2,7 +2,7 @@ import { CircularProgress, Grid, TextField } from '@mui/material'
 
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,8 +12,11 @@ const Signup = () => {
         firstname: '',
         lastname: '',
         email: '',
-        password: ''
+        password: '',
+        confirm_password:"",
+        phone_number:''
     })
+    const navigate = useNavigate()
 
     const handleChange = (e) => {
         setState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -24,8 +27,26 @@ const Signup = () => {
         e.preventDefault()
         console.log('processing....')
         setLoading(true)
+
+        if(state.password!==state.confirm_password){
+            toast.error('Password does not match', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            setLoading(false)
+            return
+            
+        }
+       
+        const {confirm_password,...others} = state
         try {
-            const res = await axios.post(`http://localhost:4000/api/auth/registration`, state)
+            const res = await axios.post(`http://localhost:4000/api/auth/registration`,others)
 
             console.log(res)
             console.log('done successfully')
@@ -40,10 +61,11 @@ const Signup = () => {
                 progress: undefined,
                 theme: "light",
             });
+            navigate('/login')
         } catch (error) {
-            console.log(error.response.data.message)
+            console.log(error.response)
             toast.error(error.response.data.message)
-            console.log('An erroe occurred')
+            console.log('An error occurred')
             setLoading(false)
         }
         console.log(state)
@@ -109,7 +131,7 @@ const Signup = () => {
                                         </div>
 
                                         <div>
-                                            <button className='c-primary-button'>
+                                            <button disabled={loading ? true:false}  className='c-primary-button'>
                                                 {loading ? 'Loading....' : 'Get Started'}
                                             </button>
                                         </div>

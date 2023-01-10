@@ -44,8 +44,11 @@ const DashboardProvider = ({ children }) => {
     // useEffect(()=>{
     //      fetchLink()
     // },[])
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     return (
-        <DashBoardContext.Provider value={{ beneficiaries, dispatch, state }}>
+        <DashBoardContext.Provider value={{ beneficiaries, dispatch, state ,open,setOpen,handleOpen,handleClose}}>
             {children}
         </DashBoardContext.Provider>
     )
