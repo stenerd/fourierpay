@@ -19,7 +19,7 @@ const style = {
     borderRadius: 2
 };
 
-export default function ProfileModal({ open, handleOpen, handleClose, setOpen,profile ,setProfile,fetchProfile}) {
+export default function ProfileModal({ open5, handleOpen5, handleClose5, setOpen5,profile ,setProfile,fetchProfile}) {
     const [state, setState] = React.useState({
         firstname: profile.firstname,
         lastname: profile.lastname,
@@ -54,7 +54,7 @@ export default function ProfileModal({ open, handleOpen, handleClose, setOpen,pr
             });
             setLoading(false)
             setTimeout(() => {
-                handleClose()
+                handleClose5()
             }, 1000);
             fetchProfile()
         } catch (error) {
@@ -79,8 +79,8 @@ export default function ProfileModal({ open, handleOpen, handleClose, setOpen,pr
         <div>
 
             <Modal
-                open={open}
-                onClose={handleClose}
+                open={open5}
+                onClose={handleClose5}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >

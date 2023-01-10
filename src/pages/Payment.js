@@ -193,7 +193,7 @@ const Payment = () => {
             // const data = FetchLinks()
 
         } catch (error) {
-            console.log(error.response.data.message)
+            console.log(error.response)
             toast.error(error.response.data.message)
             console.log('An error occurred')
             setLoading(false)
@@ -406,7 +406,7 @@ const Payment = () => {
                                                 <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
                                             </div> */}
                                             <div className='py-4'>
-                                                <button className='c-primary-button' onClick={createLink}>
+                                                <button disabled={loading ? true:false} className='c-primary-button' onClick={createLink}>
                                                     {loading ? 'Creating...' : 'Create Link'}
                                                 </button>
                                             </div>
