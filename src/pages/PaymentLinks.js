@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useClipboard from "react-use-clipboard";
 import { useNavigate } from 'react-router-dom';
 import { ADD_PAYMENTLINKS, SINGLE_PAYMENTLINK } from '../redux/DashboardSlice';
+import moment from 'moment'
 
 const PaymentLinks = () => {
     const [loading, setLoading] = useState(false)
@@ -95,7 +96,7 @@ const PaymentLinks = () => {
                                                         <div className=''>
                                                             <div className='flex justify-between'>
                                                                 <h2 className='fourier text-2xl text-[#234243] font-bold hover:text-blue-500 cursor-pointer' onClick={() => Payments(link)}>{link.name}</h2>
-                                                                <small className='text-sm text-[#00bf00] status-pill'>{link.status} {link.expires_at && '- 24th March 2023'}</small>
+                                                                <small className='text-sm text-[#00bf00] status-pill'>{link.status} { link.expires_at && `- ${moment(link.expires_at).format('MMMM d, YYYY')}`}</small>
                                                             </div>
                                                             {/* <button onClick={setCopied}>
                                                                 Was it copied? {isCopied ? "Yes! 👍" : "Nope! 👎"}

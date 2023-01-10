@@ -36,14 +36,14 @@ const Sidebar = () => {
                             <p className='text-white text-sm'>Overview</p>
                         </div> */}
                         <div className='py-12 space-y-2'>
-                            <Link to="/">
+                            {/* <Link to="/">
                                 <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
                                     <IconButton>
                                         <HomeIcon className="text-white" />
                                     </IconButton>
                                     <h2 className='font-bold text-[#f8faf7]'>Home</h2>
                                 </div>
-                            </Link>
+                            </Link> */}
                             <Link to="/dashboard">
                                 <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
                                     <IconButton>

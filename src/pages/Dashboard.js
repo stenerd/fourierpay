@@ -1,5 +1,5 @@
 import { Divider, Grid, IconButton, LinearProgress, List, Stack } from '@mui/material'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import WalletIcon from '@mui/icons-material/Wallet';
 import LinkIcon from '@mui/icons-material/Link';
@@ -27,6 +27,8 @@ import { useDispatch } from 'react-redux';
 import { ADD_BENEFICIARY, ADD_PAYMENTLINKS } from '../redux/DashboardSlice';
 import WithdrawalPopup from '../components/WIthdrawalPopup';
 import { DashBoardContext } from '../context/Dashboard';
+import moment from 'moment'
+
 const Dashboard = () => {
     const [state, setState] = React.useState({
         top: false,
@@ -34,6 +36,9 @@ const Dashboard = () => {
         bottom: false,
         right: false,
     });
+
+    const [matrics, setMatrics] = React.useState({});
+    const [tables, setTables] = React.useState({});
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -44,6 +49,7 @@ const Dashboard = () => {
     };
 
     const dispatch = useDispatch()
+    const [wallet, setWallet] = useState({})
     const {open,setOpen,handleOpen,handleClose} = useContext(DashBoardContext)
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -70,6 +76,30 @@ const Dashboard = () => {
         }
     }
 
+    const DashboardMatrics = async () => {
+        // setLoading(true)
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/dashboard/matrics`)
+            console.log(response.data.data)
+            setMatrics(response.data.data)
+
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
+    const DashboardTables = async () => {
+        // setLoading(true)
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/dashboard/tables`)
+            console.log(response.data.data)
+            setTables(response.data.data)
+
+        } catch (error) {
+            console.log(error.response)
+        }
+
+    }
     const FetchBeneficiary = async () => {
         try {
             const response = await Protected.get(`http://localhost:4000/api/beneficiary/view`)
@@ -83,6 +113,16 @@ const Dashboard = () => {
 
     }
 
+    const fetchWallet = async () => {
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/wallet`)
+            console.log('wallet >> ', response?.data?.data)
+            setWallet(response?.data?.data)
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
     // const FetchWallet = async()=>{
     //     try {
     //         const response = await Protected.get(`http://localhost:4000/api/wallet`)
@@ -94,7 +134,10 @@ const Dashboard = () => {
     // }
 
     useEffect(() => {
+        fetchWallet()
         FetchLinks()
+        DashboardMatrics()
+        DashboardTables()
         FetchBeneficiary()
         // FetchWallet()
     }, [])
@@ -123,15 +166,21 @@ const Dashboard = () => {
                                     <div className='bg-[#f1f3f0] rounded-md dashboard-wallet'>
                                         <div className='py-6 px-3 w-[90%] mx-auto'>
                                             <div className='spacing-y-3'>
-                                                <h1 className='fourier font-bold'>1200-0000-0000-8889</h1>
-                                                <h3 className="text-gray-400 font-bold">Monday 9th May 2022</h3>
+                                                {
+                                                    wallet.user_id ? (
+                                                        <h1 className='fourier font-bold' style={{textTransform: 'uppercase'}}>{wallet.user_id.firstname} {wallet.user_id.lastname}</h1>
+                                                    ): (
+                                                        <h1 className='fourier font-bold' style={{textTransform: 'uppercase'}}>N/A</h1>
+                                                    )
+                                                }
+                                                <h3 className="text-gray-400 font-bold">{ moment(new Date()).format('dddd, MMMM DDD YYYY')}</h3>
                                             </div>
                                         </div>
                                         <div className='py-2 px-2 bg-[#f8faf7]'>
                                             <div className='w-[90%] mx-auto'>
                                                 <div className='spacing-y-3 flex justify-between items-center'>
                                                     <div className='py-4'>
-                                                        <h1 className='fourier text-[20px] font-bold'>$240,000</h1>
+                                                        <h1 className='fourier text-[20px] font-bold'>$ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>
                                                         <h3 className="text-gray-400 font-bold">Total Balance</h3>
                                                     </div>
                                                     <IconButton onClick={()=>handleOpen()}>
@@ -194,7 +243,7 @@ const Dashboard = () => {
                                                         {/* </IconButton> */}
                                                         <div className='pt-8'>
                                                             <h2 className='text-sm text-gray-400 font-bold'>Income</h2>
-                                                            <h1 className='font-bold fourier'>$189,000</h1>
+                                                            <h1 className='font-bold fourier'>${matrics.income || 0}</h1>
                                                         </div>
                                                     </div>
 
@@ -203,6 +252,29 @@ const Dashboard = () => {
                                             </div>
 
                                         </Grid>
+
+                                        <Grid item xs={3}>
+                                            <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
+                                                <div className='overlay'></div>
+                                                <div className="p-2 w-[90%] mx-auto">
+                                                    <div className='space-y-3 flex flex-col items-start justify-start'>
+                                                        <div className='content'>
+                                                            <LinkIcon className='text-[#234243]' />
+                                                        </div>
+                                                        <div className='pt-8'>
+                                                            <h2 className='text-sm text-gray-400 font-bold'>Payment Links</h2>
+                                                            <h1 className='font-bold fourier'>{matrics.paymentLinkCount || 0}</h1>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                        </Grid>
+                                        
                                         <Grid item xs={3}>
                                             <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
                                                 <div className='overlay'></div>
@@ -212,8 +284,8 @@ const Dashboard = () => {
                                                             <PaidIcon className='text-[#234243]' />
                                                         </div>
                                                         <div className='pt-8'>
-                                                            <h2 className='text-sm text-gray-400 font-bold'>Budget</h2>
-                                                            <h1 className='font-bold fourier'>$390,000</h1>
+                                                            <h2 className='text-sm text-gray-400 font-bold'>Payments</h2>
+                                                            <h1 className='font-bold fourier'>{matrics.paymentCount || 0}</h1>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -232,33 +304,13 @@ const Dashboard = () => {
                                                         </div>
                                                         <div className='pt-8'>
                                                             <h2 className='text-sm text-gray-400 font-bold'>Withdrawal</h2>
-                                                            <h1 className='font-bold fourier'>$390,000</h1>
+                                                            <h1 className='font-bold fourier'>${matrics.withdrawal || 0}</h1>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </Grid>
-                                        <Grid item xs={3}>
-                                            <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
-                                                <div className='overlay'></div>
-                                                <div className="p-2 w-[90%] mx-auto">
-                                                    <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                        <div className='content'>
-                                                            <LinkIcon className='text-[#234243]' />
-                                                        </div>
-                                                        <div className='pt-8'>
-                                                            <h2 className='text-sm text-gray-400 font-bold'>Payment Links</h2>
-                                                            <h1 className='font-bold fourier'>50</h1>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-
-                                        </Grid>
+                                        
 
                                     </Grid>
                                 </div>
@@ -266,97 +318,49 @@ const Dashboard = () => {
                                     <h2 className='font-bold fourier text-xl'>Recent Links</h2>
                                     <div className='py-2 dashboard-payment-link'>
                                         <List>
-                                            <ListItem disablePadding alignItems="flex-center">
-                                                <ListItemButton>
-                                                    <div className='py-1 w-full'>
-                                                        <Grid container spacing={3}>
-                                                            <Grid item xs={5}>
-                                                                <div>
-                                                                    <h2 className='font-bold'>ELA DUES</h2>
-                                                                    <p className='text-sm text-gray-400'>https://fourierpay.netlify.app/eladues</p>
-                                                                </div>
-
-                                                            </Grid>
-                                                            <Grid item xs={3}>
-                                                                <div className='set-item-center'>
-                                                                    <h2 className='font-bold'>$ 4000</h2>
-                                                                </div>
-
-                                                            </Grid>
-                                                            <Grid item xs={4}>
-                                                                <div className='set-item-center'>
-                                                                    <small className='text-sm text-[#f10707] status-pill'>Expired - 24th May 2022</small>
-                                                                </div>
-
-                                                            </Grid>
-
-
-                                                        </Grid>
-                                                    </div>
-                                                </ListItemButton>
-
-                                            </ListItem>
-                                            <ListItem disablePadding alignItems="flex-center">
-                                                <ListItemButton>
-                                                    <div className='py-1 w-full'>
-                                                        <Grid container spacing={3}>
-                                                            <Grid item xs={5}>
-                                                                <div>
-                                                                    <h2 className='font-bold'>THERMO MATERIALS</h2>
-                                                                    <p className='text-sm text-gray-400'>https://fourierpay.netlify.app/thermo-materials</p>
-                                                                </div>
-
-                                                            </Grid>
-                                                            <Grid item xs={3}>
-                                                                <div className='set-item-center'>
-                                                                    <h2 className='font-bold'>$ 1000</h2>
-                                                                </div>
-
-                                                            </Grid>
-                                                            <Grid item xs={4}>
-                                                                <div className='set-item-center'>
-                                                                    <small className='text-sm text-[#00bf00] status-pill'>Active - 24th March 2023</small>
-                                                                </div>
-
-                                                            </Grid>
-
-
-                                                        </Grid>
-                                                    </div>
-                                                </ListItemButton>
-
-                                            </ListItem>
-
-                                            <ListItem disablePadding alignItems="flex-center">
-                                                <ListItemButton>
-                                                    <div className='py-1 w-full'>
-                                                        <Grid container spacing={3}>
-                                                            <Grid item xs={5}>
-                                                                <div>
-                                                                    <h2 className='font-bold'>ELA DUES</h2>
-                                                                    <p className='text-sm text-gray-400'>https://fourierpay.netlify.app/eladues</p>
-                                                                </div>
-
-                                                            </Grid>
-                                                            <Grid item xs={3}>
-                                                                <div className='set-item-center'>
-                                                                    <h2 className='font-bold'>$ 4000</h2>
-                                                                </div>
-
-                                                            </Grid>
-                                                            <Grid item xs={4}>
-                                                                <div className='set-item-center'>
-                                                                    <small className='text-sm text-[#f10707] status-pill'>Expired - 24th May 2022</small>
-                                                                </div>
-
-                                                            </Grid>
-
-
-                                                        </Grid>
-                                                    </div>
-                                                </ListItemButton>
-
-                                            </ListItem>
+                                            {
+                                                tables.recentPaymentLinks ? 
+                                                tables.recentPaymentLinks.map(
+                                                    (each, index) => (
+                                                        <div key={index}>
+                                                            <ListItem disablePadding alignItems="flex-center">
+                                                                <ListItemButton>
+                                                                    <div className='py-1 w-full'>
+                                                                        <Grid container spacing={3}>
+                                                                            <Grid item xs={7}>
+                                                                                <div>
+                                                                                    <h2 className='font-bold'>{each.name}</h2>
+                                                                                    <small className='text-sm text-gray-400' style={{fontSize: '80%'}}>
+                                                                                        {each.link}
+                                                                                    </small>
+                                                                                </div>
+                
+                                                                            </Grid>
+                                                                            <Grid item xs={2}>
+                                                                                <div className='set-item-center'>
+                                                                                    <h2 className='font-bold'>$ {each.amount}</h2>
+                                                                                </div>
+                
+                                                                            </Grid>
+                                                                            <Grid item xs={3}>
+                                                                                <div className='set-item-center'>
+                                                                                    <small className='text-sm text-[#f10707] status-pill'>{each.status}{each.expires_at ? ` - ${
+                                                                                        moment(each.expires_at).format('MMM d, YYYY')
+                                                                                    }` : ''}</small>
+                                                                                </div>
+                
+                                                                            </Grid>
+                
+                
+                                                                        </Grid>
+                                                                    </div>
+                                                                </ListItemButton>
+                
+                                                            </ListItem>
+                                                        </div>
+                                                    )
+                                                ) : ''
+                                            }
                                         </List>
                                     </div>
 
@@ -368,52 +372,59 @@ const Dashboard = () => {
                                         <h1 className='fourier font-bold text-xl'>Recent Payments</h1>
                                         <div className='py-2'>
                                             <List>
-                                                <ListItem disablePadding alignItems="flex-center">
-                                                    <ListItemButton>
-                                                        <ListItemText>
-                                                            <h2 className='text-sm font-bold'>LINK PAYMENT</h2>
-                                                            <small className='text-sm text-gray-400'>TMA9Khbat43aWcg</small>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <h2 className='text-sm font-bold text-center'>$2300</h2>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <div className="text-center">
-                                                                <p className='py-2 px-2 rounded-lg text-sm text-[#00bf00]'>CREDIT</p>
-                                                            </div>
 
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <div className="text-center">
-                                                                <p className='py-2 px-2 rounded-lg text-sm status-paid'>paid</p>
-                                                            </div>
+                                            {
+                                                tables.recentPayments ? 
+                                                tables.recentPayments.map(
+                                                    (each, index) => (
+                                                        <div key={index}>
+                                                            <ListItem disablePadding alignItems="flex-center">
+                                                                <ListItemButton>
+                                                                    <Grid container spacing={3}>
+                                                                        <Grid item xs={4}>
+                                                                            <h2 className='text-sm font-bold'>{each.payment_link_id.name}</h2>
+                                                                            <small className='text-sm text-gray-400'>{each.transaction_id.reference}</small>
+                                                                        </Grid>
+                                                                        <Grid item xs={4}>
+                                                                            <div className="text-left">
+                                                                                <p className='py-2 px-2 rounded-lg text-sm font-bold'>{each.unique_answer || 'N/A'}</p>
+                                                                            </div>
+                                                                        </Grid>
+                                                                        <Grid item xs={2}>
+                                                                            <h2 className='text-sm font-bold text-left'>${each.amount}</h2>
+                                                                        </Grid>
+                                                                        <Grid item xs={2}>
+                                                                            <div className="text-left">
+                                                                                <p className={each.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{each.status}</p>
+                                                                            </div>
+                                                                        </Grid>
+                                                                    </Grid>
+                                                                    {/* <ListItemText>
+                                                                        <h2 className='text-sm font-bold'>{each.payment_link_id.name}</h2>
+                                                                        <small className='text-sm text-gray-400'>{each.transaction_id.reference}</small>
+                                                                    </ListItemText>
+                                                                    <ListItemText>
+                                                                        <div className="text-left">
+                                                                            <p className='py-2 px-2 rounded-lg text-sm font-bold'>{each.unique_answer || 'N/A'}</p>
+                                                                        </div>
 
-                                                        </ListItemText>
-                                                    </ListItemButton>
-                                                </ListItem>
-                                                <ListItem disablePadding alignItems="flex-center">
-                                                    <ListItemButton>
-                                                        <ListItemText>
-                                                            <h2 className='text-sm font-bold'>WALLET DEBIT</h2>
-                                                            <small className='text-sm text-gray-400'>TMA9Khbat43aWcg</small>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <h2 className='text-sm font-bold text-center'>$2300</h2>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <div className="text-center">
-                                                                <p className='py-2 px-2 rounded-lg text-sm text-[#f10707]'>DEBIT</p>
-                                                            </div>
+                                                                    </ListItemText>
+                                                                    <ListItemText>
+                                                                        <h2 className='text-sm font-bold text-left'>${each.amount}</h2>
+                                                                    </ListItemText>
+                                                                    
+                                                                    <ListItemText>
+                                                                        <div className="text-left">
+                                                                            <p className={each.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{each.status}</p>
+                                                                        </div>
 
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <div className="text-center">
-                                                                <p className='py-2 px-2 rounded-lg text-sm status-fail'>abandoned</p>
-                                                            </div>
-
-                                                        </ListItemText>
-                                                    </ListItemButton>
-                                                </ListItem>
+                                                                    </ListItemText> */}
+                                                                </ListItemButton>
+                                                            </ListItem>
+                                                        </div>
+                                                    )
+                                                ) : ''
+                                            }
 
                                             </List>
                                         </div>

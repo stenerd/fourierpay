@@ -34,6 +34,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_BENEFICIARY, ADD_PROFILE } from '../redux/DashboardSlice';
 import WithdrawalPopup from '../components/WIthdrawalPopup';
+import moment from 'moment'
 const Profile = () => {
     const [state, setState] = React.useState({
         top: false,
@@ -88,6 +89,7 @@ const Profile = () => {
     const [loading, setLoading] = useState(false)
     const { beneficiaries: beneficiary, profile: Profile } = useSelector((state) => state.dashboard)
     const [profile, setProfile] = useState(Profile)
+    const [wallet, setWallet] = useState({})
     const [beneficiaries, setBeneficiaries] = useState(beneficiary)
     const dispatch = useDispatch()
     console.log(beneficiary)
@@ -129,6 +131,16 @@ const Profile = () => {
         }
     }
 
+    const fetchWallet = async () => {
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/wallet`)
+            console.log('wallet >> ', response?.data?.data)
+            setWallet(response?.data?.data)
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
     const fetchBanks = async () => {
         const response = await axios.get(`http://localhost:4000/api/paystack/bank-list`)
         console.log(response?.data?.data)
@@ -136,6 +148,7 @@ const Profile = () => {
     }
 
     useEffect(() => {
+        fetchWallet()
         fetchBanks()
         fetchProfile()
         FetchBeneficiary()
@@ -247,15 +260,15 @@ const Profile = () => {
                                     <div className='bg-[#f1f3f0] rounded-md dashboard-wallet'>
                                         <div className='py-6 px-3 w-[90%] mx-auto'>
                                             <div className='spacing-y-3'>
-                                                <h1 className='fourier font-bold'>1200-0000-0000-8889</h1>
-                                                <h3 className="text-gray-400 font-bold">Monday 9th May 2022</h3>
+                                                <h1 className='fourier font-bold' style={{textTransform: 'uppercase'}}>{profile.firstname} {profile.lastname}</h1>
+                                                <h3 className="text-gray-400 font-bold">{ moment(new Date()).format('dddd, MMMM DDD YYYY')}</h3>
                                             </div>
                                         </div>
                                         <div className='py-2 px-2 bg-[#f8faf7]'>
                                             <div className='w-[90%] mx-auto'>
                                                 <div className='spacing-y-3 flex justify-between items-center'>
                                                     <div className='py-4'>
-                                                        <h1 className='fourier text-[20px] font-bold'>$240,000</h1>
+                                                        <h1 className='fourier text-[20px] font-bold'>$ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>
                                                         <h3 className="text-gray-400 font-bold">Total Balance</h3>
                                                     </div>
                                                     <IconButton onClick={()=>handleOpen()}>
