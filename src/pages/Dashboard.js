@@ -1,5 +1,5 @@
 import { Divider, Grid, IconButton, LinearProgress, List, Stack } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import WalletIcon from '@mui/icons-material/Wallet';
 import LinkIcon from '@mui/icons-material/Link';
@@ -24,7 +24,9 @@ import '../styles/Dashboard.css'
 import { useNavigate } from 'react-router-dom';
 import Protected from '../utils/axios';
 import { useDispatch } from 'react-redux';
-import { ADD_PAYMENTLINKS } from '../redux/DashboardSlice';
+import { ADD_BENEFICIARY, ADD_PAYMENTLINKS } from '../redux/DashboardSlice';
+import WithdrawalPopup from '../components/WIthdrawalPopup';
+import { DashBoardContext } from '../context/Dashboard';
 import moment from 'moment'
 
 const Dashboard = () => {
@@ -47,6 +49,8 @@ const Dashboard = () => {
     };
 
     const dispatch = useDispatch()
+    const [wallet, setWallet] = useState({})
+    const {open,setOpen,handleOpen,handleClose} = useContext(DashBoardContext)
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 10,
@@ -94,6 +98,29 @@ const Dashboard = () => {
         } catch (error) {
             console.log(error.response)
         }
+
+    }
+    const FetchBeneficiary = async () => {
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/beneficiary/view`)
+            console.log(response.data.data)
+            // setBeneficiaries(response.data.data)
+            dispatch(ADD_BENEFICIARY(response.data.data))
+
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    const fetchWallet = async () => {
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/wallet`)
+            console.log('wallet >> ', response?.data?.data)
+            setWallet(response?.data?.data)
+        } catch (error) {
+            console.log(error.response)
+        }
     }
 
     // const FetchWallet = async()=>{
@@ -107,9 +134,11 @@ const Dashboard = () => {
     // }
 
     useEffect(() => {
+        fetchWallet()
         FetchLinks()
         DashboardMatrics()
         DashboardTables()
+        FetchBeneficiary()
         // FetchWallet()
     }, [])
 
@@ -137,18 +166,24 @@ const Dashboard = () => {
                                     <div className='bg-[#f1f3f0] rounded-md dashboard-wallet'>
                                         <div className='py-6 px-3 w-[90%] mx-auto'>
                                             <div className='spacing-y-3'>
-                                                <h1 className='fourier font-bold'>1200-0000-0000-8889</h1>
-                                                <h3 className="text-gray-400 font-bold">Monday 9th May 2022</h3>
+                                                {
+                                                    wallet.user_id ? (
+                                                        <h1 className='fourier font-bold' style={{textTransform: 'uppercase'}}>{wallet.user_id.firstname} {wallet.user_id.lastname}</h1>
+                                                    ): (
+                                                        <h1 className='fourier font-bold' style={{textTransform: 'uppercase'}}>N/A</h1>
+                                                    )
+                                                }
+                                                <h3 className="text-gray-400 font-bold">{ moment(new Date()).format('dddd, MMMM DDD YYYY')}</h3>
                                             </div>
                                         </div>
                                         <div className='py-2 px-2 bg-[#f8faf7]'>
                                             <div className='w-[90%] mx-auto'>
                                                 <div className='spacing-y-3 flex justify-between items-center'>
                                                     <div className='py-4'>
-                                                        <h1 className='fourier text-[20px] font-bold'>$240,000</h1>
+                                                        <h1 className='fourier text-[20px] font-bold'>$ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>
                                                         <h3 className="text-gray-400 font-bold">Total Balance</h3>
                                                     </div>
-                                                    <IconButton>
+                                                    <IconButton onClick={()=>handleOpen()}>
                                                         <NearMeIcon className='text-[#234243]' />
                                                     </IconButton>
                                                 </div>
@@ -404,6 +439,7 @@ const Dashboard = () => {
                 </div>
             </DashboardLayout>
             <PaymentDrawer state={state} setState={setState} toggleDrawer={toggleDrawer} />
+            <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose}/>
         </>
     )
 }

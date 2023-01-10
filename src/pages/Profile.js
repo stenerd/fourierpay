@@ -33,6 +33,8 @@ import Protected from '../utils/axios';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_BENEFICIARY, ADD_PROFILE } from '../redux/DashboardSlice';
+import WithdrawalPopup from '../components/WIthdrawalPopup';
+import moment from 'moment'
 const Profile = () => {
     const [state, setState] = React.useState({
         top: false,
@@ -61,9 +63,11 @@ const Profile = () => {
         },
     }));
 
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const {open,setOpen,handleOpen,handleClose} = useContext(DashBoardContext)
+
+    const [open5, setOpen5] = React.useState(false);
+    const handleOpen5 = () => setOpen5(true);
+    const handleClose5 = () => setOpen5(false);
     const [open2, setOpen2] = React.useState(false);
     const handleOpen2 = () => setOpen2(true);
     const handleClose2 = () => setOpen2(false);
@@ -85,6 +89,7 @@ const Profile = () => {
     const [loading, setLoading] = useState(false)
     const { beneficiaries: beneficiary, profile: Profile } = useSelector((state) => state.dashboard)
     const [profile, setProfile] = useState(Profile)
+    const [wallet, setWallet] = useState({})
     const [beneficiaries, setBeneficiaries] = useState(beneficiary)
     const dispatch = useDispatch()
     console.log(beneficiary)
@@ -126,6 +131,16 @@ const Profile = () => {
         }
     }
 
+    const fetchWallet = async () => {
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/wallet`)
+            console.log('wallet >> ', response?.data?.data)
+            setWallet(response?.data?.data)
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
     const fetchBanks = async () => {
         const response = await axios.get(`http://localhost:4000/api/paystack/bank-list`)
         console.log(response?.data?.data)
@@ -133,6 +148,7 @@ const Profile = () => {
     }
 
     useEffect(() => {
+        fetchWallet()
         fetchBanks()
         fetchProfile()
         FetchBeneficiary()
@@ -150,7 +166,7 @@ const Profile = () => {
                                     {/* </IconButton> */}
 
                                 </h2>
-                                <AutoFixHighIcon className="mx-2 mb-2 text-gray-500 fourier-profile-icon cursor-pointer" onClick={() => handleOpen()} />
+                                <AutoFixHighIcon className="mx-2 mb-2 text-gray-500 fourier-profile-icon cursor-pointer" onClick={() => handleOpen5()} />
                             </div>
                         )}
                         {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<small className='font-bold text-gray-500'>{profile?.email}  {profile?.phonenumber}</small>)}
@@ -244,18 +260,18 @@ const Profile = () => {
                                     <div className='bg-[#f1f3f0] rounded-md dashboard-wallet'>
                                         <div className='py-6 px-3 w-[90%] mx-auto'>
                                             <div className='spacing-y-3'>
-                                                <h1 className='fourier font-bold'>1200-0000-0000-8889</h1>
-                                                <h3 className="text-gray-400 font-bold">Monday 9th May 2022</h3>
+                                                <h1 className='fourier font-bold' style={{textTransform: 'uppercase'}}>{profile.firstname} {profile.lastname}</h1>
+                                                <h3 className="text-gray-400 font-bold">{ moment(new Date()).format('dddd, MMMM DDD YYYY')}</h3>
                                             </div>
                                         </div>
                                         <div className='py-2 px-2 bg-[#f8faf7]'>
                                             <div className='w-[90%] mx-auto'>
                                                 <div className='spacing-y-3 flex justify-between items-center'>
                                                     <div className='py-4'>
-                                                        <h1 className='fourier text-[20px] font-bold'>$240,000</h1>
+                                                        <h1 className='fourier text-[20px] font-bold'>$ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>
                                                         <h3 className="text-gray-400 font-bold">Total Balance</h3>
                                                     </div>
-                                                    <IconButton>
+                                                    <IconButton onClick={()=>handleOpen()}>
                                                         <NearMeIcon className='text-[#234243]' />
                                                     </IconButton>
                                                 </div>
@@ -544,10 +560,11 @@ const Profile = () => {
                 </div>
             </DashboardLayout>
             <PaymentDrawer state={state} setState={setState} toggleDrawer={toggleDrawer} />
-            <ProfileModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} profile={profile} setProfile={setProfile} fetchProfile={fetchProfile} />
+            <ProfileModal open5={open5} setOpen5={setOpen5} handleOpen5={handleOpen5} handleClose5={handleClose5} profile={profile} setProfile={setProfile} fetchProfile={fetchProfile} />
             <WithdrawalModal open2={open2} handleOpen2={handleOpen2} handleClose2={handleClose2} setOpen2={setOpen2} bankList={bankList} FetchBeneficiary={FetchBeneficiary} />
             <BenificiaryModal open3={open3} setOpen3={setOpen3} handleOpen3={handleOpen3} handleClose3={handleClose3} data={data} beneficiaries={beneficiaries} setBeneficiaries={setBeneficiaries} />
             <RecentWithDrawalModal open4={open4} setOpen4={setOpen4} handleOpen4={handleOpen4} handleClose4={handleClose4} />
+            <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose}/>
         </>
     )
 }

@@ -276,7 +276,7 @@ const MakePayment = () => {
                                             <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
                                         </div> */} 
                                         <div className='py-4'>
-                                            <button className='c-primary-button'  onClick={(e) => makePaymentHandler(e)}>
+                                            <button disabled={loading?true:false} className='c-primary-button'  onClick={(e) => makePaymentHandler(e)}>
                                                 {loading ? 'Paying...' : 'Make Payment'}
                                             </button>
 
@@ -286,7 +286,7 @@ const MakePayment = () => {
                                                 onClose = {(reference) => handleClose(reference)}
                                                 {...paymentData}
                                             >
-                                                {({initializePayment}) => <button className='hidden' ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
+                                                {({initializePayment}) => <button className='hidden' disabled={loading?true:false}  ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
                                                     {loading ? 'Paying...' : 'Make Payment'}
                                                 </button>}
                                             </PaystackConsumer>

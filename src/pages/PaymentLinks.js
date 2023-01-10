@@ -11,15 +11,16 @@ import '../styles/PaymentLink.css'
 import { Link } from 'react-router-dom';
 import Protected from '../utils/axios'
 import { useDispatch, useSelector } from 'react-redux';
+import useClipboard from "react-use-clipboard";
 import { useNavigate } from 'react-router-dom';
 import { ADD_PAYMENTLINKS, SINGLE_PAYMENTLINK } from '../redux/DashboardSlice';
 import moment from 'moment'
 
 const PaymentLinks = () => {
-    const [loading,setLoading] = useState(false)
-    const {paymentLinks:PaymentLink} = useSelector((state)=>state.dashboard)
-    const [paymentLinks,setPaymentLinks] = useState(PaymentLink)
-    
+    const [loading, setLoading] = useState(false)
+    const { paymentLinks: PaymentLink } = useSelector((state) => state.dashboard)
+    const [paymentLinks, setPaymentLinks] = useState(PaymentLink)
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -35,6 +36,11 @@ const PaymentLinks = () => {
         },
     }));
 
+    const [isCopied, setCopied] = useClipboard("Text to copy", {
+        // `isCopied` will go back to `false` after 1000ms.
+        successDuration: 1000,
+    });
+
     // const { paymentLinks } = useContext(DashBoardContext)
     const FetchLinks = async () => {
         // setLoading(true)
@@ -49,15 +55,15 @@ const PaymentLinks = () => {
         }
     }
 
-    const Payments = (link)=>{
+    const Payments = (link) => {
         dispatch(SINGLE_PAYMENTLINK(link))
         navigate(`/dashboard/payment/${link._id}`)
         console.log(link)
     }
 
-    useEffect(()=>{
-       FetchLinks()
-    },[])
+    useEffect(() => {
+        FetchLinks()
+    }, [])
 
     return (
         <>
@@ -72,22 +78,32 @@ const PaymentLinks = () => {
                 </Titlebar>
                 <div className="px-16 py-8">
                     <div className='py-4 mt-4  mx-auto'>
+                        {paymentLinks.length === 0 && (
+                            <div className='flex justify-center items-center min-h-[60vh]'>
+                                <div>
+                                    <h2 className='font-bold text-2xl text-center'>No payment Links</h2>
+                                </div>
+                            </div>
+                        )}
                         {
                             paymentLinks && (
                                 <Grid container spacing={5}>
                                     {
                                         paymentLinks.map((link, index) => (
                                             <Grid item xs={12} md={6} key={index}>
-                                                <div className='bg-[#f8faf7] h-full cursor-pointer border-dotted border-2 rounded-lg py-3 px-3' onClick={()=>Payments(link)}>
+                                                <div className='bg-[#f8faf7] h-full border-dotted border-2 rounded-lg py-3 px-3'>
                                                     <div className='p-4'>
-                                                        <div className='cursor-pointer'>
+                                                        <div className=''>
                                                             <div className='flex justify-between'>
-                                                                <h2 className='fourier text-2xl text-[#234243] font-bold'>{link.name}</h2>
+                                                                <h2 className='fourier text-2xl text-[#234243] font-bold hover:text-blue-500 cursor-pointer' onClick={() => Payments(link)}>{link.name}</h2>
                                                                 <small className='text-sm text-[#00bf00] status-pill'>{link.status} { link.expires_at && `- ${moment(link.expires_at).format('MMMM d, YYYY')}`}</small>
                                                             </div>
+                                                            {/* <button onClick={setCopied}>
+                                                                Was it copied? {isCopied ? "Yes! 👍" : "Nope! 👎"}
+                                                            </button> */}
                                                             <div className='py-3'>
                                                                 <div className="flex items-center space-x-6">
-                                                                    {link.expected_number_of_payments ? 
+                                                                    {link.expected_number_of_payments ?
                                                                         (
                                                                             <div>
                                                                                 <h2 className='text-sm text-gray-400 font-bold'>Expected</h2>
@@ -125,20 +141,20 @@ const PaymentLinks = () => {
                                                                 <div>
                                                                     <h2 className="pb-3 text-gray-400 font-bold">42 reciepients</h2>
                                                                 </div>
-                
+
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                
+
                                             </Grid>
                                         ))
                                     }
-                                    
+
                                 </Grid>
                             )
                         }
-                       
+
                     </div>
                 </div>
 
