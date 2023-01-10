@@ -13,6 +13,7 @@ import Protected from '../utils/axios'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ADD_PAYMENTLINKS, SINGLE_PAYMENTLINK } from '../redux/DashboardSlice';
+import moment from 'moment'
 
 const PaymentLinks = () => {
     const [loading,setLoading] = useState(false)
@@ -82,7 +83,7 @@ const PaymentLinks = () => {
                                                         <div className='cursor-pointer'>
                                                             <div className='flex justify-between'>
                                                                 <h2 className='fourier text-2xl text-[#234243] font-bold'>{link.name}</h2>
-                                                                <small className='text-sm text-[#00bf00] status-pill'>{link.status} { link.expires_at && '- 24th March 2023'}</small>
+                                                                <small className='text-sm text-[#00bf00] status-pill'>{link.status} { link.expires_at && `- ${moment(link.expires_at).format('MMMM d, YYYY')}`}</small>
                                                             </div>
                                                             <div className='py-3'>
                                                                 <div className="flex items-center space-x-6">
