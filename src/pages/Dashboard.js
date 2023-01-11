@@ -24,10 +24,11 @@ import '../styles/Dashboard.css'
 import { useNavigate } from 'react-router-dom';
 import Protected from '../utils/axios';
 import { useDispatch } from 'react-redux';
-import { ADD_BENEFICIARY, ADD_PAYMENTLINKS } from '../redux/DashboardSlice';
+import { ADD_BENEFICIARY, ADD_PAYMENTLINKS, SINGLE_PAYMENTLINK } from '../redux/DashboardSlice';
 import WithdrawalPopup from '../components/WIthdrawalPopup';
 import { DashBoardContext } from '../context/Dashboard';
 import moment from 'moment'
+import RecentModal from '../components/RecentPayment';
 
 const Dashboard = () => {
     const [state, setState] = React.useState({
@@ -36,6 +37,10 @@ const Dashboard = () => {
         bottom: false,
         right: false,
     });
+
+    const [opened, setOpened] = React.useState(false);
+    const handleOpened = () => setOpened(true);
+    const handleCloseed = () => setOpened(false);
 
     const [matrics, setMatrics] = React.useState({});
     const [tables, setTables] = React.useState({});
@@ -50,8 +55,9 @@ const Dashboard = () => {
 
     const dispatch = useDispatch()
     const [wallet, setWallet] = useState({})
+    const [recentPayment,setRecentPayment] = useState()
     const {open,setOpen,handleOpen,handleClose} = useContext(DashBoardContext)
-
+    
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 10,
         borderRadius: 5,
@@ -63,6 +69,12 @@ const Dashboard = () => {
             backgroundColor: theme.palette.mode === 'light' ? '#234243' : '#234243',
         },
     }));
+
+    const recentPay = (each)=>{
+         setRecentPayment(each)
+         console.log(each)
+         handleOpened()
+    }
 
     const FetchLinks = async () => {
         // setLoading(true)
@@ -121,6 +133,12 @@ const Dashboard = () => {
         } catch (error) {
             console.log(error.response)
         }
+    }
+
+    const Payments = (link) => {
+        dispatch(SINGLE_PAYMENTLINK(link))
+        navigate(`/dashboard/payment/${link._id}`)
+        console.log(link)
     }
 
     // const FetchWallet = async()=>{
@@ -323,7 +341,7 @@ const Dashboard = () => {
                                                 tables.recentPaymentLinks.map(
                                                     (each, index) => (
                                                         <div key={index}>
-                                                            <ListItem disablePadding alignItems="flex-center">
+                                                            <ListItem disablePadding alignItems="flex-center" onClick={()=>Payments(each)}>
                                                                 <ListItemButton>
                                                                     <div className='py-1 w-full'>
                                                                         <Grid container spacing={3}>
@@ -378,7 +396,7 @@ const Dashboard = () => {
                                                 tables.recentPayments.map(
                                                     (each, index) => (
                                                         <div key={index}>
-                                                            <ListItem disablePadding alignItems="flex-center">
+                                                            <ListItem disablePadding alignItems="flex-center"onClick={()=>recentPay(each)}>
                                                                 <ListItemButton>
                                                                     <Grid container spacing={3}>
                                                                         <Grid item xs={4}>
@@ -440,6 +458,7 @@ const Dashboard = () => {
             </DashboardLayout>
             <PaymentDrawer state={state} setState={setState} toggleDrawer={toggleDrawer} />
             <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose}/>
+            <RecentModal opened={opened} setOpened={setOpened} handleOpened={handleOpened} handleCloseed={handleCloseed} recentPayment={recentPayment}/>
         </>
     )
 }

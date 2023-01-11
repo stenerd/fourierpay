@@ -38,7 +38,7 @@ export default function WithdrawalPopup({ open, handleOpen, handleClose, setOpen
     const [current, setCurrent] = React.useState()
     const [loading, setLoading] = React.useState(false)
     const { beneficiaries } = useSelector((state) => state.dashboard)
-    console.log(beneficiaries)
+    // console.log(beneficiaries)
 
     const fetchData = async (data) => {
         const currentData = beneficiaries.find((beneficiary) => beneficiary.account_name === data)
