@@ -27,12 +27,14 @@ const Section = () => {
                 <div className="py-8 divide-y-2 divide-gray-300">
                   <Divider/>
                 </div>
-                <div className='w-4/5 mx-auto flex justify-between items-center'>
-                      <div className=''>
+                <div className='w-4/5 py-4 mx-auto flex justify-between items-center gap-3'>
+                      <div className='flex-1'>
                            <h1 className='text-[46px] font-bold'>Financial experience built for tomorrow</h1>
                       </div>
-                      <div className=''>
+                      <div className='py-3 flex-1 space-y-8'>
                            {/* <h1 className='text-[40px] font-bold'>Financial experience built for tomorrow</h1> */}
+                           <h2 className='text-xl'>Fourier Pay was built from scratch to inspire embedded Financial experience. We Provide you products and tools you need to grow your revenue and collect payment instantly</h2>
+                           <button className='bg-[#1f332b] text-white py-4 px-6 rounded-md'>Learn More</button>
                       </div>
                 </div>
             </div>
