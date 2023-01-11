@@ -90,6 +90,7 @@ const Profile = () => {
     const { beneficiaries: beneficiary, profile: Profile } = useSelector((state) => state.dashboard)
     const [profile, setProfile] = useState(Profile)
     const [wallet, setWallet] = useState({})
+    const [profileTables, setProfileTable] = useState({})
     const [beneficiaries, setBeneficiaries] = useState(beneficiary)
     const dispatch = useDispatch()
     console.log(beneficiary)
@@ -140,6 +141,15 @@ const Profile = () => {
             console.log(error.response)
         }
     }
+    const fetchDashboardProfileTable = async () => {
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/dashboard/profile/tables`)
+            console.log('setProfileTable >> ', response?.data?.data)
+            setProfileTable(response?.data?.data)
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
 
     const fetchBanks = async () => {
         const response = await axios.get(`http://localhost:4000/api/paystack/bank-list`)
@@ -152,6 +162,7 @@ const Profile = () => {
         fetchBanks()
         fetchProfile()
         FetchBeneficiary()
+        fetchDashboardProfileTable()
     }, [])
 
     return (
@@ -461,94 +472,37 @@ const Profile = () => {
                                         </div>
                                         <div className='py-2'>
                                             <List>
-                                                <ListItem disablePadding alignItems="flex-center">
-                                                    <ListItemButton>
-                                                        <ListItemText>
-                                                            <h2 className='text-sm font-bold'>LINK PAYMENT</h2>
-                                                            <small className='text-sm text-gray-400'>TMA9Khbat43aWcg</small>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <h2 className='text-sm font-bold text-center'>$2300</h2>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <div className="text-center">
-                                                                <p className='py-2 px-2 rounded-lg text-sm text-[#00bf00] font-bold'>CREDIT</p>
-                                                            </div>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <div className="text-center">
-                                                                <p className='py-2 px-2 rounded-lg text-sm status-paid'>paid</p>
-                                                            </div>
-                                                        </ListItemText>
-                                                    </ListItemButton>
-                                                </ListItem>
-                                                <ListItem disablePadding alignItems="flex-center">
-                                                    <ListItemButton>
-                                                        <ListItemText>
-                                                            <h2 className='text-sm font-bold'>WALLET DEBIT</h2>
-                                                            <small className='text-sm text-gray-400'>TMA9Khbat43aWcg</small>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <h2 className='text-sm font-bold text-center'>$2300</h2>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <div className="text-center">
-                                                                <p className='py-2 px-2 rounded-lg text-sm text-[#f10707] font-bold'>DEBIT</p>
-                                                            </div>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <div className="text-center">
-                                                                <p className='py-2 px-2 rounded-lg text-sm status-fail'>abandoned</p>
-                                                            </div>
+                                                {
+                                                    profileTables.recentTransaction ? profileTables.recentTransaction.map((trnx, index) => (
+                                                        <ListItem disablePadding alignItems="flex-center" key={index}>
+                                                            <ListItemButton>
 
-                                                        </ListItemText>
-                                                    </ListItemButton>
-                                                </ListItem>
-                                                <ListItem disablePadding alignItems="flex-center">
-                                                    <ListItemButton>
-                                                        <ListItemText>
-                                                            <h2 className='text-sm font-bold'>LINK PAYMENT</h2>
-                                                            <small className='text-sm text-gray-400'>TMA9Khbat43aWcg</small>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <h2 className='text-sm font-bold text-center'>$2300</h2>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <div className="text-center">
-                                                                <p className='py-2 px-2 rounded-lg text-sm text-[#00bf00] font-bold'>CREDIT</p>
-                                                            </div>
+                                                                <Grid container spacing={3}>
+                                                                    <Grid item xs={3}>
+                                                                        <h2 className='text-sm font-bold uppercase'>{trnx.entity}</h2>
+                                                                        <small className='text-sm text-gray-400'>{trnx.reference}</small>
+                                                                    </Grid>
+                                                                    <Grid item xs={4}>
+                                                                        <h2 className='text-sm font-bold text-center py-2 px-2'>${trnx.amount}</h2>
+                                                                    </Grid>
+                                                                    <Grid item xs={3}>
+                                                                        <div className="text-left">
+                                                                            <p className={trnx.type === 'credit' ? 'py-2 px-2 rounded-lg text-sm text-[#00bf00] font-bold' : 'py-2 px-2 rounded-lg text-sm text-[#f10506] font-bold'}>{trnx.type}</p>
+                                                                        </div>
+                                                                    </Grid>
+                                                                    <Grid item xs={2}>
+                                                                        <div className="text-left">
+                                                                            <p className={trnx.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{trnx.status}</p>
+                                                                        </div>
+                                                                    </Grid>
+                                                                </Grid>
 
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <div className="text-center">
-                                                                <p className='py-2 px-2 rounded-lg text-sm status-paid'>paid</p>
-                                                            </div>
-                                                        </ListItemText>
-                                                    </ListItemButton>
-                                                </ListItem>
-                                                <ListItem disablePadding alignItems="flex-center">
-                                                    <ListItemButton>
-                                                        <ListItemText>
-                                                            <h2 className='text-sm font-bold'>WALLET DEBIT</h2>
-                                                            <small className='text-sm text-gray-400'>TMA9Khbat43aWcg</small>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <h2 className='text-sm font-bold text-center'>$2300</h2>
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <div className="text-center">
-                                                                <p className='py-2 px-2 rounded-lg text-sm text-[#f10707] font-bold'>DEBIT</p>
-                                                            </div>
-
-                                                        </ListItemText>
-                                                        <ListItemText>
-                                                            <div className="text-center">
-                                                                <p className='py-2 px-2 rounded-lg text-sm status-fail'>abandoned</p>
-                                                            </div>
-
-                                                        </ListItemText>
-                                                    </ListItemButton>
-                                                </ListItem>
+                                                            </ListItemButton>
+                                                        </ListItem>
+                                                    )) : ''
+                                                }
+                                                
+                                                
                                             </List>
                                         </div>
                                     </div>

@@ -6,19 +6,21 @@ const Section = () => {
     return (
         <>
             <div className='bg-gray-100'>
-                <div className='py-8'>
+                <div className='pt-16 pb-8'>
                     <div className="w-4/5 mx-auto flex justify-between items-center">
                         <div>
-                            <h1 className='text-2xl text-center font-bold'>250K</h1>
-                            <p className='text-center'>Registared Business</p>
+                            <h1 className='text-2xl text-center' style={{fontWeight: '900'}}>250K</h1>
+                            <p className='text-center font-bold text-gray-500'>Registared Business</p>
                         </div>
+                        <div className='c-vertical-divider'></div>
                         <div>
-                            <h1 className='text-2xl text-center font-bold'>250M+</h1>
-                            <p className='text-center'>Revenue Total</p>
+                            <h1 className='text-2xl text-center' style={{fontWeight: '900'}}>250M+</h1>
+                            <p className='text-center font-bold text-gray-500'>Revenue Total</p>
                         </div>
+                        <div className='c-vertical-divider'></div>
                         <div>
-                            <h1 className='text-2xl text-center font-bold'>85%</h1>
-                            <p className='text-center'>Revenue Growth</p>
+                            <h1 className='text-2xl text-center' style={{fontWeight: '900'}}>85%</h1>
+                            <p className='text-center font-bold text-gray-500'>Revenue Growth</p>
                         </div>
                     </div>
                 </div>

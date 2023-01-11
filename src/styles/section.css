@@ -12,3 +12,9 @@
 .hero{
     font-family: 'Satoshi', sans-serif;
 }
+
+.c-vertical-divider{
+    width: 1px;
+    height: 4rem;
+    background: #d6d6d8;
+}

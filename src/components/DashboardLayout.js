@@ -4,7 +4,7 @@ import Sidebar from './SideBar'
 const DashboardLayout = ({children}) => {
     return (
         <>
-          <div className='w-full flex'>
+          <div className='w-[100vw] flex'>
                <div className="w-[20%] hidden md:block ">
                  <Sidebar/>
                </div>
