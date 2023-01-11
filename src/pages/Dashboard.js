@@ -345,7 +345,7 @@ const Dashboard = () => {
                                                                             <Grid item xs={3}>
                                                                                 <div className='set-item-center'>
                                                                                     <small className='text-sm text-[#f10707] status-pill'>{each.status}{each.expires_at ? ` - ${
-                                                                                        moment(each.expires_at).format('MMM d, YYYY')
+                                                                                        moment(each.expires_at).format('MMM DD, YYYY')
                                                                                     }` : ''}</small>
                                                                                 </div>
                 

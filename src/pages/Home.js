@@ -5,8 +5,11 @@ import Section from '../components/Section'
 const Home = () => {
   return (
    <>
+    <div className='w-full'>
       <Hero/>
       <Section/>
+    </div>
+      
    </>
   )
 }

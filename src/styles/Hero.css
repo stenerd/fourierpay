@@ -119,3 +119,113 @@
     border-radius: 0.2rem;
     font-weight: bold;
 }
+
+.c-home-title-underline{
+    display: inline-block;
+    border-bottom: 0.3rem solid #97f676;
+    line-height: 3.8rem;
+}
+
+.c-home-card-overlay{
+    position: absolute;
+    top: 4.8rem;
+    left: 0;
+    height: 55%;
+    width: 100%;
+    background: white;
+}
+
+.c-top-circle-big{
+    position: absolute;
+    top: 0;
+    width: 70%;
+    background: #f3f4f3;
+    height: 100%;
+    left: -20%;
+    border-radius: 50%;
+}
+
+.c-top-circle-small{
+    position: absolute;
+    top: 15%;
+    width: 44%;
+    background: #ffffff;
+    height: 70%;
+    left: -7%;
+    border-radius: 50%;
+}
+
+.c-top-clear{
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    bottom: 0;
+    left: 0;
+    background: white;
+}
+
+.c-bottom-circle-big{
+    position: absolute;
+    top: 0;
+    width: 70%;
+    background: #f3f4f3;
+    height: 100%;
+    right: -20%;
+    border-radius: 50%;
+}
+
+.c-bottom-circle-small{
+    position: absolute;
+    top: 15%;
+    width: 44%;
+    background: #ffffff;
+    height: 70%;
+    right: -7%;
+    border-radius: 50%;
+}
+
+.c-bottom-clear{
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 0;
+    right: 0;
+    background: white;
+}
+
+.c-overlay-circle{
+    background: transparent;
+    position: absolute;
+    width: 35rem;
+    height: 35rem;
+    top: -2rem;
+    left: -8rem;
+    z-index: 0;
+    border-radius: 50%;
+    border: 1px solid white;
+}
+
+.c-overlay-content{
+    left: -8rem;
+    position: absolute;
+    height: 8rem;
+    width: 12rem;
+    background: white;
+    z-index: 1;
+    bottom: 9.5rem;
+    border-radius: 1rem;
+    border: 1px solid #f3f4f3;
+}
+
+.c-overlay-content-description{
+    color: grey;
+    font-size: 67%;
+    line-height: .8rem;
+    display: inline-block;
+    padding-top: 0.3rem;
+}
+.c-overlay-content-amount{
+    font-weight: bold;
+    color: #1f332b;
+    font-size: 130%;
+}
