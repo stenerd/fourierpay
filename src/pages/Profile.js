@@ -35,6 +35,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ADD_BENEFICIARY, ADD_PROFILE } from '../redux/DashboardSlice';
 import WithdrawalPopup from '../components/WIthdrawalPopup';
 import moment from 'moment'
+import SingleTransactionModal from '../components/SingleTransaction';
 const Profile = () => {
     const [state, setState] = React.useState({
         top: false,
@@ -63,7 +64,7 @@ const Profile = () => {
         },
     }));
 
-    const {open,setOpen,handleOpen,handleClose} = useContext(DashBoardContext)
+    const { open, setOpen, handleOpen, handleClose } = useContext(DashBoardContext)
 
     const [open5, setOpen5] = React.useState(false);
     const handleOpen5 = () => setOpen5(true);
@@ -78,6 +79,10 @@ const Profile = () => {
     const [open4, setOpen4] = React.useState(false);
     const handleOpen4 = () => setOpen4(true);
     const handleClose4 = () => setOpen4(false);
+
+    const [open7, setOpen7] = React.useState(false);
+    const handleOpen7 = () => setOpen7(true);
+    const handleClose7 = () => setOpen7(false);
     const [data, setData] = useState('')
     const [bankList, setBankList] = useState('')
     // const { beneficiaries } = useContext(DashBoardContext)
@@ -92,9 +97,12 @@ const Profile = () => {
     const [wallet, setWallet] = useState({})
     const [profileTables, setProfileTable] = useState({})
     const [beneficiaries, setBeneficiaries] = useState(beneficiary)
+    const [singleTransaction, setSingleTransaction] = useState([])
     const dispatch = useDispatch()
     console.log(beneficiary)
     console.log(Profile)
+
+    const [isLoading, setIsloading] = useState(false)
 
     const Retrieve = (data) => {
         setData(data)
@@ -146,6 +154,7 @@ const Profile = () => {
             const response = await Protected.get(`http://localhost:4000/api/dashboard/profile/tables`)
             console.log('setProfileTable >> ', response?.data?.data)
             setProfileTable(response?.data?.data)
+
         } catch (error) {
             console.log(error.response)
         }
@@ -153,8 +162,13 @@ const Profile = () => {
 
     const fetchBanks = async () => {
         const response = await axios.get(`http://localhost:4000/api/paystack/bank-list`)
-        console.log(response?.data?.data)
+        // console.log(response?.data?.data)
         setBankList(response.data.data)
+    }
+
+    const singleTransact = (data) => {
+        setSingleTransaction(data)
+        handleOpen7()
     }
 
     useEffect(() => {
@@ -271,8 +285,8 @@ const Profile = () => {
                                     <div className='bg-[#f1f3f0] rounded-md dashboard-wallet'>
                                         <div className='py-6 px-3 w-[90%] mx-auto'>
                                             <div className='spacing-y-3'>
-                                                <h1 className='fourier font-bold' style={{textTransform: 'uppercase'}}>{profile.firstname} {profile.lastname}</h1>
-                                                <h3 className="text-gray-400 font-bold">{ moment(new Date()).format('dddd, MMMM DDD YYYY')}</h3>
+                                                <h1 className='fourier font-bold' style={{ textTransform: 'uppercase' }}>{profile.firstname} {profile.lastname}</h1>
+                                                <h3 className="text-gray-400 font-bold">{moment(new Date()).format('dddd, MMMM DDD YYYY')}</h3>
                                             </div>
                                         </div>
                                         <div className='py-2 px-2 bg-[#f8faf7]'>
@@ -282,7 +296,7 @@ const Profile = () => {
                                                         <h1 className='fourier text-[20px] font-bold'>$ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>
                                                         <h3 className="text-gray-400 font-bold">Total Balance</h3>
                                                     </div>
-                                                    <IconButton onClick={()=>handleOpen()}>
+                                                    <IconButton onClick={() => handleOpen()}>
                                                         <NearMeIcon className='text-[#234243]' />
                                                     </IconButton>
                                                 </div>
@@ -353,26 +367,20 @@ const Profile = () => {
                                                                     <h2 className='font-bold'>TO: PETER DRURY</h2>
                                                                     <p className='text-sm text-gray-400 font-bold'>TMA9Khbat43aWcg | FIDELITY BANK (6234342211)</p>
                                                                 </div>
-
                                                             </Grid>
                                                             <Grid item xs={3}>
                                                                 <div className='set-item-center'>
                                                                     <h2 className='font-bold'>$ 4000</h2>
                                                                 </div>
-
                                                             </Grid>
                                                             <Grid item xs={3}>
                                                                 <div className="text-center">
                                                                     <p className='py-2 px-2 rounded-lg text-sm status-paid'>paid</p>
                                                                 </div>
-
                                                             </Grid>
-
-
                                                         </Grid>
                                                     </div>
                                                 </ListItemButton>
-
                                             </ListItem>
                                             <ListItem disablePadding alignItems="flex-center" onClick={() => handleOpen4()}>
                                                 <ListItemButton>
@@ -474,7 +482,7 @@ const Profile = () => {
                                             <List>
                                                 {
                                                     profileTables.recentTransaction ? profileTables.recentTransaction.map((trnx, index) => (
-                                                        <ListItem disablePadding alignItems="flex-center" key={index}>
+                                                        <ListItem disablePadding alignItems="flex-center" key={index} onClick={() => singleTransact(trnx)} >
                                                             <ListItemButton>
 
                                                                 <Grid container spacing={3}>
@@ -499,10 +507,17 @@ const Profile = () => {
 
                                                             </ListItemButton>
                                                         </ListItem>
-                                                    )) : ''
+                                                    )) : (
+                                                        <div>
+                                                            <Stack spacing={3}>
+                                                                <Skeleton variant="rectangular" width={"80%"} height={60} />
+                                                                <Skeleton variant="rounded" width={"80%"} height={60} />
+                                                            </Stack>
+                                                        </div>
+                                                    )
                                                 }
-                                                
-                                                
+
+
                                             </List>
                                         </div>
                                     </div>
@@ -518,7 +533,8 @@ const Profile = () => {
             <WithdrawalModal open2={open2} handleOpen2={handleOpen2} handleClose2={handleClose2} setOpen2={setOpen2} bankList={bankList} FetchBeneficiary={FetchBeneficiary} />
             <BenificiaryModal open3={open3} setOpen3={setOpen3} handleOpen3={handleOpen3} handleClose3={handleClose3} data={data} beneficiaries={beneficiaries} setBeneficiaries={setBeneficiaries} />
             <RecentWithDrawalModal open4={open4} setOpen4={setOpen4} handleOpen4={handleOpen4} handleClose4={handleClose4} />
-            <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose}/>
+            <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} />
+            <SingleTransactionModal open7={open7} setOpen7={setOpen7} handleOpen7={handleOpen7} handleClose7={handleClose7} singleTransaction={singleTransaction} />
         </>
     )
 }

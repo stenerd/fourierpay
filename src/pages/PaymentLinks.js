@@ -1,5 +1,5 @@
 import { Grid, IconButton, LinearProgress } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
@@ -20,7 +20,9 @@ const PaymentLinks = () => {
     const [loading, setLoading] = useState(false)
     const { paymentLinks: PaymentLink } = useSelector((state) => state.dashboard)
     const [paymentLinks, setPaymentLinks] = useState(PaymentLink)
-
+    const data = paymentLinks?.map((data) => data.link)
+    const [link, setLink] = useState(data)
+    const [singleLink, setSingleLink] = useState("")
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -36,20 +38,23 @@ const PaymentLinks = () => {
         },
     }));
 
-    const [isCopied, setCopied] = useClipboard("Text to copy", {
+    const [isCopied, setCopied] = useClipboard(singleLink, {
         // `isCopied` will go back to `false` after 1000ms.
         successDuration: 1000,
     });
+
+    const inputRef = useRef()
 
     // const { paymentLinks } = useContext(DashBoardContext)
     const FetchLinks = async () => {
         // setLoading(true)
         try {
             const response = await Protected.get(`http://localhost:4000/api/payment-link`)
-            console.log(response.data.data)
+            // console.log(response.data.data)
             dispatch(ADD_PAYMENTLINKS(response?.data?.data))
-            setPaymentLinks(response.data.data)
+            setPaymentLinks(response?.data?.data)
 
+            // console.log({data})
         } catch (error) {
             console.log(error.response)
         }
@@ -59,6 +64,11 @@ const PaymentLinks = () => {
         dispatch(SINGLE_PAYMENTLINK(link))
         navigate(`/dashboard/payment/${link.code}`)
         console.log(link)
+    }
+
+    const findLink = (link, index) => {
+        setSingleLink(link.link)
+        console.log({ link, singleLink: link.link })
     }
 
     useEffect(() => {
@@ -96,13 +106,13 @@ const PaymentLinks = () => {
                                                         <div className=''>
                                                             <div className='flex justify-between'>
                                                                 <h2 className='fourier text-2xl text-[#234243] font-bold hover:text-blue-500 cursor-pointer' onClick={() => Payments(link)}>{link.name}</h2>
-                                                                <small className='text-sm text-[#00bf00] status-pill'>{link.status} { link.expires_at && `- ${moment(link.expires_at).format('MMMM DD, YYYY')}`}</small>
+                                                                <small className='text-sm text-[#00bf00] status-pill'>{link.status} {link.expires_at && `- ${moment(link.expires_at).format('MMMM DD, YYYY')}`}</small>
                                                             </div>
                                                             {/* <button onClick={setCopied}>
                                                                 Was it copied? {isCopied ? "Yes! 👍" : "Nope! 👎"}
                                                             </button> */}
                                                             <div className='py-3'>
-                                                                <div className="flex items-center space-x-6" style={{paddingBottom: '1rem'}}>
+                                                                <div className="flex items-center space-x-6" style={{ paddingBottom: '1rem' }}>
                                                                     {link.expected_number_of_payments ?
                                                                         (
                                                                             <div>
@@ -125,10 +135,15 @@ const PaymentLinks = () => {
                                                             <div className="pt-3">
                                                                 <div className='bg-gray-100 pt-2 px-2 c-border-gray'>
                                                                     <div className='flex space-x-2 items-center'>
-                                                                        <IconButton>
-                                                                            <ContentPasteIcon />
+                                                                        <IconButton onClick={() => {
+                                                                            setCopied()
+                                                                            findLink(link,index)
+                                                                            // console.log(link, index)
+                                                                        }}>
+                                                                            {isCopied ? "! 👍" : <ContentPasteIcon />}
+
                                                                         </IconButton>
-                                                                        <h2 className='break-all text-[13px]'>{link.link}</h2>
+                                                                        <h2 className='break-all text-[13px]' ref={inputRef}>{link.link}</h2>
                                                                     </div>
                                                                 </div>
                                                                 {
