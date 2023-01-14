@@ -16,8 +16,8 @@ import { Logout } from '@mui/icons-material';
 const Sidebar = () => {
     const navigate = useNavigate()
     const token = JSON.parse(localStorage.getItem('token'))
-    
-    const Logout = async ()=>{
+
+    const Logout = async () => {
         window.localStorage.removeItem('bearer_token')
         navigate('/')
     }
@@ -26,7 +26,9 @@ const Sidebar = () => {
             <div className="min-h-screen bg-[#0d1510] w-[20%] shadow-lg  fixed">
                 <div className='p-4'>
                     <div className='py-4'>
-                        <h2 className='text-xl fourier text-center text-white'>Fourier<span className='text-[#688c8d]'>Pay</span></h2>
+                        <Link to="/">
+                            <h2 className='text-xl fourier text-center text-white'>Fourier<span className='text-[#688c8d]'>Pay</span></h2>
+                        </Link>
                     </div>
                     <div className='w-5/6 mx-auto'>
                         {/* <div className='py-4'>
@@ -70,7 +72,7 @@ const Sidebar = () => {
                                     <h2 className='font-bold text-[#f8faf7]'>Payment Links</h2>
                                 </div>
                             </Link>
-                           
+
 
                             <Link to="/dashboard/transaction">
                                 <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
@@ -96,7 +98,7 @@ const Sidebar = () => {
                             </div>
                         </div>
 
-                        <div className="flex items-center space-x-3 cursor-pointer rounded-md py-6 px-2 c-logout-button" onClick={()=>Logout()}>
+                        <div className="flex items-center space-x-3 cursor-pointer rounded-md py-6 px-2 c-logout-button" onClick={() => Logout()}>
                             <IconButton>
                                 <LogoutIcon className="text-white" />
                             </IconButton>

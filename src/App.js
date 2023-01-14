@@ -11,7 +11,8 @@ import Profile from "./pages/Profile";
 import MakePayment from "./pages/MakePayment";
 import Withdrawal from "./pages/Withdrawal";
 import SinglePaymentLink from "./pages/SinglePaymentLink";
-
+// import Protected from "./utils/axios";
+import PrivateRoutes from "./pages/Protected";
 
 function App() {
   return (
@@ -21,13 +22,16 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/pay/:code" element={<MakePayment />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/profile" element={<Profile />} />
-        <Route path="/dashboard/transaction" element={<Transactions/>}/>
-        <Route path="/dashboard/paymentlinks" element={<PaymentLinks/>}/>
-        <Route path="/dashboard/payment" element={<Payment/>}/>
-        <Route path="/dashboard/withdrawal" element={<Withdrawal/>}/>
-        <Route path="/dashboard/payment/:id" element={<SinglePaymentLink/>}/>
+        <Route element={<PrivateRoutes/>}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/profile" element={<Profile />} />
+          <Route path="/dashboard/transaction" element={<Transactions />} />
+          <Route path="/dashboard/paymentlinks" element={<PaymentLinks />} />
+          <Route path="/dashboard/payment" element={<Payment />} />
+          <Route path="/dashboard/withdrawal" element={<Withdrawal />} />
+          <Route path="/dashboard/payment/:id" element={<SinglePaymentLink />} />
+        </Route>
+
       </Routes>
     </div>
   );
