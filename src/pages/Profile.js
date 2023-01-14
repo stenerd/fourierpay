@@ -180,7 +180,7 @@ const Profile = () => {
                                 <AutoFixHighIcon className="mx-2 mb-2 text-gray-500 fourier-profile-icon cursor-pointer" onClick={() => handleOpen5()} />
                             </div>
                         )}
-                        {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<small className='font-bold text-gray-500'>{profile?.email}  {profile?.phonenumber}</small>)}
+                        {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<small className='font-bold text-gray-500'>{profile?.email} | {profile?.phonenumber}</small>)}
 
 
                     </div>

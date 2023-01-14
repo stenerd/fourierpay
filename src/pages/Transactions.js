@@ -1,14 +1,17 @@
 import { Button, Divider } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import TransactionTable from '../components/TransactionsTable'
 import TuneIcon from '@mui/icons-material/Tune';
 import PayOutTable from '../components/PayoutTable';
 import Titlebar from '../components/TitleBar'
+import Protected from '../utils/axios';
 
 const Transactions = () => {
     const [payin, setPayin] = useState(true)
     const [payout, setPayout] = useState(false)
+    const [transactions, setTransaction] = useState([])
+
 
     const handlePayin = () => {
         setPayin(true)
@@ -18,36 +21,31 @@ const Transactions = () => {
         setPayout(true)
         setPayin(false)
     }
+
+    const fetchTransaction = async () => {
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/transaction`)
+            console.log('fetchTransaction >> ', response?.data?.data)
+            setTransaction(response?.data?.data)
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
+    useEffect(() => {
+        fetchTransaction()
+    }, [])
+
     return (
         <>
             <DashboardLayout>
                 <Titlebar>
                     <h2 className='fourier font-bold'>Transactions</h2>
                 </Titlebar>
-                <div className='py-4 px-3 w-[90%] mx-auto'>
-                    <div className="py-3">
-
-                        <div className='py-4'>
-                            {/* <div className='flex items-center space-x-4'>
-                                <h2 className={payin ? `text-[#234243] font-bold cursor-pointer border-b-2 border-[#234243]` : `cursor-pointer`} onClick={() => handlePayin()}>Pay In </h2>
-                                <h2 className={payout ? `text-[#234243] font-bold cursor-pointer border-b-2 border-[#234243]` : `cursor-pointer`} onClick={() => handlePayOut()}>Pay Out </h2>
-                            </div>
-                            <div className="py-4">
-                                <Divider />
-                            </div> */}
-                            <div className='py-4'>
-                                <div className='flex items-center space-x-6'>
-                                    <Button variant="outlined" className='text-black rounded-[50px]' startIcon={<TuneIcon />}>
-                                        Filter
-                                    </Button>
-                                    <input className='px-2 py-2 rounded-xl outline-none border border-gray-200' placeholder='Search' />
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                <div className='py-4 px-3 w-[90%] my-8 mx-auto'>
+                    
                     {payin ? (
-                        <TransactionTable />
+                        <TransactionTable transactions={transactions} />
                     ) : <PayOutTable />}
 
                 </div>

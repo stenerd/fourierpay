@@ -57,7 +57,7 @@ const PaymentLinks = () => {
 
     const Payments = (link) => {
         dispatch(SINGLE_PAYMENTLINK(link))
-        navigate(`/dashboard/payment/${link._id}`)
+        navigate(`/dashboard/payment/${link.code}`)
         console.log(link)
     }
 

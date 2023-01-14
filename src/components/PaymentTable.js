@@ -12,11 +12,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import moment from 'moment'
 
 
-function createData(Description, Customer, Amount, Payment, Status) {
-  return { Description, Customer, Amount, Payment, Status };
-}
-
-export default function TransactionTable({transactions}) {
+export default function PaymentTable({data}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -37,17 +33,16 @@ export default function TransactionTable({transactions}) {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow className='font-bold'>
-              <TableCell className='font-bold' style={{ fontWeight: '600' }}>RECIPIENT</TableCell>
+              <TableCell className='font-bold' style={{ fontWeight: '600' }}>{data.paymentLink.unique_field}</TableCell>
               <TableCell style={{ fontWeight: '600' }}>REFERENCE</TableCell>
               <TableCell style={{ fontWeight: '600' }}>Date</TableCell>
               <TableCell style={{ fontWeight: '600' }}>TIME</TableCell>
               <TableCell style={{ fontWeight: '600' }}>Amount</TableCell>
-              <TableCell style={{ fontWeight: '600' }}>Type</TableCell>
               <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {transactions.map((row, index) => (
+            {data.payments.map((row, index) => (
               <TableRow
                 key={index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -59,19 +54,13 @@ export default function TransactionTable({transactions}) {
                 }}
               >
                 <TableCell component="th" scope="row" style={{ fontWeight: '700' }} >
-                  <h2 className='font-bold uppercase'>{row.entity === 'Wallet' ? 'Wallet Funding' : row.entity}</h2>
-                  <small className='text-gray-400'>{row.entity === 'Payment' ? row.entity_id.unique_answer : ''}</small>
+                  <h2 className='font-bold'>{row.unique_answer}</h2>
                 </TableCell>
-                <TableCell className='text-gray-400'>{row.reference}</TableCell>
+                <TableCell className='text-gray-400'>{row.transaction_id.reference}</TableCell>
                 <TableCell>{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
                 <TableCell>{moment(row.createdAt).format('hh:mm:ss A')}</TableCell>
                 <TableCell>
                   <p className='font-bold'>$ {Intl.NumberFormat('en-US').format(row.amount || 0)}</p>
-                </TableCell>
-                <TableCell>
-                  <div className="text-left">
-                      <p className={(row.type === 'credit') ? 'py-2 px-2 rounded-lg text-sm text-[#00bf00] font-bold' : 'py-2 px-2 rounded-lg text-sm text-[#f10506] font-bold'}>{row.type}</p>
-                  </div>
                 </TableCell>
                 <TableCell>
                 <div className="text-left">
