@@ -23,6 +23,8 @@ import Titlebar from '../components/TitleBar'
 import '../styles/Dashboard.css'
 import { useNavigate } from 'react-router-dom';
 import Protected from '../utils/axios';
+import Skeleton from '@mui/material/Skeleton';
+// import Stack from '@mui/material/Stack';
 import { useDispatch } from 'react-redux';
 import { ADD_BENEFICIARY, ADD_PAYMENTLINKS, SINGLE_PAYMENTLINK } from '../redux/DashboardSlice';
 import WithdrawalPopup from '../components/WIthdrawalPopup';
@@ -53,11 +55,13 @@ const Dashboard = () => {
         setState({ ...state, [anchor]: open });
     };
 
+    const [loading, setLoading] = useState(false)
+
     const dispatch = useDispatch()
     const [wallet, setWallet] = useState({})
-    const [recentPayment,setRecentPayment] = useState()
-    const {open,setOpen,handleOpen,handleClose} = useContext(DashBoardContext)
-    
+    const [recentPayment, setRecentPayment] = useState()
+    const { open, setOpen, handleOpen, handleClose } = useContext(DashBoardContext)
+
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 10,
         borderRadius: 5,
@@ -69,62 +73,57 @@ const Dashboard = () => {
             backgroundColor: theme.palette.mode === 'light' ? '#234243' : '#234243',
         },
     }));
-
-    const recentPay = (each)=>{
-         setRecentPayment(each)
-         console.log(each)
-         handleOpened()
+    const recentPay = (each) => {
+        setRecentPayment(each)
+        // console.log(each)
+        handleOpened()
     }
-
     const FetchLinks = async () => {
         // setLoading(true)
         try {
             const response = await Protected.get(`http://localhost:4000/api/payment-link`)
-            console.log(response.data.data)
+            // console.log(response.data.data)
             dispatch(ADD_PAYMENTLINKS(response?.data?.data))
 
         } catch (error) {
             console.log(error.response)
         }
     }
-
     const DashboardMatrics = async () => {
-        // setLoading(true)
         try {
             const response = await Protected.get(`http://localhost:4000/api/dashboard/matrics`)
             console.log(response.data.data)
             setMatrics(response.data.data)
-
         } catch (error) {
             console.log(error.response)
+
         }
     }
-
     const DashboardTables = async () => {
-        // setLoading(true)
+        setLoading(true)
         try {
             const response = await Protected.get(`http://localhost:4000/api/dashboard/tables`)
-            console.log(response.data.data)
+            // console.log(response.data.data)
             setTables(response.data.data)
+            setLoading(false)
 
         } catch (error) {
             console.log(error.response)
+            setLoading(false)
         }
 
     }
     const FetchBeneficiary = async () => {
         try {
             const response = await Protected.get(`http://localhost:4000/api/beneficiary/view`)
-            console.log(response.data.data)
+            // console.log(response.data.data)
             // setBeneficiaries(response.data.data)
             dispatch(ADD_BENEFICIARY(response.data.data))
 
         } catch (error) {
             console.log(error)
         }
-
     }
-
     const fetchWallet = async () => {
         try {
             const response = await Protected.get(`http://localhost:4000/api/wallet`)
@@ -140,7 +139,6 @@ const Dashboard = () => {
         navigate(`/dashboard/payment/${link._id}`)
         console.log(link)
     }
-
     // const FetchWallet = async()=>{
     //     try {
     //         const response = await Protected.get(`http://localhost:4000/api/wallet`)
@@ -148,9 +146,7 @@ const Dashboard = () => {
     //     } catch (error) {
     //         console.log(error.response)
     //     }
-        
     // }
-
     useEffect(() => {
         fetchWallet()
         FetchLinks()
@@ -159,265 +155,255 @@ const Dashboard = () => {
         FetchBeneficiary()
         // FetchWallet()
     }, [])
-
-
     const navigate = useNavigate()
     return (
         <>
-            <DashboardLayout>
-                <Titlebar>
-                    <h2 className='fourier font-bold'>DashBoard</h2>
-                    <div>
-                        <button onClick={() => navigate('/dashboard/payment')} className='px-4 py-2 rounded-md text-white bg-[#234243]'>Create Payment</button>
-                    </div>
-                </Titlebar>
-                <div className='px-16 py-8'>
-                    {/* <div className='flex justify-between items-center w-[90%] mx-auto'>
+            <div className=''>
+                <DashboardLayout>
+                    <Titlebar>
+                        <h2 className='fourier font-bold'>DashBoard</h2>
+                        <div>
+                            <button onClick={() => navigate('/dashboard/payment')} className='px-4 py-2 rounded-md text-white bg-[#234243]'>Create Payment</button>
+                        </div>
+                    </Titlebar>
+                    <div className='px-16 py-8'>
+                        {/* <div className='flex justify-between items-center w-[90%] mx-auto'>
                         <h2 className='fourier text-xl font-bold'>DashBoard</h2>
                         <button onClick={()=>navigate("/dashboard/payment")} className='px-4 py-2 rounded-md text-white bg-[#234243]'>Create Payment</button>
                     </div> */}
-
-                    <div className='py-4'>
-                        <Grid container spacing={4} alignItems="">
-                            <Grid item xs={12} md={4}>
-                                <Stack spacing={4}>
-                                    <div className='bg-[#f1f3f0] rounded-md dashboard-wallet'>
-                                        <div className='py-6 px-3 w-[90%] mx-auto'>
-                                            <div className='spacing-y-3'>
-                                                {
-                                                    wallet.user_id ? (
-                                                        <h1 className='fourier font-bold' style={{textTransform: 'uppercase'}}>{wallet.user_id.firstname} {wallet.user_id.lastname}</h1>
-                                                    ): (
-                                                        <h1 className='fourier font-bold' style={{textTransform: 'uppercase'}}>N/A</h1>
-                                                    )
-                                                }
-                                                <h3 className="text-gray-400 font-bold">{ moment(new Date()).format('dddd, MMMM DDD YYYY')}</h3>
+                        <div className='py-4'>
+                            <Grid container spacing={4} alignItems="">
+                                <Grid item xs={12} md={4}>
+                                    <Stack spacing={4}>
+                                        <div className='bg-[#f1f3f0] rounded-md dashboard-wallet'>
+                                            <div className='py-6 px-3 w-[90%] mx-auto'>
+                                                <div className='spacing-y-3'>
+                                                    {
+                                                        wallet.user_id ? (
+                                                            <h1 className='fourier font-bold' style={{ textTransform: 'uppercase' }}>{wallet.user_id.firstname} {wallet.user_id.lastname}</h1>
+                                                        ) : (
+                                                            <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
+                                                        )
+                                                    }
+                                                    <h3 className="text-gray-400 font-bold">{moment(new Date()).format('dddd, MMMM DDD YYYY')}</h3>
+                                                </div>
+                                            </div>
+                                            <div className='py-2 px-2 bg-[#f8faf7]'>
+                                                <div className='w-[90%] mx-auto'>
+                                                    <div className='spacing-y-3 flex justify-between items-center'>
+                                                        <div className='py-4'>
+                                                            {wallet.amount ? (<h1 className='fourier text-[20px] font-bold'>$ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>) : (
+                                                                <Skeleton variant="text" sx={{ fontSize: '1rem' }} />)}
+                                                            <h3 className="text-gray-400 font-bold">Total Balance</h3>
+                                                        </div>
+                                                        <IconButton onClick={() => handleOpen()}>
+                                                            <NearMeIcon className='text-[#234243]' />
+                                                        </IconButton>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className='py-2 px-2 bg-[#f8faf7]'>
-                                            <div className='w-[90%] mx-auto'>
-                                                <div className='spacing-y-3 flex justify-between items-center'>
-                                                    <div className='py-4'>
-                                                        <h1 className='fourier text-[20px] font-bold'>$ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>
-                                                        <h3 className="text-gray-400 font-bold">Total Balance</h3>
-                                                    </div>
-                                                    <IconButton onClick={()=>handleOpen()}>
-                                                        <NearMeIcon className='text-[#234243]' />
-                                                    </IconButton>
+                                        <div className='bg-white shadow-md rounded-md dashboard-spending-limit'>
+                                            <div className='py-6 px-3 w-[90%] mx-auto'>
+                                                <div className='spacing-y-3 mb-8'>
+                                                    <h1 className='fourier text-xl font-bold'>Spending Limit</h1>
+                                                    <p className="text-gray-400 text-sm font-bold">Daily Transaction Limit</p>
                                                 </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div className='bg-white shadow-md rounded-md dashboard-spending-limit'>
-                                        <div className='py-6 px-3 w-[90%] mx-auto'>
-                                            <div className='spacing-y-3 mb-8'>
-                                                <h1 className='fourier text-xl font-bold'>Spending Limit</h1>
-                                                <p className="text-gray-400 text-sm font-bold">Daily Transaction Limit</p>
-                                            </div>
-                                            <div className='py-2'>
-                                                <BorderLinearProgress variant="determinate" value={10} />
-                                            </div>
-                                            <div className='flex justify-between items-center'>
-                                                <p className='text-sm font-bold'>
-                                                    <span className='text-[#f10707]'>$199</span>
-                                                    <span className='text-[#9aa3ae]'> spent out of </span>
-                                                    <span className='text-[#234243]'>$2,4000</span>
-                                                </p>
-                                                <p className='text-sm font-bold'>10%</p>
+                                                <div className='py-2'>
+                                                    <BorderLinearProgress variant="determinate" value={10} />
+                                                </div>
+                                                <div className='flex justify-between items-center'>
+                                                    <p className='text-sm font-bold'>
+                                                        <span className='text-[#f10707]'>$199</span>
+                                                        <span className='text-[#9aa3ae]'> spent out of </span>
+                                                        <span className='text-[#234243]'>$2,4000</span>
+                                                    </p>
+                                                    <p className='text-sm font-bold'>10%</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className='bg-white shadow-md rounded-md dashboard-spending-limit'>
-                                        <div className='py-6 px-3 w-[90%] mx-auto'>
-                                            <div className='spacing-y-3 mb-8'>
-                                                <h1 className='fourier font-bold'>OutCome Statistics</h1>
-                                                {/* <p className="py-2 text-sm text-gray-400">DAILY TRANSACTION LIMIT</p> */}
-                                            </div>
-                                            <div className='py-2'>
-                                                <BorderLinearProgress variant="determinate" value={50} />
-                                            </div>
-                                            <div className='flex justify-between items-center font-bold'>
-                                                <p className='text-[#234243] text-sm'>Withdrawals</p>
-                                                <p className='text-sm font-bold'>20</p>
+                                        <div className='bg-white shadow-md rounded-md dashboard-spending-limit'>
+                                            <div className='py-6 px-3 w-[90%] mx-auto'>
+                                                <div className='spacing-y-3 mb-8'>
+                                                    <h1 className='fourier font-bold'>OutCome Statistics</h1>
+                                                    {/* <p className="py-2 text-sm text-gray-400">DAILY TRANSACTION LIMIT</p> */}
+                                                </div>
+                                                <div className='py-2'>
+                                                    <BorderLinearProgress variant="determinate" value={50} />
+                                                </div>
+                                                <div className='flex justify-between items-center font-bold'>
+                                                    <p className='text-[#234243] text-sm'>Withdrawals</p>
+                                                    <p className='text-sm font-bold'>20</p>
+                                                </div>
                                             </div>
                                         </div>
+                                    </Stack>
+                                </Grid>
+                                <Grid item xs={12} md={8}>
+                                    <div className='px-2'>
+                                        <Grid container spacing={3}>
+                                            <Grid item xs={3}>
+                                                <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
+                                                    <div className='overlay'></div>
+                                                    <div className="p-2 w-[90%] mx-auto">
+                                                        <div className='space-y-3 flex flex-col items-start justify-start'>
+                                                            {/* <IconButton> */}
+                                                            <div className='content'>
+                                                                <AttachMoneyIcon className='text-[#234243]' />
+                                                            </div>
+                                                            {/* </IconButton> */}
+                                                            <div className='pt-8'>
+                                                                <h2 className='text-sm text-gray-400 font-bold'>Income</h2>
+                                                                <h1 className='font-bold fourier'>${matrics.income || 0}</h1>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
+                                                    <div className='overlay'></div>
+                                                    <div className="p-2 w-[90%] mx-auto">
+                                                        <div className='space-y-3 flex flex-col items-start justify-start'>
+                                                            <div className='content'>
+                                                                <LinkIcon className='text-[#234243]' />
+                                                            </div>
+                                                            <div className='pt-8'>
+                                                                <h2 className='text-sm text-gray-400 font-bold'>Payment Links</h2>
+                                                                <h1 className='font-bold fourier'>{matrics.paymentLinkCount || 0}</h1>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
+                                                    <div className='overlay'></div>
+                                                    <div className="p-2 w-[90%] mx-auto">
+                                                        <div className='space-y-3 flex flex-col items-start justify-start'>
+                                                            <div className='content'>
+                                                                <PaidIcon className='text-[#234243]' />
+                                                            </div>
+                                                            <div className='pt-8'>
+                                                                <h2 className='text-sm text-gray-400 font-bold'>Payments</h2>
+                                                                <h1 className='font-bold fourier'>{matrics.paymentCount || 0}</h1>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
+                                                    <div className='overlay'></div>
+                                                    <div className="p-2 w-[90%] mx-auto">
+                                                        <div className='space-y-3 flex flex-col items-start justify-start'>
+                                                            <div className='content'>
+                                                                <PaymentsIcon className='text-[#234243]' />
+                                                            </div>
+                                                            <div className='pt-8'>
+                                                                <h2 className='text-sm text-gray-400 font-bold'>Withdrawal</h2>
+                                                                <h1 className='font-bold fourier'>${matrics.withdrawal || 0}</h1>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Grid>
 
+
+                                        </Grid>
                                     </div>
-                                </Stack>
-                            </Grid>
-                            <Grid item xs={12} md={8}>
-                                <div className='px-2'>
-                                    <Grid container spacing={3}>
-                                        <Grid item xs={3}>
-                                            <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
-                                                <div className='overlay'></div>
-                                                <div className="p-2 w-[90%] mx-auto">
-                                                    <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                        {/* <IconButton> */}
-                                                        <div className='content'>
-                                                            <AttachMoneyIcon className='text-[#234243]' />
-                                                        </div>
-                                                        {/* </IconButton> */}
-                                                        <div className='pt-8'>
-                                                            <h2 className='text-sm text-gray-400 font-bold'>Income</h2>
-                                                            <h1 className='font-bold fourier'>${matrics.income || 0}</h1>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </Grid>
-
-                                        <Grid item xs={3}>
-                                            <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
-                                                <div className='overlay'></div>
-                                                <div className="p-2 w-[90%] mx-auto">
-                                                    <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                        <div className='content'>
-                                                            <LinkIcon className='text-[#234243]' />
-                                                        </div>
-                                                        <div className='pt-8'>
-                                                            <h2 className='text-sm text-gray-400 font-bold'>Payment Links</h2>
-                                                            <h1 className='font-bold fourier'>{matrics.paymentLinkCount || 0}</h1>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-
-                                        </Grid>
-                                        
-                                        <Grid item xs={3}>
-                                            <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
-                                                <div className='overlay'></div>
-                                                <div className="p-2 w-[90%] mx-auto">
-                                                    <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                        <div className='content'>
-                                                            <PaidIcon className='text-[#234243]' />
-                                                        </div>
-                                                        <div className='pt-8'>
-                                                            <h2 className='text-sm text-gray-400 font-bold'>Payments</h2>
-                                                            <h1 className='font-bold fourier'>{matrics.paymentCount || 0}</h1>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-
-                                        </Grid>
-                                        <Grid item xs={3}>
-                                            <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
-                                                <div className='overlay'></div>
-                                                <div className="p-2 w-[90%] mx-auto">
-                                                    <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                        <div className='content'>
-                                                            <PaymentsIcon className='text-[#234243]' />
-                                                        </div>
-                                                        <div className='pt-8'>
-                                                            <h2 className='text-sm text-gray-400 font-bold'>Withdrawal</h2>
-                                                            <h1 className='font-bold fourier'>${matrics.withdrawal || 0}</h1>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </Grid>
-                                        
-
-                                    </Grid>
-                                </div>
-                                <div className="px-3 pt-8">
-                                    <h2 className='font-bold fourier text-xl'>Recent Links</h2>
-                                    <div className='py-2 dashboard-payment-link'>
-                                        <List>
-                                            {
-                                                tables.recentPaymentLinks ? 
-                                                tables.recentPaymentLinks.map(
-                                                    (each, index) => (
-                                                        <div key={index}>
-                                                            <ListItem disablePadding alignItems="flex-center" onClick={()=>Payments(each)}>
-                                                                <ListItemButton>
-                                                                    <div className='py-1 w-full'>
-                                                                        <Grid container spacing={3}>
-                                                                            <Grid item xs={7}>
-                                                                                <div>
-                                                                                    <h2 className='font-bold'>{each.name}</h2>
-                                                                                    <small className='text-sm text-gray-400' style={{fontSize: '80%'}}>
-                                                                                        {each.link}
-                                                                                    </small>
-                                                                                </div>
-                
-                                                                            </Grid>
-                                                                            <Grid item xs={2}>
-                                                                                <div className='set-item-center'>
-                                                                                    <h2 className='font-bold'>$ {each.amount}</h2>
-                                                                                </div>
-                
-                                                                            </Grid>
-                                                                            <Grid item xs={3}>
-                                                                                <div className='set-item-center'>
-                                                                                    <small className='text-sm text-[#f10707] status-pill'>{each.status}{each.expires_at ? ` - ${
-                                                                                        moment(each.expires_at).format('MMM DD, YYYY')
-                                                                                    }` : ''}</small>
-                                                                                </div>
-                
-                                                                            </Grid>
-                
-                
-                                                                        </Grid>
-                                                                    </div>
-                                                                </ListItemButton>
-                
-                                                            </ListItem>
-                                                        </div>
-                                                    )
-                                                ) : ''
-                                            }
-                                        </List>
-                                    </div>
-
-                                </div>
-
-
-                                <div className='pt-4 px-3'>
-                                    <div className=''>
-                                        <h1 className='fourier font-bold text-xl'>Recent Payments</h1>
-                                        <div className='py-2'>
+                                    <div className="px-3 pt-8">
+                                        <h2 className='font-bold fourier text-xl'>Recent Links</h2>
+                                        <div className='py-2 dashboard-payment-link'>
                                             <List>
+                                                {
+                                                    tables.recentPaymentLinks ?
+                                                        tables.recentPaymentLinks.map(
+                                                            (each, index) => (
+                                                                <div key={index}>
+                                                                    <ListItem disablePadding alignItems="flex-center" onClick={() => Payments(each)}>
+                                                                        <ListItemButton>
+                                                                            <div className='py-1 w-full'>
+                                                                                <Grid container spacing={3}>
+                                                                                    <Grid item xs={7}>
+                                                                                        <div>
+                                                                                            <h2 className='font-bold'>{each.name}</h2>
+                                                                                            <small className='text-sm text-gray-400' style={{ fontSize: '80%' }}>
+                                                                                                {each.link}
+                                                                                            </small>
+                                                                                        </div>
 
-                                            {
-                                                tables.recentPayments ? 
-                                                tables.recentPayments.map(
-                                                    (each, index) => (
-                                                        <div key={index}>
-                                                            <ListItem disablePadding alignItems="flex-center"onClick={()=>recentPay(each)}>
-                                                                <ListItemButton>
-                                                                    <Grid container spacing={3}>
-                                                                        <Grid item xs={4}>
-                                                                            <h2 className='text-sm font-bold'>{each.payment_link_id.name}</h2>
-                                                                            <small className='text-sm text-gray-400'>{each.transaction_id.reference}</small>
-                                                                        </Grid>
-                                                                        <Grid item xs={4}>
-                                                                            <div className="text-left">
-                                                                                <p className='py-2 px-2 rounded-lg text-sm font-bold'>{each.unique_answer || 'N/A'}</p>
+                                                                                    </Grid>
+                                                                                    <Grid item xs={2}>
+                                                                                        <div className='set-item-center'>
+                                                                                            <h2 className='font-bold'>$ {each.amount}</h2>
+                                                                                        </div>
+
+                                                                                    </Grid>
+                                                                                    <Grid item xs={3}>
+                                                                                        <div className='set-item-center'>
+                                                                                            <small className='text-sm text-[#f10707] status-pill'>{each.status}{each.expires_at ? ` - ${moment(each.expires_at).format('MMM DD, YYYY')
+                                                                                                }` : ''}</small>
+                                                                                        </div>
+
+                                                                                    </Grid>
+
+
+                                                                                </Grid>
                                                                             </div>
-                                                                        </Grid>
-                                                                        <Grid item xs={2}>
-                                                                            <h2 className='text-sm font-bold text-left'>${each.amount}</h2>
-                                                                        </Grid>
-                                                                        <Grid item xs={2}>
-                                                                            <div className="text-left">
-                                                                                <p className={each.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{each.status}</p>
-                                                                            </div>
-                                                                        </Grid>
-                                                                    </Grid>
-                                                                    {/* <ListItemText>
+                                                                        </ListItemButton>
+
+                                                                    </ListItem>
+                                                                </div>
+                                                            )
+                                                        ) : (
+                                                            <div>
+                                                                <Stack spacing={3}>
+                                                                    <Skeleton variant="rectangular" width={"80%"} height={60} />
+                                                                    <Skeleton variant="rounded" width={"80%"} height={60} />
+                                                                </Stack>
+                                                            </div>
+                                                        )
+                                                }
+                                            </List>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div className='pt-4 px-3'>
+                                        <div className=''>
+                                            <h1 className='fourier font-bold text-xl'>Recent Payments</h1>
+                                            <div className='py-2'>
+                                                <List>
+
+                                                    {
+                                                        tables.recentPayments ?
+                                                            tables.recentPayments.map(
+                                                                (each, index) => (
+                                                                    <div key={index}>
+                                                                        <ListItem disablePadding alignItems="flex-center" onClick={() => recentPay(each)}>
+                                                                            <ListItemButton>
+                                                                                <Grid container spacing={3}>
+                                                                                    <Grid item xs={4}>
+                                                                                        <h2 className='text-sm font-bold'>{each.payment_link_id.name}</h2>
+                                                                                        <small className='text-sm text-gray-400'>{each.transaction_id.reference}</small>
+                                                                                    </Grid>
+                                                                                    <Grid item xs={4}>
+                                                                                        <div className="text-left">
+                                                                                            <p className='py-2 px-2 rounded-lg text-sm font-bold'>{each.unique_answer || 'N/A'}</p>
+                                                                                        </div>
+                                                                                    </Grid>
+                                                                                    <Grid item xs={2}>
+                                                                                        <h2 className='text-sm font-bold text-left'>${each.amount}</h2>
+                                                                                    </Grid>
+                                                                                    <Grid item xs={2}>
+                                                                                        <div className="text-left">
+                                                                                            <p className={each.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{each.status}</p>
+                                                                                        </div>
+                                                                                    </Grid>
+                                                                                </Grid>
+                                                                                {/* <ListItemText>
                                                                         <h2 className='text-sm font-bold'>{each.payment_link_id.name}</h2>
                                                                         <small className='text-sm text-gray-400'>{each.transaction_id.reference}</small>
                                                                     </ListItemText>
@@ -437,28 +423,38 @@ const Dashboard = () => {
                                                                         </div>
 
                                                                     </ListItemText> */}
-                                                                </ListItemButton>
-                                                            </ListItem>
-                                                        </div>
-                                                    )
-                                                ) : ''
-                                            }
+                                                                            </ListItemButton>
+                                                                        </ListItem>
+                                                                    </div>
+                                                                )
+                                                            ) : (
+                                                                <div>
+                                                                    <Stack spacing={3}>
+                                                                        <Skeleton variant="rectangular" width={"80%"} height={60} />
+                                                                        <Skeleton variant="rounded" width={"80%"} height={60} />
+                                                                    </Stack>
+                                                                </div>
+                                                            )
+                                                    }
 
-                                            </List>
+                                                </List>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
 
+                                </Grid>
                             </Grid>
-                        </Grid>
 
+                        </div>
                     </div>
-                </div>
-            </DashboardLayout>
+                </DashboardLayout>
+
+            </div>
+
             <PaymentDrawer state={state} setState={setState} toggleDrawer={toggleDrawer} />
-            <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose}/>
-            <RecentModal opened={opened} setOpened={setOpened} handleOpened={handleOpened} handleCloseed={handleCloseed} recentPayment={recentPayment}/>
+            <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} />
+            <RecentModal opened={opened} setOpened={setOpened} handleOpened={handleOpened} handleCloseed={handleCloseed} recentPayment={recentPayment} />
         </>
     )
 }

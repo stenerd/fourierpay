@@ -156,8 +156,10 @@ const MakePayment = () => {
     }
     
     const makePaymentHandler = async (e) => {
+
         e.preventDefault()
         e.stopPropagation()
+        setLoading(true)
         const check = validateInput()
         if (!check) {
             setLoading(false)
@@ -177,14 +179,8 @@ const MakePayment = () => {
 
             setTimeout(() => {
                 paystackButtonRef.current.click()
-            }, 2000);
-
-            
-
-            
-
-            setLoading(false)
-
+               
+            }, 2000);      
             // console.log('done successfully')
             // ref.current.open();
             // setLoading(false)
@@ -198,6 +194,7 @@ const MakePayment = () => {
             //     progress: undefined,
             //     theme: "light",
             // });
+             setLoading(false)
         } catch (error) {
             console.log(error.response.data.message)
             toast.error(error.response.data.message)
@@ -277,7 +274,7 @@ const MakePayment = () => {
                                         </div> */} 
                                         <div className='py-4'>
                                             <button disabled={loading?true:false} className='c-primary-button'  onClick={(e) => makePaymentHandler(e)}>
-                                                {loading ? 'Paying...' : 'Make Payment'}
+                                                {loading ? 'Processing.....' : 'Make Payment'}
                                             </button>
 
                                             <PaystackConsumer 
