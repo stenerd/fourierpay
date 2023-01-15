@@ -16,22 +16,33 @@ function createData(Description, Customer, Amount, Payment, Status) {
   return { Description, Customer, Amount, Payment, Status };
 }
 
-export default function TransactionTable({transactions}) {
+export default function TransactionTable({ transactions }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [recentTransaction,setRecentTransaction ] = React.useState()
+  const [recentTransaction, setRecentTransaction] = React.useState()
+  const [search, setSearch] = React.useState('');
+
+  const handleChange = e => {
+    e.preventDefault()
+    console.log(e)
+    setSearch(e.target.value);
+  };
+
+  const filteredTransaction = transactions.filter(transaction =>
+    transaction?.status?.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <>
       <div className='flex justify-between mb-4'>
-          <div className='w-[20%]'>
-              <input placeholder='Search' style={{backgroundColor: '#f8faf7'}} name='q' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
-          </div>
-          <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />}>
-              Filter
-          </Button>
+        <div className='w-[20%]'>
+          <input placeholder='Search' style={{ backgroundColor: '#f8faf7' }} onChange={handleChange} type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+        </div>
+        <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />}>
+          Filter
+        </Button>
       </div>
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -47,14 +58,15 @@ export default function TransactionTable({transactions}) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {transactions.map((row, index) => (
+            {filteredTransaction.map((row, index) => (
               <TableRow
                 key={index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 className="hover:bg-gray-100 cursor-pointer"
-                onClick={() =>{
+                onClick={() => {
                   console.log(row)
                   setRecentTransaction(row)
+                  console.log(row)
                   handleOpen()
                 }}
               >
@@ -70,20 +82,20 @@ export default function TransactionTable({transactions}) {
                 </TableCell>
                 <TableCell>
                   <div className="text-left">
-                      <p className={(row.type === 'credit') ? 'py-2 px-2 rounded-lg text-sm text-[#00bf00] font-bold' : 'py-2 px-2 rounded-lg text-sm text-[#f10506] font-bold'}>{row.type}</p>
+                    <p className={(row.type === 'credit') ? 'py-2 px-2 rounded-lg text-sm text-[#00bf00] font-bold' : 'py-2 px-2 rounded-lg text-sm text-[#f10506] font-bold'}>{row.type}</p>
                   </div>
                 </TableCell>
                 <TableCell>
-                <div className="text-left">
+                  <div className="text-left">
                     <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{row.status}</p>
-                </div>              
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <TransactionModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} recentTransaction={recentTransaction}/>
+      <TransactionModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} recentTransaction={recentTransaction} />
     </>
 
   );
