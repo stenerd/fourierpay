@@ -11,6 +11,12 @@ import NearMeIcon from '@mui/icons-material/NearMe';
 import { LinearProgress } from '@mui/material'
 import PaymentTable from '../components/PaymentTable'
 import Protected from '../utils/axios';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import PaidIcon from '@mui/icons-material/Paid';
+import LinkIcon from '@mui/icons-material/Link';
+import PaymentsIcon from '@mui/icons-material/Payments';
+
+
 
 
 const SinglePaymentLink = () => {
@@ -32,8 +38,8 @@ const SinglePaymentLink = () => {
 
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-        height: 3,
-        borderRadius: 0,
+        height: 25,
+        borderRadius: 10,
         [`&.${linearProgressClasses.colorPrimary}`]: {
             backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
         },
@@ -60,7 +66,103 @@ const SinglePaymentLink = () => {
                     {
                         data.paymentLink ? (
                             <div className='w-[90%] mx-auto py-6' >
-                                <Grid container>
+                                <Grid container className='mb-8'>
+                                    <Grid item xs={12} md={5}>
+                                        <div>
+                                            <div className='font-bold'>Description:</div>
+                                            <div className='pl-16 italic text-gray-500'>{data.paymentLink.description}</div>
+                                        </div>
+                                        <div className='flex space-x-2 items-center mt-4'>
+                                            <IconButton><ContentPasteIcon /></IconButton>
+                                            <h2 className='break-all text-[13px] text-[#234243] font-bold'>{data.paymentLink.link}</h2>
+                                        </div>
+                                        <div>
+                                            {
+                                                data.paymentLink.expected_number_of_payments ? (
+                                                    <div className='pb-2 w-[90%] rounded-lg'>
+                                                        <BorderLinearProgress variant="determinate" value={((9000 / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100) > 100 ? 100 : ((9000 / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100)} />
+                                                    </div>
+                                                ) : ''
+                                            }
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={12} md={7}>
+                                        <div className='create-payment-details p-8'>
+                                            <Grid container spacing={3}>
+                                                <Grid item xs={3}>
+                                                    <div className='bg-white py-2 rounded-md dashboard-matrix'>
+                                                        <div className='overlay'></div>
+                                                        <div className="p-2 w-[90%] mx-auto">
+                                                            <div className='space-y-3 flex flex-col items-start justify-start'>
+                                                                {/* <IconButton> */}
+                                                                <div className='content'>
+                                                                    <AttachMoneyIcon className='text-[#234243]' />
+                                                                </div>
+                                                                {/* </IconButton> */}
+                                                                <div className='pt-8'>
+                                                                    <h2 className='text-sm text-gray-400 font-bold'>Expected Amount</h2>
+                                                                    <h1 className='font-bold fourier'>${data.paymentLink.amount * data.paymentLink.expected_number_of_payments}</h1>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                    <div className='bg-white py-2 rounded-md dashboard-matrix'>
+                                                        <div className='overlay'></div>
+                                                        <div className="p-2 w-[90%] mx-auto">
+                                                            <div className='space-y-3 flex flex-col items-start justify-start'>
+                                                                <div className='content'>
+                                                                    <LinkIcon className='text-[#234243]' />
+                                                                </div>
+                                                                <div className='pt-8'>
+                                                                    <h2 className='text-sm text-gray-400 font-bold'>Amount Per Payment</h2>
+                                                                    <h1 className='font-bold fourier'>${data.paymentLink.amount}</h1>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                    <div className='bg-white py-2 rounded-md dashboard-matrix'>
+                                                        <div className='overlay'></div>
+                                                        <div className="p-2 w-[90%] mx-auto">
+                                                            <div className='space-y-3 flex flex-col items-start justify-start'>
+                                                                <div className='content'>
+                                                                    <PaidIcon className='text-[#234243]' />
+                                                                </div>
+                                                                <div className='pt-8'>
+                                                                    <h2 className='text-sm text-gray-400 font-bold'>Recieved Payment</h2>
+                                                                    <h1 className='font-bold fourier'>${9000}</h1>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                    <div className='bg-white py-2 rounded-md dashboard-matrix'>
+                                                        <div className='overlay'></div>
+                                                        <div className="p-2 w-[90%] mx-auto">
+                                                            <div className='space-y-3 flex flex-col items-start justify-start'>
+                                                                <div className='content'>
+                                                                    <PaymentsIcon className='text-[#234243]' />
+                                                                </div>
+                                                                <div className='pt-8'>
+                                                                    <h2 className='text-sm text-gray-400 font-bold'>Number Of Recipient</h2>
+                                                                    <h1 className='font-bold fourier'>{42}</h1>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Grid>
+
+
+                                            </Grid>
+                                        </div>
+                                    </Grid>
+                                </Grid>
+
+                                {/* <Grid container>
                                     <Grid item xs={12} md={6}>
                                         <div className='bg-[#f8faf7] h-full cursor-pointer border-dotted border-2 rounded-lg py-3 px-3'>
                                             <div className='p-4'>
@@ -115,7 +217,8 @@ const SinglePaymentLink = () => {
                                             </div>
                                         </div>
                                     </Grid>
-                                </Grid>
+                                </Grid> */}
+                                
                                 {data.payments.length===0?(
                                     <>
                                        <div className='flex justify-center items-center h-[30vh]'>

@@ -6,7 +6,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 const Footer = () => {
     return (
         <>
-            <div className='py-6 bg-[#1f332b]'>
+            <div className='py-6 bg-[#ebefe6]'>
                 {/* <div className='py-6 flex justify-between items-start'>
              <div className='w-4/5 mx-auto'>
                 <div className='flex justify-between items-center gap-3'>

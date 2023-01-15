@@ -105,7 +105,7 @@ const PaymentLinks = () => {
                                                     <div className='p-4'>
                                                         <div className=''>
                                                             <div className='flex justify-between'>
-                                                                <h2 className='fourier text-2xl text-[#234243] font-bold hover:text-blue-500 cursor-pointer' onClick={() => Payments(link)}>{link.name}</h2>
+                                                                <h2 className='fourier text-2xl text-[#234243] max-w-[60%] font-bold hover:text-blue-500 cursor-pointer' onClick={() => Payments(link)}>{link.name}</h2>
                                                                 <small className='text-sm text-[#00bf00] status-pill'>{link.status} {link.expires_at && `- ${moment(link.expires_at).format('MMMM DD, YYYY')}`}</small>
                                                             </div>
                                                             {/* <button onClick={setCopied}>
