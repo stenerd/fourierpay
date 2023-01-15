@@ -219,9 +219,16 @@ const SinglePaymentLink = () => {
                                     </Grid>
                                 </Grid> */}
                                 
-                                <div className='py-6'>
+                                {data.payments.length===0?(
+                                    <>
+                                       <div className='flex justify-center items-center h-[30vh]'>
+                                            <h2 className='text-center text-2xl'>No  Payments made yet</h2>
+                                       </div> 
+                                    </>
+                                ):( <div className='py-6'>
                                     <PaymentTable data={data} />
-                                </div>
+                                </div>)}
+                               
                             </div>
                         ): ''
                     }

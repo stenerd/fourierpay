@@ -248,3 +248,11 @@
     width: 1.6rem;
     height: 1.6rem;
 }
+
+.c-comment-bar{
+    width: 10%;
+    height: 0.5rem;
+    background: white;
+    border-radius: 0.4rem;
+    margin-bottom: 2rem;
+}

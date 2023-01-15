@@ -10,20 +10,32 @@ import TransactionModal from './TrnsactionModal';
 import { Button } from '@mui/material'
 import TuneIcon from '@mui/icons-material/Tune';
 import moment from 'moment'
+import SinglePaymentModal from './SinglePaymentModal';
 
 
 export default function PaymentTable({data}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [search,setSearch] = React.useState("")
 
-  const [recentTransaction,setRecentTransaction ] = React.useState()
+  const handleChange = e => {
+    e.preventDefault()
+    console.log(e)
+    setSearch(e.target.value);
+  };
+
+  const filteredPayments = data?.payments?.filter(payment =>
+    payment?.unique_answer?.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const [recentPayment,setRecentPayment ] = React.useState()
 
   return (
     <>
       <div className='flex justify-between mb-4'>
           <div className='w-[20%]'>
-              <input placeholder='Search' style={{backgroundColor: '#f8faf7'}} name='q' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+              <input placeholder='Search' onChange={handleChange} style={{backgroundColor: '#f8faf7'}} name='q' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
           </div>
           <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />}>
               Filter
@@ -42,14 +54,14 @@ export default function PaymentTable({data}) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.payments.map((row, index) => (
+            {filteredPayments.map((row, index) => (
               <TableRow
                 key={index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 className="hover:bg-gray-100 cursor-pointer"
                 onClick={() =>{
                   console.log(row)
-                  setRecentTransaction(row)
+                  setRecentPayment(row)
                   handleOpen()
                 }}
               >
@@ -72,7 +84,8 @@ export default function PaymentTable({data}) {
           </TableBody>
         </Table>
       </TableContainer>
-      <TransactionModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} recentTransaction={recentTransaction}/>
+      {/* <TransactionModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} recentTransaction={recentTransaction}/> */}
+      <SinglePaymentModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} recentPayment={recentPayment}/>
     </>
 
   );

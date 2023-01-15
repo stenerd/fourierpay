@@ -2,6 +2,7 @@ import { Divider, Grid, IconButton } from '@mui/material'
 import React from 'react'
 import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import '../styles/section.css'
+import Footer from './Footer';
 const Section = () => {
     return (
         <>
@@ -9,23 +10,23 @@ const Section = () => {
                 <div className='pt-16 pb-16'>
                     <div className="w-4/5 mx-auto flex justify-between items-center">
                         <div>
-                            <h1 className='text-2xl text-center' style={{fontWeight: '900'}}>250K</h1>
+                            <h1 className='text-2xl text-center' style={{ fontWeight: '900' }}>250K</h1>
                             <p className='text-center font-bold text-gray-500'>Registared Business</p>
                         </div>
                         <div className='c-vertical-divider'></div>
                         <div>
-                            <h1 className='text-2xl text-center' style={{fontWeight: '900'}}>250M+</h1>
+                            <h1 className='text-2xl text-center' style={{ fontWeight: '900' }}>250M+</h1>
                             <p className='text-center font-bold text-gray-500'>Revenue Total</p>
                         </div>
                         <div className='c-vertical-divider'></div>
                         <div>
-                            <h1 className='text-2xl text-center' style={{fontWeight: '900'}}>85%</h1>
+                            <h1 className='text-2xl text-center' style={{ fontWeight: '900' }}>85%</h1>
                             <p className='text-center font-bold text-gray-500'>Revenue Growth</p>
                         </div>
                     </div>
                 </div>
                 <div className="py-8 divide-y-2 divide-gray-300">
-                  <Divider/>
+                    <Divider />
                 </div>
                 <div className='w-4/5 pt-4 pb-16 mx-auto flex justify-between items-center gap-3'>
                       <div className='flex-1'>
@@ -38,6 +39,7 @@ const Section = () => {
                       </div>
                 </div>
             </div>
+            
 
             <div className='pt-16 pb-16 bg-[#ebefe6] mx-auto'>
                 <div className='bg-[#ebefe6] w-[65%] mx-auto'>
@@ -116,6 +118,54 @@ const Section = () => {
                     </p>
                 </div>
             </div>
+
+            <div className='py-3 bg-[#1f332b]'>
+                <div className='py-20 flex justify-center items-center'>
+                    <div className='w-4/5 mx-auto'>
+                        <Grid container spacing={3} alignItems='center' justifyContent='space-between'>
+                            <Grid item xs={12} md={7}>
+                                <div className='c-comment-bar'></div>
+                                <div className='w-4/5'>
+                                    {/* <div className='flex justify-start px-4 items-start'>
+                                        <div className='h-1 w-10 bg-gray-500'></div>
+                                    </div> */}
+                                    <h2 className='py-4 text-white font-bold text-[30px]' style={{lineHeight: '1.725'}}>" Fourierpay enabled me to create an account with just a few clicks, make payments in minutes, not days or weeks, easily find the most current details about my account and track all of my transactions in one place.</h2>
+                                    {/* <div className='flex justify-end px-4 items-end'>
+                                        <div className='h-1 w-10 bg-gray-500'></div>
+                                    </div> */}
+                                    <p className='text-right italic text-white'>
+                                     _Ochuko Okpako 
+                                    </p>
+
+                                </div>
+                            </Grid>
+                            <Grid item xs={12} md={5} >
+                                <div className='py-3'>
+                                    <img src="/images/ochuko.png" className='w-full h-[500px] object-cover' />
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </div>
+                </div>
+            </div>
+            {/* <div className='py-8'>
+                <div className='flex justify-center items-center'>
+                    <div className='py-6'>
+                        <h2 className='text-4xl'>Subscribe to Our NewsLetter</h2>
+                        <div className='py-6'>
+                            <input placeholder='Enter Email' name='confirm_password' required type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                        </div>
+                        <div>
+                            <button className='c-primary-button'>
+                                    Submit
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div> */}
+
+            <Footer/>
 
         </>
     )
