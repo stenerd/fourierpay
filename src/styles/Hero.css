@@ -229,3 +229,22 @@
     color: #1f332b;
     font-size: 130%;
 }
+
+.c-how-it-works-icon .left{
+    position: absolute;
+    width: 1.6rem;
+    height: 1.6rem;
+    background: #1f332b;
+    border-radius: 50%;
+    left: 0;
+}
+
+.c-how-it-works-icon .right{
+    position: absolute;
+    left: 0.8rem;
+    border: 0.3rem solid #1f332b;
+    border-radius: 50%;
+    background: white;
+    width: 1.6rem;
+    height: 1.6rem;
+}
