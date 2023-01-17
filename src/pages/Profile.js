@@ -97,6 +97,7 @@ const Profile = () => {
     const [wallet, setWallet] = useState({})
     const [profileTables, setProfileTable] = useState({})
     const [beneficiaries, setBeneficiaries] = useState(beneficiary)
+    const [withdrawals, setWithdrawals] = useState([])
     const [singleTransaction, setSingleTransaction] = useState([])
     const dispatch = useDispatch()
     console.log(beneficiary)
@@ -108,12 +109,32 @@ const Profile = () => {
         setData(data)
         handleOpen3()
     }
+
+
+    const withdrawPopUpHandleClose = async () => {
+        await FetchWithdrawal()
+        await fetchWallet()
+        await fetchDashboardProfileTable()
+        handleClose()
+    }
+
     const FetchBeneficiary = async () => {
         try {
             const response = await Protected.get(`http://localhost:4000/api/beneficiary/view`)
             console.log(response.data.data)
             setBeneficiaries(response.data.data)
             dispatch(ADD_BENEFICIARY(response.data.data))
+
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+    const FetchWithdrawal = async () => {
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/withdrawal/profile`)
+            console.log('setWithdrawals >> ', response.data.data)
+            setWithdrawals(response.data.data)
 
         } catch (error) {
             console.log(error)
@@ -176,6 +197,7 @@ const Profile = () => {
         fetchBanks()
         fetchProfile()
         FetchBeneficiary()
+        FetchWithdrawal()
         fetchDashboardProfileTable()
     }, [])
 
@@ -194,7 +216,7 @@ const Profile = () => {
                                 <AutoFixHighIcon className="mx-2 mb-2 text-gray-500 fourier-profile-icon cursor-pointer" onClick={() => handleOpen5()} />
                             </div>
                         )}
-                        {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<small className='font-bold text-gray-500'>{profile?.email} | {profile?.phonenumber}</small>)}
+                        {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<small className='font-bold text-gray-500'>{profile?.email} {profile?.phonenumber ? `| ${profile?.phonenumber}` : ''}</small>)}
 
 
                     </div>
@@ -293,7 +315,7 @@ const Profile = () => {
                                             <div className='w-[90%] mx-auto'>
                                                 <div className='spacing-y-3 flex justify-between items-center'>
                                                     <div className='py-4'>
-                                                        <h1 className='fourier text-[20px] font-bold'>$ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>
+                                                        <h1 className='fourier text-[20px] font-bold'>₦ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>
                                                         <h3 className="text-gray-400 font-bold">Total Balance</h3>
                                                     </div>
                                                     <IconButton onClick={() => handleOpen()}>
@@ -358,115 +380,36 @@ const Profile = () => {
 
                                     <div className='py-2 dashboard-payment-link'>
                                         <List>
-                                            <ListItem disablePadding alignItems="flex-center" onClick={() => handleOpen4()}>
-                                                <ListItemButton>
-                                                    <div className='py-1 w-full'>
-                                                        <Grid container spacing={3}>
-                                                            <Grid item xs={6}>
-                                                                <div>
-                                                                    <h2 className='font-bold'>TO: PETER DRURY</h2>
-                                                                    <p className='text-sm text-gray-400 font-bold'>TMA9Khbat43aWcg | FIDELITY BANK (6234342211)</p>
+                                            {
+                                                withdrawals ? (
+                                                    withdrawals.map((each, index) => (
+                                                        <ListItem disablePadding alignItems="flex-center" onClick={() => handleOpen4()} key={index}>
+                                                            <ListItemButton>
+                                                                <div className='py-1 w-full'>
+                                                                    <Grid container spacing={3}>
+                                                                        <Grid item xs={6}>
+                                                                            <div>
+                                                                                <h2 className='font-bold'>TO: {each.name}</h2>
+                                                                                <p className='text-sm text-gray-400 font-bold'>{each.transaction_id.reference} | {each.bank_name} ({each.account_number})</p>
+                                                                            </div>
+                                                                        </Grid>
+                                                                        <Grid item xs={3}>
+                                                                            <div className='set-item-left'>
+                                                                                <h2 className='font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
+                                                                            </div>
+                                                                        </Grid>
+                                                                        <Grid item xs={3}>
+                                                                            <div className="text-left">
+                                                                            <p className={each.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{each.status}</p>
+                                                                            </div>
+                                                                        </Grid>
+                                                                    </Grid>
                                                                 </div>
-                                                            </Grid>
-                                                            <Grid item xs={3}>
-                                                                <div className='set-item-center'>
-                                                                    <h2 className='font-bold'>$ 4000</h2>
-                                                                </div>
-                                                            </Grid>
-                                                            <Grid item xs={3}>
-                                                                <div className="text-center">
-                                                                    <p className='py-2 px-2 rounded-lg text-sm status-paid'>paid</p>
-                                                                </div>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </div>
-                                                </ListItemButton>
-                                            </ListItem>
-                                            <ListItem disablePadding alignItems="flex-center" onClick={() => handleOpen4()}>
-                                                <ListItemButton>
-                                                    <div className='py-1 w-full'>
-                                                        <Grid container spacing={3}>
-                                                            <Grid item xs={6}>
-                                                                <div>
-                                                                    <h2 className='font-bold'>TO: PETER DRURY</h2>
-                                                                    <p className='text-sm text-gray-400 font-bold'>TMA9Khbat43aWcg | FIDELITY BANK (6234342211)</p>
-                                                                </div>
-
-                                                            </Grid>
-                                                            <Grid item xs={3}>
-                                                                <div className='set-item-center'>
-                                                                    <h2 className='font-bold'>$ 1000</h2>
-                                                                </div>
-
-                                                            </Grid>
-                                                            <Grid item xs={3}>
-                                                                <div className="text-center">
-                                                                    <p className='py-2 px-2 rounded-lg text-sm status-fail'>abandoned</p>
-                                                                </div>
-
-                                                            </Grid>
-                                                        </Grid>
-                                                    </div>
-                                                </ListItemButton>
-
-                                            </ListItem>
-
-                                            <ListItem disablePadding alignItems="flex-center" onClick={() => handleOpen4()}>
-                                                <ListItemButton>
-                                                    <div className='py-1 w-full'>
-                                                        <Grid container spacing={3}>
-                                                            <Grid item xs={6}>
-                                                                <div>
-                                                                    <h2 className='font-bold'>TO: PETER DRURY</h2>
-                                                                    <p className='text-sm text-gray-400 font-bold'>TMA9Khbat43aWcg | FIDELITY BANK (6234342211)</p>
-                                                                </div>
-
-                                                            </Grid>
-                                                            <Grid item xs={3}>
-                                                                <div className='set-item-center'>
-                                                                    <h2 className='font-bold'>$ 4000</h2>
-                                                                </div>
-
-                                                            </Grid>
-                                                            <Grid item xs={3}>
-                                                                <div className="text-center">
-                                                                    <p className='py-2 px-2 rounded-lg text-sm status-paid'>paid</p>
-                                                                </div>
-
-                                                            </Grid>
-
-
-                                                        </Grid>
-                                                    </div>
-                                                </ListItemButton>
-
-                                            </ListItem>
-
-                                            <ListItem disablePadding alignItems="flex-center" onClick={() => handleOpen4()}>
-                                                <ListItemButton>
-                                                    <div className='py-1 w-full'>
-                                                        <Grid container spacing={3}>
-                                                            <Grid item xs={6}>
-                                                                <div>
-                                                                    <h2 className='font-bold'>TO: PETER DRURY</h2>
-                                                                    <p className='text-sm text-gray-400 font-bold'>TMA9Khbat43aWcg | FIDELITY BANK (6234342211)</p>
-                                                                </div>
-
-                                                            </Grid>
-                                                            <Grid item xs={3}>
-                                                                <div className='set-item-center'>
-                                                                    <h2 className='font-bold'>$ 4000</h2>
-                                                                </div>
-                                                            </Grid>
-                                                            <Grid item xs={3}>
-                                                                <div className="text-center">
-                                                                    <p className='py-2 px-2 rounded-lg text-sm status-fail'>abandoned</p>
-                                                                </div>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </div>
-                                                </ListItemButton>
-                                            </ListItem>
+                                                            </ListItemButton>
+                                                        </ListItem>
+                                                    ))
+                                                ) : ''
+                                            }
                                         </List>
                                     </div>
                                 </div>
@@ -487,11 +430,11 @@ const Profile = () => {
 
                                                                 <Grid container spacing={3}>
                                                                     <Grid item xs={3}>
-                                                                        <h2 className='text-sm font-bold uppercase'>{trnx.entity}</h2>
+                                                                        <h2 className='text-sm font-bold uppercase'>{trnx.in_entity}</h2>
                                                                         <small className='text-sm text-gray-400'>{trnx.reference}</small>
                                                                     </Grid>
                                                                     <Grid item xs={4}>
-                                                                        <h2 className='text-sm font-bold text-center py-2 px-2'>${trnx.amount}</h2>
+                                                                        <h2 className='text-sm font-bold text-center py-2 px-2'>₦ {Intl.NumberFormat('en-US').format(trnx.amount || 0)}</h2>
                                                                     </Grid>
                                                                     <Grid item xs={3}>
                                                                         <div className="text-left">
@@ -533,7 +476,7 @@ const Profile = () => {
             <WithdrawalModal open2={open2} handleOpen2={handleOpen2} handleClose2={handleClose2} setOpen2={setOpen2} bankList={bankList} FetchBeneficiary={FetchBeneficiary} />
             <BenificiaryModal open3={open3} setOpen3={setOpen3} handleOpen3={handleOpen3} handleClose3={handleClose3} data={data} beneficiaries={beneficiaries} setBeneficiaries={setBeneficiaries} />
             <RecentWithDrawalModal open4={open4} setOpen4={setOpen4} handleOpen4={handleOpen4} handleClose4={handleClose4} />
-            <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} />
+            <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={withdrawPopUpHandleClose} />
             <SingleTransactionModal open7={open7} setOpen7={setOpen7} handleOpen7={handleOpen7} handleClose7={handleClose7} singleTransaction={singleTransaction} />
         </>
     )

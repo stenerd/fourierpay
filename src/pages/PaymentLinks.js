@@ -82,7 +82,7 @@ const PaymentLinks = () => {
                     <h2 className='fourier font-bold'>Payment Links</h2>
                     <div>
                         <Link to="/dashboard/payment">
-                            <button className='px-4 py-2 rounded-md text-white bg-[#234243]'>Create Payment</button>
+                            <button className='px-4 py-2 rounded-sm font-medium text-white bg-[#234243]'>Create Payment</button>
                         </Link>
                     </div>
                 </Titlebar>
@@ -117,18 +117,18 @@ const PaymentLinks = () => {
                                                                         (
                                                                             <div>
                                                                                 <h2 className='text-sm text-gray-400 font-bold'>Expected</h2>
-                                                                                <h1 className='text-2xl font-bold '>${link.amount * link.expected_number_of_payments}</h1>
+                                                                                <h1 className='text-2xl font-bold '>₦ {Intl.NumberFormat('en-US').format(link.amount * link.expected_number_of_payments || 0)}</h1>
                                                                             </div>
                                                                         )
                                                                         : ''
                                                                     }
-                                                                    <div>
+                                                                    {/* <div>
                                                                         <h2 className='text-sm text-gray-400 font-bold'>Total Balance</h2>
                                                                         <h1 className='text-2xl font-bold'>$90000</h1>
-                                                                    </div>
+                                                                    </div> */}
                                                                     <div>
                                                                         <h2 className='text-sm text-gray-400 font-bold'>Amount</h2>
-                                                                        <h1 className='text-2xl font-bold'>${link.amount}</h1>
+                                                                        <h1 className='text-2xl font-bold'>₦ {Intl.NumberFormat('en-US').format(link.amount || 0)}</h1>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -146,7 +146,7 @@ const PaymentLinks = () => {
                                                                         <h2 className='break-all text-[13px]' ref={inputRef}>{link.link}</h2>
                                                                     </div>
                                                                 </div>
-                                                                {
+                                                                {/* {
                                                                     link.expected_number_of_payments ? (
                                                                         <div className='pb-2'>
                                                                             <BorderLinearProgress variant="determinate" value={((90000 / (link.amount * link.expected_number_of_payments)) * 100) > 100 ? 100 : ((90000 / (link.amount * link.expected_number_of_payments)) * 100)} />
@@ -155,7 +155,7 @@ const PaymentLinks = () => {
                                                                 }
                                                                 <div>
                                                                     <h2 className="pb-3 text-gray-400 font-bold">42 reciepients</h2>
-                                                                </div>
+                                                                </div> */}
 
                                                             </div>
                                                         </div>

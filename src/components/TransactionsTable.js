@@ -32,7 +32,7 @@ export default function TransactionTable({ transactions }) {
   console.log(transactions)
 
   const filteredTransaction = transactions.filter(transaction =>
-    transaction?.entity_id?.unique_answer?.toLowerCase().includes(search.toLowerCase())
+    (transaction.in_entity === 'Payment') ? transaction?.in_entity_id?.unique_answer?.toLowerCase().includes(search.toLowerCase()) : true
   );
 
   return (
@@ -72,14 +72,14 @@ export default function TransactionTable({ transactions }) {
                 }}
               >
                 <TableCell component="th" scope="row" style={{ fontWeight: '700' }} >
-                  <h2 className='font-bold uppercase'>{row.entity === 'Wallet' ? 'Wallet Funding' : row.entity}</h2>
-                  <small className='text-gray-400'>{row.entity === 'Payment' ? row.entity_id.unique_answer : ''}</small>
+                  <h2 className='font-bold uppercase'>{row.in_entity}</h2>
+                  <small className='text-gray-400'>{row.in_entity === 'Payment' ? row.in_entity_id.unique_answer : ''}</small>
                 </TableCell>
                 <TableCell className='text-gray-400'>{row.reference}</TableCell>
                 <TableCell>{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
                 <TableCell>{moment(row.createdAt).format('hh:mm:ss A')}</TableCell>
                 <TableCell>
-                  <p className='font-bold'>$ {Intl.NumberFormat('en-US').format(row.amount || 0)}</p>
+                  <p className='font-bold'>₦ {Intl.NumberFormat('en-US').format(row.amount || 0)}</p>
                 </TableCell>
                 <TableCell>
                   <div className="text-left">

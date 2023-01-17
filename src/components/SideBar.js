@@ -27,7 +27,7 @@ const Sidebar = () => {
                 <div className='p-4'>
                     <div className='py-4'>
                         <Link to="/">
-                            <h2 className='text-xl fourier text-center text-white'>Fourier<span className='text-[#688c8d]'>Pay</span></h2>
+                            <h2 className='text-2xl fourier w-5/6 px-2 mx-auto text-white font-semibold pt-4'>Fourier<span className='text-[#97f675]'>Pay</span></h2>
                         </Link>
                     </div>
                     <div className='w-5/6 mx-auto'>
