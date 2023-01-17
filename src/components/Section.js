@@ -148,14 +148,14 @@ const Section = () => {
                     </div>
                 </div>
             </div>
-            {/* <div className='py-8'>
+            <div className='py-8'>
                 <div className='flex justify-center items-center'>
                     <div className='py-6'>
                         <h2 className='text-4xl'>Subscribe to Our NewsLetter</h2>
                         <div className='py-6'>
                             <input placeholder='Enter Email' name='confirm_password' required type="text" className='py-2 px-4 w-full outline-none c-text-input' />
                         </div>
-                        <div>
+                        <div className='flex justify-center items-center'>
                             <button className='c-primary-button'>
                                     Submit
                             </button>
@@ -163,7 +163,7 @@ const Section = () => {
 
                     </div>
                 </div>
-            </div> */}
+            </div>
 
             <Footer/>
 
@@ -171,4 +171,4 @@ const Section = () => {
     )
 }
 
-export default Section
+export default Section;
