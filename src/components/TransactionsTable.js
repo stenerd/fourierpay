@@ -29,9 +29,10 @@ export default function TransactionTable({ transactions }) {
     console.log(e)
     setSearch(e.target.value);
   };
+  console.log(transactions)
 
   const filteredTransaction = transactions.filter(transaction =>
-    transaction?.status?.toLowerCase().includes(search.toLowerCase())
+    transaction?.entity_id?.unique_answer?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
