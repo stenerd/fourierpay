@@ -22,6 +22,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Protected from '../utils/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { PaystackButton, PaystackConsumer } from 'react-paystack'
+import moment from 'moment'
 
 
 
@@ -218,13 +219,13 @@ const MakePayment = () => {
                                         <div className='flex justify-between'>
                                             <h3 className='text-xl mb-16 font-bold home c-auth-title'>Pay</h3>
                                             <div>
-                                                <small className='text-sm text-[#00bf00] status-pill c-status-border-pill'>{paymentLink.status} {paymentLink.expires_at && ' - ' + paymentLink.expires_at}</small>
+                                                <small className='text-sm text-[#00bf00] status-pill c-status-border-pill capitalize'>{paymentLink.status} {paymentLink.expires_at && ' - ' + moment(paymentLink.expires_at).format('dddd, DD MMMM YYYY')}</small>
                                             </div>
                                         </div>
                                         
                                         <p className='font-bold text-gray-700 text-lg'>{paymentLink.name}</p>
                                         <span className='font-bold text-gray-500 inline-block w-[70%]'>{paymentLink.description}</span>
-                                        <p className='font-bold text-gray-700 text-lg mt-4'>${paymentLink.amount}</p>
+                                        <p className='font-bold text-gray-700 text-lg mt-4'>₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
                                         {
                                             paymentLink.form && paymentLink.form.length ? (
                                                 <div className='mt-8 mb-8'>
@@ -235,7 +236,7 @@ const MakePayment = () => {
                                                                     <div className='flex flex-col space-y-3 mb-8'>
                                                                         <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
                                                                         {
-                                                                            link.field_type == 'text' ? (
+                                                                            link.field_type === 'text' ? (
                                                                                 <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input" />
                                                                             ) : (
                                                                                 <select placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input">

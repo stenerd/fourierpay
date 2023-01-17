@@ -27,7 +27,7 @@ const Hero = () => {
                                 <Grid item xs={12} md={6} style={{paddingLeft: '0'}}>
                                     <div className='space-y-8'>
                                         <h2 className='text-white font-bold text-[60px] w-[80%]' style={{lineHeight: '5rem'}}>
-                                            Start Collecting  <span className='text-[#97f675]'> Payment</span> with One <span className='c-home-title-underline'>Link</span>
+                                            Collect All Your  <span className='text-[#97f675]'> Payments</span> with One <span className='c-home-title-underline'>Link</span>
                                         </h2>
                                         <h4 className='text-white w-4/5'>All in one platform for accepting payment and embedded fintech experience to fast track your payment</h4>
                                     </div>

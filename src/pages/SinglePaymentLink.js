@@ -61,7 +61,7 @@ const SinglePaymentLink = () => {
                 <div ref={topRef}>
                     <Titlebar  >
                         <h2 className='text-xl'>{`Payment Links - ${data.paymentLink && data.paymentLink.name}`}</h2>
-                        <p className='text-xl text-[#00bf00] status-pill'>{data.paymentLink && data.paymentLink.status} {data.paymentLink && data.paymentLink.expires_at && '- 24th March 2023'}</p>
+                        <p className='text-xl text-[#00bf00] status-pill capitalize'>{data.paymentLink && data.paymentLink.status} {data.paymentLink && data.paymentLink.expires_at && '- 24th March 2023'}</p>
                     </Titlebar>
                     {
                         data.paymentLink ? (
@@ -80,7 +80,7 @@ const SinglePaymentLink = () => {
                                             {
                                                 data.paymentLink.expected_number_of_payments ? (
                                                     <div className='pb-2 w-[90%] rounded-lg'>
-                                                        <BorderLinearProgress variant="determinate" value={((9000 / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100) > 100 ? 100 : ((9000 / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100)} />
+                                                        <BorderLinearProgress variant="determinate" value={((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100) > 100 ? 100 : ((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100)} />
                                                     </div>
                                                 ) : ''
                                             }
@@ -101,7 +101,7 @@ const SinglePaymentLink = () => {
                                                                 {/* </IconButton> */}
                                                                 <div className='pt-8'>
                                                                     <h2 className='text-sm text-gray-400 font-bold'>Expected Amount</h2>
-                                                                    <h1 className='font-bold fourier'>${data.paymentLink.amount * data.paymentLink.expected_number_of_payments}</h1>
+                                                                    <h1 className='font-bold fourier'>₦{data.paymentLink.amount * data.paymentLink.expected_number_of_payments}</h1>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -117,7 +117,7 @@ const SinglePaymentLink = () => {
                                                                 </div>
                                                                 <div className='pt-8'>
                                                                     <h2 className='text-sm text-gray-400 font-bold'>Amount Per Payment</h2>
-                                                                    <h1 className='font-bold fourier'>${data.paymentLink.amount}</h1>
+                                                                    <h1 className='font-bold fourier'>₦{data.paymentLink.amount}</h1>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -133,7 +133,7 @@ const SinglePaymentLink = () => {
                                                                 </div>
                                                                 <div className='pt-8'>
                                                                     <h2 className='text-sm text-gray-400 font-bold'>Recieved Payment</h2>
-                                                                    <h1 className='font-bold fourier'>${9000}</h1>
+                                                                    <h1 className='font-bold fourier'>₦{data.recievedAmount}</h1>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -149,7 +149,7 @@ const SinglePaymentLink = () => {
                                                                 </div>
                                                                 <div className='pt-8'>
                                                                     <h2 className='text-sm text-gray-400 font-bold'>Number Of Recipient</h2>
-                                                                    <h1 className='font-bold fourier'>{42}</h1>
+                                                                    <h1 className='font-bold fourier'>{data.numberOfRecipient}</h1>
                                                                 </div>
                                                             </div>
                                                         </div>

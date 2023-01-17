@@ -136,7 +136,7 @@ const Dashboard = () => {
 
     const Payments = (link) => {
         dispatch(SINGLE_PAYMENTLINK(link))
-        navigate(`/dashboard/payment/${link._id}`)
+        navigate(`/dashboard/payment/${link.code}`)
         console.log(link)
     }
     // const FetchWallet = async()=>{
@@ -163,7 +163,7 @@ const Dashboard = () => {
                     <Titlebar>
                         <h2 className='fourier font-bold'>DashBoard</h2>
                         <div>
-                            <button onClick={() => navigate('/dashboard/payment')} className='px-4 py-2 rounded-md text-white bg-[#234243]'>Create Payment</button>
+                            <button onClick={() => navigate('/dashboard/payment')} className='px-4 py-2 rounded-sm font-medium text-white bg-[#234243]'>Create Payment</button>
                         </div>
                     </Titlebar>
                     <div className='px-16 py-8'>
@@ -192,7 +192,7 @@ const Dashboard = () => {
                                                 <div className='w-[90%] mx-auto'>
                                                     <div className='spacing-y-3 flex justify-between items-center'>
                                                         <div className='py-4'>
-                                                            {wallet.amount ? (<h1 className='fourier text-[20px] font-bold'>$ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>) : (
+                                                            {wallet.amount ? (<h1 className='fourier text-[20px] font-bold'>₦ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>) : (
                                                                 <Skeleton variant="text" sx={{ fontSize: '1rem' }} />)}
                                                             <h3 className="text-gray-400 font-bold">Total Balance</h3>
                                                         </div>
@@ -214,9 +214,9 @@ const Dashboard = () => {
                                                 </div>
                                                 <div className='flex justify-between items-center'>
                                                     <p className='text-sm font-bold'>
-                                                        <span className='text-[#f10707]'>$199</span>
+                                                        <span className='text-[#f10707]'>₦ 199</span>
                                                         <span className='text-[#9aa3ae]'> spent out of </span>
-                                                        <span className='text-[#234243]'>$2,4000</span>
+                                                        <span className='text-[#234243]'>₦ 2,4000</span>
                                                     </p>
                                                     <p className='text-sm font-bold'>10%</p>
                                                 </div>
@@ -254,7 +254,7 @@ const Dashboard = () => {
                                                             {/* </IconButton> */}
                                                             <div className='pt-8'>
                                                                 <h2 className='text-sm text-gray-400 font-bold'>Income</h2>
-                                                                <h1 className='font-bold fourier'>${matrics.income || 0}</h1>
+                                                                <h1 className='font-bold fourier'>₦ {matrics.income || 0}</h1>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -302,7 +302,7 @@ const Dashboard = () => {
                                                             </div>
                                                             <div className='pt-8'>
                                                                 <h2 className='text-sm text-gray-400 font-bold'>Withdrawal</h2>
-                                                                <h1 className='font-bold fourier'>${matrics.withdrawal || 0}</h1>
+                                                                <h1 className='font-bold fourier'>₦ {matrics.withdrawal || 0}</h1>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -336,13 +336,13 @@ const Dashboard = () => {
                                                                                     </Grid>
                                                                                     <Grid item xs={2}>
                                                                                         <div className='set-item-center'>
-                                                                                            <h2 className='font-bold'>$ {each.amount}</h2>
+                                                                                            <h2 className='font-bold'>₦ {each.amount}</h2>
                                                                                         </div>
 
                                                                                     </Grid>
                                                                                     <Grid item xs={3}>
                                                                                         <div className='set-item-center'>
-                                                                                            <small className='text-sm text-[#f10707] status-pill'>{each.status}{each.expires_at ? ` - ${moment(each.expires_at).format('MMM DD, YYYY')
+                                                                                            <small className='text-sm text-[#f10707] status-pill capitalize'>{each.status}{each.expires_at ? ` - ${moment(each.expires_at).format('MMM DD, YYYY')
                                                                                                 }` : ''}</small>
                                                                                         </div>
 
@@ -395,7 +395,7 @@ const Dashboard = () => {
                                                                                         </div>
                                                                                     </Grid>
                                                                                     <Grid item xs={2}>
-                                                                                        <h2 className='text-sm font-bold text-left'>${each.amount}</h2>
+                                                                                        <h2 className='text-sm font-bold text-left'>₦ {each.amount}</h2>
                                                                                     </Grid>
                                                                                     <Grid item xs={2}>
                                                                                         <div className="text-left">

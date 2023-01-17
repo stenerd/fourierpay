@@ -72,7 +72,7 @@ export default function PaymentTable({data}) {
                 <TableCell>{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
                 <TableCell>{moment(row.createdAt).format('hh:mm:ss A')}</TableCell>
                 <TableCell>
-                  <p className='font-bold'>$ {Intl.NumberFormat('en-US').format(row.amount || 0)}</p>
+                  <p className='font-bold'>₦ {Intl.NumberFormat('en-US').format(row.amount || 0)}</p>
                 </TableCell>
                 <TableCell>
                 <div className="text-left">

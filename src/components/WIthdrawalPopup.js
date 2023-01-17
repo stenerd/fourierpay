@@ -10,6 +10,8 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { DashBoardContext } from '../context/Dashboard';
 import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -31,19 +33,61 @@ export default function WithdrawalPopup({ open, handleOpen, handleClose, setOpen
         phonenumber: ''
     })
 
-    const handleChange = (e) => {
-        setState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-
-    }
-    const [current, setCurrent] = React.useState()
+    const [current, setCurrent] = React.useState({account_number: ''})
     const [loading, setLoading] = React.useState(false)
     const { beneficiaries } = useSelector((state) => state.dashboard)
     // console.log(beneficiaries)
 
+    const handleChange = (e) => {
+        setState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+
+    }
+
+    const processWithdrawal = async (e) => {
+        e.preventDefault();
+        e.stopPropagation()
+        setLoading(true)
+        // console.log("e => ", e, current)
+
+        const payload = {
+            bank_code: current.bank_code,
+            account_number: current.account_number,
+            bank_name: current.bank_name,
+            amount: +state.amount,
+            name: current.account_name
+        }
+
+        try {
+            await Protected.post(`http://localhost:4000/api/wallet/withdraw`, payload)
+
+            console.log('done successfully')
+            setLoading(false)
+            toast.success('Processing Withdrawal!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+
+            handleClose()
+
+        } catch (error) {
+            console.log(error.response)
+            toast.error(error.response.data.message)
+            console.log('An error occurred')
+            setLoading(false)
+        }
+
+    }
+
     const fetchData = async (data) => {
-        const currentData = beneficiaries.find((beneficiary) => beneficiary.account_name === data)
+        const currentData = beneficiaries.find((beneficiary) => beneficiary.account_number === data)
         setCurrent(currentData)
-        console.log(currentData)
+        console.log("dadd >> ", currentData, data)
         // console.log(data)
     }
     return (
@@ -65,9 +109,10 @@ export default function WithdrawalPopup({ open, handleOpen, handleClose, setOpen
                             </div>
                             <div className='py-4'>
                                 {beneficiaries && (
-                                    <select className="py-2 px-4 w-full outline-none c-text-input" onChange={(e) => fetchData(e.target.value)}>
+                                    <select className="py-2 px-4 w-full outline-none c-text-input" onChange={(e) => fetchData(e.target.value)} value={current.account_number}>
+                                        <option disabled value=''>Select One</option>
                                         {beneficiaries.map((beneficiary) => (
-                                            <option onSelect={() => console.log(beneficiary)} value={beneficiary.account_name} onClick={() => console.log(beneficiary)}> {beneficiary.account_name}</option>
+                                            <option onSelect={() => console.log(beneficiary)} value={beneficiary.account_number} onClick={() => console.log(beneficiary)}> {beneficiary.account_name}</option>
                                         ))}
                                     </select>
 
@@ -77,20 +122,24 @@ export default function WithdrawalPopup({ open, handleOpen, handleClose, setOpen
                                 <>
                                     <div className=''>
                                         <label className='text-sm font-bold block my-2 text-gray-700'>Account Number</label>
-                                        <input placeholder='Amount'  required name='amount' type="text" value={current.account_number} className='py-2 px-4 w-full outline-none c-text-input' />
+                                        <input placeholder='Amount'  required name='amount' type="text" value={current.account_number} readOnly={true} className='py-2 px-4 w-full outline-none c-text-input' />
                                     </div>
                                     <div className=''>
                                         <label className='text-sm font-bold block my-2 text-gray-700'>Bank</label>
-                                        <input placeholder='Amount'  required name='amount' type="text" value={current.bank_name} className='py-2 px-4 w-full outline-none c-text-input' />
+                                        <input placeholder='Amount'  required name='amount' type="text" value={current.bank_name} readOnly={true} className='py-2 px-4 w-full outline-none c-text-input' />
                                     </div>
                                 </>
 
                             )}
-                            <div className='py-4'>
-                                <button className='c-primary-button'>
-                                    {loading ? 'Loading....' : 'Withdraw'}
-                                </button>
-                            </div>
+                            {
+                                current && (state.amount >= 1000) ? (
+                                    <div className='py-4'>
+                                        <button className='c-primary-button' onClick={(e) => processWithdrawal(e)}>
+                                            {loading ? 'Loading....' : 'Withdraw'}
+                                        </button>
+                                    </div>
+                                ) : ''
+                            }
                         </div>
                     </form>
                 </Box>
