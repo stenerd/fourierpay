@@ -32,7 +32,7 @@ export default function TransactionTable({ transactions }) {
   console.log(transactions)
 
   const filteredTransaction = transactions.filter(transaction =>
-    transaction?.entity_id?.unique_answer?.toLowerCase().includes(search.toLowerCase())
+    (transaction.in_entity === 'Payment') ? transaction?.in_entity_id?.unique_answer?.toLowerCase().includes(search.toLowerCase()) : true
   );
 
   return (
