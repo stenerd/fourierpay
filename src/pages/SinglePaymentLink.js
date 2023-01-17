@@ -15,6 +15,8 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PaidIcon from '@mui/icons-material/Paid';
 import LinkIcon from '@mui/icons-material/Link';
 import PaymentsIcon from '@mui/icons-material/Payments';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -25,12 +27,17 @@ const SinglePaymentLink = () => {
 
     const [data, setData] = useState({})
 
+    const [isCopied, setIsCopied] = useState(false)
+
+    const [paymentLink, setPaymentLink] = useState("")
+
     const FetchLinks = async () => {
         // setLoading(true)
         try {
             const response = await Protected.get(`http://localhost:4000/api/payment/${code}`)
             console.log(response.data.data)
             setData(response.data.data)
+            setPaymentLink(response?.data?.data.paymentLink.link)
         } catch (error) {
             console.log(error.response)
         }
@@ -48,6 +55,28 @@ const SinglePaymentLink = () => {
             backgroundColor: theme.palette.mode === 'light' ? '#234243' : '#234243',
         },
     }));
+
+    const copyText = async () => {
+        try {
+            await navigator.clipboard.writeText(paymentLink)
+            setIsCopied(true)
+            toast.success('Copied To Clipboard', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            setTimeout(() => {
+                setIsCopied(false)
+            }, 1500)
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
 
     useEffect(() => {
         topRef.current.scrollIntoView({ behaviour: "smoooth" })
@@ -73,7 +102,9 @@ const SinglePaymentLink = () => {
                                             <div className='pl-16 italic text-gray-500'>{data.paymentLink.description}</div>
                                         </div>
                                         <div className='flex space-x-2 items-center mt-4'>
-                                            <IconButton><ContentPasteIcon /></IconButton>
+                                            <IconButton onClick={copyText}>
+                                                <ContentPasteIcon />
+                                            </IconButton>
                                             <h2 className='break-all text-[13px] text-[#234243] font-bold'>{data.paymentLink.link}</h2>
                                         </div>
                                         <div>
@@ -155,8 +186,6 @@ const SinglePaymentLink = () => {
                                                         </div>
                                                     </div>
                                                 </Grid>
-
-
                                             </Grid>
                                         </div>
                                     </Grid>
@@ -218,21 +247,32 @@ const SinglePaymentLink = () => {
                                         </div>
                                     </Grid>
                                 </Grid> */}
-                                
-                                {data.payments.length===0?(
+
+                                {data.payments.length === 0 ? (
                                     <>
-                                       <div className='flex justify-center items-center h-[30vh]'>
+                                        <div className='flex justify-center items-center h-[30vh]'>
                                             <h2 className='text-center text-2xl'>No  Payments made yet</h2>
-                                       </div> 
+                                        </div>
                                     </>
-                                ):( <div className='py-6'>
+                                ) : (<div className='py-6'>
                                     <PaymentTable data={data} />
                                 </div>)}
-                               
+
                             </div>
-                        ): ''
+                        ) : ''
                     }
-                    
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                    />
 
                 </div>
 

@@ -17,7 +17,6 @@ const Hero = () => {
                                 <Link to='signup'>
                                     <button className='bg-[#354740] text-white font-bold rounded-sm py-3 px-6'>Register</button>
                                 </Link>
-
                             </div>
                         </div>
                     </div>

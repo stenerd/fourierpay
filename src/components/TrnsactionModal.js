@@ -52,7 +52,7 @@ export default function TransactionModal({ open, setOpen, handleOpen, handleClos
                             </div>
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Status</h2>
-                                <p className={recentPayment === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>paid</p>
+                                <p className={recentTransaction?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{recentTransaction?.status}</p>
                             </div>
                             {/* <h2>Amount :</h2> */}
                         </div>
