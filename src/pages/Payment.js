@@ -189,7 +189,7 @@ const Payment = () => {
             FetchLinks()
             setTimeout(() => {
                 navigate('/dashboard/paymentlinks')
-            },1000)
+            }, 1000)
             // const data = FetchLinks()
 
         } catch (error) {
@@ -406,7 +406,7 @@ const Payment = () => {
                                                 <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
                                             </div> */}
                                             <div className='py-4'>
-                                                <button disabled={loading ? true:false} className='c-primary-button' onClick={createLink}>
+                                                <button disabled={loading ? true : false} className='c-primary-button' onClick={createLink}>
                                                     {loading ? 'Creating...' : 'Create Link'}
                                                 </button>
                                             </div>
@@ -456,7 +456,7 @@ const Payment = () => {
                                                                 {
                                                                     uniqueSelection === index ? (
                                                                         <span className='create-payment-details-unique-selection-text'>Unique Field</span>
-                                                                    ): ''
+                                                                    ) : ''
                                                                 }
                                                                 <div>
                                                                     <div className='mb-4'>

@@ -9,7 +9,7 @@ const Footer = () => {
             <div className='py-6 bg-[#ebefe6]'>
                 <>
                     <div className='py-8 w-4/5 mx-auto'>
-                        <div className='flex justify-between items-center'>
+                        <div className='flex justify-between items-center flex-col md:flex-row  space-y-6 md:space-y-0'>
                             <div>
                                 <h2 className='text-2xl hero font-bold'>Fourier<span className='text-[#97f675]'>Pay</span></h2>
                             </div>

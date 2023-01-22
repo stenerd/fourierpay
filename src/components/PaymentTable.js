@@ -11,23 +11,26 @@ import { Button } from '@mui/material'
 import TuneIcon from '@mui/icons-material/Tune';
 import moment from 'moment'
 import SinglePaymentModal from './SinglePaymentModal';
+import FilterDialog from './FilterDialog';
 
 
-export default function PaymentTable({data}) {
+export default function PaymentTable({data,onChange,handleKeyDown ,start,end,status,setStatus,setEnd,setStart,filterData,opener,setOpener,handleClickOpen,handleCloser,loading}) {
   const [open, setOpen] = React.useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [search,setSearch] = React.useState("")
+  // const [search,setSearch] = React.useState("")
+ 
 
-  const handleChange = e => {
-    e.preventDefault()
-    console.log(e)
-    setSearch(e.target.value);
-  };
+  // const handleChange = e => {
+  //   e.preventDefault()
+  //   console.log(e)
+  //   setSearch(e.target.value);
+  // };
 
-  const filteredPayments = data?.payments?.filter(payment =>
-    payment?.unique_answer?.toLowerCase().includes(search.toLowerCase())
-  );
+  // const filteredPayments = data?.payments?.filter(payment =>
+  //   payment?.unique_answer?.toLowerCase().includes(search.toLowerCase())
+  // );
 
   const [recentPayment,setRecentPayment ] = React.useState()
 
@@ -35,9 +38,9 @@ export default function PaymentTable({data}) {
     <>
       <div className='flex justify-between mb-4'>
           <div className='w-[20%]'>
-              <input placeholder='Search' onChange={handleChange} style={{backgroundColor: '#f8faf7'}} name='q' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+              <input placeholder='Search' onChange={onChange} onKeyDown={handleKeyDown} style={{backgroundColor: '#f8faf7'}} name='q' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
           </div>
-          <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />}>
+          <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />} onClick={()=>handleClickOpen()}>
               Filter
           </Button>
       </div>
@@ -54,7 +57,7 @@ export default function PaymentTable({data}) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredPayments.map((row, index) => (
+            {data.payments.map((row, index) => (
               <TableRow
                 key={index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -85,7 +88,8 @@ export default function PaymentTable({data}) {
         </Table>
       </TableContainer>
       {/* <TransactionModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} recentTransaction={recentTransaction}/> */}
-      <SinglePaymentModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} recentPayment={recentPayment}/>
+      <SinglePaymentModal  open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} recentPayment={recentPayment}/>
+      <FilterDialog loading={loading} setOpener={setOpener} opener={opener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} start={start} end={end} setStart={setStart} status={status} setEnd={setEnd} setStatus={setStatus} filterData={filterData}/>
     </>
 
   );

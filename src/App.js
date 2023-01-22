@@ -16,7 +16,7 @@ import PrivateRoutes from "./pages/Protected";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App overflow-hidden">
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />

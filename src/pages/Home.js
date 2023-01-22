@@ -5,7 +5,7 @@ import Section from '../components/Section'
 const Home = () => {
   return (
    <>
-    <div className='w-full'>
+    <div className='max-w-[100vw] overflow-hidden'>
       <Hero/>
       <Section/>
     </div>
