@@ -151,19 +151,23 @@ const Section = () => {
                     </div>
                 </div>
             </div>
-            <div className='py-8'>
-                <div className='flex justify-center items-center'>
-                    <div className='py-6'>
-                        <h2 className='text-4xl'>Subscribe to Our NewsLetter</h2>
-                        <div className='py-6'>
-                            <input placeholder='Enter Email' name='confirm_password' required type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+            <div className='py-16'>
+                <div className='flex items-center w-4/5 mx-auto'>
+                    <div className='py-6 w-[55%]'>
+                        <p className='text-5xl font-medium leading-normal'>Subscribe to Our NewsLetter</p>
+                        <p className='text-xl leading-9 font-medium text-gray-400'>Subscribe for our news letter to get latest news, update and available offers delivered directly in your inbox.</p>
+                       
+
+                    </div>
+                    <div className='w-[45%] flex justify-between'>
+                        <div className='py-6 w-[68%]'>
+                            <input placeholder='Enter Email' name='confirm_password' required type="text" className='py-2 px-4 w-full h-[3.5rem] outline-none c-text-input' />
                         </div>
                         <div className='flex justify-center items-center'>
                             <button className='c-primary-button'>
-                                    Submit
+                                    Subscribe
                             </button>
                         </div>
-
                     </div>
                 </div>
             </div>

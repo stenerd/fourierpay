@@ -36,8 +36,8 @@ const SinglePaymentLink = () => {
         try {
             const response = await Protected.get(`http://localhost:4000/api/payment/${code}`)
             console.log(response.data.data)
-            setData(response.data.data)
-            setPaymentLink(response?.data?.data.paymentLink.link)
+            setData(response.data.data.data)
+            setPaymentLink(response?.data?.data.data.paymentLink.link)
         } catch (error) {
             console.log(error.response)
         }

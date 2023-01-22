@@ -26,7 +26,7 @@ const Transactions = () => {
         try {
             const response = await Protected.get(`http://localhost:4000/api/transaction`)
             console.log('fetchTransaction >> ', response?.data?.data)
-            setTransaction(response?.data?.data)
+            setTransaction(response?.data?.data?.data)
         } catch (error) {
             console.log(error.response)
         }
