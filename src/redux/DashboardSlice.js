@@ -5,7 +5,8 @@ const initialState = {
     profile:{},
     beneficiaries:[],
     paymentLinks:[],
-    singleLink:{}
+    singleLink:{},
+    payments:{}
 }
 
 export const dashboardSlice = createSlice({
@@ -28,10 +29,13 @@ export const dashboardSlice = createSlice({
     SINGLE_PAYMENTLINK: (state, action) => {
       state.singleLink = action.payload
     },
+    PAYMENTS:(state,action)=>{
+      state.payments = action.payload
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { ADD_BENEFICIARY,ADD_PROFILE,ADD_PAYMENTLINKS,SINGLE_PAYMENTLINK } = dashboardSlice.actions
+export const { ADD_BENEFICIARY,ADD_PROFILE,ADD_PAYMENTLINKS,SINGLE_PAYMENTLINK,PAYMENTS } = dashboardSlice.actions
 
 export default dashboardSlice.reducer

@@ -9,16 +9,22 @@ import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material'
 import TuneIcon from '@mui/icons-material/Tune';
 import moment from 'moment'
+import WithdrawalDialog from './WithdrawalDialog';
+import WithDraws from './Withdraws';
 
 
-export default function WithdrawalTable({ withdrawals }) {
+export default function WithdrawalTable({ withdrawals,opener,setOpener,handleClickOpen,handleCloser}) {
+      const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const [recentWithdraws,setRecentWithdraws] = React.useState()
     return (
         <>
             <div className='flex justify-between mb-4'>
                 <div className='w-[20%]'>
                     <input placeholder='Search' style={{backgroundColor: '#f8faf7'}} name='q' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
                 </div>
-                <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />}>
+                <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />} onClick={()=>handleClickOpen()}>
                     Filter
                 </Button>
             </div>
@@ -41,6 +47,10 @@ export default function WithdrawalTable({ withdrawals }) {
                                 key={index}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 className="hover:bg-gray-100 cursor-pointer"
+                                onClick={()=>{
+                                    setRecentWithdraws(row)
+                                    handleOpen()
+                                }}
                             >
                                 {/* <TableCell component="th" scope="row" style={{ fontWeight: '700' }} >
                                     {row.Recipient}
@@ -52,13 +62,13 @@ export default function WithdrawalTable({ withdrawals }) {
                                     </div>
                                 </TableCell>
                                 <TableCell align="left">{row.transaction_id.reference}</TableCell>
-                                <TableCell align="left" style={{ fontWeight: '600' }}>₦ {Intl.NumberFormat('en-US').format(row.amount || 0)}</TableCell>
+                                <TableCell align="left" style={{ fontWeight: '600' }}>₦{Intl.NumberFormat('en-US').format(row.amount || 0)}</TableCell>
                                 <TableCell align="left" >{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
                                 <TableCell align="left" >{moment(row.createdAt).format('hh:mm:ss A')}</TableCell>
                                 <TableCell align="left" >{row.paystack_reference}</TableCell>
                                 <TableCell align="left">
                                     <div className="text-left">
-                                        <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{row.status}</p>
+                                        <p className={row.status === 'paid'?'py-2 px-2 rounded-lg text-sm status-paid':'py-2 px-2 rounded-lg text-sm status-fail'}>{row.status}</p>
                                     </div>
                                 </TableCell>
                             </TableRow>
@@ -66,6 +76,8 @@ export default function WithdrawalTable({ withdrawals }) {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <WithDraws open={open} setOpen={setOpen} handleClose={handleClose} handleOpen={handleOpen} recentWithdraws={recentWithdraws}/>
+            {/* <WithdrawalDialog opener={opener} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser}/> */}
         </>
     );
 }
