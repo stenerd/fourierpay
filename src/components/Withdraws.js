@@ -19,7 +19,7 @@ const style = {
 };
 
 export default function WithDraws({ open, setOpen, handleOpen, handleClose, transactions, recentWithdraws:recentTransaction }) {
-    console.log(recentTransaction)
+    // console.log(recentTransaction)
 
     let recentPayment = 'paid'
     return (

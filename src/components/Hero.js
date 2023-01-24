@@ -21,8 +21,8 @@ const Hero = () => {
                         </div>
                     </div>
                     <div className='min-h-[80vh] md:min-h-[75vh] flex justify-center items-center w-[95%] mx-auto'>
-                        <div>
-                            <Grid container justifyContent="space-between" spacing={4}>
+                        <div className='flex justify-center items-center'>
+                            <Grid container justifyContent={{xs:'center'}} alignItems='center' spacing={4} className='w-full'>
                                 <Grid item xs={12} md={6} style={{ paddingLeft: '0' }}>
                                     <div className='space-y-8 w-full'>
                                         <h2 className='text-white md:text-left text-center font-bold text-[40px] md:text-[60px] leading-tight md:leading-[5rem]  w-[90%] md:w-4/5 md:mx-0 mx-auto'>

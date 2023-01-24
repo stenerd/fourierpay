@@ -61,7 +61,7 @@ const Transactions = () => {
 
     const fetchTransaction = async () => {
         try {
-            const response = await Protected.get(`http://localhost:4000/api/transaction`)
+            const response = await Protected.get(`http://localhost:4000/api/transaction?q=${search}`)
             console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
         } catch (error) {
@@ -69,61 +69,73 @@ const Transactions = () => {
         }
     }
     const filterLink = (status, start, end, type, entity) => {
-        let link = `http://localhost:4000/api/transaction`
+        let link = `http://localhost:4000/api/transaction?q=${search}`
         if (status !== '' && end !== '' && start !== '' && type !== '' && entity !== '') {
-            link = `http://localhost:4000/api/transaction?status=${status}&startDate=${start}&endDate=${end}&type=${type}&entity=${entity}`
+            link = `http://localhost:4000/api/transaction?q=${search}&status=${status}&startDate=${start}&endDate=${end}&type=${type}&entity=${entity}`
             return link
         } if (status !== '' && start === '' && end === '' && type === '' && entity == '') {
-            link = `http://localhost:4000/api/transaction?status=${status}`
+            link = `http://localhost:4000/api/transaction?q=${search}&status=${status}`
             return link
         }
         if (status !== '' && end !== '' && start === '' && type === '' && entity == '') {
-            link = `http://localhost:4000/api/transaction?status=${status}&endDate=${end}`
+            link = `http://localhost:4000/api/transaction?q=${search}&status=${status}&endDate=${end}`
             return link
         } if (end !== '' && start === '' && status == '' && type === '' && entity == '') {
-            link = `http://localhost:4000/api/transaction?endDate=${end}`
+            link = `http://localhost:4000/api/transaction?q=${search}&endDate=${end}`
             return link;
         } if (start !== '' && status === '' && end === '' && type === '' && entity == '') {
-            link = `http://localhost:4000/api/transaction?startDate=${start}`
+            link = `http://localhost:4000/api/transaction?q=${search}&startDate=${start}`
             return link
         }
         if (start !== '' && end !== '' && status === '' && type === '' && entity == '') {
-            link = `http://localhost:4000/api/transaction?startDate=${start}&endDate=${end}`
+            link = `http://localhost:4000/api/transaction?q=${search}&startDate=${start}&endDate=${end}`
             return link
         }
         if (start !== '' && end === '' && status !== '' && type === '' && entity == '') {
-            link = `http://localhost:4000/api/transaction?startDate=${start}&status=${status}`
+            link = `http://localhost:4000/api/transaction?q=${search}&startDate=${start}&status=${status}`
             return link
         }
         if (start === '' && end === '' && status === '' && type === '' && entity == '') {
             return link
         }
         if (start !== '' && end === '' && status === '' && type !== '' && entity == '') {
-            link = `http://localhost:4000/api/transaction?startDate=${start}&type=${type}`
+            link = `http://localhost:4000/api/transaction?q=${search}&startDate=${start}&type=${type}`
             return link
         }
         if (type !== '' && entity === '' && start === '' && end === '' && status === '') {
-            link = `http://localhost:4000/api/transaction?type=${type}`
+            link = `http://localhost:4000/api/transaction?q=${search}&type=${type}`
             return link
         }
         if (type === '' && entity !== '' && start === '' && end === '' && status === '') {
-            link = `http://localhost:4000/api/transaction?entity=${entity}`
+            link = `http://localhost:4000/api/transaction?q=${search}&entity=${entity}`
             return link
         }
         if (type !== '' && entity !== '' && start === '' && end === '' && status === '') {
-            link = `http://localhost:4000/api/transaction?type=${type}&entity=${entity}`
+            link = `http://localhost:4000/api/transaction?q=${search}&type=${type}&entity=${entity}`
             return link
         }
         if (type !== '' && entity !== '' && start !== '' && end === '' && status === '') {
-            link = `http://localhost:4000/api/transaction?type=${type}&entity=${entity}&startDate=${start}`
+            link = `http://localhost:4000/api/transaction?q=${search}&type=${type}&entity=${entity}&startDate=${start}`
             return link
         }
         if (type !== '' && entity !== '' && start !== '' && end !== '' && status === '') {
-            link = `http://localhost:4000/api/transaction?type=${type}&entity=${entity}&startDate=${start}&endDate=${end}`
+            link = `http://localhost:4000/api/transaction?q=${search}&type=${type}&entity=${entity}&startDate=${start}&endDate=${end}`
+            return link
+        }
+        if (type !== '' && entity !== '' && start !== '' && end === '' && status !== '') {
+            link = `http://localhost:4000/api/transaction?q=${search}&type=${type}&entity=${entity}&startDate=${start}&status=${status}`
+            return link
+        }
+        if (type !== '' && entity !== '' && start === '' && end === '' && status === '') {
+            link = `http://localhost:4000/api/transaction?q=${search}&type=${type}&entity=${entity}`
             return link
         }
         if (type === '' && entity !== '' && start === '' && end === '' && status === '') {
-            link = `http://localhost:4000/api/transaction?entity=${entity}`
+            link = `http://localhost:4000/api/transaction?q=${search}&entity=${entity}`
+            return link
+        }
+        if (type === '' && entity !== '' && start === '' && end === '' && status !== '') {
+            link = `http://localhost:4000/api/transaction?q=${search}&entity=${entity}$status=${status}`
             return link
         }
         if (type === '' && entity === '' && start === '' && end === '' && status === '') {
@@ -150,11 +162,11 @@ const Transactions = () => {
             console.log(data)
             handleCloser()
             console.log({ status, type, entity, end, start })
-            setEntity('')
-            setEnd('')
-            setStart('')
-            setStatus('')
-            setType('')
+            // setEntity('')
+            // setEnd('')
+            // setStart('')
+            // setStatus('')
+            // setType('')
 
         } catch (error) {
             console.log(error.response)

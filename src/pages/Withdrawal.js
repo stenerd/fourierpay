@@ -21,7 +21,7 @@ const Withdrawal = ({}) => {
     const [end, setEnd] = React.useState("")
     const [status, setStatus] = React.useState("")
     const [loading, setLoading] = useState(false)
- 
+    const [search,setSearch] = useState("")
 
 
     const [opener, setOpener] = React.useState(false);
@@ -34,43 +34,61 @@ const Withdrawal = ({}) => {
       setOpener(false);
     };
 
+
+
+
     
 
 
     const filterLink = (status,start,end)=>{
-        let link = `http://localhost:4000/api/withdrawal/view`
+        let link = `http://localhost:4000/api/withdrawal/view?q=${search}`
         if(status!==''&&end!==''&&start!==''){
-            link = `http://localhost:4000/api/withdrawal/view?status=${status}&startDate=${start}&endDate=${end}`
+            link = `http://localhost:4000/api/withdrawal/view?q=${search}&status=${status}&startDate=${start}&endDate=${end}`
             return link
         }if(status!==''&&start===''&&end===''){
-            link = `http://localhost:4000/api/withdrawal/view?status=${status}`
+            link = `http://localhost:4000/api/withdrawal/view?q=${search}&status=${status}`
             return link
         }if(status!==''&&end!==''&&start===''){
-            link = `http://localhost:4000/api/withdrawal/view?status=${status}&endDate=${end}`
+            link = `http://localhost:4000/api/withdrawal/view?q=${search}&status=${status}&endDate=${end}`
             return link
         }if(end!==''&&start===''&&status==''){
-            link = `http://localhost:4000/api/withdrawal/view?endDate=${end}`
+            link = `http://localhost:4000/api/withdrawal/view?q=${search}&endDate=${end}`
             return link;
         }if(start!==''&&status===''&&end===''){
-            link = `http://localhost:4000/api/withdrawal/view?startDate=${start}`
+            link = `http://localhost:4000/api/withdrawal/view?q=${search}&startDate=${start}`
             return link
         }
         if(start!==''&&end!==''&&status===''){
-            link = `http://localhost:4000/api/withdrawal/view?startDate=${start}&endDate=${end}`
+            link = `http://localhost:4000/api/withdrawal/view?q=${search}&startDate=${start}&endDate=${end}`
             return link
         }
         if(start!==''&&end===''&&status!==''){
-            link = `http://localhost:4000/api/withdrawal/view?startDate=${start}&status=${status}`
+            link = `http://localhost:4000/api/withdrawal/view?q=${search}&startDate=${start}&status=${status}`
             return link
         }
         if(start===''&&end===''&&status===''){
             return link
         }
         if(start!==''&&end===''&&status===''){
-            link = `http://localhost:4000/api/withdrawal/view?startDate=${start}`
+            link = `http://localhost:4000/api/withdrawal/view?q=${search}&startDate=${start}`
             return link
         }
     }
+
+    const handleKeyDown = async(event) => {
+        if (event.key === 'Enter') {
+            // 👇 Get input value
+            // const data = filterLink()
+            try {
+                const response = await Protected.get(`http://localhost:4000/api/withdrawal/view?q=${search}`)
+                // console.log(`${data}`, response?.data?.data)
+                setWithdrawal(response?.data?.data.data)
+            } catch (error) {
+                console.log(error.response)
+            }
+        }
+
+    };
 
     const filterData =async()=>{
         setLoading(true)
@@ -78,14 +96,13 @@ const Withdrawal = ({}) => {
             // console.log({status,start,end})
             setLoading(true)
             const data = filterLink(status,start,end)
+            console.log(data)
             const response = await Protected.get(data)
             console.log(response.data)
             setLoading(false)
-            setWithdrawal(response?.data?.data.data)
+            setWithdrawal(response?.data?.data?.data)
             handleCloser()
-            setEnd('')
-            setStart('')
-            setStatus('')
+      
         } catch (error) {
             console.log(error.response)
             setLoading(false)
@@ -98,7 +115,7 @@ const Withdrawal = ({}) => {
 
     const fetchWithdrawal = async () => {
         try {
-            const response = await Protected.get(`http://localhost:4000/api/withdrawal/view`)
+            const response = await Protected.get(`http://localhost:4000/api/withdrawal/view?q=${search}`)
             console.log('fetchWithdrawal >> ', response?.data?.data)
             setWithdrawal(response?.data?.data.data)
         } catch (error) {
@@ -134,7 +151,7 @@ const Withdrawal = ({}) => {
 
                         </div>
                     </div>
-                    <WithdrawalTable start={start} end={end} setStart={setStart} status={status} setEnd={setEnd} setStatus={setStatus}  withdrawals={withdrawals}  opener={opener} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser}/>
+                    <WithdrawalTable handleKeyDown={handleKeyDown} search={search} setSearch={setSearch} start={start} end={end} setStart={setStart} status={status} setEnd={setEnd} setStatus={setStatus}  withdrawals={withdrawals}  opener={opener} loading={loading} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} filterData={filterData}/>
                     <WithdrawalDialog loading={loading} filterData={filterData} setStart={setStart} setEnd={setEnd} setStatus={setStatus} start={start} end={end} status={status} opener={opener} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser}/>
                     <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} />
                     {/* <Withdrawls/> */}

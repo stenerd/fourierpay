@@ -1,4 +1,4 @@
-import { Grid, IconButton } from '@mui/material'
+import { Grid, IconButton, Skeleton } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux'
@@ -33,6 +33,7 @@ const SinglePaymentLink = () => {
     const [search, setSearch] = useState('')
     const [paymentLink, setPaymentLink] = useState("")
     const [loading,setLoading] = useState(false)
+    const [load,setLoad] = useState(false)
 
     const SearchPayment = async () => {
         const res = await Protected.get(`http://localhost:4000/api/payment/${code}?q=${search}`)
@@ -51,36 +52,36 @@ const SinglePaymentLink = () => {
     };
 
     const filterLink = (status,start,end)=>{
-        let link = `http://localhost:4000/api/payment/${code}`
+        let link = `http://localhost:4000/api/payment/${code}?q=${search}`
         if(status!==''&&end!==''&&start!==''){
-            link = `http://localhost:4000/api/payment/${code}?status=${status}&startDate=${start}&endDate=${end}`
+            link = `http://localhost:4000/api/payment/${code}?q=${search}&status=${status}&startDate=${start}&endDate=${end}`
             return link
         }if(status!==''&&start===''&&end===''){
-            link = `http://localhost:4000/api/payment/${code}?status=${status}`
+            link = `http://localhost:4000/api/payment/${code}?q=${search}&status=${status}`
             return link
         }if(status!==''&&end!==''&&start===''){
-            link = `http://localhost:4000/api/payment/${code}?status=${status}&endDate=${end}`
+            link = `http://localhost:4000/api/payment/${code}?q=${search}&status=${status}&endDate=${end}`
             return link
         }if(end!==''&&start===''&&status==''){
-            link = `http://localhost:4000/api/payment/${code}?endDate=${end}`
+            link = `http://localhost:4000/api/payment/${code}?q=${search}&endDate=${end}`
             return link;
         }if(start!==''&&status===''&&end===''){
-            link = `http://localhost:4000/api/payment/${code}?startDate=${start}`
+            link = `http://localhost:4000/api/payment/${code}?q=${search}&startDate=${start}`
             return link
         }
         if(start!==''&&end!==''&&status===''){
-            link = `http://localhost:4000/api/payment/${code}?startDate=${start}&endDate=${end}`
+            link = `http://localhost:4000/api/payment/${code}?q=${search}&startDate=${start}&endDate=${end}`
             return link
         }
         if(start!==''&&end===''&&status!==''){
-            link = `http://localhost:4000/api/payment/${code}?startDate=${start}&status=${status}`
+            link = `http://localhost:4000/api/payment/${code}?q=${search}&startDate=${start}&status=${status}`
             return link
         }
         if(start===''&&end===''&&status===''){
             return link
         }
         if(start!==''&&end===''&&status===''){
-            link = `http://localhost:4000/api/payment/${code}?startDate=${start}`
+            link = `http://localhost:4000/api/payment/${code}?q=${search}&startDate=${start}`
             return link
         }
     }
@@ -95,9 +96,9 @@ const SinglePaymentLink = () => {
             setLoading(false)    
             setData(response.data.data.data)
             console.log(data)
-            setEnd('')
-            setStart('')
-            setStatus('')
+            // setEnd('')
+            // setStart('')
+            // setStatus('')
             handleCloser()
         } catch (error) {
              console.log(error.response)
@@ -125,15 +126,18 @@ const SinglePaymentLink = () => {
 
     const FetchLinks = async () => {
         // setLoading(true)
+        setLoad(true)
         try {
             const response = await Protected.get(`http://localhost:4000/api/payment/${code}`)
             // const res = await Protected.get(`http://localhost:4000/api/payment/${code}?q=${search}`)
             // console.log(res.data.data.data)
             console.log(response.data.data.data)
             setData(response.data.data.data)
+            setLoad(false)
             // setPaymentLink(response?.data?.data.paymentLink.link)
         } catch (error) {
             console.log(error)
+            setLoad(false)
         }
     }
 
@@ -184,7 +188,9 @@ const SinglePaymentLink = () => {
             <DashboardLayout>
                 <div ref={topRef}>
                     <Titlebar  >
-                        <h2 className='text-xl'>{`Payment Links - ${data.paymentLink && data.paymentLink.name}`}</h2>
+                        {load ?  <h2 className='text-xl'>{`Payment Links -`} <span><Skeleton variant="rectangular" width={210}  height={40} /></span></h2>:  <h2 className='text-xl'>{`Payment Links - ${data.paymentLink && data.paymentLink.name}`}</h2>}
+                      
+                        
                         <p className='text-xl text-[#00bf00] status-pill capitalize'>{data.paymentLink && data.paymentLink.status} {data.paymentLink && data.paymentLink.expires_at && '- 24th March 2023'}</p>
                     </Titlebar>
                     {
