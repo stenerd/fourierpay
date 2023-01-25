@@ -50,24 +50,6 @@ const Transactions = () => {
         setPayin(false)
     }
 
-
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            // 👇 Get input value
-            SearchTransaction()
-        }
-
-    };
-
-    const fetchTransaction = async () => {
-        try {
-            const response = await Protected.get(`http://localhost:4000/api/transaction?q=${search}`)
-            console.log('fetchTransaction >> ', response?.data?.data)
-            setTransaction(response?.data?.data.data)
-        } catch (error) {
-            console.log(error.response)
-        }
-    }
     const filterLink = (status, start, end, type, entity) => {
         let link = `http://localhost:4000/api/transaction?q=${search}`
         if (status !== '' && end !== '' && start !== '' && type !== '' && entity !== '') {
@@ -145,6 +127,30 @@ const Transactions = () => {
         return link
 
     }
+
+
+    const handleKeyDown = async(event) => {
+        if (event.key === 'Enter') {
+            // 👇 Get input value
+            // SearchTransaction()
+            const data = filterLink(status,start,end,type,entity)
+            const response = await Protected.get(data)
+            console.log('fetchTransaction >> ', response?.data?.data)
+            setTransaction(response?.data?.data.data)
+        }
+
+    };
+
+    const fetchTransaction = async () => {
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/transaction?q=${search}`)
+            console.log('fetchTransaction >> ', response?.data?.data)
+            setTransaction(response?.data?.data.data)
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+ 
     const filterData = async () => {
         // let link =`http://localhost:4000/api/transaction?status=${status}`
         // if (status=''>0&&)

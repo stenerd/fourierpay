@@ -80,7 +80,8 @@ const Withdrawal = ({}) => {
             // 👇 Get input value
             // const data = filterLink()
             try {
-                const response = await Protected.get(`http://localhost:4000/api/withdrawal/view?q=${search}`)
+                const data = filterLink(status,start,end)
+                const response = await Protected.get(data)
                 // console.log(`${data}`, response?.data?.data)
                 setWithdrawal(response?.data?.data.data)
             } catch (error) {

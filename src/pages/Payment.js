@@ -283,15 +283,26 @@ const Payment = () => {
                                                     <Grid item xs={12} md={6}>
                                                         <div className='flex flex-col space-y-3 mb-8'>
                                                             <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Expiry Date</label>
-                                                            <input placeholder='Expiry Date' name='expires_at' onChange={handleChanges} type="date" className="py-2 px-4 w-full outline-none c-text-input" />
+                                                            <Tooltip title='Make your payment link expire at a particulat date'>
+                                                                <input placeholder='Expiry Date' name='expires_at' onChange={handleChanges} type="date" className="py-2 px-4 w-full outline-none c-text-input" />
+                                                            </Tooltip>
+
                                                         </div>
                                                     </Grid>
                                                 </Grid>
                                                 <Grid container spacing={2} className='mb-8'>
                                                     <Grid item xs={12} md={12}>
                                                         <div className='flex flex-col space-y-3 '>
-                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Description</label>
-                                                            <textarea placeholder='Description' name='description' onChange={handleChanges} className="py-2 px-4 w-full outline-none c-text-input"></textarea>
+                                                            <div className='flex items-center space-x-3'>
+
+                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Description</label>
+                                                                <span className='text-red-500 text-2xl font-bold'>*</span>
+
+                                                            </div>
+                                                            <Tooltip title='Payment Description'>
+                                                                <textarea placeholder='Description' name='description' onChange={handleChanges} className="py-2 px-4 w-full outline-none c-text-input"></textarea>
+                                                            </Tooltip>
+
                                                         </div>
                                                     </Grid>
                                                 </Grid>
@@ -299,8 +310,12 @@ const Payment = () => {
 
 
                                             <div className='relative my-8'>
-                                                <h1 className='text-gray-700 text-lg font-bold home absolute create-payment-divider-title'>Generate Form</h1>
+                                                <Tooltip title='Generate a form that users can fill before making payment'>
+                                                    <h1 className='text-gray-700 text-lg font-bold home absolute create-payment-divider-title'>Generate Form</h1>
+
+                                                </Tooltip>
                                                 <Divider className='creat-payment-divider' />
+
                                             </div>
 
                                             <div className='mt-4 pt-8 relative'>
