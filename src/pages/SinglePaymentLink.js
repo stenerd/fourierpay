@@ -158,7 +158,7 @@ const SinglePaymentLink = () => {
 
     const copyText = async () => {
         try {
-            await navigator.clipboard.writeText(paymentLink)
+            await navigator.clipboard.writeText(data.paymentLink.link)
             setIsCopied(true)
             toast.success('Copied To Clipboard', {
                 position: "top-right",
