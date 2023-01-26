@@ -15,6 +15,8 @@ import useClipboard from "react-use-clipboard";
 import { useNavigate } from 'react-router-dom';
 import { ADD_PAYMENTLINKS, SINGLE_PAYMENTLINK } from '../redux/DashboardSlice';
 import moment from 'moment'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PaymentLinks = () => {
     const [loading, setLoading] = useState(false)
@@ -38,7 +40,7 @@ const PaymentLinks = () => {
         },
     }));
 
-    const [isCopied, setCopied] = useClipboard(singleLink, {
+    const [isCopied, setIsCopied] = useClipboard(singleLink, {
         // `isCopied` will go back to `false` after 1000ms.
         successDuration: 1000,
     });
@@ -66,8 +68,29 @@ const PaymentLinks = () => {
         console.log(link)
     }
 
-    const findLink = (link, index) => {
-        setSingleLink(link.link)
+    const findLink = async (link, index) => {
+        // setSingleLink(link.link)
+        try {
+            await navigator.clipboard.writeText(link?.link)
+            setIsCopied(true)
+            toast.success('Copied To Clipboard', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            setTimeout(() => {
+                setIsCopied(false)
+            }, 1500)
+        } catch (error) {
+            console.log(error.response)
+        }
+
+
         console.log({ link, singleLink: link.link })
     }
 
@@ -136,11 +159,11 @@ const PaymentLinks = () => {
                                                                 <div className='bg-gray-100 pt-2 px-2 c-border-gray'>
                                                                     <div className='flex space-x-2 items-center'>
                                                                         <IconButton onClick={() => {
-                                                                            setCopied()
-                                                                            findLink(link,index)
+                                                                            // setCopied()
+                                                                            findLink(link, index)
                                                                             // console.log(link, index)
                                                                         }}>
-                                                                            {isCopied ? "! 👍" : <ContentPasteIcon />}
+                                                                            <ContentPasteIcon />
 
                                                                         </IconButton>
                                                                         <h2 className='break-all text-[13px]' ref={inputRef}>{link.link}</h2>
@@ -172,6 +195,18 @@ const PaymentLinks = () => {
 
                     </div>
                 </div>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
 
             </DashboardLayout>
         </>

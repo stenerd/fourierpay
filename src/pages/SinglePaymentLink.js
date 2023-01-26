@@ -24,22 +24,116 @@ import 'react-toastify/dist/ReactToastify.css';
 const SinglePaymentLink = () => {
     const topRef = useRef()
     let { code } = useParams();
-
+    const [start, setStart] = React.useState("")
+    const [end, setEnd] = React.useState("")
+    const [status, setStatus] = React.useState("")
     const [data, setData] = useState({})
 
     const [isCopied, setIsCopied] = useState(false)
-
+    const [search, setSearch] = useState('')
     const [paymentLink, setPaymentLink] = useState("")
+    const [loading,setLoading] = useState(false)
+
+    const SearchPayment = async () => {
+        const res = await Protected.get(`http://localhost:4000/api/payment/${code}?q=${search}`)
+        console.log(res?.data?.data?.data)
+        setData(res?.data?.data?.data)
+    }
+
+    const [opener, setOpener] = React.useState(false);
+
+    const handleClickOpen = () => {
+      setOpener(true);
+    };
+  
+    const handleCloser = () => {
+      setOpener(false);
+    };
+
+    const filterLink = (status,start,end)=>{
+        let link = `http://localhost:4000/api/payment/${code}`
+        if(status!==''&&end!==''&&start!==''){
+            link = `http://localhost:4000/api/payment/${code}?status=${status}&startDate=${start}&endDate=${end}`
+            return link
+        }if(status!==''&&start===''&&end===''){
+            link = `http://localhost:4000/api/payment/${code}?status=${status}`
+            return link
+        }if(status!==''&&end!==''&&start===''){
+            link = `http://localhost:4000/api/payment/${code}?status=${status}&endDate=${end}`
+            return link
+        }if(end!==''&&start===''&&status==''){
+            link = `http://localhost:4000/api/payment/${code}?endDate=${end}`
+            return link;
+        }if(start!==''&&status===''&&end===''){
+            link = `http://localhost:4000/api/payment/${code}?startDate=${start}`
+            return link
+        }
+        if(start!==''&&end!==''&&status===''){
+            link = `http://localhost:4000/api/payment/${code}?startDate=${start}&endDate=${end}`
+            return link
+        }
+        if(start!==''&&end===''&&status!==''){
+            link = `http://localhost:4000/api/payment/${code}?startDate=${start}&status=${status}`
+            return link
+        }
+        if(start===''&&end===''&&status===''){
+            return link
+        }
+        if(start!==''&&end===''&&status===''){
+            link = `http://localhost:4000/api/payment/${code}?startDate=${start}`
+            return link
+        }
+    }
+
+    const filterData = async()=>{
+        setLoading(true)
+        try {
+            setLoading(true)
+            const data = filterLink(status,start,end)
+            const response = await Protected.get(data)
+            console.log(response.data.data.data)  
+            setLoading(false)    
+            setData(response.data.data.data)
+            console.log(data)
+            setEnd('')
+            setStart('')
+            setStatus('')
+            handleCloser()
+        } catch (error) {
+             console.log(error.response)
+             setLoading(false)
+             console.log('error')
+        }
+    }
+
+    const onChange = (e) => {
+        setSearch(e.target.value)
+        // setTimeout(() => {
+        //     SearchPayment()
+        // }, 1000)
+
+    }
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            // 👇 Get input value
+            SearchPayment()
+        }
+   
+    };
+
+   
 
     const FetchLinks = async () => {
         // setLoading(true)
         try {
             const response = await Protected.get(`http://localhost:4000/api/payment/${code}`)
-            console.log(response.data.data)
+            // const res = await Protected.get(`http://localhost:4000/api/payment/${code}?q=${search}`)
+            // console.log(res.data.data.data)
+            console.log(response.data.data.data)
             setData(response.data.data.data)
-            setPaymentLink(response?.data?.data.data.paymentLink.link)
+            // setPaymentLink(response?.data?.data.paymentLink.link)
         } catch (error) {
-            console.log(error.response)
+            console.log(error)
         }
     }
 
@@ -77,11 +171,12 @@ const SinglePaymentLink = () => {
             console.log(error.response)
         }
     }
-
     useEffect(() => {
         topRef.current.scrollIntoView({ behaviour: "smoooth" })
         FetchLinks()
     }, [])
+
+
 
 
     return (
@@ -248,14 +343,14 @@ const SinglePaymentLink = () => {
                                     </Grid>
                                 </Grid> */}
 
-                                {data.payments.length === 0 ? (
+                                {!data.payments ? (
                                     <>
                                         <div className='flex justify-center items-center h-[30vh]'>
                                             <h2 className='text-center text-2xl'>No  Payments made yet</h2>
                                         </div>
                                     </>
                                 ) : (<div className='py-6'>
-                                    <PaymentTable data={data} />
+                                    <PaymentTable loading={loading} opener={opener} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} data={data} onChange={onChange} handleKeyDown={handleKeyDown}  start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} setStatus={setStatus} filterData={filterData}/>
                                 </div>)}
 
                             </div>
