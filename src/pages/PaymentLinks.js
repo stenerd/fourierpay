@@ -1,5 +1,5 @@
 import { Grid, IconButton, LinearProgress } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
@@ -9,8 +9,24 @@ import { styled } from '@mui/material/styles';
 import { linearProgressClasses } from '@mui/material/LinearProgress';
 import '../styles/PaymentLink.css'
 import { Link } from 'react-router-dom';
+import Protected from '../utils/axios'
+import { useDispatch, useSelector } from 'react-redux';
+import useClipboard from "react-use-clipboard";
+import { useNavigate } from 'react-router-dom';
+import { ADD_PAYMENTLINKS, SINGLE_PAYMENTLINK } from '../redux/DashboardSlice';
+import moment from 'moment'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PaymentLinks = () => {
+    const [loading, setLoading] = useState(false)
+    const { paymentLinks: PaymentLink } = useSelector((state) => state.dashboard)
+    const [paymentLinks, setPaymentLinks] = useState(PaymentLink)
+    const data = paymentLinks?.map((data) => data.link)
+    const [link, setLink] = useState(data)
+    const [singleLink, setSingleLink] = useState("")
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 3,
@@ -24,6 +40,64 @@ const PaymentLinks = () => {
         },
     }));
 
+    const [isCopied, setIsCopied] = useClipboard(singleLink, {
+        // `isCopied` will go back to `false` after 1000ms.
+        successDuration: 1000,
+    });
+
+    const inputRef = useRef()
+
+    // const { paymentLinks } = useContext(DashBoardContext)
+    const FetchLinks = async () => {
+        // setLoading(true)
+        try {
+            const response = await Protected.get(`http://localhost:4000/api/payment-link`)
+            // console.log(response.data.data)
+            dispatch(ADD_PAYMENTLINKS(response?.data?.data))
+            setPaymentLinks(response?.data?.data)
+
+            // console.log({data})
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
+    const Payments = (link) => {
+        dispatch(SINGLE_PAYMENTLINK(link))
+        navigate(`/dashboard/payment/${link.code}`)
+        console.log(link)
+    }
+
+    const findLink = async (link, index) => {
+        // setSingleLink(link.link)
+        try {
+            await navigator.clipboard.writeText(link?.link)
+            setIsCopied(true)
+            toast.success('Copied To Clipboard', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            setTimeout(() => {
+                setIsCopied(false)
+            }, 1500)
+        } catch (error) {
+            console.log(error.response)
+        }
+
+
+        console.log({ link, singleLink: link.link })
+    }
+
+    useEffect(() => {
+        FetchLinks()
+    }, [])
+
     return (
         <>
             <DashboardLayout>
@@ -31,184 +105,108 @@ const PaymentLinks = () => {
                     <h2 className='fourier font-bold'>Payment Links</h2>
                     <div>
                         <Link to="/dashboard/payment">
-                            <button className='px-4 py-2 rounded-md text-white bg-[#234243]'>Create Payment</button>
+                            <button className='px-4 py-2 rounded-sm font-medium text-white bg-[#234243]'>Create Payment</button>
                         </Link>
                     </div>
                 </Titlebar>
                 <div className="px-16 py-8">
                     <div className='py-4 mt-4  mx-auto'>
-                        <Grid container spacing={5}>
-                            <Grid item xs={12} md={6}>
-                                <div className='bg-[#f8faf7] cursor-pointer border-dotted border-2 rounded-lg py-3 px-3'>
-                                    <div className='p-4'>
-                                        <div className='cursor-pointer'>
-                                            <div className='flex justify-between'>
-                                                <h2 className='fourier text-2xl text-[#234243] font-bold'>ELA DUES</h2>
-                                                <small className='text-sm text-[#00bf00] status-pill'>Active - 24th March 2023</small>
-                                            </div>
-                                            <div className='py-3'>
-                                                <div className="flex items-center space-x-6">
-                                                    <div>
-                                                        <h2 className='text-sm'>Expected</h2>
-                                                        <h1 className='text-2xl font-bold '>$10,000</h1>
-                                                    </div>
-                                                    <div>
-                                                        <h2 className='text-sm'>Total Balance</h2>
-                                                        <h1 className='text-2xl font-bold'>$9,000</h1>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="pt-3">
-                                                <div className='bg-gray-100 pt-2 px-2 c-border-gray'>
-                                                    <div className='flex space-x-2 items-center'>
-                                                        <IconButton>
-                                                            <ContentPasteIcon />
-                                                        </IconButton>
-                                                        <h2 className='break-all text-[14px]'>https://fourierpay.netlify.app/eladues</h2>
-                                                    </div>
-                                                </div>
-                                                <div className='pb-2'>
-                                                    <BorderLinearProgress variant="determinate" value={42} />
-                                                </div>
-                                                <div>
-                                                    <h2 className="pb-3 text-gray-400 font-bold">42 reciepients</h2>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
+                        {paymentLinks.length === 0 && (
+                            <div className='flex justify-center items-center min-h-[60vh]'>
+                                <div>
+                                    <h2 className='font-bold text-2xl text-center'>No payment Links</h2>
                                 </div>
+                            </div>
+                        )}
+                        {
+                            paymentLinks && (
+                                <Grid container spacing={5}>
+                                    {
+                                        paymentLinks.map((link, index) => (
+                                            <Grid item xs={12} md={6} key={index}>
+                                                <div className='bg-[#f8faf7] h-full border-dotted border-2 rounded-lg py-3 px-3'>
+                                                    <div className='p-4'>
+                                                        <div className=''>
+                                                            <div className='flex justify-between'>
+                                                                <h2 className='fourier text-2xl text-[#234243] max-w-[60%] font-bold hover:text-blue-500 cursor-pointer' onClick={() => Payments(link)}>{link.name}</h2>
+                                                                <small className='text-sm text-[#00bf00] status-pill'>{link.status} {link.expires_at && `- ${moment(link.expires_at).format('MMMM DD, YYYY')}`}</small>
+                                                            </div>
+                                                            {/* <button onClick={setCopied}>
+                                                                Was it copied? {isCopied ? "Yes! 👍" : "Nope! 👎"}
+                                                            </button> */}
+                                                            <div className='py-3'>
+                                                                <div className="flex items-center space-x-6" style={{ paddingBottom: '1rem' }}>
+                                                                    {link.expected_number_of_payments ?
+                                                                        (
+                                                                            <div>
+                                                                                <h2 className='text-sm text-gray-400 font-bold'>Expected</h2>
+                                                                                <h1 className='text-2xl font-bold '>₦ {Intl.NumberFormat('en-US').format(link.amount * link.expected_number_of_payments || 0)}</h1>
+                                                                            </div>
+                                                                        )
+                                                                        : ''
+                                                                    }
+                                                                    {/* <div>
+                                                                        <h2 className='text-sm text-gray-400 font-bold'>Total Balance</h2>
+                                                                        <h1 className='text-2xl font-bold'>$90000</h1>
+                                                                    </div> */}
+                                                                    <div>
+                                                                        <h2 className='text-sm text-gray-400 font-bold'>Amount</h2>
+                                                                        <h1 className='text-2xl font-bold'>₦ {Intl.NumberFormat('en-US').format(link.amount || 0)}</h1>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="pt-3">
+                                                                <div className='bg-gray-100 pt-2 px-2 c-border-gray'>
+                                                                    <div className='flex space-x-2 items-center'>
+                                                                        <IconButton onClick={() => {
+                                                                            // setCopied()
+                                                                            findLink(link, index)
+                                                                            // console.log(link, index)
+                                                                        }}>
+                                                                            <ContentPasteIcon />
 
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <div className='bg-[#f8faf7] cursor-pointer border-dotted border-2 rounded-lg py-3 px-3'>
-                                    <div className='p-4'>
-                                        <div className='cursor-pointer'>
-                                            <div className='flex justify-between'>
-                                                <h2 className='fourier text-2xl text-[#234243] font-bold'>UBIT DUES</h2>
-                                                <small className='text-sm text-[#f10707] status-pill'>Expired - 24th May 2022</small>
-                                            </div>
-                                            <div className='py-3'>
-                                                <div className="flex items-center space-x-6">
-                                                    <div>
-                                                        <h2 className='text-sm'>Expected</h2>
-                                                        <h1 className='text-2xl font-bold '>$10,000</h1>
-                                                    </div>
-                                                    <div>
-                                                        <h2 className='text-sm'>Total Balance</h2>
-                                                        <h1 className='text-2xl font-bold'>$9,000</h1>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="pt-3">
-                                                <div className='bg-gray-100 py-2 px-2'>
-                                                    <div className='flex space-x-2 items-center'>
-                                                        <IconButton>
-                                                            <ContentPasteIcon className='text-[#234243]' />
-                                                        </IconButton>
-                                                        <h2 className='break-all text-[14px]'>https://fourierpay.netlify.app/ubit</h2>
-                                                    </div>
+                                                                        </IconButton>
+                                                                        <h2 className='break-all text-[13px]' ref={inputRef}>{link.link}</h2>
+                                                                    </div>
+                                                                </div>
+                                                                {/* {
+                                                                    link.expected_number_of_payments ? (
+                                                                        <div className='pb-2'>
+                                                                            <BorderLinearProgress variant="determinate" value={((90000 / (link.amount * link.expected_number_of_payments)) * 100) > 100 ? 100 : ((90000 / (link.amount * link.expected_number_of_payments)) * 100)} />
+                                                                        </div>
+                                                                    ) : ''
+                                                                }
+                                                                <div>
+                                                                    <h2 className="pb-3 text-gray-400 font-bold">42 reciepients</h2>
+                                                                </div> */}
 
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className='pb-2'>
-                                                    <BorderLinearProgress variant="determinate" value={5} />
-                                                </div>
-                                                <div>
-                                                    <h2 className="pb-3 text-gray-400 font-bold">500 reciepients</h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <div className='bg-[#f8faf7] cursor-pointer border-dotted border-2 rounded-lg py-3 px-3'>
-                                    <div className='p-4'>
-                                        <div className='cursor-pointer'>
-                                            <div className='flex justify-between'>
-                                                <h2 className='fourier text-2xl text-[#234243] font-bold'>NAMES DUES</h2>
-                                                <small className='text-sm text-[#00bf00] status-pill'>Active - 24th March 2023</small>
-                                            </div>
-                                            <div className='py-3'>
-                                                <div className="flex items-center space-x-6">
-                                                    <div>
-                                                        <h2 className='text-sm'>Expected</h2>
-                                                        <h1 className='text-2xl font-bold '>$10,000</h1>
-                                                    </div>
-                                                    <div>
-                                                        <h2 className='text-sm'>Total Balance</h2>
-                                                        <h1 className='text-2xl font-bold'>$9,000</h1>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="pt-3">
-                                                <div className='bg-gray-100 py-2 px-2'>
-                                                    <div className='flex space-x-2 items-center'>
-                                                        <IconButton>
-                                                            <ContentPasteIcon className='text-[#234243]' />
-                                                        </IconButton>
-                                                        <h2 className='break-all text-[14px]'>https://fourierpay.netlify.app/names</h2>
-                                                    </div>
+                                            </Grid>
+                                        ))
+                                    }
 
-                                                </div>
-                                                <div className='pb-2'>
-                                                    <BorderLinearProgress variant="determinate" value={70} />
-                                                </div>
-                                                <div>
-                                                    <h2 className="pb-3 text-gray-400 font-bold">35 reciepients</h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </Grid>
+                            )
+                        }
 
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <div className='bg-[#f8faf7] cursor-pointer border-dotted border-2 rounded-lg py-3 px-3'>
-                                    <div className='p-4'>
-                                        <div className='cursor-pointer'>
-                                            <div className='flex justify-between'>
-                                                <h2 className='fourier text-2xl text-[#234243] font-bold'>THERMO MATERIAL</h2>
-                                                <small className='text-sm text-[#f10707] status-pill'>Expired - 24th May 2022</small>
-                                            </div>
-                                            <div className='py-3'>
-                                                <div className="flex items-center space-x-6">
-                                                    <div>
-                                                        <h2 className='text-sm'>Expected</h2>
-                                                        <h1 className='text-2xl font-bold '>$10,000</h1>
-                                                    </div>
-                                                    <div>
-                                                        <h2 className='text-sm'>Total Balance</h2>
-                                                        <h1 className='text-2xl font-bold'>$9,000</h1>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="pt-3">
-                                                <div className='bg-gray-100 py-2 px-2'>
-                                                    <div className='flex space-x-2 items-center'>
-                                                        <IconButton>
-                                                            <ContentPasteIcon className='text-[#234243]' />
-                                                        </IconButton>
-                                                        <h2 className='break-all text-[14px]'>https://fourierpay.netlify.app/thermo</h2>
-                                                    </div>
-
-                                                </div>
-                                                <div className='pb-2'>
-                                                    <BorderLinearProgress variant="determinate" value={89} />
-                                                </div>
-                                                <div>
-                                                    <h2 className="pb-3 text-gray-400 font-bold">429 reciepients</h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </Grid>
-                        </Grid>
                     </div>
                 </div>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
 
             </DashboardLayout>
         </>

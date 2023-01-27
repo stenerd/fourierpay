@@ -27,3 +27,254 @@
     scrollbar-width: none;
     /* Firefox */
 }
+
+.c-auth-title{
+    color: #234244;
+    font-size: 167%;
+}
+
+.c-primary-color{
+    color: #234244;
+}
+
+.c-text-input{
+    border-radius: 0.1rem;
+    border: 1px Solid #dcdde0;
+    background: #f3f4f6;
+    box-shadow: 0 0 0.1rem #dcdee1;
+    padding: 0.6rem 1rem;
+    color: #6b7280;
+    font-weight: bold;
+    font-size: 96%;
+}
+
+.c-primary-button{
+    padding: 1rem 3rem;
+    color: white;
+    font-weight: bold;
+    border-radius: 0.2rem;
+    background: #234244;
+}
+.c-login-emoji{
+    font-size: 150%;
+}
+
+.c-primary-link-color{
+    color: #2178ff;
+}
+
+.c-logout-button{
+    bottom: 0px;
+    position: absolute;
+}
+
+.c-secondary-button{
+    padding: 1rem 3rem;
+    color: white;
+    font-weight: bold;
+    border-radius: 0.2rem;
+    background: #f10707;
+}
+
+.c-make-payment{
+    border: 1px solid #dcdde0;
+    border-radius: 0.5rem;
+    background: #f8faf7;
+    box-shadow: 0 0 2rem #eef0ec;
+}
+
+.c-status-border-pill{
+    background: #f3f4f6;
+    border: 1px solid #dcdde0;
+}
+
+.c-pay-error{
+    margin-top: 0 !important;
+    color: red !important;
+}
+
+.MuiTableContainer-root{
+    border: 1px solid #dedcdc;
+    border-radius: 0.2rem;
+    box-shadow: 0 0 2rem #f8faf7;
+}
+
+.MuiTableContainer-root thead{
+    background: #f8faf7;
+    text-transform: uppercase;
+}
+
+.MuiTableContainer-root th{
+    color: #0d1510;
+    text-align: left;
+}
+.MuiTableContainer-root td{
+    color: #0d1510;
+}
+
+.c-withdraw-page-filter{
+    background: #f8faf7;
+    border: 1px solid #dedcdc;
+    color: #9ca3af;
+    border-radius: 0.2rem;
+    font-weight: bold;
+}
+
+.c-home-title-underline{
+    display: inline-block;
+    border-bottom: 0.3rem solid #97f676;
+    line-height: 3.8rem;
+}
+
+.c-home-card-overlay{
+    position: absolute;
+    top: 4.8rem;
+    left: 0;
+    height: 55%;
+    width: 100%;
+    background: white;
+}
+
+.c-top-circle-big{
+    position: absolute;
+    top: 0;
+    width: 70%;
+    background: #f3f4f3;
+    height: 100%;
+    left: -20%;
+    border-radius: 50%;
+}
+
+.c-top-circle-small{
+    position: absolute;
+    top: 15%;
+    width: 44%;
+    background: #ffffff;
+    height: 70%;
+    left: -7%;
+    border-radius: 50%;
+}
+
+.c-top-clear{
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    bottom: 0;
+    left: 0;
+    background: white;
+}
+
+.c-bottom-circle-big{
+    position: absolute;
+    top: 0;
+    width: 70%;
+    background: #f3f4f3;
+    height: 100%;
+    right: -20%;
+    border-radius: 50%;
+}
+
+.c-bottom-circle-small{
+    position: absolute;
+    top: 15%;
+    width: 44%;
+    background: #ffffff;
+    height: 70%;
+    right: -7%;
+    border-radius: 50%;
+}
+
+.c-bottom-clear{
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 0;
+    right: 0;
+    background: white;
+}
+
+.c-overlay-circle{
+    background: transparent;
+    position: absolute;
+    width: 35rem;
+    height: 35rem;
+    top: -2rem;
+    left: -8rem;
+    z-index: 0;
+    border-radius: 50%;
+    border: 1px solid white;
+}
+
+.c-overlay-content{
+    left: -8rem;
+    position: absolute;
+    height: 8rem;
+    width: 12rem;
+    background: white;
+    z-index: 1;
+    bottom: 9.5rem;
+    border-radius: 1rem;
+    border: 1px solid #f3f4f3;
+}
+
+.c-overlay-content-description{
+    color: grey;
+    font-size: 67%;
+    line-height: .8rem;
+    display: inline-block;
+    padding-top: 0.3rem;
+}
+.c-overlay-content-amount{
+    font-weight: bold;
+    color: #1f332b;
+    font-size: 130%;
+}
+
+.c-how-it-works-icon .left{
+    position: absolute;
+    width: 1.6rem;
+    height: 1.6rem;
+    background: #1f332b;
+    border-radius: 50%;
+    left: 0;
+}
+
+.c-how-it-works-icon .right{
+    position: absolute;
+    left: 0.8rem;
+    border: 0.3rem solid #1f332b;
+    border-radius: 50%;
+    background: white;
+    width: 1.6rem;
+    height: 1.6rem;
+}
+
+.c-comment-bar{
+    width: 10%;
+    height: 0.5rem;
+    background: white;
+    border-radius: 0.4rem;
+    margin-bottom: 2rem;
+}
+
+.c-home-section-image{
+    position: relative;
+    border: 3px solid #ebefe6;
+}
+.c-how-it-works-overlay{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 30rem;
+    height: 3rem;
+    /* background: #ebefe6; */
+    border-bottom: 2px solid white;
+    border-right: 2px solid white;
+    clip-path: polygon(25% 0, 100% 0, 100% 100%, 0% 100%);
+    text-align: right;
+    padding-right: 1rem;
+    padding-top: 0.6rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #ebefe6;
+}

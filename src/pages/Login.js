@@ -22,8 +22,9 @@ const Login = () => {
         e.preventDefault()
         setLoading(true)
         try {
-            const res = await axios.post(`http://localhost:3000/api/auth/login`, state)
-            console.log(res.response)
+            const res = await axios.post(`http://localhost:4000/api/auth/login`, state)
+            window.localStorage.setItem('bearer_token',res?.data?.data.token)
+            console.log(res?.data?.data.token)
             navigate('/dashboard')
             setLoading(false)
         } catch (error) {
@@ -44,35 +45,44 @@ const Login = () => {
                     </div> */}
                     <Grid container>
                         <Grid item xs={12} md={5}>
-                            <div className='min-h-[90vh] flex flex-col justify-center items-center p-3'>
-                                <h2 className='text-xl font-bold main'>Welcome Back</h2>
-                                <div className='w-4/5 mx-auto py-8'>
+                            <div className='min-h-[100vh] flex flex-col justify-center p-3'>
+                                <div className='w-[80%] mx-auto mb-0'>
+                                    <h2 className='text-xl mb-12 font-bold home c-auth-title'>Log in</h2>
+                                    <p className='font-bold text-gray-700'>Welcome back <span className='c-login-emoji'>🤗</span></p>
+                                    <small className='font-bold text-gray-500 inline-block w-[70%]'>Thanks for visiting again. Lets do some monitoring.</small>
+                                </div>
+                                {/* <h2 className='text-xl font-bold main'>Welcome Back</h2> */}
+                                <div className='w-[80%] mx-auto py-8'>
                                     <form onSubmit={handleSubmit}>
                                         <Grid container spacing={3}>
                                             <Grid item xs={12} md={12}>
-                                                <label className='p-4'>Email</label>
-                                                <input placeholder='Email' name='email' onChange={handleChange} required type="email" className='py-2 bg-gray-200 px-4 w-full outline-none rounded-md' />
+                                                <label className='text-sm font-bold block my-2 text-gray-700'>Email</label>
+                                                <input placeholder='Email' name='email' onChange={handleChange} required type="email" className='py-2 px-4 w-full outline-none c-text-input' />
                                             </Grid>
                                             <Grid item xs={12} md={12}>
-                                                <label className='p-4'>Password</label>
-                                                <input placeholder='Password' name='password' onChange={handleChange} required type="password" className='py-2 bg-gray-200 px-4 w-full outline-none rounded-md' />
+                                                <label className='text-sm font-bold block my-2 text-gray-700'>Password</label>
+                                                <input placeholder='Password' name='password' onChange={handleChange} required type="password" className='py-2 px-4 w-full outline-none c-text-input' />
                                             </Grid>
                                         </Grid>
-                                        <div className='py-4'>
-                                            <button className='bg-[#234243] w-full rounded-md py-3 text-white'>
-                                                {loading ? 'loading....' : 'Log In'}
+                                        <div className='mt-12 mb-6'>
+                                            <button disabled={loading ? true:false}  className='c-primary-button'>
+                                                {loading ? 'loading....' : 'Login'}
                                             </button>
                                         </div>
                                     </form>
-                                    <div className='py-2 flex flex-col justify-between items-center'>
-                                        <p className="text-center underline cursor-pointer text-gray-500 text-sm">Do You Have an Account ?</p>
-                                        <p className='text-center text-sm text-gray-500 cursor-pointer underline'>Forgot Pasword</p>
+                                    <div className=''>
+                                        <p className="text-gray-700 font-bold">Do not have an account? 
+                                        <Link to="/signup">
+                                            <span className='cursor-pointer c-primary-link-color'> Register</span>
+                                        </Link>
+                                        </p>
+                                        <p className="text-gray-700 font-bold">Can't remember your password? <span className='cursor-pointer c-primary-link-color'>Click here</span></p>
                                     </div>
                                 </div>
                             </div>
                         </Grid>
                         <Grid item xs={12} md={7}>
-                            <img src="/images/registration.jpg" className='w-full h-screen object-cover'/>
+                            <img src="/images/registration.jpg" className='w-full h-screen object-cover hidden md:block'/>
                         </Grid>
                     </Grid>
 

@@ -7,19 +7,30 @@ import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
 import PaymentLinks from "./pages/PaymentLinks";
 import Payment from "./pages/Payment";
-
+import Profile from "./pages/Profile";
+import MakePayment from "./pages/MakePayment";
+import Withdrawal from "./pages/Withdrawal";
+import SinglePaymentLink from "./pages/SinglePaymentLink";
+// import Protected from "./utils/axios";
+import PrivateRoutes from "./pages/Protected";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App overflow-hidden">
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/transaction" element={<Transactions/>}/>
-        <Route path="/dashboard/paymentlinks" element={<PaymentLinks/>}/>
-        <Route path="/dashboard/payment" element={<Payment/>}/>
+        <Route path="/pay/:code" element={<MakePayment />} />
+        <Route element={<PrivateRoutes />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/profile" element={<Profile />} />
+          <Route path="/dashboard/transaction" element={<Transactions />} />
+          <Route path="/dashboard/paymentlinks" element={<PaymentLinks />} />
+          <Route path="/dashboard/payment" element={<Payment />} />
+          <Route path="/dashboard/withdrawal" element={<Withdrawal />} />
+          <Route path="/dashboard/payment/:code" element={<SinglePaymentLink />} />
+        </Route>
       </Routes>
     </div>
   );
