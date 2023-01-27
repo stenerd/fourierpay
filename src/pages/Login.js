@@ -82,7 +82,7 @@ const Login = () => {
                             </div>
                         </Grid>
                         <Grid item xs={12} md={7}>
-                            <img src="/images/registration.jpg" className='w-full h-screen object-cover'/>
+                            <img src="/images/registration.jpg" className='w-full h-screen object-cover hidden md:block'/>
                         </Grid>
                     </Grid>
 

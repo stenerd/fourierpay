@@ -23,21 +23,21 @@ const Sidebar = () => {
     }
     return (
         <>
-            <div className="min-h-screen bg-[#0d1510] w-[20%] shadow-lg  fixed">
+            <div className="min-h-screen  bg-[#0d1510] w-[20%] shadow-lg  fixed">
                 <div className='p-4'>
                     <div className='py-4'>
                         <Link to="/">
                             <h2 className='text-2xl fourier w-5/6 px-2 mx-auto text-white font-semibold pt-4'>Fourier<span className='text-[#97f675]'>Pay</span></h2>
                         </Link>
                     </div>
-                    <div className='w-5/6 mx-auto'>
+                    <div className='w-5/6 mx-auto flex flex-co1'>
                         {/* <div className='py-4'>
                             <input placeholder='Search' className='px-3 py-2 rounded-md bg-[#252728] text-white outline-none' />
                         </div> */}
                         {/* <div className="py-2">
                             <p className='text-white text-sm'>Overview</p>
                         </div> */}
-                        <div className='py-12 space-y-2'>
+                        <div className='py-10 space-y-2 flex-1'>
                             {/* <Link to="/">
                                 <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
                                     <IconButton>
@@ -96,14 +96,16 @@ const Sidebar = () => {
                                 </IconButton>
                                 <h2 className='font-bold text-[#f8faf7]'>Refunds</h2>
                             </div>
-                        </div>
 
-                        <div className="flex items-center space-x-3 cursor-pointer rounded-md py-6 px-2 c-logout-button" onClick={() => Logout()}>
+                        </div>
+                        <div className="flex flex-1 items-center space-x-3 cursor-pointer rounded-md py-6 px-2 c-logout-button" onClick={() => Logout()}>
                             <IconButton>
                                 <LogoutIcon className="text-white" />
                             </IconButton>
                             <h2 className='font-bold text-[#f8faf7]'>Logout</h2>
                         </div>
+
+
 
                     </div>
                 </div>

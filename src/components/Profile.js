@@ -106,7 +106,7 @@ export default function ProfileModal({ open5, handleOpen5, handleClose5, setOpen
                             </div>
                             <div className='py-4'>
                                 <button className='c-primary-button'>
-                                    {loading ? 'Loading....' : 'Submit'}
+                                    {loading ? 'Loading....' : 'Save'}
                                 </button>
                             </div>
 
