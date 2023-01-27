@@ -22,16 +22,15 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/pay/:code" element={<MakePayment />} />
-        <Route element={<PrivateRoutes/>}>
+        <Route element={<PrivateRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/transaction" element={<Transactions />} />
           <Route path="/dashboard/paymentlinks" element={<PaymentLinks />} />
           <Route path="/dashboard/payment" element={<Payment />} />
           <Route path="/dashboard/withdrawal" element={<Withdrawal />} />
-          <Route path="/dashboard/payment/:code" element={<SinglePaymentLink/>}/>
+          <Route path="/dashboard/payment/:code" element={<SinglePaymentLink />} />
         </Route>
-
       </Routes>
     </div>
   );
