@@ -120,6 +120,11 @@
     z-index: 1;
     padding-right: 0.5rem;
 }
+
+.divider-title{
+    z-index: 1;
+    padding-right: 0.5rem;
+}
 .create-payment-divider-options{
     display: inline-block;
     padding: 0.05rem 0.5rem;

@@ -13,6 +13,7 @@ import Withdrawal from "./pages/Withdrawal";
 import SinglePaymentLink from "./pages/SinglePaymentLink";
 // import Protected from "./utils/axios";
 import PrivateRoutes from "./pages/Protected";
+import PaymentReciept from "./pages/PaymentReciept";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/pay/:code" element={<MakePayment />} />
+        <Route path="/pay/:code/reciept/:reference" element={<PaymentReciept />} />
         <Route element={<PrivateRoutes/>}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/profile" element={<Profile />} />
