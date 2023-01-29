@@ -36,6 +36,8 @@ import { ADD_BENEFICIARY, ADD_PROFILE } from '../redux/DashboardSlice';
 import WithdrawalPopup from '../components/WIthdrawalPopup';
 import moment from 'moment'
 import SingleTransactionModal from '../components/SingleTransaction';
+import RecentLinksSkeleton from '../components/RecentLinksSkeleton';
+import BeneficiarySkeleton from '../components/BeneficiarySkeleton';
 const Profile = () => {
     const [state, setState] = React.useState({
         top: false,
@@ -363,6 +365,12 @@ const Profile = () => {
                                                     ))}
                                                 </List>
                                             )}
+                                            {beneficiaries.length === 0 && (
+                                                <>
+                                                    <BeneficiarySkeleton />
+                                                    <BeneficiarySkeleton />
+                                                </>
+                                            )}
                                         </div>
 
                                     </div>
@@ -400,7 +408,7 @@ const Profile = () => {
                                                                         </Grid>
                                                                         <Grid item xs={3}>
                                                                             <div className="text-left">
-                                                                            <p className={each.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{each.status}</p>
+                                                                                <p className={each.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{each.status}</p>
                                                                             </div>
                                                                         </Grid>
                                                                     </Grid>
@@ -411,6 +419,9 @@ const Profile = () => {
                                                 ) : ''
                                             }
                                         </List>
+                                        {withdrawals.length === 0 && (
+                                            <RecentLinksSkeleton />
+                                        )}
                                     </div>
                                 </div>
                                 <div className='pt-4 px-3'>
