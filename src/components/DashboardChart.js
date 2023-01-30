@@ -69,7 +69,7 @@ const DashboardChart=()=> {
           <Tooltip />
           <Legend />
           <Line type="monotone" dataKey="pv" stroke="#00bf00" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="uv" stroke="#234243" />
+          <Line type="monotone" dataKey="uv" stroke="#ff1414" />
         </LineChart>
       </ResponsiveContainer>
     );

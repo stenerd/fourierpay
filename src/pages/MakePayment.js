@@ -31,6 +31,7 @@ import moment from 'moment'
 const MakePayment = () => {
     let { code } = useParams();
     const dispatch = useDispatch()
+    const navigate = useNavigate();
     const [loading, setLoading] = React.useState(false);
     const [value, setValue] = React.useState(0);
     const [paymentData, setPaymentData] = React.useState({});
@@ -106,13 +107,14 @@ const MakePayment = () => {
     };
 
     // you can call this function anything
-    const handleSuccess = (reference) => {
+    const handleSuccess = async (reference) => {
         // Implementation for whatever you want to do with reference and after success call.
         console.log(reference);
         try {
-            axios.post(`http://localhost:4000/api/payment/verify`, {
+            await axios.post(`http://localhost:4000/api/payment/verify`, {
                 reference: paymentData.reference
             })
+            navigate(`/pay/${code}/reciept/${paymentData.reference}`)
         } catch (error) {
             console.log(error.response.data.message)
             toast.error(error.response.data.message)
@@ -224,7 +226,7 @@ const MakePayment = () => {
                                         </div>
                                         
                                         <p className='font-bold text-gray-700 text-lg'>{paymentLink.name}</p>
-                                        <span className='font-bold text-gray-500 inline-block w-[70%]'>{paymentLink.description}</span>
+                                        <span className='font-bold text-gray-500 inline-block w-full'>{paymentLink.description}</span>
                                         <p className='font-bold text-gray-700 text-lg mt-4'>₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
                                         {
                                             paymentLink.form && paymentLink.form.length ? (

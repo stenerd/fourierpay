@@ -36,12 +36,8 @@ import jsPDF from 'jspdf';
 const PaymentReciept = () => {
     let { code, reference } = useParams();
     const dispatch = useDispatch()
-    const [loading, setLoading] = React.useState(false);
-    const [value, setValue] = React.useState(0);
-    const [paymentData, setPaymentData] = React.useState({});
     const [paymentLink, setPaymentLink] = React.useState({});
     const [payment, setPayment] = React.useState({});
-    const paystackButtonRef = React.useRef(null);
 
     const FetchPaymentLink = async () => {
         try {
@@ -98,7 +94,9 @@ const PaymentReciept = () => {
                             <div className='w-[35%] c-reciept-topics p-[3rem] relative'>
                                 <div className='text-white pb-8'>
                                     <p className='text-lg text-[#d6d8d5] font-medium'>Reciept for</p>
-                                    <p className='font-bold text-3xl'>ENG14090893</p>
+                                    <p className={(payment.in_entity_id && payment.in_entity_id.unique_answer && (payment.in_entity_id.unique_answer.length > 15)) ? 'text-xl font-bold' : 'text-3xl font-bold'}>
+                                        {payment.in_entity_id ? payment.in_entity_id.unique_answer : 'Nil'}
+                                    </p>
                                 </div>
                                 <div className='text-white py-7 border-b-[1px] border-[#a3a3a34d] flex'>
                                     <div className='w-[15%] text-[#d6d8d5] flex items-center'>
@@ -106,7 +104,7 @@ const PaymentReciept = () => {
                                     </div>
                                     <div className='w-[85%]'>
                                         <p className='text-lg text-[#d6d8d5] font-medium'>Amount</p>
-                                        <p className='font-bold text-2xl'>₦ {Intl.NumberFormat('en-US').format(20000 || 0)}</p>
+                                        <p className='font-bold text-2xl'>₦ {Intl.NumberFormat('en-US').format(payment.amount || 0)}</p>
                                     </div>
                                    
                                 </div>
@@ -116,7 +114,7 @@ const PaymentReciept = () => {
                                     </div>
                                     <div className='w-[85%]'>
                                         <p className='text-lg text-[#d6d8d5] font-medium'>Date</p>
-                                        <p className='font-bold text-2xl'>{moment(new Date()).format('MMM DD YYYY')}</p>
+                                        <p className='font-bold text-2xl'>{payment.updatedAt ? moment(payment.updatedAt).format('MMM DD YYYY') : 'Nil'}</p>
                                     </div>
                                    
                                 </div>
@@ -126,7 +124,7 @@ const PaymentReciept = () => {
                                     </div>
                                     <div className='w-[85%]'>
                                         <p className='text-lg text-[#d6d8d5] font-medium'>Reference</p>
-                                        <p className='font-bold text-2xl'>Tf5SohWT5wMwr6F</p>
+                                        <p className='font-bold text-2xl'>{reference}</p>
                                     </div>
                                    
                                 </div>
@@ -136,7 +134,7 @@ const PaymentReciept = () => {
                                     </div>
                                     <div className='w-[85%]'>
                                         <p className='text-lg text-[#d6d8d5] font-medium'>Status</p>
-                                        <p className='font-bold text-2xl uppercase'>paid</p>
+                                        <p className='font-bold text-2xl uppercase'>{payment.status ? payment.status : 'Nil'}</p>
                                     </div>
                                    
                                 </div>
@@ -159,7 +157,7 @@ const PaymentReciept = () => {
                                         </div>
 
                                         <div className='px-5 py-5 c-reciept-summary'>
-                                            <p className='uppercase font-bold text-gray-700'>Engineering payments Collector</p>
+                                            <p className='uppercase font-bold text-gray-700'>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
                                             <p className='capitalize font-bold text-gray-500'>{paymentLink.name} ({code})</p>
                                         </div>
 
@@ -175,13 +173,13 @@ const PaymentReciept = () => {
                                             <Divider className='creat-payment-divider' />
                                         </div>
                                         {
-                                            paymentLink.form && paymentLink.form.length ? (
+                                            payment.in_entity_id && payment.in_entity_id.form && payment.in_entity_id.form.length ? (
                                                 <div className='py-6'>
                                                     <Grid container spacing={2}>
-                                                        { paymentLink.form.map((link, index) => (
+                                                        { payment.in_entity_id.form.map((link, index) => (
                                                             <Grid item xs={12} md={6}  className='' key={index}>
-                                                                <small className='font-bold text-gray-500'>Mat Number</small>
-                                                                <h2 className='text-lg font-bold mt-0'>{link.name || 'ENG14089893'}</h2>
+                                                                <small className='font-bold text-gray-500'>{link.field_name}</small>
+                                                                <h2 className='text-lg font-bold mt-0'>{link.answer || 'Nil'}</h2>
                                                             </Grid>
                                                         ))}
                                                     </Grid>
