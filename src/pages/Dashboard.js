@@ -31,6 +31,11 @@ import WithdrawalPopup from '../components/WIthdrawalPopup';
 import { DashBoardContext } from '../context/Dashboard';
 import moment from 'moment'
 import RecentModal from '../components/RecentPayment';
+import DashboardChart from '../components/DashboardChart';
+import Barchart from '../components/DashboardPieChart';
+import Skeletons from '../components/Skeletons';
+import RecentLinksSkeleton from '../components/RecentLinksSkeleton';
+// import DashboardChart from '../components/DashboardChart';
 
 const Dashboard = () => {
     const [state, setState] = React.useState({
@@ -203,7 +208,7 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className='bg-white shadow-md rounded-md dashboard-spending-limit'>
+                                        {/* <div className='bg-white shadow-md rounded-md dashboard-spending-limit'>
                                             <div className='py-6 px-3 w-[90%] mx-auto'>
                                                 <div className='spacing-y-3 mb-8'>
                                                     <h1 className='fourier text-xl font-bold'>Spending Limit</h1>
@@ -221,12 +226,90 @@ const Dashboard = () => {
                                                     <p className='text-sm font-bold'>10%</p>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> */}
                                         <div className='bg-white shadow-md rounded-md dashboard-spending-limit'>
-                                            <div className='py-6 px-3 w-[90%] mx-auto'>
-                                                <div className='spacing-y-3 mb-8'>
+                                            <div className='w-[90%] mx-auto py-4'>
+                                                <h2 className='font-bold'>Payment Links</h2>
+                                            </div>
+                                            <div className="w-[90%] mx-auto flex justify-between items-center">
+                                                <div className='flex items-center space-x-3'>
+                                                    <div className='h-4 w-4 rounded-full bg-[#97F675]'></div>
+                                                    <h2>Available Links</h2>
+                                                </div>
+                                                <div className='flex items-center space-x-3'>
+                                                    <div className='h-4 w-4 rounded-full bg-[#0D1510]'></div>
+                                                    <h2>Used Links</h2>
+                                                </div>
+
+
+                                            </div>
+                                            <Barchart />
+                                        </div>
+                                        <div className='bg-white'>
+                                            <div className=' py-6'>
+                                                <div className='spacing-y-3 mb-0'>
+                                                    <h1 className='fourier font-bold'>Recent Payments</h1>
+                                                    <div className='py-2'>
+                                                        <List>
+
+                                                            {
+                                                                tables.recentPayments ?
+                                                                    tables.recentPayments.map(
+                                                                        (each, index) => (
+                                                                            <div key={index}>
+                                                                                <ListItem disablePadding alignItems="flex-center" onClick={() => recentPay(each)}>
+                                                                                    <ListItemButton>
+                                                                                        <Grid container spacing={3}>
+                                                                                            <Grid item xs={6}>
+                                                                                                <div className='flex flex-col'>
+                                                                                                    <h2 className='text-sm py-2 font-bold'>{each.payment_link_id.name}</h2>
+                                                                                                    <small className='text-sm py-2  flex-1   text-gray-400'>{each.amount}</small>
+
+                                                                                                </div>
+
+                                                                                            </Grid>
+                                                                                            <Grid item xs={6}>
+                                                                                                <div className="text-right flex-col">
+                                                                                                    <p className='py-2 px-2  rounded-lg text-sm font-bold'>{each.unique_answer.substring(0.12) || 'N/A'}</p>
+                                                                                                    <div className="text-right">
+                                                                                                        <p className={each.status === 'paid' ? 'py-2 flex-1 px-2 rounded-lg text-sm status-paid' : 'py-2 flex-1 px-2 rounded-lg text-sm status-fail'}>{each.status}</p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </Grid>
+
+                                                                                        </Grid>
+
+                                                                                    </ListItemButton>
+                                                                                </ListItem>
+                                                                            </div>
+                                                                        )
+                                                                    ) : (
+                                                                        <div>
+                                                                            <Stack spacing={3}>
+                                                                                <Skeleton variant="rectangular" width={"80%"} height={60} />
+                                                                                <Skeleton variant="rounded" width={"80%"} height={60} />
+                                                                            </Stack>
+                                                                        </div>
+                                                                    )
+                                                            }
+
+                                                        </List>
+                                                        {/* <Skeletons /> */}
+                                                        {tables?.recentPayments?.length === 0 && (
+                                                            <>
+                                                                <Skeletons />
+                                                            </>
+                                                        )}
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* <div className='bg-white shadow-md rounded-md dashboard-spending-limit'> */}
+                                        <div className='py-6 px-3 w-[90%] mx-auto'>
+                                            {/* <div className='spacing-y-3 mb-8'>
                                                     <h1 className='fourier font-bold'>OutCome Statistics</h1>
-                                                    {/* <p className="py-2 text-sm text-gray-400">DAILY TRANSACTION LIMIT</p> */}
+                                                  
                                                 </div>
                                                 <div className='py-2'>
                                                     <BorderLinearProgress variant="determinate" value={50} />
@@ -234,8 +317,9 @@ const Dashboard = () => {
                                                 <div className='flex justify-between items-center font-bold'>
                                                     <p className='text-[#234243] text-sm'>Withdrawals</p>
                                                     <p className='text-sm font-bold'>20</p>
-                                                </div>
-                                            </div>
+                                                </div> */}
+
+                                            {/* </div> */}
                                         </div>
                                     </Stack>
                                 </Grid>
@@ -308,9 +392,10 @@ const Dashboard = () => {
                                                     </div>
                                                 </div>
                                             </Grid>
-
-
                                         </Grid>
+                                    </div>
+                                    <div className='py-8'>
+                                        <DashboardChart />
                                     </div>
                                     <div className="px-3 pt-8">
                                         <h2 className='font-bold fourier text-xl'>Recent Links</h2>
@@ -347,8 +432,6 @@ const Dashboard = () => {
                                                                                         </div>
 
                                                                                     </Grid>
-
-
                                                                                 </Grid>
                                                                             </div>
                                                                         </ListItemButton>
@@ -366,16 +449,20 @@ const Dashboard = () => {
                                                         )
                                                 }
                                             </List>
+                                            {tables?.recentPaymentLinks?.length === 0 && (
+                                                <RecentLinksSkeleton />
+                                            )}
+
                                         </div>
 
                                     </div>
 
-
                                     <div className='pt-4 px-3'>
                                         <div className=''>
-                                            <h1 className='fourier font-bold text-xl'>Recent Payments</h1>
+                                            {/* <h1 className='fourier font-bold text-xl'>Recent Payments</h1> */}
                                             <div className='py-2'>
-                                                <List>
+
+                                                {/* <List>
 
                                                     {
                                                         tables.recentPayments ?
@@ -403,26 +490,7 @@ const Dashboard = () => {
                                                                                         </div>
                                                                                     </Grid>
                                                                                 </Grid>
-                                                                                {/* <ListItemText>
-                                                                        <h2 className='text-sm font-bold'>{each.payment_link_id.name}</h2>
-                                                                        <small className='text-sm text-gray-400'>{each.transaction_id.reference}</small>
-                                                                    </ListItemText>
-                                                                    <ListItemText>
-                                                                        <div className="text-left">
-                                                                            <p className='py-2 px-2 rounded-lg text-sm font-bold'>{each.unique_answer || 'N/A'}</p>
-                                                                        </div>
-
-                                                                    </ListItemText>
-                                                                    <ListItemText>
-                                                                        <h2 className='text-sm font-bold text-left'>${each.amount}</h2>
-                                                                    </ListItemText>
-                                                                    
-                                                                    <ListItemText>
-                                                                        <div className="text-left">
-                                                                            <p className={each.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{each.status}</p>
-                                                                        </div>
-
-                                                                    </ListItemText> */}
+                                                                              
                                                                             </ListItemButton>
                                                                         </ListItem>
                                                                     </div>
@@ -437,7 +505,7 @@ const Dashboard = () => {
                                                             )
                                                     }
 
-                                                </List>
+                                                </List> */}
                                             </div>
                                         </div>
                                     </div>

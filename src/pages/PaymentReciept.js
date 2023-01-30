@@ -34,12 +34,13 @@ import jsPDF from 'jspdf';
 
 
 const PaymentReciept = () => {
-    let { code } = useParams();
+    let { code, reference } = useParams();
     const dispatch = useDispatch()
     const [loading, setLoading] = React.useState(false);
     const [value, setValue] = React.useState(0);
     const [paymentData, setPaymentData] = React.useState({});
     const [paymentLink, setPaymentLink] = React.useState({});
+    const [payment, setPayment] = React.useState({});
     const paystackButtonRef = React.useRef(null);
 
     const FetchPaymentLink = async () => {
@@ -54,8 +55,21 @@ const PaymentReciept = () => {
 
     }
 
+    const FetchPayment = async () => {
+        try {
+            const response = await axios.get(`http://localhost:4000/api/payment/reciept/${reference}`)
+            console.log('payment >> ', response.data.data)
+            setPayment(response.data.data)
+           
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
     React.useEffect(()=>{
         FetchPaymentLink()
+        FetchPayment()
     },[])
 
     const printDocument = () => {
@@ -134,7 +148,7 @@ const PaymentReciept = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div className='w-[65%] flex flex-col px-[3rem] pt-[5rem] relative'>
+                            <div className='w-[65%] flex flex-col px-[3rem] pt-[4rem] relative'>
                                 <div className='w-full'>
                                     <form className='w-full'>
                                         <div className='flex justify-between mb-12'>
@@ -146,14 +160,14 @@ const PaymentReciept = () => {
 
                                         <div className='px-5 py-5 c-reciept-summary'>
                                             <p className='uppercase font-bold text-gray-700'>Engineering payments Collector</p>
-                                            <p className='capitalize font-bold text-gray-500'>{paymentLink.name} (lFfQMp5Ojwa9YXss4l8WBuvLbORreN)</p>
+                                            <p className='capitalize font-bold text-gray-500'>{paymentLink.name} ({code})</p>
                                         </div>
 
                                         <div className='relative my-8'>
                                             <h1 className='text-gray-700 text-lg font-bold home absolute divider-title bg-[#f8faf7]'>Description</h1>
                                             <Divider className='creat-payment-divider' />
                                         </div>
-                                        <span className='font-bold text-gray-500 inline-block w-[70%] italic'>{paymentLink.description}</span>
+                                        <span className='font-bold text-gray-500 inline-block w-full text-sm italic'>{paymentLink.description}</span>
                                         {/* <p className='font-bold text-gray-700 text-lg mt-4'>₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p> */}
 
                                         <div className='relative mt-12 mb-8'>
@@ -176,11 +190,11 @@ const PaymentReciept = () => {
                                             ) : ''
                                         }
 
-                                        <div className='pb-0 pt-1 px-2 c-reciept-alert mt-8'>
+                                        {/* <div className='pb-0 pt-1 px-2 c-reciept-alert mt-8'>
                                             <p className='text-gray-700 text-xs italic'>
                                                 <NotificationsIcon className='pb-[0.4rem]' />
                                                 <span className='font-semibold pl-1'>Note: </span>Don't panic, It may take few moment for your transaction to be successful</p>
-                                        </div>
+                                        </div> */}
                                         
                                         
                                     </form>
@@ -188,7 +202,7 @@ const PaymentReciept = () => {
 
                                 <div className='absolute bottom-[3rem]'>
                                     <Link to="/pay/lFfQMp5Ojwa9YXss4l8WBuvLbORreN">
-                                        <small className='text-[#0574e2] underline'>localhost:4000/pay/lFfQMp5Ojwa9YXss4l8WBuvLbORreN</small>
+                                        <small className='text-[#0574e2] underline'>localhost:4000/pay/{code}</small>
                                     </Link>
                                 </div>
 
