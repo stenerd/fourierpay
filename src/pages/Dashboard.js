@@ -229,7 +229,7 @@ const Dashboard = () => {
                                         </div> */}
                                         <div className='bg-white shadow-md rounded-md dashboard-spending-limit'>
                                             <div className='w-[90%] mx-auto py-4'>
-                                                <h2 className='font-bold'>Payment Link flow</h2>
+                                                <h2 className='font-bold'>Payment Links</h2>
                                             </div>
                                             <div className="w-[90%] mx-auto flex justify-between items-center">
                                                 <div className='flex items-center space-x-3'>
@@ -245,8 +245,8 @@ const Dashboard = () => {
                                             </div>
                                             <Barchart />
                                         </div>
-                                        <div className='bg-white shadow-md rounded-md dashboard-spending-limit'>
-                                            <div className=' py-6 px-3 w-[95%] mx-auto'>
+                                        <div className='bg-white'>
+                                            <div className=' py-6'>
                                                 <div className='spacing-y-3 mb-0'>
                                                     <h1 className='fourier font-bold'>Recent Payments</h1>
                                                     <div className='py-2'>

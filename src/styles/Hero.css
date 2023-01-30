@@ -82,6 +82,22 @@
     background: #f8faf7;
     box-shadow: 0 0 2rem #eef0ec;
 }
+.c-reciept-topics{
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    background: #234244;
+}
+
+.c-reciept-summary{
+    background: #00f8ff1a;
+    border: 1px solid #00eaff40;
+    border-radius: 0.3rem;
+}
+.c-reciept-alert{
+    background: #ff71001a;
+    border: 1px solid #ff7b0040;
+    border-radius: 0.2rem;
+}
 
 .c-status-border-pill{
     background: #f3f4f6;
