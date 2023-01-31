@@ -143,7 +143,7 @@ const Transactions = () => {
 
     const fetchTransaction = async () => {
         try {
-            const response = await Protected.get(`http://localhost:4000/api/transaction?q=${search}`)
+            const response = await Protected.get(`${BASE_URL}/api/transaction?q=${search}`)
             console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
         } catch (error) {
