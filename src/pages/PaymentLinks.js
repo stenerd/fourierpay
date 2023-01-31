@@ -9,7 +9,7 @@ import { styled } from '@mui/material/styles';
 import { linearProgressClasses } from '@mui/material/LinearProgress';
 import '../styles/PaymentLink.css'
 import { Link } from 'react-router-dom';
-import Protected from '../utils/axios'
+import Protected, { BASE_URL } from '../utils/axios'
 import { useDispatch, useSelector } from 'react-redux';
 import useClipboard from "react-use-clipboard";
 import { useNavigate } from 'react-router-dom';
@@ -51,7 +51,7 @@ const PaymentLinks = () => {
     const FetchLinks = async () => {
         // setLoading(true)
         try {
-            const response = await Protected.get(`http://localhost:4000/api/payment-link`)
+            const response = await Protected.get(`${BASE_URL}/api/payment-link`)
             // console.log(response.data.data)
             dispatch(ADD_PAYMENTLINKS(response?.data?.data))
             setPaymentLinks(response?.data?.data)

@@ -14,7 +14,7 @@
 }
 
 .dashboard-spending-limit{
-    border: 2px dashed #dad9d9;
+    /* border: 2px dashed #dad9d9; */
     box-shadow: none;
 }
 
@@ -117,6 +117,11 @@
 
 .create-payment-divider-title{
     background: white;
+    z-index: 1;
+    padding-right: 0.5rem;
+}
+
+.divider-title{
     z-index: 1;
     padding-right: 0.5rem;
 }

@@ -19,7 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
 import SendIcon from '@mui/icons-material/Send';
-import Protected from '../utils/axios';
+import Protected, { BASE_URL } from '../utils/axios';
 import { useDispatch } from 'react-redux';
 import { ADD_PAYMENTLINKS } from '../redux/DashboardSlice';
 
@@ -138,7 +138,7 @@ const Payment = () => {
     const FetchLinks = async () => {
         setLoading(true)
         try {
-            const response = await Protected.get(`http://localhost:4000/api/payment-link`)
+            const response = await Protected.get(`${BASE_URL}/api/payment-link`)
             console.log(response.data.data)
             dispatch(ADD_PAYMENTLINKS(response?.data?.data))
 
@@ -172,7 +172,7 @@ const Payment = () => {
             }))
         }
         try {
-            await Protected.post(`http://localhost:4000/api/payment-link/create`, payload)
+            await Protected.post(`${BASE_URL}/api/payment-link/create`, payload)
 
             console.log('done successfully')
             setLoading(false)
@@ -200,7 +200,7 @@ const Payment = () => {
         }
         console.log(state)
 
-    }
+    }  
 
 
     const generateField = () => {

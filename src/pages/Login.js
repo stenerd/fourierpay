@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { BASE_URL } from '../utils/axios';
 
 const Login = () => {
     const navigate = useNavigate()
@@ -22,7 +23,7 @@ const Login = () => {
         e.preventDefault()
         setLoading(true)
         try {
-            const res = await axios.post(`http://localhost:4000/api/auth/login`, state)
+            const res = await axios.post(`${BASE_URL}/api/auth/login`, state)
             window.localStorage.setItem('bearer_token',res?.data?.data.token)
             console.log(res?.data?.data.token)
             navigate('/dashboard')

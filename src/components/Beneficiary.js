@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import Protected from '../utils/axios';
+import Protected, { BASE_URL } from '../utils/axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const style = {
@@ -27,7 +27,7 @@ export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, h
         e.preventDefault()
         setLoading(true)
         try {
-            const response = await Protected.delete(`http://localhost:4000/api/beneficiary/remove/${data._id}`)
+            const response = await Protected.delete(`${BASE_URL}/api/beneficiary/remove/${data._id}`)
             console.log(response.data)
             setLoading(false)
             const newBeneficiaries = beneficiaries.filter((e)=>e._id!==data._id)

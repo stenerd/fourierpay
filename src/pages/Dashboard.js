@@ -22,7 +22,7 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import Titlebar from '../components/TitleBar'
 import '../styles/Dashboard.css'
 import { useNavigate } from 'react-router-dom';
-import Protected from '../utils/axios';
+import Protected, { BASE_URL } from '../utils/axios';
 import Skeleton from '@mui/material/Skeleton';
 // import Stack from '@mui/material/Stack';
 import { useDispatch } from 'react-redux';
@@ -86,7 +86,7 @@ const Dashboard = () => {
     const FetchLinks = async () => {
         // setLoading(true)
         try {
-            const response = await Protected.get(`http://localhost:4000/api/payment-link`)
+            const response = await Protected.get(`${BASE_URL}/api/payment-link`)
             // console.log(response.data.data)
             dispatch(ADD_PAYMENTLINKS(response?.data?.data))
 
@@ -96,7 +96,7 @@ const Dashboard = () => {
     }
     const DashboardMatrics = async () => {
         try {
-            const response = await Protected.get(`http://localhost:4000/api/dashboard/matrics`)
+            const response = await Protected.get(`${BASE_URL}/api/dashboard/matrics`)
             console.log(response.data.data)
             setMatrics(response.data.data)
         } catch (error) {
@@ -107,7 +107,7 @@ const Dashboard = () => {
     const DashboardTables = async () => {
         setLoading(true)
         try {
-            const response = await Protected.get(`http://localhost:4000/api/dashboard/tables`)
+            const response = await Protected.get(`${BASE_URL}/api/dashboard/tables`)
             // console.log(response.data.data)
             setTables(response.data.data)
             setLoading(false)
@@ -120,7 +120,7 @@ const Dashboard = () => {
     }
     const FetchBeneficiary = async () => {
         try {
-            const response = await Protected.get(`http://localhost:4000/api/beneficiary/view`)
+            const response = await Protected.get(`${BASE_URL}/api/beneficiary/view`)
             // console.log(response.data.data)
             // setBeneficiaries(response.data.data)
             dispatch(ADD_BENEFICIARY(response.data.data))
@@ -131,7 +131,7 @@ const Dashboard = () => {
     }
     const fetchWallet = async () => {
         try {
-            const response = await Protected.get(`http://localhost:4000/api/wallet`)
+            const response = await Protected.get(`${BASE_URL}/api/wallet`)
             console.log('wallet >> ', response?.data?.data)
             setWallet(response?.data?.data)
         } catch (error) {
@@ -229,7 +229,7 @@ const Dashboard = () => {
                                         </div> */}
                                         <div className='bg-white shadow-md rounded-md dashboard-spending-limit'>
                                             <div className='w-[90%] mx-auto py-4'>
-                                                <h2 className='font-bold'>Payment Link flow</h2>
+                                                <h2 className='font-bold'>Payment Links</h2>
                                             </div>
                                             <div className="w-[90%] mx-auto flex justify-between items-center">
                                                 <div className='flex items-center space-x-3'>
@@ -245,8 +245,8 @@ const Dashboard = () => {
                                             </div>
                                             <Barchart />
                                         </div>
-                                        <div className='bg-white shadow-md rounded-md dashboard-spending-limit'>
-                                            <div className=' py-6 px-3 w-[95%] mx-auto'>
+                                        <div className='bg-white'>
+                                            <div className=' py-6'>
                                                 <div className='spacing-y-3 mb-0'>
                                                     <h1 className='fourier font-bold'>Recent Payments</h1>
                                                     <div className='py-2'>

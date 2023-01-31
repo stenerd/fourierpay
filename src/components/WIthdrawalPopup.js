@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import Protected from '../utils/axios';
+import Protected, { BASE_URL } from '../utils/axios';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -58,7 +58,7 @@ export default function WithdrawalPopup({ open, handleOpen, handleClose, setOpen
         }
 
         try {
-            await Protected.post(`http://localhost:4000/api/wallet/withdraw`, payload)
+            await Protected.post(`${BASE_URL}/api/wallet/withdraw`, payload)
 
             console.log('done successfully')
             setLoading(false)

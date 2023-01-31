@@ -10,7 +10,7 @@ import { linearProgressClasses } from '@mui/material/LinearProgress';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import { LinearProgress } from '@mui/material'
 import PaymentTable from '../components/PaymentTable'
-import Protected from '../utils/axios';
+import Protected, { BASE_URL } from '../utils/axios';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PaidIcon from '@mui/icons-material/Paid';
 import LinkIcon from '@mui/icons-material/Link';
@@ -36,7 +36,7 @@ const SinglePaymentLink = () => {
     const [load,setLoad] = useState(false)
 
     const SearchPayment = async () => {
-        const res = await Protected.get(`http://localhost:4000/api/payment/${code}?q=${search}`)
+        const res = await Protected.get(`${BASE_URL}/api/payment/${code}?q=${search}`)
         console.log(res?.data?.data?.data)
         setData(res?.data?.data?.data)
     }
@@ -52,36 +52,36 @@ const SinglePaymentLink = () => {
     };
 
     const filterLink = (status,start,end)=>{
-        let link = `http://localhost:4000/api/payment/${code}?q=${search}`
+        let link = `${BASE_URL}/api/payment/${code}?q=${search}`
         if(status!==''&&end!==''&&start!==''){
-            link = `http://localhost:4000/api/payment/${code}?q=${search}&status=${status}&startDate=${start}&endDate=${end}`
+            link = `${BASE_URL}/api/payment/${code}?q=${search}&status=${status}&startDate=${start}&endDate=${end}`
             return link
         }if(status!==''&&start===''&&end===''){
-            link = `http://localhost:4000/api/payment/${code}?q=${search}&status=${status}`
+            link = `${BASE_URL}/api/payment/${code}?q=${search}&status=${status}`
             return link
         }if(status!==''&&end!==''&&start===''){
-            link = `http://localhost:4000/api/payment/${code}?q=${search}&status=${status}&endDate=${end}`
+            link = `${BASE_URL}/api/payment/${code}?q=${search}&status=${status}&endDate=${end}`
             return link
         }if(end!==''&&start===''&&status==''){
-            link = `http://localhost:4000/api/payment/${code}?q=${search}&endDate=${end}`
+            link = `${BASE_URL}/api/payment/${code}?q=${search}&endDate=${end}`
             return link;
         }if(start!==''&&status===''&&end===''){
-            link = `http://localhost:4000/api/payment/${code}?q=${search}&startDate=${start}`
+            link = `${BASE_URL}/api/payment/${code}?q=${search}&startDate=${start}`
             return link
         }
         if(start!==''&&end!==''&&status===''){
-            link = `http://localhost:4000/api/payment/${code}?q=${search}&startDate=${start}&endDate=${end}`
+            link = `${BASE_URL}/api/payment/${code}?q=${search}&startDate=${start}&endDate=${end}`
             return link
         }
         if(start!==''&&end===''&&status!==''){
-            link = `http://localhost:4000/api/payment/${code}?q=${search}&startDate=${start}&status=${status}`
+            link = `${BASE_URL}/api/payment/${code}?q=${search}&startDate=${start}&status=${status}`
             return link
         }
         if(start===''&&end===''&&status===''){
             return link
         }
         if(start!==''&&end===''&&status===''){
-            link = `http://localhost:4000/api/payment/${code}?q=${search}&startDate=${start}`
+            link = `${BASE_URL}/api/payment/${code}?q=${search}&startDate=${start}`
             return link
         }
     }
@@ -130,8 +130,8 @@ const SinglePaymentLink = () => {
         // setLoading(true)
         setLoad(true)
         try {
-            const response = await Protected.get(`http://localhost:4000/api/payment/${code}`)
-            // const res = await Protected.get(`http://localhost:4000/api/payment/${code}?q=${search}`)
+            const response = await Protected.get(`${BASE_URL}/api/payment/${code}`)
+            // const res = await Protected.get(`${BASE_URL}/api/payment/${code}?q=${search}`)
             // console.log(res.data.data.data)
             console.log(response.data.data.data)
             setData(response.data.data.data)
