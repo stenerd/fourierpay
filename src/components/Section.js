@@ -11,7 +11,7 @@ const Section = () => {
                     <div className="w-4/5 mx-auto flex-col md:flex-row flex justify-between items-center">
                         <div>
                             <h1 className='text-5xl font-semibold text-center'>250K</h1>
-                            <p className='text-center font-bold text-gray-500'>Registared Business</p>
+                            <p className='text-center font-bold text-gray-500'>Registared Users</p>
                         </div>
                         <div className='c-vertical-divider'></div>
                         <div>
@@ -154,7 +154,7 @@ const Section = () => {
                 <div className='flex items-center w-4/5 mx-auto'>
                     <div className='py-6 w-[55%]'>
                         <p className='text-5xl font-medium leading-normal'>Subscribe to Our NewsLetter</p>
-                        <p className='text-xl leading-9 font-medium text-gray-400'>Subscribe for our news letter to get latest news, update and available offers delivered directly in your inbox.</p>
+                        <p className='text-xl leading-9 font-medium text-gray-400' style={{lineHeight: '1.7rem'}}>Subscribe for our news letter to get latest news, update and available offers delivered directly in your inbox.</p>
                        
 
                     </div>

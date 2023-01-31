@@ -1,17 +1,17 @@
 import React, { PureComponent } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { AreaChart, LineChart, Area, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const data = [
   {
     day: 'Monday',
-    uv: 4000,
-    pv: 2400,
+    uv: 400,
+    pv: 1400,
     amt: 2400,
   },
   {
     day: 'Tuesday',
     uv: 3000,
-    pv: 1398,
+    pv: 398,
     amt: 2210,
   },
   {
@@ -35,13 +35,13 @@ const data = [
   {
     day: 'Saturday',
     uv: 2390,
-    pv: 3800,
+    pv: 9800,
     amt: 2500,
   },
   {
     day: 'Sunday',
     uv: 3490,
-    pv: 4300,
+    pv: 1300,
     amt: 2100,
   },
 ];
@@ -51,13 +51,13 @@ const DashboardChart=()=> {
 
 //   render() {
     return (
-      <ResponsiveContainer width="100%" height={400}>
-        <LineChart
+      <ResponsiveContainer width="100%" height={500}>
+        <AreaChart
           width={500}
           height={300}
           data={data}
           margin={{
-            top: 5,
+            top: 10,
             right: 0,
             left: 0,
             bottom: 5,
@@ -68,9 +68,11 @@ const DashboardChart=()=> {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="pv" stroke="#00bf00" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="uv" stroke="#ff1414" />
-        </LineChart>
+          {/* <Line type="monotone" dataKey="pv" stroke="#00bf00" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="uv" stroke="#ff1414" /> */}
+            <Area type="monotone" dataKey="pv" stroke="#00bf00" fill="#00bf00" />
+            <Area type="monotone" dataKey="uv" stroke="#1f332b" fill="#1f332b" />
+        </AreaChart>
       </ResponsiveContainer>
     );
 //   }
