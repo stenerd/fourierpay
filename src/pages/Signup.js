@@ -5,6 +5,7 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { BASE_URL } from '../utils/axios';
 
 const Signup = () => {
     const [loading, setLoading] = useState(false)
@@ -46,7 +47,7 @@ const Signup = () => {
        
         const {confirm_password,...others} = state
         try {
-            const res = await axios.post(`http://localhost:4000/api/auth/registration`,others)
+            const res = await axios.post(`${BASE_URL}/api/auth/registration`,others)
 
             console.log(res)
             console.log('done successfully')

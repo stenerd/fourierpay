@@ -29,7 +29,7 @@ import WithdrawalModal from '../components/Withdraw';
 import { DashBoardContext } from '../context/Dashboard';
 import BenificiaryModal from '../components/Beneficiary';
 import RecentWithDrawalModal from '../components/RecentWithdrawal';
-import Protected from '../utils/axios';
+import Protected, { BASE_URL } from '../utils/axios';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_BENEFICIARY, ADD_PROFILE } from '../redux/DashboardSlice';
@@ -122,7 +122,7 @@ const Profile = () => {
 
     const FetchBeneficiary = async () => {
         try {
-            const response = await Protected.get(`http://localhost:4000/api/beneficiary/view`)
+            const response = await Protected.get(`${BASE_URL}/api/beneficiary/view`)
             console.log(response.data.data)
             setBeneficiaries(response.data.data)
             dispatch(ADD_BENEFICIARY(response.data.data))
@@ -134,7 +134,7 @@ const Profile = () => {
     }
     const FetchWithdrawal = async () => {
         try {
-            const response = await Protected.get(`http://localhost:4000/api/withdrawal/profile`)
+            const response = await Protected.get(`${BASE_URL}/api/withdrawal/profile`)
             console.log('setWithdrawals >> ', response.data.data)
             setWithdrawals(response.data.data)
 
@@ -148,7 +148,7 @@ const Profile = () => {
         if (token) {
             try {
                 setLoading(true)
-                const response = await Protected.get(`http://localhost:4000/api/user/profile`)
+                const response = await Protected.get(`${BASE_URL}/api/user/profile`)
                 console.log(response?.data?.data)
                 dispatch(ADD_PROFILE(response?.data?.data))
                 setProfile(response?.data?.data)
@@ -165,7 +165,7 @@ const Profile = () => {
 
     const fetchWallet = async () => {
         try {
-            const response = await Protected.get(`http://localhost:4000/api/wallet`)
+            const response = await Protected.get(`${BASE_URL}/api/wallet`)
             console.log('wallet >> ', response?.data?.data)
             setWallet(response?.data?.data)
         } catch (error) {
@@ -174,7 +174,7 @@ const Profile = () => {
     }
     const fetchDashboardProfileTable = async () => {
         try {
-            const response = await Protected.get(`http://localhost:4000/api/dashboard/profile/tables`)
+            const response = await Protected.get(`${BASE_URL}/api/dashboard/profile/tables`)
             console.log('setProfileTable >> ', response?.data?.data)
             setProfileTable(response?.data?.data)
 
@@ -184,7 +184,7 @@ const Profile = () => {
     }
 
     const fetchBanks = async () => {
-        const response = await axios.get(`http://localhost:4000/api/paystack/bank-list`)
+        const response = await axios.get(`${BASE_URL}/api/paystack/bank-list`)
         // console.log(response?.data?.data)
         setBankList(response.data.data)
     }
