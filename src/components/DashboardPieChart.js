@@ -3,12 +3,12 @@ import { PieChart, Pie, Sector, Cell, ResponsiveContainer,Tooltip } from 'rechar
 
 const data = [
   { name: 'Available Links', value: 200 },
-  { name: 'Used Links', value: 300 },
+  { name: 'Used Links', value: 500 },
 //   { name: 'Group C', value: 300 },
 //   { name: 'Group D', value: 200 },
 ];
 
-const COLORS = ['#97F675','#0D1510'];
+const COLORS = ['#87d97d','#1f332b'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
