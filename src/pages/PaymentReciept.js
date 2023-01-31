@@ -19,7 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
 import SendIcon from '@mui/icons-material/Send';
-import Protected from '../utils/axios';
+import Protected, { BASE_URL } from '../utils/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
@@ -41,7 +41,7 @@ const PaymentReciept = () => {
 
     const FetchPaymentLink = async () => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/payment-link/${code}`)
+            const response = await axios.get(`${BASE_URL}/api/payment-link/${code}`)
             console.log('ppp >> ', response.data.data)
             setPaymentLink(response.data.data)
            
@@ -53,7 +53,7 @@ const PaymentReciept = () => {
 
     const FetchPayment = async () => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/payment/reciept/${reference}`)
+            const response = await axios.get(`${BASE_URL}/api/payment/reciept/${reference}`)
             console.log('payment >> ', response.data.data)
             setPayment(response.data.data)
            

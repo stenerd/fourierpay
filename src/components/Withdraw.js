@@ -14,7 +14,7 @@ import axios from 'axios';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Protected from '../utils/axios';
+import Protected, { BASE_URL } from '../utils/axios';
 
 
 const style = {
@@ -53,7 +53,7 @@ export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleCl
         e.preventDefault()
         setLoading(true)
         try {
-            const response = await Protected.post(`http://localhost:4000/api/beneficiary/create`, { account_number: account_no, bank_name, bank_code })
+            const response = await Protected.post(`${BASE_URL}/api/beneficiary/create`, { account_number: account_no, bank_name, bank_code })
             console.log(response.data)
             console.log({ account_name, account_no, bank_code })
             setLoading(false)
@@ -99,7 +99,7 @@ export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleCl
         setLoading(true)
         try {
             setLoading(true)
-            const response = await axios.get(`http://localhost:4000/api/paystack/resolve-account-number?account_number=${account_no}&bank_code=${bank_code}`)
+            const response = await axios.get(`${BASE_URL}/api/paystack/resolve-account-number?account_number=${account_no}&bank_code=${bank_code}`)
             console.log(response.data.data.account_name)
             setAcoountName(response.data.data.account_name)
             setLoading(false)

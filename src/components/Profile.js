@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import Protected from '../utils/axios';
+import Protected, { BASE_URL } from '../utils/axios';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -40,7 +40,7 @@ export default function ProfileModal({ open5, handleOpen5, handleClose5, setOpen
         e.preventDefault()
         setLoading(true)
         try {
-            const response = await Protected.put(`http://localhost:4000/api/user/edit`, state)
+            const response = await Protected.put(`${BASE_URL}/api/user/edit`, state)
             console.log(response.data)
             toast.success('Profile Edited successfully', {
                 position: "top-right",
