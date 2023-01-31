@@ -8,7 +8,7 @@ import TransactionTable from '../components/TransactionsTable';
 import WithdrawalTable from '../components/Withdrawal';
 import WithdrawalPopup from '../components/WIthdrawalPopup';
 import { DashBoardContext } from '../context/Dashboard';
-import Protected from '../utils/axios';
+import Protected, { BASE_URL } from '../utils/axios';
 import WithdrawalDialog from '../components/WithdrawalDialog';
 import axios from 'axios';
 const Withdrawal = ({}) => {
@@ -41,36 +41,36 @@ const Withdrawal = ({}) => {
 
 
     const filterLink = (status,start,end)=>{
-        let link = `http://localhost:4000/api/withdrawal/view?q=${search}`
+        let link = `${BASE_URL}/api/withdrawal/view?q=${search}`
         if(status!==''&&end!==''&&start!==''){
-            link = `http://localhost:4000/api/withdrawal/view?q=${search}&status=${status}&startDate=${start}&endDate=${end}`
+            link = `${BASE_URL}/api/withdrawal/view?q=${search}&status=${status}&startDate=${start}&endDate=${end}`
             return link
         }if(status!==''&&start===''&&end===''){
-            link = `http://localhost:4000/api/withdrawal/view?q=${search}&status=${status}`
+            link = `${BASE_URL}/api/withdrawal/view?q=${search}&status=${status}`
             return link
         }if(status!==''&&end!==''&&start===''){
-            link = `http://localhost:4000/api/withdrawal/view?q=${search}&status=${status}&endDate=${end}`
+            link = `${BASE_URL}/api/withdrawal/view?q=${search}&status=${status}&endDate=${end}`
             return link
         }if(end!==''&&start===''&&status==''){
-            link = `http://localhost:4000/api/withdrawal/view?q=${search}&endDate=${end}`
+            link = `${BASE_URL}/api/withdrawal/view?q=${search}&endDate=${end}`
             return link;
         }if(start!==''&&status===''&&end===''){
-            link = `http://localhost:4000/api/withdrawal/view?q=${search}&startDate=${start}`
+            link = `${BASE_URL}/api/withdrawal/view?q=${search}&startDate=${start}`
             return link
         }
         if(start!==''&&end!==''&&status===''){
-            link = `http://localhost:4000/api/withdrawal/view?q=${search}&startDate=${start}&endDate=${end}`
+            link = `${BASE_URL}/api/withdrawal/view?q=${search}&startDate=${start}&endDate=${end}`
             return link
         }
         if(start!==''&&end===''&&status!==''){
-            link = `http://localhost:4000/api/withdrawal/view?q=${search}&startDate=${start}&status=${status}`
+            link = `${BASE_URL}/api/withdrawal/view?q=${search}&startDate=${start}&status=${status}`
             return link
         }
         if(start===''&&end===''&&status===''){
             return link
         }
         if(start!==''&&end===''&&status===''){
-            link = `http://localhost:4000/api/withdrawal/view?q=${search}&startDate=${start}`
+            link = `${BASE_URL}/api/withdrawal/view?q=${search}&startDate=${start}`
             return link
         }
     }
@@ -116,7 +116,7 @@ const Withdrawal = ({}) => {
 
     const fetchWithdrawal = async () => {
         try {
-            const response = await Protected.get(`http://localhost:4000/api/withdrawal/view?q=${search}`)
+            const response = await Protected.get(`${BASE_URL}/api/withdrawal/view?q=${search}`)
             console.log('fetchWithdrawal >> ', response?.data?.data)
             setWithdrawal(response?.data?.data.data)
         } catch (error) {

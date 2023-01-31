@@ -19,7 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
 import SendIcon from '@mui/icons-material/Send';
-import Protected from '../utils/axios';
+import Protected, { BASE_URL } from '../utils/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { PaystackButton, PaystackConsumer } from 'react-paystack'
 import moment from 'moment'
@@ -40,7 +40,7 @@ const MakePayment = () => {
 
     const FetchPaymentLink = async () => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/payment-link/${code}`)
+            const response = await axios.get(`${BASE_URL}/api/payment-link/${code}`)
             console.log('ppp >> ', response.data.data)
             setPaymentLink(response.data.data)
            
@@ -111,7 +111,7 @@ const MakePayment = () => {
         // Implementation for whatever you want to do with reference and after success call.
         console.log(reference);
         try {
-            await axios.post(`http://localhost:4000/api/payment/verify`, {
+            await axios.post(`${BASE_URL}/api/payment/verify`, {
                 reference: paymentData.reference
             })
             navigate(`/pay/${code}/reciept/${paymentData.reference}`)
@@ -129,7 +129,7 @@ const MakePayment = () => {
         console.log('closed >> ', paymentData, reference)
 
         try {
-            axios.put(`http://localhost:4000/api/payment/abandon`, {
+            axios.put(`${BASE_URL}/api/payment/abandon`, {
                 reference: paymentData.reference
             })
         } catch (error) {
@@ -169,7 +169,7 @@ const MakePayment = () => {
             return;
         }
         try {
-            const initiateTrnx = await axios.post(`http://localhost:4000/api/payment/initialize`, {
+            const initiateTrnx = await axios.post(`${BASE_URL}/api/payment/initialize`, {
                 amount: paymentLink.amount,
                 payment_link_id: paymentLink._id,
                 form: paymentLink.form
