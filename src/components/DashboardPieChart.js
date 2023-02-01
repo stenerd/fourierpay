@@ -1,14 +1,7 @@
 import React, { PureComponent } from 'react';
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer,Tooltip } from 'recharts';
 
-const data = [
-  { name: 'Available Links', value: 200 },
-  { name: 'Used Links', value: 500 },
-//   { name: 'Group C', value: 300 },
-//   { name: 'Group D', value: 200 },
-];
-
-const COLORS = ['#87d97d','#1f332b'];
+const COLORS = ['#1f332b','#97f675'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -24,7 +17,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 };
 
 
-const Barchart=()=>{
+const Piechart=({data})=>{
 //   static demoUrl = 'https://codesandbox.io/s/pie-chart-with-customized-label-dlhhj';
 
 //   render() {
@@ -54,4 +47,4 @@ const Barchart=()=>{
 //   }
 }
 
-export default Barchart
+export default Piechart

@@ -32,9 +32,12 @@ import { DashBoardContext } from '../context/Dashboard';
 import moment from 'moment'
 import RecentModal from '../components/RecentPayment';
 import DashboardChart from '../components/DashboardChart';
-import Barchart from '../components/DashboardPieChart';
+import Piechart from '../components/DashboardPieChart';
 import Skeletons from '../components/Skeletons';
 import RecentLinksSkeleton from '../components/RecentLinksSkeleton';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { Tooltip } from '@mui/material';
+
 // import DashboardChart from '../components/DashboardChart';
 
 const Dashboard = () => {
@@ -50,7 +53,29 @@ const Dashboard = () => {
     const handleCloseed = () => setOpened(false);
 
     const [matrics, setMatrics] = React.useState({});
+    const [selectedFilters, setSelectedFilters] = React.useState({
+        year: '2023',
+        type: 'week',
+        week: 1
+    });
+    const [chartData, setChartData] = React.useState([]);
     const [tables, setTables] = React.useState({});
+    const [pieChartData, setPieChartData] = React.useState([]);
+
+    const monthArr = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+    ]
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -83,27 +108,78 @@ const Dashboard = () => {
         // console.log(each)
         handleOpened()
     }
-    const FetchLinks = async () => {
-        // setLoading(true)
-        try {
-            const response = await Protected.get(`${BASE_URL}/api/payment-link`)
-            // console.log(response.data.data)
-            dispatch(ADD_PAYMENTLINKS(response?.data?.data))
+    // const FetchLinks = async () => {
+    //     // setLoading(true)
+    //     try {
+    //         const response = await Protected.get(`${BASE_URL}/api/payment-link`)
+    //         // console.log(response.data.data)
+    //         dispatch(ADD_PAYMENTLINKS(response?.data?.data))
 
-        } catch (error) {
-            console.log(error.response)
-        }
-    }
+    //     } catch (error) {
+    //         console.log(error.response)
+    //     }
+    // }
     const DashboardMatrics = async () => {
         try {
             const response = await Protected.get(`${BASE_URL}/api/dashboard/matrics`)
             console.log(response.data.data)
             setMatrics(response.data.data)
+            setPieChartData([
+                { name: 'Available Links', value: response.data.data.availableLinksCount },
+                { name: 'Used Links', value: response.data.data.usedLinksCount },
+            ])
         } catch (error) {
             console.log(error.response)
 
         }
     }
+    const FetchDashboardChart = async () => {
+        try {
+            const routeArr = [];
+            if (selectedFilters.year) {
+                routeArr.push(`year=${selectedFilters.year}`)
+            }
+            if (selectedFilters.type) {
+                routeArr.push(`type=${selectedFilters.type}`)
+            }
+            if (selectedFilters.week || selectedFilters.month) {
+                routeArr.push(`param=${selectedFilters.week || selectedFilters.month}`)
+            }
+            const response = await Protected.get(`${BASE_URL}/api/dashboard/chart?${routeArr.join('&')}`)
+            console.log(response.data.data)
+            setChartData(response.data.data)
+        } catch (error) {
+            console.log(error.response)
+
+        }
+    }
+
+    const handleFilterChanges = (e) => {
+        setSelectedFilters((prev) => {
+            let name = e.target.name
+            let value = e.target.value
+            
+            const new_data = {
+                ...prev,
+                [name]: value
+            }
+            if (name === 'type' && value === 'month') {
+                new_data.month = 'January'
+                delete new_data.week
+            }
+            if (name === 'type' && value === 'week') {
+                new_data.week = 1
+                delete new_data.month
+            }
+            if (name === 'type' && value === 'year') {
+                delete new_data.week
+                delete new_data.month
+            }
+            console.log('new_data >> ', new_data)
+            return new_data;
+        })
+    }
+
     const DashboardTables = async () => {
         setLoading(true)
         try {
@@ -154,9 +230,10 @@ const Dashboard = () => {
     // }
     useEffect(() => {
         fetchWallet()
-        FetchLinks()
+        // FetchLinks()
         DashboardMatrics()
         DashboardTables()
+        FetchDashboardChart()
         FetchBeneficiary()
         // FetchWallet()
     }, [])
@@ -190,7 +267,7 @@ const Dashboard = () => {
                                                             <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
                                                         )
                                                     }
-                                                    <h3 className="text-gray-400 font-bold">{moment(new Date()).format('dddd, MMMM DDD YYYY')}</h3>
+                                                    <h3 className="text-gray-400 font-bold">{moment(new Date()).format('dddd, MMMM DD YYYY')}</h3>
                                                 </div>
                                             </div>
                                             <div className='py-2 px-2 bg-[#f8faf7]'>
@@ -227,29 +304,36 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
                                         </div> */}
-                                        <div className='bg-white shadow-md rounded-md dashboard-spending-limit'>
-                                            <div className='w-[90%] mx-auto py-4'>
+                                        <div className='bg-[#f8faf7] shadow-md rounded-md dashboard-spending-limit pb-4'>
+                                            <div className='w-[90%] mx-auto pt-4 pb-6'>
                                                 <h2 className='font-bold'>Payment Links</h2>
                                             </div>
                                             <div className="w-[90%] mx-auto flex justify-between items-center">
                                                 <div className='flex items-center space-x-3'>
-                                                    <div className='h-4 w-4 rounded-full bg-[#97F675]'></div>
+                                                    <div className='h-4 w-4 rounded-full bg-[#1f332b]'></div>
                                                     <h2>Available Links</h2>
                                                 </div>
                                                 <div className='flex items-center space-x-3'>
-                                                    <div className='h-4 w-4 rounded-full bg-[#0D1510]'></div>
+                                                    <div className='h-4 w-4 rounded-full bg-[#97f675]'></div>
                                                     <h2>Used Links</h2>
                                                 </div>
 
 
                                             </div>
-                                            <Barchart />
+                                            {
+                                                pieChartData.length ? (
+                                                    <Piechart data={pieChartData} />
+                                                ) : ''
+                                            }
                                         </div>
-                                        <div className='bg-white'>
-                                            <div className=' py-6'>
+                                        <div className='bg-[#f8faf7] shadow-md rounded-md dashboard-spending-limit'>
+                                            <div className=''>
                                                 <div className='spacing-y-3 mb-0'>
-                                                    <h1 className='fourier font-bold'>Recent Payments</h1>
-                                                    <div className='py-2'>
+                                                    <div className='w-[90%] mx-auto pt-4'>
+                                                        <h2 className='font-bold'>Payment Payments</h2>
+                                                    </div>
+                                                    {/* <h1 className='fourier font-bold'>Recent Payments</h1> */}
+                                                    <div className='pt-2'>
                                                         <List>
 
                                                             {
@@ -263,7 +347,7 @@ const Dashboard = () => {
                                                                                             <Grid item xs={6}>
                                                                                                 <div className='flex flex-col'>
                                                                                                     <h2 className='text-sm py-2 font-bold'>{each.payment_link_id.name}</h2>
-                                                                                                    <small className='text-sm py-2  flex-1   text-gray-400'>{each.amount}</small>
+                                                                                                    <small className='text-sm py-2  flex-1  font-bold text-gray-400'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</small>
 
                                                                                                 </div>
 
@@ -338,7 +422,7 @@ const Dashboard = () => {
                                                             {/* </IconButton> */}
                                                             <div className='pt-8'>
                                                                 <h2 className='text-sm text-gray-400 font-bold'>Income</h2>
-                                                                <h1 className='font-bold fourier'>₦ {matrics.income || 0}</h1>
+                                                                <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(matrics.income || 0)}</h1>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -386,7 +470,7 @@ const Dashboard = () => {
                                                             </div>
                                                             <div className='pt-8'>
                                                                 <h2 className='text-sm text-gray-400 font-bold'>Withdrawal</h2>
-                                                                <h1 className='font-bold fourier'>₦ {matrics.withdrawal || 0}</h1>
+                                                                <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(matrics.withdrawal || 0)}</h1>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -395,7 +479,50 @@ const Dashboard = () => {
                                         </Grid>
                                     </div>
                                     <div className='py-8'>
-                                        <DashboardChart />
+                                        <div className='flex justify-end'>
+                                            <div className='flex mb-4 w-[50%]'>
+                                                <select placeholder='Year' name='year' value={selectedFilters.year} onChange={(e) => handleFilterChanges(e)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                    <option value='2022'>2022 </option>
+                                                    <option value='2023'>2023 </option>
+                                                    <option value='2024'>2024 </option>
+                                                </select>
+                                                <select placeholder='Type' name='type' value={selectedFilters.type} onChange={(e) => handleFilterChanges(e)}  className="py-2 px-4 w-full outline-none c-text-input">
+                                                    <option value='week'>Week </option>
+                                                    <option value='month'>Month </option>
+                                                    <option value='year'>Year </option>
+                                                </select>
+                                                {
+                                                    selectedFilters.type === 'week' ? (
+                                                        <select placeholder='Week Number' name='week' value={selectedFilters.week || 1} onChange={(e) => handleFilterChanges(e)}  className="py-2 px-4 w-full outline-none c-text-input">
+                                                            {
+                                                                ([...Array(52).keys()]).map((_, index) => (
+                                                                    <option key={index + 1} value={index + 1}>Week {index + 1}</option>
+                                                                ))
+                                                            }
+                                                        </select>
+                                                    ) : selectedFilters.type === 'month' ? (
+                                                        <select placeholder='Month' name='month' value={selectedFilters.month || 'January'} onChange={(e) => handleFilterChanges(e)}  className="py-2 px-4 w-full outline-none c-text-input">
+                                                            {
+                                                                monthArr.map((month, index) => (
+                                                                    <option key={index + 1} value={month}>{month}</option>
+                                                                ))
+                                                            }
+                                                        </select>
+                                                    ) : ''
+                                                }
+                                                
+                                                <Tooltip title='Run filter on chart'>
+                                                    <span className='dynamic-form-option-cta' onClick={() => FetchDashboardChart()} >
+                                                        <FilterAltIcon className='text-gray-500' />
+                                                    </span>
+                                                </Tooltip>
+                                            </div>
+                                        </div>
+                                        {
+                                            chartData.length ? (
+                                                <DashboardChart data={chartData} />
+                                            ) : ''
+                                        }
                                     </div>
                                     <div className="px-3 pt-8">
                                         <h2 className='font-bold fourier text-xl'>Recent Links</h2>
@@ -421,7 +548,7 @@ const Dashboard = () => {
                                                                                     </Grid>
                                                                                     <Grid item xs={2}>
                                                                                         <div className='set-item-center'>
-                                                                                            <h2 className='font-bold'>₦ {each.amount}</h2>
+                                                                                            <h2 className='font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
                                                                                         </div>
 
                                                                                     </Grid>

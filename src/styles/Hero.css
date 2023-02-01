@@ -294,3 +294,17 @@
     font-size: 1.2rem;
     color: #ebefe6;
 }
+
+.c-make-payment-owner{
+    background: #234244;
+    color: #f8faf7;
+    padding: 0.3rem 0.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.c-charges-matrics{
+    position: absolute;
+    top: auto;
+    right: 0;
+    line-height: .4;
+}

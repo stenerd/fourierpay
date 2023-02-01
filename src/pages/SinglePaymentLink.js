@@ -235,7 +235,7 @@ const SinglePaymentLink = () => {
                                                                 {/* </IconButton> */}
                                                                 <div className='pt-8'>
                                                                     <h2 className='text-sm text-gray-400 font-bold'>Expected Amount</h2>
-                                                                    <h1 className='font-bold fourier'>₦{data.paymentLink.amount * data.paymentLink.expected_number_of_payments}</h1>
+                                                                    <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.amount * data.paymentLink.expected_number_of_payments || 0)}</h1>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -244,14 +244,18 @@ const SinglePaymentLink = () => {
                                                 <Grid item xs={3}>
                                                     <div className='bg-white py-2 rounded-md dashboard-matrix'>
                                                         <div className='overlay'></div>
-                                                        <div className="p-2 w-[90%] mx-auto">
+                                                        <div className="p-2 w-[90%] mx-auto relative">
                                                             <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                                <div className='content'>
+                                                                <div className='c-charges-matrics'>
+                                                                    <p className='font-bold text-red-700 text-sm'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.charges || 0)}</p>
+                                                                    <small className='italic font-medium text-gray-600'>charges</small>
+                                                                </div>
+                                                                <div className='content' style={{marginTop: '0'}}>
                                                                     <LinkIcon className='text-[#234243]' />
                                                                 </div>
                                                                 <div className='pt-8'>
                                                                     <h2 className='text-sm text-gray-400 font-bold'>Amount Per Payment</h2>
-                                                                    <h1 className='font-bold fourier'>₦{data.paymentLink.amount}</h1>
+                                                                    <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.amount || 0)}</h1>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -267,7 +271,7 @@ const SinglePaymentLink = () => {
                                                                 </div>
                                                                 <div className='pt-8'>
                                                                     <h2 className='text-sm text-gray-400 font-bold'>Recieved Payment</h2>
-                                                                    <h1 className='font-bold fourier'>₦{data.recievedAmount}</h1>
+                                                                    <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.recievedAmount || 0)}</h1>
                                                                 </div>
                                                             </div>
                                                         </div>

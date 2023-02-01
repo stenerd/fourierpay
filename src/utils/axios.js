@@ -3,7 +3,8 @@ import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 const Protected = axios.create()
 
-export const BASE_URL = `https://fourierpay.hostless.app`
+// export const BASE_URL = `https://fourierpay.hostless.app`
+export const BASE_URL = `http://127.0.0.1:4000`
 
 
 Protected.interceptors.request.use(
