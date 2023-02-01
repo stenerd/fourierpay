@@ -1,76 +1,76 @@
 import React, { PureComponent } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { AreaChart, CartesianAxis, LineChart, Area, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const data = [
-  {
-    day: 'Monday',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    day: 'Tuesday',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    day: 'Wednesday',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    day: 'Thursday',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    day: 'Friday',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    day: 'Saturday',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    day: 'Sunday',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+// const data = [
+//   {
+//       "day": "Sun Jan 29",
+//       "incoming": 0,
+//       "outgoing": 0
+//   },
+//   {
+//       "day": "Mon Jan 30",
+//       "incoming": 0,
+//       "outgoing": 0
+//   },
+//   {
+//       "day": "Tue Jan 31",
+//       "incoming": 0,
+//       "outgoing": 0
+//   },
+//   {
+//       "day": "Wed Feb 01",
+//       "incoming": 14500,
+//       "outgoing": 3000
+//   },
+//   {
+//       "day": "Thu Feb 02",
+//       "incoming": 0,
+//       "outgoing": 0
+//   },
+//   {
+//       "day": "Fri Feb 03",
+//       "incoming": 0,
+//       "outgoing": 0
+//   },
+//   {
+//       "day": "Sat Feb 04",
+//       "incoming": 0,
+//       "outgoing": 0
+//   },
+//   {
+//       "day": "Sun Feb 05",
+//       "incoming": 0,
+//       "outgoing": 0
+//   }
+// ]
 
-const DashboardChart=()=> {
+const DashboardChart=({data})=> {
 //   static demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
 
 //   render() {
     return (
-      <ResponsiveContainer width="100%" height={400}>
-        <LineChart
+      <ResponsiveContainer width="100%" height={500}>
+        <AreaChart
           width={500}
           height={300}
           data={data}
           margin={{
-            top: 5,
+            top: 10,
             right: 0,
             left: 0,
             bottom: 5,
           }}
         >
-          <CartesianGrid strokeDasharray="2 2" />
+          <CartesianGrid strokeDasharray="2 5" />
           <XAxis dataKey="day" />
-          <YAxis />
+          <YAxis  />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="pv" stroke="#00bf00" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="uv" stroke="#ff1414" />
-        </LineChart>
+          {/* <Line type="monotone" dataKey="pv" stroke="#00bf00" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="uv" stroke="#ff1414" /> */}
+            <Area type="monotone" dataKey="incoming" stroke="#00bf00" fill="#00bf00" />
+            <Area type="monotone" dataKey="outgoing" stroke="#1f332b" fill="#1f332b" />
+        </AreaChart>
       </ResponsiveContainer>
     );
 //   }

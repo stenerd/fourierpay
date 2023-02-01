@@ -104,7 +104,8 @@ const PaymentReciept = () => {
                                     </div>
                                     <div className='w-[85%]'>
                                         <p className='text-lg text-[#d6d8d5] font-medium'>Amount</p>
-                                        <p className='font-bold text-2xl'>₦ {Intl.NumberFormat('en-US').format(payment.amount || 0)}</p>
+                                        <p className='font-bold text-2xl' style={{color: '#97f675'}}>₦ {Intl.NumberFormat('en-US').format(payment.amount || 0)}</p>
+                                        <small className='font-bold'>Charges - ₦ {Intl.NumberFormat('en-US').format(payment.in_entity_id ? payment.in_entity_id.charges : 0)}</small>
                                     </div>
                                    
                                 </div>
@@ -169,7 +170,7 @@ const PaymentReciept = () => {
                                         {/* <p className='font-bold text-gray-700 text-lg mt-4'>₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p> */}
 
                                         <div className='relative mt-12 mb-8'>
-                                            <h1 className='text-gray-700 text-lg font-bold home absolute divider-title bg-[#f8faf7]'>Payment Link Answers</h1>
+                                            <h1 className='text-gray-700 text-lg font-bold home absolute divider-title bg-[#f8faf7]'>Personal Information</h1>
                                             <Divider className='creat-payment-divider' />
                                         </div>
                                         {
@@ -199,7 +200,7 @@ const PaymentReciept = () => {
                                 </div>
 
                                 <div className='absolute bottom-[3rem]'>
-                                    <Link to="/pay/lFfQMp5Ojwa9YXss4l8WBuvLbORreN">
+                                    <Link to={`/pay/${code}`}>
                                         <small className='text-[#0574e2] underline'>localhost:4000/pay/{code}</small>
                                     </Link>
                                 </div>

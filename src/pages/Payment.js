@@ -171,6 +171,9 @@ const Payment = () => {
                 required: e.required === 'true' ? true : false,
             }))
         }
+        if (!payload.expires_at) {
+            delete payload.expires_at
+        }
         try {
             await Protected.post(`${BASE_URL}/api/payment-link/create`, payload)
 
@@ -348,17 +351,21 @@ const Payment = () => {
                                                             </select>
                                                         </div>
                                                     </Grid>
-                                                    <Grid item xs={6}>
-                                                        <div className='flex flex-col space-y-3 mb-0'>
-                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Options</label>
-                                                            <div className='flex'>
-                                                                <input placeholder='Options' name='options' id='option0' className="py-2 px-4 w-full outline-none c-text-input" />
-                                                                <span className='dynamic-form-option-cta' onClick={(e) => onKeyDownHandler('option0', 0)}>
-                                                                    <SendIcon className='text-gray-500' />
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </Grid>
+                                                    {
+                                                        selectedFields[0].field_type === 'select' ? (
+                                                            <Grid item xs={6}>
+                                                                <div className='flex flex-col space-y-3 mb-0'>
+                                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Options</label>
+                                                                    <div className='flex'>
+                                                                        <input placeholder='Options' name='options' id='option0' className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                        <span className='dynamic-form-option-cta' onClick={(e) => onKeyDownHandler('option0', 0)}>
+                                                                            <SendIcon className='text-gray-500' />
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </Grid>
+                                                        ) : ''
+                                                    }
                                                     <Grid item xs={12}>
                                                         {selectedFields[0].options.map((e, index) => (
                                                             <small key={index} className='create-payment-divider-options'>{e} &nbsp; &nbsp; <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' onClick={(e) => handleRemoveFieldOption(e, 0, index)}> x</span></small>
@@ -404,17 +411,21 @@ const Payment = () => {
                                                                 </select>
                                                             </div>
                                                         </Grid>
-                                                        <Grid item xs={6}>
-                                                            <div className='flex flex-col space-y-3 mb-0'>
-                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Options</label>
-                                                                <div className='flex'>
-                                                                    <input placeholder='Options' id={'option' + (i + 1)} name={'options' + (i + 1)} className="py-2 px-4 w-full outline-none c-text-input" />
-                                                                    <span className='dynamic-form-option-cta' onClick={(e) => onKeyDownHandler('option' + (i + 1), i + 1)}>
-                                                                        <SendIcon className='text-gray-500' />
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </Grid>
+                                                        {
+                                                            selectedFields[i+1].field_type === 'select' ? (
+                                                                <Grid item xs={6}>
+                                                                    <div className='flex flex-col space-y-3 mb-0'>
+                                                                        <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Options</label>
+                                                                        <div className='flex'>
+                                                                            <input placeholder='Options' id={'option' + (i + 1)} name={'options' + (i + 1)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                            <span className='dynamic-form-option-cta' onClick={(e) => onKeyDownHandler('option' + (i + 1), i + 1)}>
+                                                                                <SendIcon className='text-gray-500' />
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </Grid>
+                                                            ): ''
+                                                        }
                                                         <Grid item xs={12} className='dynamic-form-option-pill'>
                                                             {selectedFields[i + 1].options.map((e, index) => (
                                                                 <small key={index} className='create-payment-divider-options'>{e} &nbsp; &nbsp; <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' onClick={(e) => handleRemoveFieldOption(e, i + 1, index)}> x</span></small>
@@ -462,12 +473,26 @@ const Payment = () => {
                                             </div>
                                             <div className='flex flex-col'>
                                                 <small className='font-bold text-gray-500'>Amount</small>
-                                                <h2 className='text-lg font-bold mt-0'>{state.amount.toLocaleString() || 0}</h2>
+                                                <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format(state.amount || 0)}</h2>
                                             </div>
                                             <div className='flex flex-col'>
-                                                <small className='font-bold text-gray-500'>Expected Number OF Payments</small>
-                                                <h2 className='text-lg font-bold mt-0'>{state.expected_number_of_payment || 'Nil'}</h2>
+                                                <small className='font-bold text-gray-500'>Charges</small>
+                                                <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format((+state.amount >= 2000 ? +state.amount * 0.02 + 100 : +state.amount * 0.02) || 0)}</h2>
                                             </div>
+                                            {
+                                                state.expected_number_of_payment ? (
+                                                    <>
+                                                        <div className='flex flex-col'>
+                                                            <small className='font-bold text-gray-500'>Expected Number OF Payments</small>
+                                                            <h2 className='text-lg font-bold mt-0'>{state.expected_number_of_payment || 'Nil'}</h2>
+                                                        </div>
+                                                        <div className='flex flex-col'>
+                                                            <small className='font-bold text-gray-500'>Expected Total</small>
+                                                            <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format((state.amount * state.expected_number_of_payment) || 0)}</h2>
+                                                        </div>
+                                                    </>
+                                                ): ''
+                                            }
                                             <div className='flex flex-col'>
                                                 <small className='font-bold text-gray-500'>Expiry Date</small>
                                                 <h2 className='text-lg font-bold mt-0'>{state.expires_at || 'Nil'}</h2>
