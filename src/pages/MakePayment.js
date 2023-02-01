@@ -225,9 +225,14 @@ const MakePayment = () => {
                                             </div>
                                         </div>
                                         
+                                        <p className='font-bold text-[#234244] text-xl uppercase c-make-payment-owner'>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
                                         <p className='font-bold text-gray-700 text-lg'>{paymentLink.name}</p>
                                         <span className='font-bold text-gray-500 inline-block w-full'>{paymentLink.description}</span>
-                                        <p className='font-bold text-gray-700 text-lg mt-4'>₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
+                                        <Divider className='creat-payment-divider' />
+                                        <p className='font-bold text-gray-700 text-lg mt-8'>Amount: ₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
+                                        <p className='font-bold text-gray-700 text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)}</p>
+                                        <p className='font-bold text-[#39c531] text-xl mt-4'>Total: ₦ {Intl.NumberFormat('en-US').format((paymentLink.amount + paymentLink.charges) || 0)}</p>
+                                        <Divider className='creat-payment-divider' />
                                         {
                                             paymentLink.form && paymentLink.form.length ? (
                                                 <div className='mt-8 mb-8'>

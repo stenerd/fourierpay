@@ -11,7 +11,7 @@ import { Provider } from 'react-redux'
 import { store } from './redux/Store';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <DashboardProvider>
       <ThemeProvider theme={theme}>
         <Router>
@@ -21,7 +21,7 @@ root.render(
         </Router>
       </ThemeProvider>
     </DashboardProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
