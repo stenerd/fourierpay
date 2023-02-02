@@ -57,6 +57,8 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
   //   (transaction.in_entity === 'Payment') ? transaction?.in_entity_id?.unique_answer?.toLowerCase().includes(search.toLowerCase()) : true
   // );
 
+  const array = [1, 2, 3, 4, 5, 6, 7]
+
   return (
     <>
       <div className='flex justify-between mb-4'>
@@ -174,7 +176,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
           </div>
         </div>
       )}
-      <TableContainer>
+      <TableContainer className='relative'>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow className='font-bold'>
@@ -225,9 +227,81 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
               ))}
             </TableBody>
           ) : (
-            <div className='flex justify-center items-center'>
-              <h2 className='text-center  py-2'>There is no data Available</h2>
-            </div>
+            <>
+              {/* <div className='relative'> */}
+              <div className='absolute top-[40%] left-[40%] z-20' >
+                <img src="/images/cuate.svg" className='w-40' />
+                <h2 className='text-gray-300 text-xl text-center font-bold'>No Transactions Yet!</h2>
+              </div>
+
+              {array.map((arr) => (
+                <TableBody className='relative'>
+
+                  <TableRow>
+
+                    <TableCell> <div className='space-y-2 w-full'>
+                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      </div>
+
+                      {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                        </div> */}
+
+                    </div></TableCell>
+                    <TableCell> <div className='space-y-2 w-full'>
+                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      </div>
+
+                      {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                        </div> */}
+
+                    </div></TableCell>
+                    <TableCell> <div className='space-y-2 w-full'>
+                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      </div>
+
+
+                    </div></TableCell>
+                    <TableCell> <div className='space-y-2 w-full'>
+                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      </div>
+
+
+
+                    </div></TableCell>
+                    <TableCell> <div className='space-y-2 w-full'>
+                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      </div>
+
+                      {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                        </div> */}
+
+                    </div></TableCell>
+                    <TableCell> <div className='space-y-2 w-full'>
+                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      </div>
+
+                      {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                        </div> */}
+
+                    </div></TableCell>
+                    <TableCell> <div className='space-y-2 w-full'>
+                      <div className='bg-gray-200 h-8 rounded-full w-[60%]'>
+                      </div>
+
+
+
+                    </div></TableCell>
+                  </TableRow>
+
+                </TableBody>
+              ))}
+              {/* </div> */}
+
+            </>
+
+            // <div className='flex justify-center items-center'>
+            //   <h2 className='text-center  py-2'>There is no data Available</h2>
+            // </div>
           )}
 
         </Table>

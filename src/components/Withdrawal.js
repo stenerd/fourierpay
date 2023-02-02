@@ -13,7 +13,7 @@ import WithdrawalDialog from './WithdrawalDialog';
 import WithDraws from './Withdraws';
 
 
-export default function WithdrawalTable({ handleKeyDown,withdrawals, opener, setOpener, handleClickOpen, handleCloser, start, setStart, setStatus, status, end, setEnd, filterData, loading, search, setSearch }) {
+export default function WithdrawalTable({ handleKeyDown, withdrawals, opener, setOpener, handleClickOpen, handleCloser, start, setStart, setStatus, status, end, setEnd, filterData, loading, search, setSearch }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -34,6 +34,7 @@ export default function WithdrawalTable({ handleKeyDown,withdrawals, opener, set
         }, 1000)
 
     }
+    const array = [1, 2, 3, 4, 5, 6, 7]
     // console.log({ start, end, status })
     return (
         <>
@@ -113,7 +114,7 @@ export default function WithdrawalTable({ handleKeyDown,withdrawals, opener, set
                     </div>
                 </div>
             )}
-            <TableContainer>
+            <TableContainer className='relative'>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow className='font-bold'>
@@ -161,9 +162,77 @@ export default function WithdrawalTable({ handleKeyDown,withdrawals, opener, set
                             ))}
                         </TableBody>
                     ) : (
-                        <div className='flex justify-center items-center'>
-                            <h2 className='text-center  py-2'>There is no data Available</h2>
-                        </div>
+                        <>
+                            {/* <div className='relative'> */}
+                            <div className='absolute top-[40%] left-[40%] z-20' >
+                                <img src="/images/wihdrawal.svg" className='w-40'/>
+                                <h2 className='text-gray-300 text-xl text-center font-bold'>No Withdrawals Yet!</h2>
+                            </div>
+
+                            {array.map((arr) => (
+                                <TableBody  className='relative'>
+
+                                    <TableRow>
+
+                                        <TableCell> <div className='space-y-2 w-full'>
+                                            <div className='bg-gray-200 h-4 w-[60%]'>
+                                            </div>
+
+                                            {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                                  </div> */}
+
+                                        </div></TableCell>
+                                        <TableCell> <div className='space-y-2 w-full'>
+                                            <div className='bg-gray-200 h-4 w-[60%]'>
+                                            </div>
+
+                                            {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                                  </div> */}
+
+                                        </div></TableCell>
+                                        <TableCell> <div className='space-y-2 w-full'>
+                                            <div className='bg-gray-200 h-4 w-[60%]'>
+                                            </div>
+
+
+                                        </div></TableCell>
+                                        <TableCell> <div className='space-y-2 w-full'>
+                                            <div className='bg-gray-200 h-4 w-[60%]'>
+                                            </div>
+
+
+
+                                        </div></TableCell>
+                                        <TableCell> <div className='space-y-2 w-full'>
+                                            <div className='bg-gray-200 h-4 w-[60%]'>
+                                            </div>
+
+                                            {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                                  </div> */}
+
+                                        </div></TableCell>
+                                        <TableCell> <div className='space-y-2 w-full'>
+                                            <div className='bg-gray-200 h-4 w-[60%]'>
+                                            </div>
+
+                                            {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                                  </div> */}
+
+                                        </div></TableCell>
+                                        <TableCell> <div className='space-y-2 w-full'>
+                                            <div className='bg-gray-200 h-8 rounded-full w-[60%]'>
+                                            </div>
+
+
+
+                                        </div></TableCell>
+                                    </TableRow>
+
+                                </TableBody>
+                            ))}
+                            {/* </div> */}
+
+                        </>
                     )}
 
                 </Table>
