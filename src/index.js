@@ -9,18 +9,25 @@ import { theme } from './theme';
 import DashboardProvider, { DashBoardContext } from './context/Dashboard';
 import { Provider } from 'react-redux'
 import { store } from './redux/Store';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+
+let persistor = persistStore(store);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-    <DashboardProvider>
-      <ThemeProvider theme={theme}>
-        <Router>
-          <Provider store={store}>
+  <DashboardProvider>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
             <App />
-          </Provider>
-        </Router>
-      </ThemeProvider>
-    </DashboardProvider>
+          </PersistGate>
+        </Provider>
+      </Router>
+    </ThemeProvider>
+  </DashboardProvider>
   // </React.StrictMode>
 );
 

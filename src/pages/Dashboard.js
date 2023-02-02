@@ -26,7 +26,7 @@ import Protected, { BASE_URL } from '../utils/axios';
 import Skeleton from '@mui/material/Skeleton';
 // import Stack from '@mui/material/Stack';
 import { useDispatch } from 'react-redux';
-import { ADD_BENEFICIARY, ADD_PAYMENTLINKS, SINGLE_PAYMENTLINK } from '../redux/DashboardSlice';
+import { ADD_BENEFICIARY, ADD_PAYMENTLINKS, ADD_PROFILE, SINGLE_PAYMENTLINK } from '../redux/DashboardSlice';
 import WithdrawalPopup from '../components/WIthdrawalPopup';
 import { DashBoardContext } from '../context/Dashboard';
 import moment from 'moment'
@@ -153,6 +153,25 @@ const Dashboard = () => {
 
         }
     }
+    const fetchProfile = async () => {
+        const token = window.localStorage.getItem('bearer_token')
+        if (token) {
+            try {
+                setLoading(true)
+                const response = await Protected.get(`${BASE_URL}/api/user/profile`)
+                console.log(response?.data?.data)
+                dispatch(ADD_PROFILE(response?.data?.data))
+                // setProfile(response?.data?.data)
+                setLoading(false)
+            } catch (error) {
+                setLoading(false)
+                console.log(error.response)
+            }
+
+        } else {
+            return;
+        }
+    }
 
     const handleFilterChanges = (e) => {
         setSelectedFilters((prev) => {
@@ -236,6 +255,7 @@ const Dashboard = () => {
         FetchDashboardChart()
         FetchBeneficiary()
         // FetchWallet()
+        fetchProfile()
     }, [])
     const navigate = useNavigate()
     return (
@@ -274,8 +294,7 @@ const Dashboard = () => {
                                                 <div className='w-[90%] mx-auto'>
                                                     <div className='spacing-y-3 flex justify-between items-center'>
                                                         <div className='py-4'>
-                                                            {wallet.amount ? (<h1 className='fourier text-[20px] font-bold'>₦ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>) : (
-                                                                <Skeleton variant="text" sx={{ fontSize: '1rem' }} />)}
+                                                            {wallet.amount ? (<h1 className='fourier text-[20px] font-bold'>₦ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>) :<h1 className='fourier text-[20px] font-bold'>₦0</h1>}
                                                             <h3 className="text-gray-400 font-bold">Total Balance</h3>
                                                         </div>
                                                         <IconButton onClick={() => handleOpen()}>
