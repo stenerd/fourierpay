@@ -105,7 +105,6 @@ export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleCl
             setLoading(false)
         } catch (error) {
             console.log(error.response)
-
         }
 
 

@@ -26,6 +26,8 @@ export default function ProfileModal({ open5, handleOpen5, handleClose5, setOpen
         // email: '',
         phonenumber:profile.phonenumber
     })
+    console.log(profile)
+    
 
     const handleChange = (e) => {
         setState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -90,11 +92,11 @@ export default function ProfileModal({ open5, handleOpen5, handleClose5, setOpen
                         <div className='py-4 px-2'>
                             <div>
                                 <label className='text-sm font-bold block my-2 text-gray-700'>First Name</label>
-                                <input placeholder='First Name' onChange={handleChange} value={state.firstname} required name='firstname' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                                <input placeholder='First Name' onChange={handleChange} value={state?.firstname} required name='firstname' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
                             </div>
                             <div>
                                 <label className='text-sm font-bold block my-2 text-gray-700'>Last Name</label>
-                                <input placeholder='Last Name' onChange={handleChange} value={state.lastname}  required name='lastname' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                                <input placeholder='Last Name' onChange={handleChange} value={state?.lastname}  required name='lastname' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
                             </div>
                             {/* <div>
                                 <label className='text-sm font-bold block my-2 text-gray-700'>Email</label>
@@ -102,7 +104,7 @@ export default function ProfileModal({ open5, handleOpen5, handleClose5, setOpen
                             </div> */}
                             <div>
                                 <label className='text-sm font-bold block my-2 text-gray-700'>Phone Number</label>
-                                <input placeholder='Phone Number' onChange={handleChange} value={state.phonenumber}  required name='phonenumber' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                                <input placeholder='Phone Number' onChange={handleChange} value={state?.phonenumber}  required name='phonenumber' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
                             </div>
                             <div className='py-4'>
                                 <button className='c-primary-button'>
