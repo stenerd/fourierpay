@@ -310,7 +310,7 @@ const Profile = () => {
                                         <div className='py-6 px-3 w-[90%] mx-auto'>
                                             <div className='spacing-y-3'>
                                                 <h1 className='fourier font-bold' style={{ textTransform: 'uppercase' }}>{profile.firstname} {profile.lastname}</h1>
-                                                <h3 className="text-gray-400 font-bold">{moment(new Date()).format('dddd, MMMM DDD YYYY')}</h3>
+                                                <h3 className="text-gray-400 font-bold">{moment(new Date()).format('dddd, MMMM DD YYYY')}</h3>
                                             </div>
                                         </div>
                                         <div className='py-2 px-2 bg-[#f8faf7]'>
