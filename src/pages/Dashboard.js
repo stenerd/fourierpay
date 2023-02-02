@@ -500,19 +500,19 @@ const Dashboard = () => {
                                     <div className='py-8'>
                                         <div className='flex justify-end'>
                                             <div className='flex mb-4 w-[50%]'>
-                                                <select placeholder='Year' name='year' value={selectedFilters.year} onChange={(e) => handleFilterChanges(e)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                <select placeholder='Year' name='year' value={selectedFilters.year} onChange={(e) => handleFilterChanges(e)} className="py-2 px-4 w-full outline-none c-text-input" style={{backgroundColor: '#f8faf7'}}>
                                                     <option value='2022'>2022 </option>
                                                     <option value='2023'>2023 </option>
                                                     <option value='2024'>2024 </option>
                                                 </select>
-                                                <select placeholder='Type' name='type' value={selectedFilters.type} onChange={(e) => handleFilterChanges(e)}  className="py-2 px-4 w-full outline-none c-text-input">
+                                                <select placeholder='Type' name='type' value={selectedFilters.type} onChange={(e) => handleFilterChanges(e)}  className="py-2 px-4 w-full outline-none c-text-input" style={{backgroundColor: '#f8faf7'}}>
                                                     <option value='week'>Week </option>
                                                     <option value='month'>Month </option>
                                                     <option value='year'>Year </option>
                                                 </select>
                                                 {
                                                     selectedFilters.type === 'week' ? (
-                                                        <select placeholder='Week Number' name='week' value={selectedFilters.week || 1} onChange={(e) => handleFilterChanges(e)}  className="py-2 px-4 w-full outline-none c-text-input">
+                                                        <select placeholder='Week Number' name='week' value={selectedFilters.week || 1} onChange={(e) => handleFilterChanges(e)}  className="py-2 px-4 w-full outline-none c-text-input" style={{backgroundColor: '#f8faf7'}}>
                                                             {
                                                                 ([...Array(52).keys()]).map((_, index) => (
                                                                     <option key={index + 1} value={index + 1}>Week {index + 1}</option>
@@ -520,7 +520,7 @@ const Dashboard = () => {
                                                             }
                                                         </select>
                                                     ) : selectedFilters.type === 'month' ? (
-                                                        <select placeholder='Month' name='month' value={selectedFilters.month || 'January'} onChange={(e) => handleFilterChanges(e)}  className="py-2 px-4 w-full outline-none c-text-input">
+                                                        <select placeholder='Month' name='month' value={selectedFilters.month || 'January'} onChange={(e) => handleFilterChanges(e)}  className="py-2 px-4 w-full outline-none c-text-input" style={{backgroundColor: '#f8faf7'}}>
                                                             {
                                                                 monthArr.map((month, index) => (
                                                                     <option key={index + 1} value={month}>{month}</option>
@@ -531,7 +531,7 @@ const Dashboard = () => {
                                                 }
                                                 
                                                 <Tooltip title='Run filter on chart'>
-                                                    <span className='dynamic-form-option-cta' onClick={() => FetchDashboardChart()} >
+                                                    <span className='dynamic-form-option-cta' style={{backgroundColor: '#f8faf7'}} onClick={() => FetchDashboardChart()} >
                                                         <FilterAltIcon className='text-gray-500' />
                                                     </span>
                                                 </Tooltip>

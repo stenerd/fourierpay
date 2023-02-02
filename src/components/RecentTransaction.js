@@ -4,13 +4,16 @@ const RecentTransacton = () => {
     return (
         <>
             <div className='space-y-3 relative'>
-                <div className='absolute top-[30%] left-[40%]'>
-                    <img src="/images/cuate.svg" />
+                <div className='c-center-absolute'>
+                    
+                    <div className='flex justify-center'>
+                        <img src="/images/cuate.svg" />
+                    </div>
                     <div className='py-2'>
-                       <p className='text-black text-center'>No Transactions Yet</p>
+                       <p className='text-black text-center font-bold text-gray-500'>No Transactions Yet!</p>
                     </div>
                 </div>
-                <div className='py-2 border border-gray-200'>
+                <div className='py-2 border-gray-200'>
                     <div className='w-[95%] mx-auto space-y-4 justify-between items-center'>
                         <div className='flex justify-between items-center'>
                             <div className='space-y-2'>
@@ -32,7 +35,7 @@ const RecentTransacton = () => {
                         </div>
                     </div>
                 </div>
-                <div className='py-2 bg-gray-100 border border-gray-200'>
+                <div className='py-2 bg-gray-100 border-gray-200'>
                     <div className='w-[95%] mx-auto space-y-4 justify-between items-center'>
                         <div className='flex justify-between items-center'>
                             <div className='space-y-2'>
@@ -54,7 +57,7 @@ const RecentTransacton = () => {
                         </div>
                     </div>
                 </div>
-                <div className='py-2 border border-gray-200'>
+                <div className='py-2 border-gray-200'>
                     <div className='w-[95%] mx-auto space-y-4 justify-between items-center'>
                         <div className='flex justify-between items-center'>
                             <div className='space-y-2'>
@@ -76,7 +79,7 @@ const RecentTransacton = () => {
                         </div>
                     </div>
                 </div>
-                <div className='py-2 border bg-gray-100 border-gray-200'>
+                <div className='py-2 bg-gray-100 border-gray-200'>
                     <div className='w-[95%] mx-auto space-y-4 justify-between items-center'>
                         <div className='flex justify-between items-center'>
                             <div className='space-y-2'>
@@ -98,7 +101,7 @@ const RecentTransacton = () => {
                         </div>
                     </div>
                 </div>
-                <div className='py-2 border border-gray-200'>
+                <div className='py-2 border-gray-200'>
                     <div className='w-[95%] mx-auto space-y-4 justify-between items-center'>
                         <div className='flex justify-between items-center'>
                             <div className='space-y-2'>
@@ -120,7 +123,7 @@ const RecentTransacton = () => {
                         </div>
                     </div>
                 </div>
-                <div className='py-2 border bg-gray-100 border-gray-200'>
+                <div className='py-2 bg-gray-100 border-gray-200'>
                     <div className='w-[95%] mx-auto space-y-4 justify-between items-center'>
                         <div className='flex justify-between items-center'>
                             <div className='space-y-2'>

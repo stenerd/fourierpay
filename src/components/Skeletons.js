@@ -3,11 +3,13 @@ import React from 'react'
 const Skeletons = () => {
     return (
         <>
-            <div className='space-y-3 relative'>
-                <div className='absolute top-[30%] left-[40%]'>
-                    <img src="/images/payments.svg" />
+            <div className='space-y-3 pb-4 relative w-[90%] mx-auto'>
+                <div className='c-center-absolute'>
+                    <div className='flex justify-center'>
+                        <img src="/images/payments.svg" />
+                    </div>
                     <div className='py-2'>
-                        <p className='text-black text-center'>No Payments</p>
+                        <p className='text-center font-bold text-gray-500'>No Payments Yet!</p>
                     </div>
                 </div>
                 <div className='py-2 border border-gray-200'>
@@ -82,6 +84,24 @@ const Skeletons = () => {
                         </div>
 
 
+                    </div>
+                </div>
+                <div className='py-2 border border-gray-200'>
+                    <div className='w-[95%] mx-auto space-y-4 justify-between items-center'>
+                        <div className='flex justify-between items-center'>
+                            <div className='space-y-2'>
+                                <div className='bg-gray-200 h-4 w-20'>
+                                </div>
+                                <div className='bg-gray-200 h-4 w-8'>
+                                </div>
+                            </div>
+                            <div className='space-y-2 flex-col flex'>
+                                <div className='bg-gray-200 h-4 w-20'>
+                                </div>
+                                <div className='bg-gray-200 h-4  w-8 self-end'>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

@@ -2,14 +2,17 @@ import { Grid } from '@mui/material'
 import React from 'react'
 
 const BeneficiarySkeleton = () => {
-    const array = [0, 1]
+    const array = [0, 1, 2]
     return (
         <>
             <div className='space-y-3 relative'>
-                <div className='absolute top-[20%] left-[30%] z-20'>
-                    <img src="/images/wihdrawal.svg" className='w-24'/>
+                <div className='c-center-absolute z-20'>
+                    
+                    <div className='flex justify-center'>
+                        <img src="/images/wihdrawal.svg" className='w-24'/>
+                    </div>
                     <div className='py-2'>
-                       <p className='text-black text-center'>No beneficiary Yet</p>
+                       <p className='text-black text-center font-bold text-gray-500'>No Beneficiary Yet!</p>
                     </div>
                 </div>
                 {array.map((arr) => (
