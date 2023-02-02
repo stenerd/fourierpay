@@ -186,3 +186,10 @@
     text-transform: uppercase;
     border-radius: 0.2rem;
 }
+
+.c-center-absolute{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

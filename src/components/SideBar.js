@@ -23,7 +23,7 @@ const Sidebar = () => {
     }
     return (
         <>
-            <div className="min-h-screen  bg-[#0d1510] w-[20%] shadow-lg  fixed">
+            <div className="min-h-screen  bg-[#1d3329] w-[20%] shadow-lg  fixed">
                 <div className='p-4'>
                     <div className='py-4'>
                         <Link to="/">

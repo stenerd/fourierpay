@@ -38,6 +38,7 @@ import moment from 'moment'
 import SingleTransactionModal from '../components/SingleTransaction';
 import RecentLinksSkeleton from '../components/RecentLinksSkeleton';
 import BeneficiarySkeleton from '../components/BeneficiarySkeleton';
+import RecentTransacton from '../components/RecentTransaction';
 const Profile = () => {
     const [state, setState] = React.useState({
         top: false,
@@ -218,7 +219,7 @@ const Profile = () => {
                                 <AutoFixHighIcon className="mx-2 mb-2 text-gray-500 fourier-profile-icon cursor-pointer" onClick={() => handleOpen5()} />
                             </div>
                         )}
-                        {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<small className='font-bold text-gray-500'>{profile?.email} {profile?.phonenumber ? `| ${profile?.phonenumber}` : ''}</small>)}
+                        {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<small className='font-bold text-gray-500'>{profile?.email} {profile?.phonenumber}</small>)}
 
 
                     </div>
@@ -309,7 +310,8 @@ const Profile = () => {
                                     <div className='bg-[#f1f3f0] rounded-md dashboard-wallet'>
                                         <div className='py-6 px-3 w-[90%] mx-auto'>
                                             <div className='spacing-y-3'>
-                                                <h1 className='fourier font-bold' style={{ textTransform: 'uppercase' }}>{profile.firstname} {profile.lastname}</h1>
+                                            {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<h2 style={{ textTransform: 'uppercase' }} className='fourier font-bold'>{profile.firstname} {profile.lastname} </h2>)}
+                                                {/* <h1 className='fourier font-bold' style={{ textTransform: 'uppercase' }}>{profile.firstname} {profile.lastname}</h1> */}
                                                 <h3 className="text-gray-400 font-bold">{moment(new Date()).format('dddd, MMMM DD YYYY')}</h3>
                                             </div>
                                         </div>
@@ -368,7 +370,7 @@ const Profile = () => {
                                             {beneficiaries.length === 0 && (
                                                 <>
                                                     <BeneficiarySkeleton />
-                                                    <BeneficiarySkeleton />
+                                                    {/* <BeneficiarySkeleton /> */}
                                                 </>
                                             )}
                                         </div>
@@ -470,6 +472,9 @@ const Profile = () => {
                                                         </div>
                                                     )
                                                 }
+                                                { profileTables?.recentTransaction?.length ==0&&(
+                                                    <RecentTransacton/>
+                                                )}
 
 
                                             </List>
