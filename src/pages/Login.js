@@ -41,7 +41,7 @@ const Login = () => {
                 <div className=''>
                     {/* <div className='w-4/5 mx-auto flex flex-col justify-between'>
                         <Link to="/">
-                            <h2 className='text-xl fourier'>Fourier<span className='text-[#234243]'>Pay</span></h2>
+                            <h2 className='text-xl fourier'>Fourier<span className='text-[#1d3329]'>Pay</span></h2>
                         </Link>
                     </div> */}
                     <Grid container>

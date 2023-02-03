@@ -27,7 +27,13 @@ const Sidebar = () => {
                 <div className='p-4'>
                     <div className='py-4'>
                         <Link to="/">
-                            <h2 className='text-2xl fourier w-5/6 px-2 mx-auto text-white font-semibold pt-4'>Fourier<span className='text-[#97f675]'>Pay</span></h2>
+                            {/* <h2 className='text-2xl fourier w-5/6 px-2 mx-auto text-white font-semibold pt-4'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}
+                            <div className='w-5/6 px-2 mx-auto pt-4'>
+                                <div className='w-[8rem]'>
+                                    <img src="/images/two.svg" />
+                                </div>
+                            </div>
+                            
                         </Link>
                     </div>
                     <div className='w-5/6 mx-auto flex flex-co1'>

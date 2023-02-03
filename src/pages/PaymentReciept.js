@@ -151,7 +151,10 @@ const PaymentReciept = () => {
                                 <div className='w-full'>
                                     <form className='w-full'>
                                         <div className='flex justify-between mb-12'>
-                                            <h3 className='text-2xl font-bold text-[#234244]'>Fourier<span className='text-[#97f675]'>Pay</span></h3>
+                                            {/* <h3 className='text-2xl font-bold text-[#234244]'>Fourier<span className='text-[#97f675]'>Pay</span></h3> */}
+                                            <div className='w-[8rem]'>
+                                                <img src="/images/five.svg" />
+                                            </div>
                                             <div className='flex flex-col items-end justify-end'>
                                                 <span className='text-gray-500 font-semibold'>{moment(new Date()).format('ddd MMM DD, YYYY -  hh:mm:ss A')}</span>
                                             </div>

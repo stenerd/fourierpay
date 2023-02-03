@@ -9,7 +9,10 @@ const Hero = () => {
                 <div className='w-[90%] md:w-4/5 mx-auto'>
                     <div className='py-5'>
                         <div className='flex justify-between items-center'>
-                            <h2 className='text-2xl hero font-bold text-white'>Fourier<span className='text-[#97f675]'>Pay</span></h2>
+                            {/* <h2 className='text-2xl hero font-bold text-white'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}
+                            <div className='w-[10rem]'>
+                                <img src="/images/two.svg" />
+                            </div>
                             <div className='flex items-center space-x-3 md:space-x-6'>
                                 <Link to='/login'>
                                     <span className='text-white cursor-pointer font-bold'>Login</span>
@@ -61,10 +64,13 @@ const Hero = () => {
                                                         <div className='c-bottom-clear'></div>
 
                                                     </div>
-                                                    <h2 className='hero font-bold text-2xl text-[#1f332b]'>Fourier<span style={{ color: '#97f675' }}>Pay</span></h2>
+                                                    {/* <h2 className='hero font-bold text-2xl text-[#1f332b]'>Fourier<span style={{ color: '#97f675' }}>Pay</span></h2> */}
+                                                    <div className='w-[7rem]'>
+                                                        <img src="/images/four.svg" />
+                                                    </div>
                                                 </div>
                                                 <div className="w-[85%] mx-auto py-5">
-                                                    <h1 className='font-bold text-[#1f332b] text-2xl'>VISA</h1>
+                                                    {/* <h1 className='font-bold text-[#1f332b] text-2xl'>VISA</h1> */}
                                                 </div>
                                                 <div className='p-1'>
                                                     <div className='w-full bg-[#1f332b] py-4 rounded-b-xl'>

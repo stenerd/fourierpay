@@ -85,7 +85,8 @@
 .c-reciept-topics{
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
-    background: #234244;
+    background: #1d3329;
+    /* background: #234244; */
 }
 
 .c-reciept-summary{
