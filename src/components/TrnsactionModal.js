@@ -10,7 +10,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 550,
+    width: 600,
     bgcolor: 'background.paper',
     // border: '2px solid #000',
     boxShadow: 24,
@@ -19,7 +19,7 @@ const style = {
 };
 
 export default function TransactionModal({ open, setOpen, handleOpen, handleClose, transactions, recentTransaction }) {
-
+    console.log(recentTransaction)
     let recentPayment = 'paid'
     return (
         <div>
@@ -32,12 +32,22 @@ export default function TransactionModal({ open, setOpen, handleOpen, handleClos
             >
                 <Box sx={style}>
                     <>
-                        <div className='py-3'>
+                    <div>
+                        <h2 className='text-center font-bold text-xl'>Transaction Receipt</h2>
+                    </div>
+                        <div className='py-3 divide-y-2'>
+                        
                             {/* <h1 className='text-center font-bold'>{recentPayment?.payment_link_id?.name}</h1> */}
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Reference</h2>
                                 <p className='font-bold'>{recentTransaction?.reference}</p>
                             </div>
+                            {recentTransaction?.in_entity_id?.form?.map((tx,index) => (
+                                <div className='flex justify-between items-center py-3'>
+                                    <h2 className='text-gray-400 capitalize'>{tx?.field_name}</h2>
+                                    <p className='font-bold text-sm'>{tx?.answer}</p>
+                                </div>
+                            ))}
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Date</h2>
                                 <p className='font-bold text-sm'>{moment(recentTransaction?.createdAt).format('dddd, DD MMMM YYYY')}</p>

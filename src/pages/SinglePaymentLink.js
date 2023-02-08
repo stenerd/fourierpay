@@ -248,7 +248,7 @@ const SinglePaymentLink = () => {
                                                             <div className='space-y-3 flex flex-col items-start justify-start'>
                                                                 <div className='c-charges-matrics'>
                                                                     <p className='font-bold text-red-700 text-sm'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.charges || 0)}</p>
-                                                                    <small className='italic font-medium text-gray-600'>charges</small>
+                                                                    <small className='italic text-right font-medium  text-gray-600'>VAT</small>
                                                                 </div>
                                                                 <div className='content' style={{marginTop: '0'}}>
                                                                     <LinkIcon className='text-[#1d3329]' />

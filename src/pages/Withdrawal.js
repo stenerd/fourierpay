@@ -33,6 +33,7 @@ const Withdrawal = ({}) => {
     const handleCloser = () => {
       setOpener(false);
     };
+    const [load,setLoad] = useState(false)
 
 
 
@@ -115,11 +116,14 @@ const Withdrawal = ({}) => {
    
 
     const fetchWithdrawal = async () => {
+        setLoad(true)
         try {
             const response = await Protected.get(`${BASE_URL}/api/withdrawal/view?q=${search}`)
             console.log('fetchWithdrawal >> ', response?.data?.data)
             setWithdrawal(response?.data?.data.data)
+            setLoad(false)
         } catch (error) {
+            setLoad(false)
             console.log(error.response)
         }
     }
@@ -152,7 +156,7 @@ const Withdrawal = ({}) => {
 
                         </div>
                     </div>
-                    <WithdrawalTable handleKeyDown={handleKeyDown} search={search} setSearch={setSearch} start={start} end={end} setStart={setStart} status={status} setEnd={setEnd} setStatus={setStatus}  withdrawals={withdrawals}  opener={opener} loading={loading} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} filterData={filterData}/>
+                    <WithdrawalTable load={load}  handleKeyDown={handleKeyDown} search={search} setSearch={setSearch} start={start} end={end} setStart={setStart} status={status} setEnd={setEnd} setStatus={setStatus}  withdrawals={withdrawals}  opener={opener} loading={loading} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} filterData={filterData}/>
                     <WithdrawalDialog loading={loading} filterData={filterData} setStart={setStart} setEnd={setEnd} setStatus={setStatus} start={start} end={end} status={status} opener={opener} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser}/>
                     <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} />
                     {/* <Withdrawls/> */}
