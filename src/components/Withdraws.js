@@ -19,7 +19,7 @@ const style = {
 };
 
 export default function WithDraws({ open, setOpen, handleOpen, handleClose, transactions, recentWithdraws:recentTransaction }) {
-    // console.log(recentTransaction)
+    console.log(recentTransaction)
 
     let recentPayment = 'paid'
     return (
@@ -33,7 +33,10 @@ export default function WithDraws({ open, setOpen, handleOpen, handleClose, tran
             >
                 <Box sx={style}>
                     <>
-                        <div className='py-3'>
+                    <div>
+                        <h2 className='text-center font-semibold text-xl'>Withdrawal</h2>
+                    </div>
+                        <div className='py-3 divide-y-2'>
                             {/* <h1 className='text-center font-bold'>{recentPayment?.payment_link_id?.name}</h1> */}
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Name</h2>
