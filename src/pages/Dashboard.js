@@ -52,11 +52,16 @@ const Dashboard = () => {
     const handleOpened = () => setOpened(true);
     const handleCloseed = () => setOpened(false);
 
+    const currentDate = new Date();
+    const startDate = new Date(currentDate.getFullYear(), 0, 1);
+    var days = Math.floor((currentDate - startDate) /
+        (24 * 60 * 60 * 1000));
+
     const [matrics, setMatrics] = React.useState({});
     const [selectedFilters, setSelectedFilters] = React.useState({
         year: '2023',
         type: 'week',
-        week: 1
+        week: Math.ceil(days / 7)
     });
     const [chartData, setChartData] = React.useState([]);
     const [tables, setTables] = React.useState({});
@@ -100,7 +105,7 @@ const Dashboard = () => {
         },
         [`& .${linearProgressClasses.bar}`]: {
             borderRadius: 5,
-            backgroundColor: theme.palette.mode === 'light' ? '#234243' : '#234243',
+            backgroundColor: theme.palette.mode === 'light' ? '#1d3329' : '#1d3329',
         },
     }));
     const recentPay = (each) => {
@@ -265,13 +270,13 @@ const Dashboard = () => {
                     <Titlebar>
                         <h2 className='fourier font-bold'>DashBoard</h2>
                         <div>
-                            <button onClick={() => navigate('/dashboard/payment')} className='px-4 py-2 rounded-sm font-medium text-white bg-[#234243]'>Create Payment</button>
+                            <button onClick={() => navigate('/dashboard/payment')} className='px-4 py-2 rounded-sm font-medium text-white bg-[#1d3329]'>Create Payment</button>
                         </div>
                     </Titlebar>
                     <div className='px-16 py-8'>
                         {/* <div className='flex justify-between items-center w-[90%] mx-auto'>
                         <h2 className='fourier text-xl font-bold'>DashBoard</h2>
-                        <button onClick={()=>navigate("/dashboard/payment")} className='px-4 py-2 rounded-md text-white bg-[#234243]'>Create Payment</button>
+                        <button onClick={()=>navigate("/dashboard/payment")} className='px-4 py-2 rounded-md text-white bg-[#1d3329]'>Create Payment</button>
                     </div> */}
                         <div className='py-4'>
                             <Grid container spacing={4} alignItems="">
@@ -298,7 +303,7 @@ const Dashboard = () => {
                                                             <h3 className="text-gray-400 font-bold">Total Balance</h3>
                                                         </div>
                                                         <IconButton onClick={() => handleOpen()}>
-                                                            <NearMeIcon className='text-[#234243]' />
+                                                            <NearMeIcon className='text-[#1d3329]' />
                                                         </IconButton>
                                                     </div>
                                                 </div>
@@ -317,7 +322,7 @@ const Dashboard = () => {
                                                     <p className='text-sm font-bold'>
                                                         <span className='text-[#f10707]'>₦ 199</span>
                                                         <span className='text-[#9aa3ae]'> spent out of </span>
-                                                        <span className='text-[#234243]'>₦ 2,4000</span>
+                                                        <span className='text-[#1d3329]'>₦ 2,4000</span>
                                                     </p>
                                                     <p className='text-sm font-bold'>10%</p>
                                                 </div>
@@ -418,7 +423,7 @@ const Dashboard = () => {
                                                     <BorderLinearProgress variant="determinate" value={50} />
                                                 </div>
                                                 <div className='flex justify-between items-center font-bold'>
-                                                    <p className='text-[#234243] text-sm'>Withdrawals</p>
+                                                    <p className='text-[#1d3329] text-sm'>Withdrawals</p>
                                                     <p className='text-sm font-bold'>20</p>
                                                 </div> */}
 
@@ -436,7 +441,7 @@ const Dashboard = () => {
                                                         <div className='space-y-3 flex flex-col items-start justify-start'>
                                                             {/* <IconButton> */}
                                                             <div className='content'>
-                                                                <AttachMoneyIcon className='text-[#234243]' />
+                                                                <AttachMoneyIcon className='text-[#1d3329]' />
                                                             </div>
                                                             {/* </IconButton> */}
                                                             <div className='pt-8'>
@@ -453,7 +458,7 @@ const Dashboard = () => {
                                                     <div className="p-2 w-[90%] mx-auto">
                                                         <div className='space-y-3 flex flex-col items-start justify-start'>
                                                             <div className='content'>
-                                                                <LinkIcon className='text-[#234243]' />
+                                                                <LinkIcon className='text-[#1d3329]' />
                                                             </div>
                                                             <div className='pt-8'>
                                                                 <h2 className='text-sm text-gray-400 font-bold'>Payment Links</h2>
@@ -469,7 +474,7 @@ const Dashboard = () => {
                                                     <div className="p-2 w-[90%] mx-auto">
                                                         <div className='space-y-3 flex flex-col items-start justify-start'>
                                                             <div className='content'>
-                                                                <PaidIcon className='text-[#234243]' />
+                                                                <PaidIcon className='text-[#1d3329]' />
                                                             </div>
                                                             <div className='pt-8'>
                                                                 <h2 className='text-sm text-gray-400 font-bold'>Payments</h2>
@@ -485,7 +490,7 @@ const Dashboard = () => {
                                                     <div className="p-2 w-[90%] mx-auto">
                                                         <div className='space-y-3 flex flex-col items-start justify-start'>
                                                             <div className='content'>
-                                                                <PaymentsIcon className='text-[#234243]' />
+                                                                <PaymentsIcon className='text-[#1d3329]' />
                                                             </div>
                                                             <div className='pt-8'>
                                                                 <h2 className='text-sm text-gray-400 font-bold'>Withdrawal</h2>

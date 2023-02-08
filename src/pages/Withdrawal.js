@@ -135,7 +135,7 @@ const Withdrawal = ({}) => {
                 <Titlebar>
                     <h2>Withdrawal</h2>
                     <div>
-                        <button className='px-4 py-2 rounded-sm font-medium text-white bg-[#234243]' onClick={() => handleOpen()}>Withdraw</button>
+                        <button className='px-4 py-2 rounded-sm font-medium text-white bg-[#1d3329]' onClick={() => handleOpen()}>Withdraw</button>
                     </div>
                 </Titlebar>
                 <div className='py-4 w-[90%] mx-auto'>
@@ -143,8 +143,8 @@ const Withdrawal = ({}) => {
 
                         <div className='py-4'>
                             {/* <div className='flex items-center space-x-4'>
-                                <h2 className={payin ? `text-[#234243] font-bold cursor-pointer border-b-2 border-[#234243]` : `cursor-pointer`} onClick={() => handlePayin()}>Pay In </h2>
-                                <h2 className={payout ? `text-[#234243] font-bold cursor-pointer border-b-2 border-[#234243]` : `cursor-pointer`} onClick={() => handlePayOut()}>Pay Out </h2>
+                                <h2 className={payin ? `text-[#1d3329] font-bold cursor-pointer border-b-2 border-[#1d3329]` : `cursor-pointer`} onClick={() => handlePayin()}>Pay In </h2>
+                                <h2 className={payout ? `text-[#1d3329] font-bold cursor-pointer border-b-2 border-[#1d3329]` : `cursor-pointer`} onClick={() => handlePayOut()}>Pay Out </h2>
                             </div>
                             <div className="py-4">
                                 <Divider />

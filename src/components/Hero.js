@@ -9,7 +9,10 @@ const Hero = () => {
                 <div className='w-[90%] md:w-4/5 mx-auto'>
                     <div className='py-5'>
                         <div className='flex justify-between items-center'>
-                            <h2 className='text-2xl hero font-bold text-white'>Fourier<span className='text-[#97f675]'>Pay</span></h2>
+                            {/* <h2 className='text-2xl hero font-bold text-white'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}
+                            <div className='w-[10rem]'>
+                                <img src="/images/two.svg" />
+                            </div>
                             <div className='flex items-center space-x-3 md:space-x-6'>
                                 <Link to='/login'>
                                     <span className='text-white cursor-pointer font-bold'>Login</span>
@@ -20,9 +23,9 @@ const Hero = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='min-h-[80vh] md:min-h-[75vh] flex justify-center items-center w-[95%] mx-auto'>
+                    <div className='min-h-[80vh] md:min-h-[75vh] flex justify-center items-center mx-auto'>
                         <div className='flex justify-center items-center'>
-                            <Grid container justifyContent={{xs:'center'}} alignItems='center' spacing={4} className='w-full'>
+                            <Grid container justifyContent={{xs:'center'}} alignItems='center' spacing={4} className='w-full' style={{marginLeft: 0}}>
                                 <Grid item xs={12} md={6} style={{ paddingLeft: '0' }}>
                                     <div className='space-y-8 w-full'>
                                         <h2 className='text-white md:text-left text-center font-bold text-[40px] md:text-[60px] leading-tight md:leading-[5rem]  w-[90%] md:w-4/5 md:mx-0 mx-auto'>
@@ -61,10 +64,13 @@ const Hero = () => {
                                                         <div className='c-bottom-clear'></div>
 
                                                     </div>
-                                                    <h2 className='hero font-bold text-2xl text-[#1f332b]'>Fourier<span style={{ color: '#97f675' }}>Pay</span></h2>
+                                                    {/* <h2 className='hero font-bold text-2xl text-[#1f332b]'>Fourier<span style={{ color: '#97f675' }}>Pay</span></h2> */}
+                                                    <div className='w-[7rem]'>
+                                                        <img src="/images/four.svg" />
+                                                    </div>
                                                 </div>
                                                 <div className="w-[85%] mx-auto py-5">
-                                                    <h1 className='font-bold text-[#1f332b] text-2xl'>VISA</h1>
+                                                    {/* <h1 className='font-bold text-[#1f332b] text-2xl'>VISA</h1> */}
                                                 </div>
                                                 <div className='p-1'>
                                                     <div className='w-full bg-[#1f332b] py-4 rounded-b-xl'>

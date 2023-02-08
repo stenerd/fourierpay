@@ -36,7 +36,7 @@ const PaymentLinks = () => {
         },
         [`& .${linearProgressClasses.bar}`]: {
             borderRadius: 0,
-            backgroundColor: theme.palette.mode === 'light' ? '#234243' : '#234243',
+            backgroundColor: theme.palette.mode === 'light' ? '#1d3329' : '#1d3329',
         },
     }));
 
@@ -105,7 +105,7 @@ const PaymentLinks = () => {
                     <h2 className='fourier font-bold'>Payment Links</h2>
                     <div>
                         <Link to="/dashboard/payment">
-                            <button className='px-4 py-2 rounded-sm font-medium text-white bg-[#234243]'>Create Payment</button>
+                            <button className='px-4 py-2 rounded-sm font-medium text-white bg-[#1d3329]'>Create Payment</button>
                         </Link>
                     </div>
                 </Titlebar>
@@ -128,7 +128,7 @@ const PaymentLinks = () => {
                                                     <div className='p-4'>
                                                         <div className=''>
                                                             <div className='flex justify-between'>
-                                                                <h2 className='fourier text-2xl text-[#234243] max-w-[60%] font-bold hover:text-blue-500 cursor-pointer' onClick={() => Payments(link)}>{link.name}</h2>
+                                                                <h2 className='fourier text-2xl text-[#1d3329] max-w-[60%] font-bold hover:text-blue-500 cursor-pointer' onClick={() => Payments(link)}>{link.name}</h2>
                                                                 <small className='text-sm text-[#00bf00] status-pill'>{link.status} {link.expires_at && `- ${moment(link.expires_at).format('MMMM DD, YYYY')}`}</small>
                                                             </div>
                                                             {/* <button onClick={setCopied}>

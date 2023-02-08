@@ -152,7 +152,7 @@ const SinglePaymentLink = () => {
         },
         [`& .${linearProgressClasses.bar}`]: {
             borderRadius: 0,
-            backgroundColor: theme.palette.mode === 'light' ? '#234243' : '#234243',
+            backgroundColor: theme.palette.mode === 'light' ? '#1d3329' : '#1d3329',
         },
     }));
 
@@ -208,7 +208,7 @@ const SinglePaymentLink = () => {
                                             <IconButton onClick={copyText}>
                                                 <ContentPasteIcon />
                                             </IconButton>
-                                            <h2 className='break-all text-[13px] text-[#234243] font-bold'>{data.paymentLink.link}</h2>
+                                            <h2 className='break-all text-[13px] text-[#1d3329] font-bold'>{data.paymentLink.link}</h2>
                                         </div>
                                         <div>
                                             {
@@ -230,7 +230,7 @@ const SinglePaymentLink = () => {
                                                             <div className='space-y-3 flex flex-col items-start justify-start'>
                                                                 {/* <IconButton> */}
                                                                 <div className='content'>
-                                                                    <AttachMoneyIcon className='text-[#234243]' />
+                                                                    <AttachMoneyIcon className='text-[#1d3329]' />
                                                                 </div>
                                                                 {/* </IconButton> */}
                                                                 <div className='pt-8'>
@@ -251,7 +251,7 @@ const SinglePaymentLink = () => {
                                                                     <small className='italic font-medium text-gray-600'>charges</small>
                                                                 </div>
                                                                 <div className='content' style={{marginTop: '0'}}>
-                                                                    <LinkIcon className='text-[#234243]' />
+                                                                    <LinkIcon className='text-[#1d3329]' />
                                                                 </div>
                                                                 <div className='pt-8'>
                                                                     <h2 className='text-sm text-gray-400 font-bold'>Amount Per Payment</h2>
@@ -267,7 +267,7 @@ const SinglePaymentLink = () => {
                                                         <div className="p-2 w-[90%] mx-auto">
                                                             <div className='space-y-3 flex flex-col items-start justify-start'>
                                                                 <div className='content'>
-                                                                    <PaidIcon className='text-[#234243]' />
+                                                                    <PaidIcon className='text-[#1d3329]' />
                                                                 </div>
                                                                 <div className='pt-8'>
                                                                     <h2 className='text-sm text-gray-400 font-bold'>Recieved Payment</h2>
@@ -283,7 +283,7 @@ const SinglePaymentLink = () => {
                                                         <div className="p-2 w-[90%] mx-auto">
                                                             <div className='space-y-3 flex flex-col items-start justify-start'>
                                                                 <div className='content'>
-                                                                    <PaymentsIcon className='text-[#234243]' />
+                                                                    <PaymentsIcon className='text-[#1d3329]' />
                                                                 </div>
                                                                 <div className='pt-8'>
                                                                     <h2 className='text-sm text-gray-400 font-bold'>Number Of Recipient</h2>
@@ -304,7 +304,7 @@ const SinglePaymentLink = () => {
                                             <div className='p-4'>
                                                 <div className='cursor-pointer'>
                                                     <div className='flex justify-between'>
-                                                        <h2 className='fourier text-2xl text-[#234243] font-bold'>{data.paymentLink && data.paymentLink.name}</h2>
+                                                        <h2 className='fourier text-2xl text-[#1d3329] font-bold'>{data.paymentLink && data.paymentLink.name}</h2>
                                                         <small className='text-sm text-[#00bf00] status-pill'>{data.paymentLink && data.paymentLink.status} {data.paymentLink && data.paymentLink.expires_at && '- 24th March 2023'}</small>
                                                     </div>
                                                     <div className='py-3'>

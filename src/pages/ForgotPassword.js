@@ -1,13 +1,13 @@
 import { Grid, TextField } from '@mui/material'
 import axios from 'axios'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../utils/axios';
 
-const Login = () => {
+const ForgotPassword = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [state, setState] = useState({
@@ -23,26 +23,10 @@ const Login = () => {
         e.preventDefault()
         setLoading(true)
         try {
-            const res = await axios.post(`${BASE_URL}/api/auth/login`, state)
-            window.localStorage.setItem('bearer_token',res?.data?.data.token)
-            console.log(res?.data?.data.token)
-            navigate('/dashboard')
+            const res = await axios.post(`${BASE_URL}/api/auth/forgot-password`, state)
+            console.log(res?.data?.data)
             setLoading(false)
-        } catch (error) {
-            console.log(error.response)
-            toast.error(error.response.data.message)
-            setLoading(false)
-        }
-
-    }
-
-    const handleConfirmEmail = async () => {
-        try {
-            const params = new URLSearchParams(window.location.search)
-            let token = params.get('token')
-            const res = await axios.get(`${BASE_URL}/api/auth/confirm-email/${token}`)
-            console.log(res?.data)
-            toast.success('Email Verified!', {
+            toast.success('Check your email and complete the last step.', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -54,19 +38,11 @@ const Login = () => {
             });
         } catch (error) {
             console.log(error.response)
+            toast.error(error.response.data.message)
+            setLoading(false)
         }
 
     }
-
-    useEffect(() => {
-        const params = new URLSearchParams(window.location.search)
-        let token = params.get('token')
-        console.log("token >> ", token)
-        if (token) {
-            handleConfirmEmail()
-        }
-    }, [])
-
     return (
         <>
             <div className='bg-gray-100 h-screen'>
@@ -80,9 +56,9 @@ const Login = () => {
                         <Grid item xs={12} md={5}>
                             <div className='min-h-[100vh] flex flex-col justify-center p-3'>
                                 <div className='w-[80%] mx-auto mb-0'>
-                                    <h2 className='text-xl mb-12 font-bold home c-auth-title'>Log in</h2>
-                                    <p className='font-bold text-gray-700'>Welcome back <span className='c-login-emoji'>🤗</span></p>
-                                    <small className='font-bold text-gray-500 inline-block w-[70%]'>Thanks for visiting again. Lets do some monitoring.</small>
+                                    <h2 className='text-xl mb-12 font-bold home c-auth-title'>Forgot Password</h2>
+                                    <p className='font-bold text-gray-700'>Two(2) Step Process <span className='c-login-emoji'>🙏</span></p>
+                                    <small className='font-bold text-gray-500 inline-block w-[70%]'>Can't remeber your password. You are one step closer to retrieving your account.</small>
                                 </div>
                                 {/* <h2 className='text-xl font-bold main'>Welcome Back</h2> */}
                                 <div className='w-[80%] mx-auto py-8'>
@@ -92,27 +68,18 @@ const Login = () => {
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Email</label>
                                                 <input placeholder='Email' name='email' onChange={handleChange} required type="email" className='py-2 px-4 w-full outline-none c-text-input' />
                                             </Grid>
-                                            <Grid item xs={12} md={12}>
-                                                <label className='text-sm font-bold block my-2 text-gray-700'>Password</label>
-                                                <input placeholder='Password' name='password' onChange={handleChange} required type="password" className='py-2 px-4 w-full outline-none c-text-input' />
-                                            </Grid>
                                         </Grid>
                                         <div className='mt-12 mb-6'>
                                             <button disabled={loading ? true:false}  className='c-primary-button'>
-                                                {loading ? 'loading....' : 'Login'}
+                                                {loading ? 'loading....' : 'Retrieve Account'}
                                             </button>
                                         </div>
                                     </form>
                                     <div className=''>
-                                        <p className="text-gray-700 font-bold">Do not have an account? 
-                                        <Link to="/signup">
-                                            <span className='cursor-pointer c-primary-link-color'> Register</span>
+                                        <p className="text-gray-700 font-bold">I know my credentials. 
+                                        <Link to="/login">
+                                            <span className='cursor-pointer c-primary-link-color'> Login</span>
                                         </Link>
-                                        </p>
-                                        <p className="text-gray-700 font-bold">Can't remember your password? 
-                                            <Link to="/forgot-password">
-                                                <span className='cursor-pointer c-primary-link-color'> Click here</span>
-                                            </Link>
                                         </p>
                                     </div>
                                 </div>
@@ -141,4 +108,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default ForgotPassword
