@@ -13,7 +13,7 @@ import WithdrawalDialog from './WithdrawalDialog';
 import WithDraws from './Withdraws';
 
 
-export default function WithdrawalTable({load, handleKeyDown, withdrawals, opener, setOpener, handleClickOpen, handleCloser, start, setStart, setStatus, status, end, setEnd, filterData, loading, search, setSearch }) {
+export default function WithdrawalTable({ load, handleKeyDown, withdrawals, opener, setOpener, handleClickOpen, handleCloser, start, setStart, setStatus, status, end, setEnd, filterData, loading, search, setSearch }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -127,7 +127,8 @@ export default function WithdrawalTable({load, handleKeyDown, withdrawals, opene
                             <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
                         </TableRow>
                     </TableHead>
-                    {withdrawals.length && !load ? (
+                    {/* {withdrawals } */}
+                    {withdrawals?.length && !load ? (
                         <TableBody>
                             {withdrawals.map((row, index) => (
                                 <TableRow
@@ -163,26 +164,27 @@ export default function WithdrawalTable({load, handleKeyDown, withdrawals, opene
                         </TableBody>
                     ) : (
                         <TableBody>
-                        {[1,2,3,4].map((arr, index) => (
-                          <TableRow>
-          
-                            <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                            <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                            <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                            <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                            <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                            <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                            <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                          </TableRow>
-                        ))}
-          
-                        {/* <Stack spacing={3}>
-                          <Skeleton animation="wave" variant="rectangular" width={"100%"} height={60} />
-                          <Skeleton animation="wave" variant="rounded" width={"100%"} height={60} />
-                        </Stack> */}
-                      </TableBody>
+                            {[1, 2, 3, 4].map((arr, index) => (
+                                <TableRow>
+
+                                    <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                                    <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                                    <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                                    <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                                    <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                                    <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                                    <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                                </TableRow>
+                            ))}
+
+                            {/* <Stack spacing={3}>
+                      <Skeleton animation="wave" variant="rectangular" width={"100%"} height={60} />
+                      <Skeleton animation="wave" variant="rounded" width={"100%"} height={60} />
+                    </Stack> */}
+                        </TableBody>
                     )}
-                    {withdrawals.length === 0 && !load && (
+                  
+                    {withdrawals?.length===0  && !load&& (
                         <>
                             {/* <div className='relative'> */}
                             <div className='absolute top-[40%] left-[40%] z-20' >
