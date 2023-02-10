@@ -239,6 +239,20 @@ const Dashboard = () => {
         }
     }
 
+    const FetchLinks = async () => {
+        // setLoading(true)
+        try {
+            const response = await Protected.get(`${BASE_URL}/api/payment-link`)
+            // console.log(response.data.data)
+            dispatch(ADD_PAYMENTLINKS(response?.data?.data))
+            // setPaymentLinks(response?.data?.data)
+
+            // console.log({data})
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
     const Payments = (link) => {
         dispatch(SINGLE_PAYMENTLINK(link))
         navigate(`/dashboard/payment/${link.code}`)
@@ -261,6 +275,7 @@ const Dashboard = () => {
         FetchBeneficiary()
         // FetchWallet()
         fetchProfile()
+        FetchLinks()
     }, [])
     const navigate = useNavigate()
     return (
@@ -394,8 +409,8 @@ const Dashboard = () => {
                                                                     ) : (
                                                                         <div>
                                                                             <Stack spacing={3}>
-                                                                                <Skeleton variant="rectangular" width={"80%"} height={60} />
-                                                                                <Skeleton variant="rounded" width={"80%"} height={60} />
+                                                                                <Skeleton  animation="wave" variant="rectangular" width={"80%"} height={60} />
+                                                                                <Skeleton  animation="wave" variant="rounded" width={"80%"} height={60} />
                                                                             </Stack>
                                                                         </div>
                                                                     )

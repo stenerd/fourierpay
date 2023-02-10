@@ -134,13 +134,16 @@ const Profile = () => {
 
     }
     const FetchWithdrawal = async () => {
+        setIsloading(true)
         try {
             const response = await Protected.get(`${BASE_URL}/api/withdrawal/profile`)
             console.log('setWithdrawals >> ', response.data.data)
             setWithdrawals(response.data.data)
+            setIsloading(false)
 
         } catch (error) {
             console.log(error)
+            setIsloading(false)
         }
 
     }
@@ -310,7 +313,7 @@ const Profile = () => {
                                     <div className='bg-[#f1f3f0] rounded-md dashboard-wallet'>
                                         <div className='py-6 px-3 w-[90%] mx-auto'>
                                             <div className='spacing-y-3'>
-                                            {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<h2 style={{ textTransform: 'uppercase' }} className='fourier font-bold'>{profile.firstname} {profile.lastname} </h2>)}
+                                                {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<h2 style={{ textTransform: 'uppercase' }} className='fourier font-bold'>{profile.firstname} {profile.lastname} </h2>)}
                                                 {/* <h1 className='fourier font-bold' style={{ textTransform: 'uppercase' }}>{profile.firstname} {profile.lastname}</h1> */}
                                                 <h3 className="text-gray-400 font-bold">{moment(new Date()).format('dddd, MMMM DD YYYY')}</h3>
                                             </div>
@@ -345,7 +348,7 @@ const Profile = () => {
                                         </div>
 
                                         <div className='py-2 dashboard-payment-link'>
-                                            {beneficiaries && (
+                                            {beneficiaries ? (
                                                 <List>
                                                     {beneficiaries.map((beneficiary) => (
                                                         <ListItem key={beneficiary._id} disablePadding alignItems="flex-center" onClick={() => Retrieve(beneficiary)}>
@@ -366,6 +369,15 @@ const Profile = () => {
                                                         </ListItem>
                                                     ))}
                                                 </List>
+                                            ) : (
+                                                <>
+                                                    <div>
+                                                        <Stack spacing={3}>
+                                                            <Skeleton variant="rectangular" width={"80%"} height={60} />
+                                                            <Skeleton variant="rounded" width={"80%"} height={60} />
+                                                        </Stack>
+                                                    </div>
+                                                </>
                                             )}
                                             {beneficiaries.length === 0 && (
                                                 <>
@@ -391,7 +403,7 @@ const Profile = () => {
                                     <div className='py-2 dashboard-payment-link'>
                                         <List>
                                             {
-                                                withdrawals ? (
+                                                withdrawals && !isLoading ? (
                                                     withdrawals.map((each, index) => (
                                                         <ListItem disablePadding alignItems="flex-center" onClick={() => handleOpen4()} key={index}>
                                                             <ListItemButton>
@@ -418,10 +430,17 @@ const Profile = () => {
                                                             </ListItemButton>
                                                         </ListItem>
                                                     ))
-                                                ) : ''
+                                                ) : (
+                                                    <div>
+                                                        <Stack spacing={3}>
+                                                            <Skeleton  animation="wave" variant="rectangular" width={"80%"} height={60} />
+                                                            <Skeleton  animation="wave" variant="rounded" width={"80%"} height={60} />
+                                                        </Stack>
+                                                    </div>
+                                                )
                                             }
                                         </List>
-                                        {withdrawals.length === 0 && (
+                                        {withdrawals?.length === 0  && !isLoading &&(
                                             <RecentLinksSkeleton />
                                         )}
                                     </div>
@@ -466,14 +485,14 @@ const Profile = () => {
                                                     )) : (
                                                         <div>
                                                             <Stack spacing={3}>
-                                                                <Skeleton variant="rectangular" width={"80%"} height={60} />
-                                                                <Skeleton variant="rounded" width={"80%"} height={60} />
+                                                                <Skeleton  animation="wave" variant="rectangular" width={"80%"} height={60} />
+                                                                <Skeleton  animation="wave" variant="rounded" width={"80%"} height={60} />
                                                             </Stack>
                                                         </div>
                                                     )
                                                 }
-                                                { profileTables?.recentTransaction?.length ==0&&(
-                                                    <RecentTransacton/>
+                                                {profileTables?.recentTransaction?.length == 0 && (
+                                                    <RecentTransacton />
                                                 )}
 
 
