@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TransactionModal from './TrnsactionModal';
-import { Button } from '@mui/material'
+import { Button, Skeleton, Stack } from '@mui/material'
 import TuneIcon from '@mui/icons-material/Tune';
 import moment from 'moment'
 import TransactionDialog from './TraansactionDialog';
@@ -17,7 +17,7 @@ function createData(Description, Customer, Amount, Payment, Status) {
   return { Description, Customer, Amount, Payment, Status };
 }
 
-export default function TransactionTable({ opener, setOpener, handleClickOpen, handleCloser, loading, transactions, handleKeyDown, setSearch, search, start, end, status, setStatus, setEnd, setStart, filterData, entity, setEntity, type, setType }) {
+export default function TransactionTable({ opener, setOpener, handleClickOpen, handleCloser, loading, transactions, handleKeyDown, setSearch, search, start, end, status, setStatus, setEnd, setStart, filterData, entity, setEntity, type, setType, load }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -189,7 +189,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
               <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
             </TableRow>
           </TableHead>
-          {transactions.length !== 0 ? (
+          {transactions?.length&& !loading ? (
             <TableBody>
               {transactions.map((row, index) => (
                 <TableRow
@@ -227,6 +227,31 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
               ))}
             </TableBody>
           ) : (
+
+            <TableBody>
+              {[1,2,3,4].map((arr, index) => (
+                <TableRow>
+
+                  <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                  <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                  <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                  <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                  <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                  <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                  <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                </TableRow>
+              ))}
+
+              {/* <Stack spacing={3}>
+                <Skeleton animation="wave" variant="rectangular" width={"100%"} height={60} />
+                <Skeleton animation="wave" variant="rounded" width={"100%"} height={60} />
+              </Stack> */}
+            </TableBody>
+            // <div className='flex justify-center items-center'>
+            //   <h2 className='text-center  py-2'>There is no data Available</h2>
+            // </div>
+          )}
+          {transactions?.length===0 && !load && (
             <>
               {/* <div className='relative'> */}
               <div className='absolute top-[40%] left-[40%] z-20' >
@@ -244,7 +269,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
                       </div>
 
                       {/* <div className='bg-gray-200 h-4 w-[40%]'>
-                        </div> */}
+                          </div> */}
 
                     </div></TableCell>
                     <TableCell> <div className='space-y-2 w-full'>
@@ -252,7 +277,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
                       </div>
 
                       {/* <div className='bg-gray-200 h-4 w-[40%]'>
-                        </div> */}
+                          </div> */}
 
                     </div></TableCell>
                     <TableCell> <div className='space-y-2 w-full'>
@@ -273,7 +298,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
                       </div>
 
                       {/* <div className='bg-gray-200 h-4 w-[40%]'>
-                        </div> */}
+                          </div> */}
 
                     </div></TableCell>
                     <TableCell> <div className='space-y-2 w-full'>
@@ -281,7 +306,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
                       </div>
 
                       {/* <div className='bg-gray-200 h-4 w-[40%]'>
-                        </div> */}
+                          </div> */}
 
                     </div></TableCell>
                     <TableCell> <div className='space-y-2 w-full'>
@@ -298,11 +323,8 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
               {/* </div> */}
 
             </>
-
-            // <div className='flex justify-center items-center'>
-            //   <h2 className='text-center  py-2'>There is no data Available</h2>
-            // </div>
           )}
+
 
         </Table>
       </TableContainer>

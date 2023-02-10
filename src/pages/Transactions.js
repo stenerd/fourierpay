@@ -29,6 +29,7 @@ const Transactions = () => {
     const [type, setType] = useState("")
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(false)
+    const [load,setLoad] = useState(false)
 
     const [opener, setOpener] = React.useState(false);
 
@@ -142,11 +143,14 @@ const Transactions = () => {
     };
 
     const fetchTransaction = async () => {
+        setLoad(true)
         try {
             const response = await Protected.get(`${BASE_URL}/api/transaction?q=${search}`)
             console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
+            setLoad(false)
         } catch (error) {
+            setLoad(false)
             console.log(error.response)
         }
     }
@@ -195,7 +199,7 @@ const Transactions = () => {
                 <div className='py-4 px-3 w-[90%] my-8 mx-auto'>
 
                     {payin ? (
-                        <TransactionTable handleClickOpen={handleClickOpen} handleCloser={handleCloser} opener={opener} setOpener={setOpener} transactions={transactions} handleKeyDown={handleKeyDown} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} />
+                        <TransactionTable handleClickOpen={handleClickOpen} handleCloser={handleCloser} opener={opener} setOpener={setOpener} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} />
                     ) : <PayOutTable />}
 
                 </div>

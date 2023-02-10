@@ -19,6 +19,7 @@ const style = {
 };
 
 export default function SinglePaymentModal({ open, setOpen, handleOpen, handleClose, transactions, recentPayment }) {
+    console.log(recentPayment)
 
     // let recentPayment = 'paid'
     return (
@@ -32,12 +33,21 @@ export default function SinglePaymentModal({ open, setOpen, handleOpen, handleCl
             >
                 <Box sx={style}>
                     <>
-                        <div className='py-3'>
+                        <div>
+                            <h2 className='text-center font-bold text-xl'>Transaction Receipt</h2>
+                        </div>
+                        <div className='py-3 divide-y-2'>
                             {/* <h1 className='text-center font-bold'>{recentPayment?.payment_link_id?.name}</h1> */}
-                            <div className='flex justify-between items-center py-3'>
+                            {/* <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>{recentPayment?.unique_field}</h2>
                                 <p className='font-bold'>{recentPayment?.unique_answer}</p>
-                            </div>
+                            </div> */}
+                            {recentPayment?.form?.map((tx, index) => (
+                                <div key={index} className='flex justify-between items-center py-3'>
+                                    <h2 className='text-gray-400'>{tx?.field_name}</h2>
+                                    <p className='font-bold text-sm'>{tx?.answer}</p>
+                                </div>
+                            ))}
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Date</h2>
                                 <p className='font-bold text-sm'>{moment(recentPayment?.createdAt).format('dddd, DD MMMM YYYY')}</p>
@@ -52,7 +62,7 @@ export default function SinglePaymentModal({ open, setOpen, handleOpen, handleCl
                             </div> */}
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Status</h2>
-                                <p className={recentPayment?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>paid</p>
+                                <p className={recentPayment?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{recentPayment?.status}</p>
                             </div>
                             {/* <h2>Amount :</h2> */}
                         </div>
