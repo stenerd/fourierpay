@@ -220,18 +220,38 @@ const Section = () => {
                                     <div className='absolute c-pricing-background-right'></div>
                                     <div className='relative c-pricinig-pre-background' style={{zIndex: 1}}>
                                         
-                                        <div className='bg-white p-12' style={{borderRadius: '0.5rem'}}>
-                                            <div className='flex justify-center'>
-                                                <p className='text-center font-bold text-[#1f332b] text-2xl	'>Free Trial</p>
+                                        <div className='bg-white px-8 py-6' style={{borderRadius: '0.5rem', boxShadow: '0 0 1rem 0 #ccc'}}>
+                                            <div className=''>
+                                                <p className='text-center font-medium text-gray-600 text-xl'>BASIC</p>
+                                                <h1 className='pt-8 font-bold text-center text-4xl text-[#1f332b]'>Free</h1>
+                                                <p className='pt-4 text-center font-medium text-[#13c305] text-sm'>FOREVER</p>
+                                                <p className='pt-6 flex justify-center'>
+                                                    <img src="/images/basic-plan.svg" style={{width: '12rem'}} alt='our basic package' />
+                                                </p>
                                             </div>
                                             {/* <p>Free</p> */}
 
-                                            <ul className='list-inside c-list-bullet mt-32' style={{ listStyle: 'inside' }}>
-                                                <li><span>Easy online payments processing.</span></li>
-                                                <li><span>Integrated accounting software.</span></li>
-                                                <li><span>Secure vault for storing sensitive data.</span></li>
-                                                <li><span>Easy-to-use interface</span></li>
-                                            </ul>
+                                            <p className='flex justify-center' style={{marginTop: '4.75rem'}}>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                            </p>
+                                            <p className='mt-4 flex justify-center'>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                            </p>
+                                            <p className='mt-4 flex justify-center'>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                            </p>
+                                            <p className='mt-4 flex justify-center'>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                            </p>
+                                            <p className='mt-4 flex justify-center'>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                            </p>
+                                            <p className='mt-4 mb-12 flex justify-center'>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                            </p>
+                                            <div className='flex justify-center w-full mb-12'>
+                                                <button className='bg-[#c7c7c7] text-white py-3 px-16 font-bold'>Current Plan</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -241,20 +261,41 @@ const Section = () => {
                                 <div className="relative">
                                     <div className='absolute c-pricing-background'></div>
                                     <div className='absolute c-pricing-background-right'></div>
-                                    <div className='relative c-pricinig-pre-background' style={{zIndex: 1}}>
+                                    <div className='relative c-pricinig-pre-background' style={{ zIndex: 1 }}>
+                                        <div className='absolute c-premium-package'>popular</div>
                                         
-                                        <div className='bg-white p-12' style={{borderRadius: '0.5rem'}}>
-                                            <div className='flex justify-center'>
-                                                <p className='text-center font-bold text-[#1f332b] text-2xl	'>Premium</p>
+                                        <div className='bg-white px-8 py-6' style={{borderRadius: '0.5rem', boxShadow: '0 0 1rem 0 #ccc'}}>
+                                            <div className=''>
+                                                <p className='text-center font-medium text-gray-600 text-xl'>PREMIUM</p>
+                                                <h1 className='pt-8 font-bold text-center text-4xl text-[#1f332b]'>5k/ <span className='text-gray-600 text-lg'>month</span></h1>
+                                                <p className='pt-4 text-center font-medium text-[#13c305] text-sm'>SAVING 12K A YEAR</p>
+                                                <p className='pt-6 flex justify-center'>
+                                                    <img src="/images/premium-plan.svg" style={{width: '12rem'}} alt='our premium package' />
+                                                </p>
                                             </div>
                                             {/* <p>Free</p> */}
 
-                                            <ul className='list-inside c-list-bullet mt-32' style={{ listStyle: 'inside' }}>
-                                                <li><span>Easy online payments processing.</span></li>
-                                                <li><span>Integrated accounting software.</span></li>
-                                                <li><span>Secure vault for storing sensitive data.</span></li>
-                                                <li><span>Easy-to-use interface</span></li>
-                                            </ul>
+                                            <p className='mt-12 flex justify-center'>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                            </p>
+                                            <p className='mt-4 flex justify-center'>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                            </p>
+                                            <p className='mt-4 flex justify-center'>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                            </p>
+                                            <p className='mt-4 flex justify-center'>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                            </p>
+                                            <p className='mt-4 flex justify-center'>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                            </p>
+                                            <p className='mt-4 mb-12 flex justify-center'>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                            </p>
+                                            <div className='flex justify-center w-full mb-12'>
+                                                <button className='bg-[#13c305] text-white py-3 px-16 font-bold'>Coming Soon</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
