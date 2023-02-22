@@ -5,10 +5,11 @@ import '../styles/Hero.css'
 import { gsap, Power3, Ease, SteppedEase } from 'gsap'
 import { duration } from 'moment'
 import { TextPlugin } from 'gsap/all'
+import Typewriter from "typewriter-effect";
 
 gsap.registerEffect(TextPlugin);
 const Hero = () => {
-    
+
     let firstRef = useRef(null)
     let secondRef = useRef(null)
     let thirdRef = useRef(null)
@@ -16,51 +17,42 @@ const Hero = () => {
     const t1 = gsap.timeline()
     const typewriter = useRef(null)
 
+    const topClear = useRef()
+    const bottomRef = useRef()
+    const bigCircle = useRef()
+    const smallCircle = useRef()
+
+    const t3 = gsap.timeline()
+
     useEffect(() => {
-
-        // var t2 = gsap.timeline({
-        //     paused:true
-        //   });
-        //   // letter animation
-        //   tl.fromTo(".anim-typewriter", 8, {
-        //     width: "0",
-        //   }, {
-        //     width: "20.18em", /* same as CSS .line-1 width */
-        //     ease:  SteppedEase.config(37)
-        //   }, 0);
-          // text cursor animation
-        //   tl.fromTo(".anim-typewriter", 0.5, {
-        //     "border-right-color": "rgba(255,255,255,0.75)"
-        //   }, {
-        //     "border-right-color": "rgba(255,255,255,0)",
-        //     repeat: -1,
-        //     ease:  SteppedEase.config(37)
-        //   }, 0);
-          
-        //   tl.play();
-
         var t2 = gsap.timeline({
-            paused:true
-          });
-          // letter animation
-          t2.from(".anim-typewriter", 8, {
+            paused: true
+        });
+        // letter animation
+        t2.from(".anim-typewriter", 8, {
             width: "0",
-          }, {
+        }, {
             width: "20.18em", /* same as CSS .line-1 width */
-            ease:  SteppedEase.config(37)
-          }, 0);
-          // text cursor animation
-          t2.from(".anim-typewriter", 0.5, {
+            ease: SteppedEase.config(37)
+        }, 0);
+        // text cursor animation
+        t2.from(".anim-typewriter", 0.5, {
             "border-right-color": "rgba(255,255,255,0.75)"
-          }, {
+        }, {
             "border-right-color": "rgba(255,255,255,0)",
             repeat: -1,
-            ease:  SteppedEase.config(37)
-          }, 0);
-          
-          t2.play();
+            ease: SteppedEase.config(37)
+        }, 0);
 
-          gsap.from(typewriter.current, {text:"All in one platform for accepting payment and embedded fintech experience to fast track your payment", ease:"power1.in", duration:2, repeat:10, yoyo:true, repeatDelay:0.4})
+        t2.play();
+
+        gsap.from(typewriter.current, { text: "All in one platform for accepting payment and embedded fintech experience to fast track your payment", ease: "power1.in", duration: 2, repeat: 10, yoyo: true, repeatDelay: 0.4 })
+
+        t3.fromTo(topClear.current, {
+            height: '100%'
+        }, { height: '50%', duration: 1.5}).fromTo(bottomRef.current, {
+            height: '100%'
+        }, { height: '50%', duration: 1.5 }).to(bigCircle.current,{backgroundColor:'#f3f4f3',duration:.9}).to(smallCircle.current,{backgroundColor:'#f3f4f3',duration:.9})
 
         t1.from(
             [firstRef.current, secondRef.current, thirdRef.current],
@@ -70,21 +62,13 @@ const Hero = () => {
                 },
                 opacity: 0,
                 x: 20,
-                duration:1.2
-            }).from(buttonRef.current,{
-                y:30,
-                opacity:0,
-                duration:.6
+                duration: 1.2
+            }).from(buttonRef.current, {
+                y: 30,
+                opacity: 0,
+                duration: .6
             })
-              // text cursor animation
-            //   tl.fromTo(".anim-typewriter", 0.5, {
-            //     "border-right-color": "rgba(255,255,255,0.75)"
-            //   }, {
-            //     "border-right-color": "rgba(255,255,255,0)",
-            //     repeat: -1,
-            //     ease:  SteppedEase.config(37)
-            //   }, 0);
-            t2.play()
+        t2.play()
     }, [])
     return (
         <>
@@ -115,7 +99,22 @@ const Hero = () => {
                                             <span ref={firstRef}> Collect All Your</span>
                                             <span ref={secondRef} className='text-[#97f675] text-center md:text-left'> Payments </span> with One <span className='c-home-title-underline' ref={thirdRef}>Link</span>
                                         </h2>
-                                        <h4 className='text-white  md:text-left text-center w-[90%] md:w-4/5 md:mx-0 mx-auto' ref={typewriter}>All in one platform for accepting payment and embedded fintech experience to fast track your payment</h4>
+                                        {/* All in one platform for accepting payment and embedded fintech experience to fast track your payment */}
+                                        <h4 className='text-white  md:text-left text-center w-[90%] md:w-4/5 md:mx-0 mx-auto' ref={typewriter}>
+                                            <Typewriter
+
+                                                onInit={(typewriter) => {
+                                                    typewriter
+                                                        .typeString("All in one platform for accepting payment and embedded fintech experience to fast track your payment")
+                                                        // .pauseFor(1000)
+                                                        // .deleteAll()
+                                                        // .typeString("Welcomes You")
+                                                        .start();
+                                                }}
+                                            />
+                                        </h4>
+
+
                                     </div>
                                     <div className='py-5 mt-8 w-[90%] md:w-4/5 flex justify-center md:block md:mx-0 mx-auto'>
                                         <Link to='signup'>
@@ -140,12 +139,12 @@ const Hero = () => {
                                             <div className='flex flex-col h-full relative overflow-hidden'>
                                                 <div className='w-[85%] py-8 mx-auto flex-1'>
                                                     <div className='c-home-card-overlay'>
-                                                        <div className='c-top-circle-big'></div>
+                                                        <div className='c-top-circle-big' ref={bigCircle}></div>
                                                         <div className='c-top-circle-small'></div>
-                                                        <div className='c-top-clear'></div>
-                                                        <div className='c-bottom-circle-big'></div>
+                                                        <div ref={topClear} className='c-top-clear'></div>
+                                                        <div className='c-bottom-circle-big' ref={smallCircle}></div>
                                                         <div className='c-bottom-circle-small'></div>
-                                                        <div className='c-bottom-clear'></div>
+                                                        <div ref={bottomRef} className='c-bottom-clear'></div>
 
                                                     </div>
                                                     {/* <h2 className='hero font-bold text-2xl text-[#1f332b]'>Fourier<span style={{ color: '#97f675' }}>Pay</span></h2> */}
