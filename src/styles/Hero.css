@@ -20,6 +20,40 @@
     display: none;
 }
 
+
+.line-1{
+    position: relative;
+    top: 50%;  
+    width: 20.18em;
+    margin: 0 auto;
+    border-right: 2px solid rgba(255,255,255,.75);
+    font-size: 180%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    -webkit-box-sizing:content-box;
+    box-sizing:content-box;
+}
+
+/* Animation */
+.anim-typewriter{
+  width:0;
+  /*animation: typewriter 4s steps(44) 1s 1 normal both,
+             blinkTextCursor 500ms steps(44) infinite normal;*/
+}
+
+/*@keyframes typewriter{
+  from{width: 0;}
+  to{width: 24em;}
+}
+
+@keyframes blinkTextCursor{
+  from{border-right-color: rgba(255,255,255,.75);}
+  to{border-right-color: transparent;}
+}*/
+
 /* Hide scrollbar for IE, Edge and Firefox */
 .example {
     -ms-overflow-style: none;
@@ -156,7 +190,8 @@
     position: absolute;
     top: 0;
     width: 70%;
-    background: #f3f4f3;
+    /* background: #f3f4f3; */
+    background:#97f675 ;
     height: 100%;
     left: -20%;
     border-radius: 50%;
@@ -175,7 +210,7 @@
 .c-top-clear{
     position: absolute;
     width: 50%;
-    height: 50%;
+    height: 100%;
     bottom: 0;
     left: 0;
     background: white;
@@ -185,7 +220,8 @@
     position: absolute;
     top: 0;
     width: 70%;
-    background: #f3f4f3;
+      /* background: #f3f4f3; */
+      background:#97f675 ;
     height: 100%;
     right: -20%;
     border-radius: 50%;
@@ -204,7 +240,7 @@
 .c-bottom-clear{
     position: absolute;
     width: 50%;
-    height: 50%;
+    height: 100%;
     top: 0;
     right: 0;
     background: white;
