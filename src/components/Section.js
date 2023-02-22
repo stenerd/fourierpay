@@ -1,9 +1,86 @@
 import { Divider, Grid, IconButton } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import '../styles/section.css'
 import Footer from './Footer';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 const Section = () => {
+    const containerRef = useRef()
+    let firstGrid = useRef()
+    let secondGrid = useRef()
+    let overlayRef = useRef()
+    let secondContainerRef= useRef()
+    let leftRef = useRef()
+    let rightRef = useRef()
+    let shadowRef = useRef()
+    let thirdContainerRef = useRef()
+    let lefttRef = useRef()
+    let righttRef= useRef()
+    let shadow2 = useRef()
+    let dropDown = useRef()
+    let containRef = useRef()
+
+    useEffect(() => {
+        const scaleDownTween = gsap.timeline({
+            ease: "none",
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: "center center",
+                scrub: true,
+                pin: true
+            },
+
+        });
+
+
+        scaleDownTween.fromTo(firstGrid.current, { x: '-50%', opacity: 0,scale:.5 }, { x: '0%', opacity: 1, duration: .8 ,scale:1}).to(overlayRef.current, { opacity: 1 })
+
+        const secondTween = gsap.timeline({
+            ease: 'none',
+            scrollTrigger: {
+                trigger: secondContainerRef.current,
+                start: 'center center',
+                scrub: true,
+                pin: true
+            }
+
+
+        })
+        secondTween.fromTo(leftRef.current,{x:'50%', opacity: 0 ,scale:.5},{x:'0%', opacity: 1,scale:1,duration:.8}).to(shadowRef.current,{opacity:1})
+
+        const thirdTween = gsap.timeline({
+            ease: 'none',
+            scrollTrigger: {
+                trigger: thirdContainerRef.current,
+                start: 'center center',
+                scrub: true,
+                pin: true
+            }
+
+
+        })
+        thirdTween.fromTo(righttRef.current,{x:'-50%', opacity: 0 ,scale:.5},{x:'0%', opacity: 1,scale:1,duration:.8}).to(shadow2.current,{opacity:1})
+
+        const fourthTween = gsap.timeline({
+            ease: 'none',
+            scrollTrigger: {
+                trigger: containRef.current,
+                start: 'center center',
+                scrub: true,
+                pin: true
+            }
+
+
+        })
+        fourthTween.fromTo(dropDown.current,{y:'-50%', opacity: 0 ,scale:.5},{y:'0%', opacity: 1,scale:1,duration:.8})
+
+
+    }, [])
+
+
     return (
         <>
             <div className='bg-gray-100'>
@@ -52,9 +129,9 @@ const Section = () => {
                             </p>
                         </Grid>
                     </Grid>
-                    <div className='mt-20'>
+                    <div className='mt-20' ref={containerRef}>
                         <Grid container spacing={3}>
-                            <Grid item xs={12} md={5}>
+                            <Grid item xs={12} md={5} ref={secondGrid}>
                                 <div className='relative w-full h-full'>
                                     <div className='c-center-absolute w-4/5'>
                                         <div className='relative w-full'>
@@ -62,44 +139,44 @@ const Section = () => {
                                                 <div className='c-how-it-works-icon-cover'>
                                                     <img src="/images/create-link-vector.svg" className='c-center-absolute' alt='create link icon' />
                                                 </div>
-                                                
+
                                             </div>
                                             <div className='bg-[#ebefe6]'>
                                                 <h2 className='pt-6 text-[30px] font-bold leading-none text-[#1f332b]'>Create Your Own Link</h2>
-                                                <div className='pt-4 text-xl font-medium text-gray-700' style={{lineHeight: 2.2}}>
+                                                <div className='pt-4 text-xl font-medium text-gray-700' style={{ lineHeight: 2.2 }}>
                                                     Create your own FourierPay link and share it instantly with anyone - customers,
                                                     friends, family or partners. If you don’t already have a FourierPay account,
                                                     signing up is free and fast. Sign up and start accepting money from anyone in an instant.
                                                 </div>
                                             </div>
-                                            
+
                                             <div className='absolute c-home-how-it-works-overlay'></div>
                                         </div>
                                     </div>
 
                                 </div>
                             </Grid>
-                            <Grid item xs={12} md={7}>
+                            <Grid item xs={12} md={7} ref={firstGrid}>
                                 <div className='relative'>
-                                    <div className='w-full relative' style={{zIndex: 2}}>
+                                    <div className='w-full relative' style={{ zIndex: 2 }}>
                                         <img src="/images/create-link.svg" alt='create link' />
                                     </div>
-                                    <div className='absolute c-home-how-it-works-image-overlay'></div>
+                                    <div className='absolute c-home-how-it-works-image-overlay' ref={overlayRef}></div>
                                 </div>
                             </Grid>
                         </Grid>
                     </div>
-                    <div className='mt-32'>
+                    <div className='mt-32' ref={secondContainerRef}>
                         <Grid container spacing={3}>
-                            <Grid item xs={12} md={7}>
+                            <Grid item xs={12} md={7} ref={leftRef}>
                                 <div className='relative'>
-                                    <div className='w-full relative' style={{zIndex: 2}}>
+                                    <div className='w-full relative' style={{ zIndex: 2 }}>
                                         <img src="/images/copy-link.svg" alt='copy link' />
                                     </div>
-                                    <div className='absolute c-home-how-it-works-image-overlay2'></div>
+                                    <div className='absolute c-home-how-it-works-image-overlay2' ref={shadowRef}></div>
                                 </div>
                             </Grid>
-                            <Grid item xs={12} md={5}>
+                            <Grid item xs={12} md={5} ref={rightRef}>
                                 <div className='relative w-full h-full'>
                                     <div className='c-center-absolute w-4/5'>
                                         <div className='relative w-full'>
@@ -110,13 +187,13 @@ const Section = () => {
                                             </div>
                                             <div className='bg-[#ebefe6]'>
                                                 <h2 className='pt-6 text-[30px] font-bold leading-none text-[#1f332b]'>Share Your Link</h2>
-                                                <div className='pt-4 text-xl font-medium text-gray-700' style={{lineHeight: 2.2}}>
+                                                <div className='pt-4 text-xl font-medium text-gray-700' style={{ lineHeight: 2.2 }}>
                                                     Paste or embed the link anywhere. Share your link any way you want to. In an email,
                                                     chat, a text message or even a business card. The same payment
                                                     link can be shared with many people and used across various channels.
                                                 </div>
                                             </div>
-                                            
+
                                             <div className='absolute c-home-how-it-works-overlay'></div>
                                         </div>
                                     </div>
@@ -125,9 +202,9 @@ const Section = () => {
                             </Grid>
                         </Grid>
                     </div>
-                    <div className='mt-32'>
+                    <div className='mt-32' ref={thirdContainerRef}>
                         <Grid container spacing={3}>
-                            <Grid item xs={12} md={5}>
+                            <Grid item xs={12} md={5} ref={lefttRef}>
                                 <div className='relative w-full h-full'>
                                     <div className='c-center-absolute w-4/5'>
                                         <div className='relative w-full'>
@@ -139,36 +216,36 @@ const Section = () => {
                                             </div>
                                             <div className='bg-[#ebefe6]'>
                                                 <h2 className='pt-6 text-[30px] font-bold leading-none text-[#1f332b]'>Get Paid, Fast</h2>
-                                                <div className='pt-4 text-xl font-medium text-gray-700' style={{lineHeight: 2.2}}>
+                                                <div className='pt-4 text-xl font-medium text-gray-700' style={{ lineHeight: 2.2 }}>
                                                     Customers, friends, family etc can follow the link and enter the information
                                                     you require of them. Once they pay, the money is usually in
                                                     your FourierPay wallet in seconds.
                                                 </div>
                                             </div>
-                                            <div className='absolute c-home-how-it-works-overlay'></div>
+                                            <div className='absolute c-home-how-it-works-overlay' ></div>
                                         </div>
                                     </div>
 
                                 </div>
                             </Grid>
-                            <Grid item xs={12} md={7}>
+                            <Grid item xs={12} md={7} ref={righttRef}>
                                 <div className='relative'>
-                                    <div className='w-full relative' style={{zIndex: 2}}>
+                                    <div className='w-full relative' style={{ zIndex: 2 }}>
                                         <img src="/images/pay.svg" alt='create link' />
                                     </div>
-                                    <div className='absolute c-home-how-it-works-image-overlay'></div>
+                                    <div className='absolute c-home-how-it-works-image-overlay' ref={shadow2}></div>
                                 </div>
                             </Grid>
                         </Grid>
                     </div>
-                        
-                    
+
+
                 </div>
             </div>
 
 
-            <div className='relative h-[43rem]'>
-                <div className='absolute c-pricing-icon'>
+            <div className='relative h-[43rem]' ref={containRef}>
+                <div className='absolute c-pricing-icon' ref={dropDown}>
                     <img src="/images/our-pricing-img.svg" alt='our pricing img' />
                 </div>
                 <div className='h-full bg-[#ebefe6]'></div>
@@ -198,8 +275,8 @@ const Section = () => {
                 </div>
             </div>
 
-            <div className='py-28 bg-[#ebefe6] mx-auto relative' style={{zIndex: -1}}>
-                
+            <div className='py-28 bg-[#ebefe6] mx-auto relative' style={{ zIndex: -1 }}>
+
                 <div className='bg-[#ebefe6] w-[90%] md:w-4/5 mx-auto'>
                     <div className='py-6 w-[70%]'>
                         <p className='text-[46px] font-bold leading-none text-[#1f332b]'>Our Pricing</p>
@@ -208,7 +285,7 @@ const Section = () => {
                             link.it also helps you create payment links that can be accessed by whoever you want
                             payment from thereby enabling mass payments.
                         </p>
-                       
+
 
                     </div>
 
@@ -255,7 +332,7 @@ const Section = () => {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </Grid>
                             <Grid item xs={6} >
                                 <div className="relative">
@@ -299,7 +376,7 @@ const Section = () => {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </Grid>
                         </Grid>
                     </div>
@@ -317,7 +394,7 @@ const Section = () => {
                                         {/* <div className='flex justify-start px-4 items-start'>
                                             <div className='h-1 w-10 bg-gray-500'></div>
                                         </div> */}
-                                        <h2 className='py-4 text-white font-bold md:text-[30px] text-[25px]' style={{lineHeight:'1.75'}}>" Fourierpay enabled me to create an account with just a few clicks, make payments in minutes, not days or weeks, easily find the most current details about my account and track all of my transactions in one place.</h2>
+                                        <h2 className='py-4 text-white font-bold md:text-[30px] text-[25px]' style={{ lineHeight: '1.75' }}>" Fourierpay enabled me to create an account with just a few clicks, make payments in minutes, not days or weeks, easily find the most current details about my account and track all of my transactions in one place.</h2>
                                         {/* <div className='flex justify-end px-4 items-end'>
                                             <div className='h-1 w-10 bg-gray-500'></div>
                                         </div> */}
@@ -341,8 +418,8 @@ const Section = () => {
                 <div className='flex items-center w-4/5 mx-auto'>
                     <div className='py-6 w-[55%]'>
                         <p className='text-5xl font-medium leading-normal'>Subscribe to Our NewsLetter</p>
-                        <p className='text-xl leading-9 font-medium text-gray-400' style={{lineHeight: '1.7rem'}}>Subscribe for our news letter to get latest news, update and available offers delivered directly in your inbox.</p>
-                       
+                        <p className='text-xl leading-9 font-medium text-gray-400' style={{ lineHeight: '1.7rem' }}>Subscribe for our news letter to get latest news, update and available offers delivered directly in your inbox.</p>
+
 
                     </div>
                     <div className='w-[45%] flex justify-between'>
@@ -351,7 +428,7 @@ const Section = () => {
                         </div>
                         <div className='flex justify-center items-center'>
                             <button className='c-primary-button'>
-                                    Subscribe
+                                Subscribe
                             </button>
                         </div>
                     </div>

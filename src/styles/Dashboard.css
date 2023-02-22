@@ -209,6 +209,7 @@
     width: 50rem;
     height: 28rem;
     background: #d9d9d9;
+    opacity: 0;
 }
 .c-home-how-it-works-image-overlay2{
     z-index: 0;
@@ -217,6 +218,7 @@
     width: 50rem;
     height: 28rem;
     background: #d9d9d9;
+    opacity: 0;
 }
 .c-how-it-works-icon-cover{
     background: #1d3329;
@@ -244,6 +246,7 @@
 .c-pricing-icon{
     bottom: -18rem;
     right: 0;
+    opacity: 0;
 }
 .c-pricing-background{
     top: -0.4rem;
