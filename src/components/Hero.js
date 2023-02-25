@@ -77,7 +77,7 @@ const Hero = () => {
                     <div className='py-5'>
                         <div className='flex justify-between items-center'>
                             {/* <h2 className='text-2xl hero font-bold text-white'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}
-                            <div className='w-[10rem]'>
+                            <div className='w-[7rem]  md:w-[10rem]'>
                                 <img src="/images/two.svg" />
                             </div>
                             <div className='flex items-center space-x-3 md:space-x-6'>
@@ -100,7 +100,7 @@ const Hero = () => {
                                             <span ref={secondRef} className='text-[#97f675] text-center md:text-left'> Payments </span> with One <span className='c-home-title-underline' ref={thirdRef}>Link</span>
                                         </h2>
                                         {/* All in one platform for accepting payment and embedded fintech experience to fast track your payment */}
-                                        <h4 className='text-white  md:text-left text-center w-[90%] md:w-4/5 md:mx-0 mx-auto' ref={typewriter}>
+                                        <h4 className='text-white text-[1.2rem]  md:text-left text-center w-[90%] md:w-4/5 md:mx-0 mx-auto' ref={typewriter}>
                                             <Typewriter
 
                                                 onInit={(typewriter) => {

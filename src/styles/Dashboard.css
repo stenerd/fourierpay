@@ -302,7 +302,7 @@
     background-image: url('../../public/images//skew.png');
     width: 100%; 
     min-height: 100vh;
-    padding: 10px 0px;
+    padding: 20px 0px;
 }
 
 @media (max-width:950px){
