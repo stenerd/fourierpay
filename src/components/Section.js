@@ -150,7 +150,7 @@ const Section = () => {
                                     If you don’t already have a FourierPay account, signing up is free and fast. Sign up and start accepting money from anyone in an instant.</p>
                             </div>
                             <div className='w-[90%]'>
-                                <img src='/images/createlink.png' />
+                                <img src='/images/createlink.png' className='object-cover' />
                             </div>
                         </div>
                     </div>
@@ -165,7 +165,7 @@ const Section = () => {
                                 <p className='text-[18px] text-center md:text-left font-medium text-gray-700 '>Paste or embed the link anywhere. Share your link any way you want to. In an email, chat, a text message or even a business card. The same payment link can be shared with many people and used across various channels.</p>
                             </div>
                             <div className='w-[90%]'>
-                                <img src='/images/share.png' />
+                                <img src='/images/share.png' className='object-cover' />
                             </div>
                         </div>
                     </div>
@@ -180,7 +180,7 @@ const Section = () => {
                                 <p className='text-[18px] text-center md:text-left font-medium text-gray-700 '>Customers, friends, family etc can follow the link and enter the information you require of them. Once they pay, the money is usually in your FourierPay wallet in seconds.</p>
                             </div>
                             <div className='w-[90%]'>
-                                <img src='/images/pay.png' />
+                                <img src='/images/pay.png' className='object-cover' />
                             </div>
                         </div>
                     </div>
