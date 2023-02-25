@@ -12,70 +12,79 @@ const Section = () => {
     let firstGrid = useRef()
     let secondGrid = useRef()
     let overlayRef = useRef()
-    let secondContainerRef= useRef()
+    let secondContainerRef = useRef()
     let leftRef = useRef()
     let rightRef = useRef()
     let shadowRef = useRef()
     let thirdContainerRef = useRef()
     let lefttRef = useRef()
-    let righttRef= useRef()
+    let righttRef = useRef()
     let shadow2 = useRef()
     let dropDown = useRef()
     let containRef = useRef()
 
     useEffect(() => {
-        const scaleDownTween = gsap.timeline({
-            ease: "none",
-            scrollTrigger: {
-                trigger: containerRef.current,
-                start: "center center",
-                scrub: true,
-                pin: true
-            },
+        // ScrollTrigger.matchMedia()
 
-        });
+        let mm = gsap.matchMedia()
+
+        mm.add("(min-width:850px)", () => {
+
+            const scaleDownTween = gsap.timeline({
+                ease: "none",
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: "center center",
+                    scrub: true,
+                    pin: true
+                },
+
+            });
 
 
-        scaleDownTween.fromTo(firstGrid.current, { x: '-50%', opacity: 0,scale:.5 }, { x: '0%', opacity: 1, duration: .8 ,scale:1}).to(overlayRef.current, { opacity: 1 })
+            scaleDownTween.fromTo(firstGrid.current, { x: '-50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, duration: .8, scale: 1 }).to(overlayRef.current, { opacity: 1 })
 
-        const secondTween = gsap.timeline({
-            ease: 'none',
-            scrollTrigger: {
-                trigger: secondContainerRef.current,
-                start: 'center center',
-                scrub: true,
-                pin: true
-            }
+            const secondTween = gsap.timeline({
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: secondContainerRef.current,
+                    start: 'center center',
+                    scrub: true,
+                    pin: true
+                }
+
+
+            })
+            secondTween.fromTo(leftRef.current, { x: '50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, scale: 1, duration: .8 }).to(shadowRef.current, { opacity: 1 })
+
+            const thirdTween = gsap.timeline({
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: thirdContainerRef.current,
+                    start: 'center center',
+                    scrub: true,
+                    pin: true
+                }
+
+
+            })
+            thirdTween.fromTo(righttRef.current, { x: '-50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, scale: 1, duration: .8 }).to(shadow2.current, { opacity: 1 })
+
+            const fourthTween = gsap.timeline({
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: containRef.current,
+                    start: 'center center',
+                    scrub: true,
+                    pin: true
+                }
+
+
+            })
+            fourthTween.fromTo(dropDown.current, { y: '-50%', opacity: 0, scale: .5 }, { y: '0%', opacity: 1, scale: 1, duration: .8 })
 
 
         })
-        secondTween.fromTo(leftRef.current,{x:'50%', opacity: 0 ,scale:.5},{x:'0%', opacity: 1,scale:1,duration:.8}).to(shadowRef.current,{opacity:1})
-
-        const thirdTween = gsap.timeline({
-            ease: 'none',
-            scrollTrigger: {
-                trigger: thirdContainerRef.current,
-                start: 'center center',
-                scrub: true,
-                pin: true
-            }
-
-
-        })
-        thirdTween.fromTo(righttRef.current,{x:'-50%', opacity: 0 ,scale:.5},{x:'0%', opacity: 1,scale:1,duration:.8}).to(shadow2.current,{opacity:1})
-
-        const fourthTween = gsap.timeline({
-            ease: 'none',
-            scrollTrigger: {
-                trigger: containRef.current,
-                start: 'center center',
-                scrub: true,
-                pin: true
-            }
-
-
-        })
-        fourthTween.fromTo(dropDown.current,{y:'-50%', opacity: 0 ,scale:.5},{y:'0%', opacity: 1,scale:1,duration:.8})
 
 
     }, [])
@@ -122,14 +131,61 @@ const Section = () => {
                 <div className='bg-[#ebefe6] w-[90%] md:w-4/5 mx-auto'>
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
-                            <h2 className='pt-16 text-[46px] font-bold leading-none text-[#1f332b]'>How It Works?</h2>
-                            <p className='text-xl font-medium text-gray-700 pt-6'>Fourierpay is a payment platform that gives you the ability to pay for products through a
+                            <h2 className='pt-16 text-[46px] text-center md:text-left font-bold leading-none text-[#1f332b]'>How It Works?</h2>
+                            <p className='text-xl text-center md:text-left font-medium text-gray-700 pt-6'>Fourierpay is a payment platform that gives you the ability to pay for products through a
                                 link. It also helps you create payment
                                 links that can be accessed by whoever you want payment from thereby enabling mass payments.
                             </p>
                         </Grid>
                     </Grid>
-                    <div className='mt-20' ref={containerRef}>
+                    {/* MOBILE SCREENS */}
+                    <div className='py-6 mt-4 block md:hidden'>
+                        <div className='flex flex-col justify-center items-center'>
+                            <img src='/images/groupIcon.png' />
+                            <div className='py-2'>
+                                <h2 className='text-center text-[20px] font-bold'>Create Your Own link</h2>
+                            </div>
+                            <div className='text-center w-[90%] mx-auto py-3'>
+                                <p className='text-[18px] text-center md:text-left font-medium text-gray-700 '>Create your own FourierPay link and share it instantly with anyone - customers, friends, family or partners.
+                                    If you don’t already have a FourierPay account, signing up is free and fast. Sign up and start accepting money from anyone in an instant.</p>
+                            </div>
+                            <div className='w-[90%]'>
+                                <img src='/images/createlink.png' />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='py-6 mt-4 block md:hidden'>
+                        <div className='flex flex-col justify-center items-center'>
+                            <img src='/images/shareIcon.png' />
+                            <div className='py-2'>
+                                <h2 className='text-center text-[20px] font-bold'>Share Your Link</h2>
+                            </div>
+                            <div className='text-center w-[90%] mx-auto py-3'>
+                                <p className='text-[18px] text-center md:text-left font-medium text-gray-700 '>Paste or embed the link anywhere. Share your link any way you want to. In an email, chat, a text message or even a business card. The same payment link can be shared with many people and used across various channels.</p>
+                            </div>
+                            <div className='w-[90%]'>
+                                <img src='/images/share.png' />
+                            </div>
+                        </div>
+                    </div>
+                    {/* GET PAID */}
+                    <div className='py-6 mt-4 block md:hidden'>
+                        <div className='flex flex-col justify-center items-center'>
+                            <img src='/images/shareIcon.png' />
+                            <div className='py-2'>
+                                <h2 className='text-center text-[20px] font-bold'>Get Paid,Fast</h2>
+                            </div>
+                            <div className='text-center w-[90%] mx-auto py-3'>
+                                <p className='text-[18px] text-center md:text-left font-medium text-gray-700 '>Customers, friends, family etc can follow the link and enter the information you require of them. Once they pay, the money is usually in your FourierPay wallet in seconds.</p>
+                            </div>
+                            <div className='w-[90%]'>
+                                <img src='/images/pay.png' />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='mt-20 hidden md:block' ref={containerRef}>
                         <Grid container spacing={3}>
                             <Grid item xs={12} md={5} ref={secondGrid}>
                                 <div className='relative w-full h-full'>
@@ -166,7 +222,7 @@ const Section = () => {
                             </Grid>
                         </Grid>
                     </div>
-                    <div className='mt-32' ref={secondContainerRef}>
+                    <div className='mt-32 hidden md:block' ref={secondContainerRef}>
                         <Grid container spacing={3}>
                             <Grid item xs={12} md={7} ref={leftRef}>
                                 <div className='relative'>
@@ -202,7 +258,7 @@ const Section = () => {
                             </Grid>
                         </Grid>
                     </div>
-                    <div className='mt-32' ref={thirdContainerRef}>
+                    <div className='mt-32 hidden md:block' ref={thirdContainerRef}>
                         <Grid container spacing={3}>
                             <Grid item xs={12} md={5} ref={lefttRef}>
                                 <div className='relative w-full h-full'>
@@ -241,10 +297,34 @@ const Section = () => {
 
 
                 </div>
+                <div className='skew block md:hidden'>
+                    <div className='py-10 w-[90%] mx-auto flex flex-col justify-center'>
+                        <h2 className='text-[24px] text-center  mt-10 py-5 font-bold leading-none md:leading-normal mb-3 text-white'>
+                            Why Fourier<span className='text-[#97f675]'>Pay</span>?
+                        </h2>
+                        <h4 className='text-[22px] py-2 font-bold leading-normal text-center md:leading-normal mb-12 text-white'>
+                            You can accept, manage and make payments with us fast and easy.
+                        </h4>
+                        <p className='text-[18px] leading-9 font-medium text-gray-700 mb-4 text-white'>
+                            Fourier<span className='text-[#97f675]'>pay</span> is a payment platform that gives you the ability to pay for products through a link.it also helps you create payment links that can be accessed by whoever you want payment from thereby enabling mass payments.
+                        </p>
+                        <p className='text-xl leading-9 font-medium text-gray-700 mb-4 text-white'>
+                            We have done the core payment integrations and abstractions, so your team can easily access and mange payments with our APIs and access multiple payment functionalities.
+                        </p>
+                        <p className='text-base leading-9 font-medium text-gray-700 mb-4 text-white'>
+                            <ul className='list-inside c-list-bullet' style={{ listStyle: 'inside' }}>
+                                <li><span>Easy online payments processing.</span></li>
+                                <li><span>Integrated accounting software.</span></li>
+                                <li><span>Secure vault for storing sensitive data.</span></li>
+                                <li><span>Easy-to-use interface</span></li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
             </div>
 
 
-            <div className='relative h-[43rem]' ref={containRef}>
+            <div className='relative h-[43rem] hidden md:block' ref={containRef}>
                 <div className='absolute c-pricing-icon' ref={dropDown}>
                     <img src="/images/our-pricing-img.svg" alt='our pricing img' />
                 </div>
@@ -278,9 +358,9 @@ const Section = () => {
             <div className='py-28 bg-[#ebefe6] mx-auto relative' style={{ zIndex: -1 }}>
 
                 <div className='bg-[#ebefe6] w-[90%] md:w-4/5 mx-auto'>
-                    <div className='py-6 w-[70%]'>
-                        <p className='text-[46px] font-bold leading-none text-[#1f332b]'>Our Pricing</p>
-                        <p className='text-xl font-medium text-gray-700 pt-4'>
+                    <div className='py-6 w-[95%] md:w-[70%]'>
+                        <p className='text-[46px] font-bold text-center md:text-left leading-none text-[#1f332b]'>Our Pricing</p>
+                        <p className='text-xl text-center  md:text-left font-medium text-gray-700 pt-4'>
                             Fourierpay is a payment platform that gives you the ability to pay for products through a
                             link.it also helps you create payment links that can be accessed by whoever you want
                             payment from thereby enabling mass payments.
@@ -289,42 +369,42 @@ const Section = () => {
 
                     </div>
 
-                    <div className='w-4/6 mx-auto my-16'>
+                    <div className='w-[95%] md:w-4/6  mx-auto my-16'>
                         <Grid container spacing={8} justifyContent='space-between'>
-                            <Grid item xs={6} >
+                            <Grid item xs={12} md={6} >
                                 <div className="relative">
                                     <div className='absolute c-pricing-background'></div>
                                     <div className='absolute c-pricing-background-right'></div>
-                                    <div className='relative c-pricinig-pre-background' style={{zIndex: 1}}>
-                                        
-                                        <div className='bg-white px-8 py-6' style={{borderRadius: '0.5rem', boxShadow: '0 0 1rem 0 #ccc'}}>
+                                    <div className='relative c-pricinig-pre-background' style={{ zIndex: 1 }}>
+
+                                        <div className='bg-white px-8 py-6' style={{ borderRadius: '0.5rem', boxShadow: '0 0 1rem 0 #ccc' }}>
                                             <div className=''>
                                                 <p className='text-center font-medium text-gray-600 text-xl'>BASIC</p>
                                                 <h1 className='pt-8 font-bold text-center text-4xl text-[#1f332b]'>Free</h1>
                                                 <p className='pt-4 text-center font-medium text-[#13c305] text-sm'>FOREVER</p>
                                                 <p className='pt-6 flex justify-center'>
-                                                    <img src="/images/basic-plan.svg" style={{width: '12rem'}} alt='our basic package' />
+                                                    <img src="/images/basic-plan.svg" style={{ width: '12rem' }} alt='our basic package' />
                                                 </p>
                                             </div>
                                             {/* <p>Free</p> */}
 
-                                            <p className='flex justify-center' style={{marginTop: '4.75rem'}}>
-                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                            <p className='flex justify-center' style={{ marginTop: '4.75rem' }}>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
                                             <p className='mt-4 flex justify-center'>
-                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
                                             <p className='mt-4 flex justify-center'>
-                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
                                             <p className='mt-4 flex justify-center'>
-                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
                                             <p className='mt-4 flex justify-center'>
-                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
                                             <p className='mt-4 mb-12 flex justify-center'>
-                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
                                             <div className='flex justify-center w-full mb-12'>
                                                 <button className='bg-[#c7c7c7] text-white py-3 px-16 font-bold'>Current Plan</button>
@@ -334,41 +414,41 @@ const Section = () => {
                                 </div>
 
                             </Grid>
-                            <Grid item xs={6} >
+                            <Grid item xs={12} md={6}>
                                 <div className="relative">
                                     <div className='absolute c-pricing-background'></div>
                                     <div className='absolute c-pricing-background-right'></div>
                                     <div className='relative c-pricinig-pre-background' style={{ zIndex: 1 }}>
                                         <div className='absolute c-premium-package'>popular</div>
-                                        
-                                        <div className='bg-white px-8 py-6' style={{borderRadius: '0.5rem', boxShadow: '0 0 1rem 0 #ccc'}}>
+
+                                        <div className='bg-white px-8 py-6' style={{ borderRadius: '0.5rem', boxShadow: '0 0 1rem 0 #ccc' }}>
                                             <div className=''>
                                                 <p className='text-center font-medium text-gray-600 text-xl'>PREMIUM</p>
                                                 <h1 className='pt-8 font-bold text-center text-4xl text-[#1f332b]'>5k/ <span className='text-gray-600 text-lg'>month</span></h1>
                                                 <p className='pt-4 text-center font-medium text-[#13c305] text-sm'>SAVING 12K A YEAR</p>
                                                 <p className='pt-6 flex justify-center'>
-                                                    <img src="/images/premium-plan.svg" style={{width: '12rem'}} alt='our premium package' />
+                                                    <img src="/images/premium-plan.svg" style={{ width: '12rem' }} alt='our premium package' />
                                                 </p>
                                             </div>
                                             {/* <p>Free</p> */}
 
                                             <p className='mt-12 flex justify-center'>
-                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
                                             <p className='mt-4 flex justify-center'>
-                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
                                             <p className='mt-4 flex justify-center'>
-                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
                                             <p className='mt-4 flex justify-center'>
-                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
                                             <p className='mt-4 flex justify-center'>
-                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
                                             <p className='mt-4 mb-12 flex justify-center'>
-                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{fontSize: '1.1rem'}}>Easy online payments processing.</span>
+                                                <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
                                             <div className='flex justify-center w-full mb-12'>
                                                 <button className='bg-[#13c305] text-white py-3 px-16 font-bold'>Coming Soon</button>
@@ -376,7 +456,6 @@ const Section = () => {
                                         </div>
                                     </div>
                                 </div>
-
                             </Grid>
                         </Grid>
                     </div>
@@ -386,7 +465,7 @@ const Section = () => {
             <div className='py-8 bg-[#1f332b]'>
                 <div className=''>
                     <div className='py-20 flex justify-center items-center'>
-                        <div className='w-4/5 mx-auto'>
+                        <div className='md:w-4/5 w-[90%] mx-auto'>
                             <Grid container spacing={3} alignItems='center' justifyContent='space-between'>
                                 <Grid item xs={12} md={7}>
                                     <div className='c-comment-bar'></div>
@@ -415,15 +494,15 @@ const Section = () => {
                 </div>
             </div>
             <div className='py-16'>
-                <div className='flex items-center w-4/5 mx-auto'>
-                    <div className='py-6 w-[55%]'>
-                        <p className='text-5xl font-medium leading-normal'>Subscribe to Our NewsLetter</p>
+                <div className='flex items-center md:w-4/5 w-[90%] md:flex-row flex-col mx-auto'>
+                    <div className='py-6 md:w-[55%] w-[90%] spacing-y-2 md:spacing-y-2'>
+                        <p className='md:text-5xl text-3xl font-medium leading-normal'>Subscribe to Our NewsLetter</p>
                         <p className='text-xl leading-9 font-medium text-gray-400' style={{ lineHeight: '1.7rem' }}>Subscribe for our news letter to get latest news, update and available offers delivered directly in your inbox.</p>
 
 
                     </div>
-                    <div className='w-[45%] flex justify-between'>
-                        <div className='ml-12 py-6 w-[100%]'>
+                    <div className='md:w-[45%] w-[100%] flex justify-between'>
+                        <div className='md:ml-12 ml-3 py-6 w-[100%]'>
                             <input placeholder='Enter Email' name='confirm_password' required type="text" className='py-2 px-4 w-full h-[3.5rem] outline-none c-text-input' />
                         </div>
                         <div className='flex justify-center items-center'>

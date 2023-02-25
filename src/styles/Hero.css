@@ -345,3 +345,10 @@
     right: 0;
     line-height: .4;
 }
+
+@media(max-width:760px){
+    
+.c-primary-button{
+    padding: 1rem 1rem;
+}
+}
