@@ -284,3 +284,39 @@
     font-weight: bold;
     color: white;
 }
+
+.mobile-grid-1{
+    display: block;
+}
+.mobile-grid-2{
+    display: block;
+}
+.mobile-grid-3{
+    display: block;
+}
+.mobile-grid-4{
+    display: block;
+}
+
+.skew{
+    background-image: url('../../public/images//skew.png');
+    width: 100%; 
+    height: 100vh;
+    padding: 10px 0px;
+}
+
+@media (max-width:950px){
+    .mobile-grid-1{
+        display: none;
+    }
+    .mobile-grid-2{
+        display: none;
+    }
+    .mobile-grid-3{
+        display: none;
+    }
+    .mobile-grid-4{
+        display: none;
+    }
+
+}
