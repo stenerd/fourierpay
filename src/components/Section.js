@@ -114,14 +114,14 @@ const Section = () => {
                 <div className="py-8 divide-y-2 divide-gray-300">
                     <Divider />
                 </div>
-                <div className='w-[90%] md:w-4/5 pt-4 md:pb-24 pb-18 mx-auto flex-col md:flex-row flex justify-between md:gap-[7rem] gap-[4em]'>
+                <div className='w-[90%] md:w-4/5 pt-4 md:pb-24 pb-18 mx-auto flex-col md:flex-row flex justify-between md:gap-[7rem] gap-[1.5em]'>
                     <div className='md:w-[55%] w-full'>
                         <h1 className='text-[46px] font-bold text-[4rem] leading-none'>Financial experience built for tomorrow</h1>
                     </div>
                     <div className='py-3 w-full md-w-[45%] space-y-8'>
                         {/* <h1 className='text-[40px] font-bold'>Financial experience built for tomorrow</h1> */}
                         <h2 className='text-xl font-medium text-gray-700'>Fourier Pay was built from scratch to inspire embedded Financial experience. We Provide you products and tools you need to grow your revenue and collect payment instantly with just one link.</h2>
-                        <button className='bg-[#1f332b] font-medium text-white py-4 px-6 rounded-sm'>Learn More</button>
+                        <button className='bg-[#1f332b] font-medium text-white py-4 px-6 rounded-sm mb-24 md:mb-0'>Learn More</button>
                     </div>
                 </div>
             </div>
@@ -139,7 +139,7 @@ const Section = () => {
                         </Grid>
                     </Grid>
                     {/* MOBILE SCREENS */}
-                    <div className='py-6 mt-4 block md:hidden'>
+                    <div className='py-6 mt-8 block md:hidden'>
                         <div className='flex flex-col justify-center items-center'>
                             <img src='/images/groupIcon.png' />
                             <div className='py-2'>
@@ -154,7 +154,6 @@ const Section = () => {
                             </div>
                         </div>
                     </div>
-
                     <div className='py-6 mt-4 block md:hidden'>
                         <div className='flex flex-col justify-center items-center'>
                             <img src='/images/shareIcon.png' />
@@ -322,8 +321,6 @@ const Section = () => {
                     </div>
                 </div>
             </div>
-
-
             <div className='relative h-[43rem] hidden md:block' ref={containRef}>
                 <div className='absolute c-pricing-icon' ref={dropDown}>
                     <img src="/images/our-pricing-img.svg" alt='our pricing img' />
@@ -355,7 +352,7 @@ const Section = () => {
                 </div>
             </div>
 
-            <div className='py-28 bg-[#ebefe6] mx-auto relative' style={{ zIndex: -1 }}>
+            <div className='md:py-28 py-8  bg-[#ebefe6] mx-auto relative' style={{ zIndex: -1 }}>
 
                 <div className='bg-[#ebefe6] w-[90%] md:w-4/5 mx-auto'>
                     <div className='py-6 w-[95%] md:w-[70%]'>
@@ -369,7 +366,7 @@ const Section = () => {
 
                     </div>
 
-                    <div className='w-[95%] md:w-4/6  mx-auto my-16'>
+                    <div className='w-[95%] md:w-4/6  mx-auto my-16 hidden md:block'>
                         <Grid container spacing={8} justifyContent='space-between'>
                             <Grid item xs={12} md={6} >
                                 <div className="relative">
@@ -483,9 +480,9 @@ const Section = () => {
 
                                     </div>
                                 </Grid>
-                                <Grid item xs={12} md={5} >
+                                <Grid item xs={12} md={5} sx={{display:{sm:'none',md:'block'}}}>
                                     <div className='py-3'>
-                                        <img src="/images/ochuko.png" className='w-full h-[500px] object-cover c-home-section-image' />
+                                        <img src="/images/ochuko.png" className='w-full h-[500px] object-cover c-home-section-image hidden md:block' />
                                     </div>
                                 </Grid>
                             </Grid>
