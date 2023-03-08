@@ -14,8 +14,8 @@ const Signup = () => {
         lastname: '',
         email: '',
         password: '',
-        confirm_password:"",
-        phone_number:''
+        confirm_password: "",
+        phone_number: ''
     })
     const navigate = useNavigate()
 
@@ -29,7 +29,7 @@ const Signup = () => {
         console.log('processing....')
         setLoading(true)
 
-        if(state.password!==state.confirm_password){
+        if (state.password !== state.confirm_password) {
             toast.error('Password does not match', {
                 position: "top-right",
                 autoClose: 5000,
@@ -42,12 +42,12 @@ const Signup = () => {
             });
             setLoading(false)
             return
-            
+
         }
-       
-        const {confirm_password,...others} = state
+
+        const { confirm_password, ...others } = state
         try {
-            const res = await axios.post(`${BASE_URL}/api/auth/registration`,others)
+            const res = await axios.post(`${BASE_URL}/api/auth/registration`, others)
 
             console.log(res)
             console.log('done successfully')
@@ -74,7 +74,7 @@ const Signup = () => {
     }
     return (
         <>
-            <div className='bg-gray-100 h-screen'>
+            <div className='bg-gray-100 min-h-screen md:h-screen'>
                 <div className=''>
                     {/* <div className='w-4/5 mx-auto flex flex-col justify-between'>
                         <Link to="/">
@@ -82,63 +82,66 @@ const Signup = () => {
                         </Link>
                     </div> */}
                     <Grid container>
-                        <Grid item  xs={12} md={5}>
-                             <img src="/images/registration.jpg" className='w-full h-screen object-cover'/>
+                        <Grid item xs={12} md={5} >
+                            <img src="/images/registration.jpg" className='w-full h-screen object-cover hidden md:block' />
                         </Grid>
                         <Grid item xs={12} md={7}>
                             <div className='min-h-[100vh] flex flex-col justify-center p-3'>
-                                <div className='w-[80%] mx-auto mb-0'>
-                                    <h2 className='text-xl mb-16 font-bold home c-auth-title'>Register</h2>
+                                <div className='w-[90%] md:w-[80%] mx-auto mb-0 py-10 md:py-0'>
+                                    <h2 className='text-xl md:mb-16 mb-4 font-bold home c-auth-title'>Register</h2>
                                     <p className='font-bold text-gray-700'>Manage and monitor your payment links.</p>
-                                    <small className='font-bold text-gray-500 inline-block w-[70%]'>Let's get you all set up so you can create your personal account and begin setting up your profile.</small>
+                                    <small className='font-bold text-gray-500 inline-block w-full md:w-[70%]'>Let's get you all set up so you can create your personal account and begin setting up your profile.</small>
                                 </div>
-                                <div className='w-[80%] mx-auto py-8'>
+                                <div className='w-[90%] md:w-4/5 mx-auto md:py-8 py-4'>
                                     <form onSubmit={handleSubmit}>
 
                                         <Grid container spacing={3}>
-                                            <Grid item lg={6} md={12}>
+                                            <Grid item sm={12} lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>First Name</label>
                                                 <input placeholder='First Name' onChange={handleChange} required name='firstname' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
                                             </Grid>
-                                            <Grid item lg={6} md={12}>
+                                            <Grid item lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Last Name</label>
                                                 <input placeholder='Last Name' onChange={handleChange} required type="text" name='lastname' className='py-2 px-4 w-full outline-none c-text-input' />
                                             </Grid>
-                                            <Grid item lg={6} md={12}>
+                                            <Grid item lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Email</label>
                                                 <input placeholder='Email' onChange={handleChange} required type='email' name='email' className='py-2 px-4 w-full outline-none c-text-input' />
                                             </Grid>
-                                            <Grid item lg={6} md={12}>
+                                            <Grid item lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Phone Number</label>
                                                 <input placeholder='Phone Number' onChange={handleChange} name='phone_number' required type="text" className='py-2 px-4 w-full outline-none c-text-input' />
                                             </Grid>
-                                            <Grid item lg={6} md={12}>
+                                            <Grid item lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Password</label>
                                                 <input placeholder='Password' onChange={handleChange} name='password' required type="password" className='py-2 px-4 w-full outline-none c-text-input' />
                                             </Grid>
-                                            <Grid item lg={6} md={12}>
+                                            <Grid item lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Confirm Password</label>
                                                 <input placeholder='Confirm Password' onChange={handleChange} name='confirm_password' required type="password" className='py-2 px-4 w-full outline-none c-text-input' />
                                             </Grid>
-
-
                                         </Grid>
 
                                         <div className='mt-12 mb-6'>
                                             <p className='text-sm font-bold text-gray-500'>👍 Signing into Fourier
-                                            <span className='c-primary-color'>pay</span> account means you agree to the 
-                                            <span className='c-primary-link-color'> Terms</span> and 
-                                            <span className='c-primary-link-color'> Privacy Policy</span></p>
+                                                <span className='c-primary-color'>pay</span> account means you agree to the
+                                                <span className='c-primary-link-color'> Terms</span> and
+                                                <span className='c-primary-link-color'> Privacy Policy</span></p>
                                         </div>
 
-                                        <div>
-                                            <button disabled={loading ? true:false}  className='c-primary-button'>
+                                        <div className='md:block hidden'>
+                                            <button disabled={loading ? true : false} className='c-primary-button'>
+                                                {loading ? 'Loading....' : 'Get Started'}
+                                            </button>
+                                        </div>
+                                        <div className='block md:hidden'>
+                                            <button disabled={loading ? true : false} className='c-primary-button w-full'>
                                                 {loading ? 'Loading....' : 'Get Started'}
                                             </button>
                                         </div>
                                     </form>
                                     <div className='py-4'>
-                                        <p className="text-gray-700 font-bold">Already have an account? 
+                                        <p className="text-gray-700 font-bold">Already have an account?
                                             <Link to="/login">
                                                 <span className='cursor-pointer c-primary-link-color'> Log in</span>
                                             </Link>
