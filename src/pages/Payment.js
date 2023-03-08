@@ -1,14 +1,4 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import dayjs from 'dayjs';
 import { FormControl, Grid, InputLabel, MenuItem, Select, TextField, Divider, Tooltip } from '@mui/material';
 import DashboardLayout from '../components/DashboardLayout';
 import Titlebar from '../components/TitleBar';
@@ -22,6 +12,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Protected, { BASE_URL } from '../utils/axios';
 import { useDispatch } from 'react-redux';
 import { ADD_PAYMENTLINKS } from '../redux/DashboardSlice';
+import ToggleButton from '../components/ToggleButton';
 
 
 
@@ -32,6 +23,7 @@ const Payment = () => {
     const [loading, setLoading] = React.useState(false);
     const dispatch = useDispatch()
     const [uniqueSelection, setUniqueSelection] = React.useState(0);
+    const [priority, setPriority] = React.useState([]);
     const [state, setState] = React.useState({
         name: '',
         description: '',
@@ -53,6 +45,16 @@ const Payment = () => {
 
     const handleChanges = (e) => {
         setState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    }
+
+    const assignPriority = (val, index) => {
+        if (val) {
+            setPriority((prev) => ([ ...prev, index]))
+        } else {
+            const data = priority.filter(e => e !== index)
+            setPriority(data)
+        }
+        console.log('data >> ', priority, val, index)
     }
 
 
@@ -166,6 +168,9 @@ const Payment = () => {
             amount: Number(state.amount),
             expected_number_of_payments: Number(state.expected_number_of_payment),
             unique_field: selectedFields[uniqueSelection].field_name,
+            ...(priority[0] && {priority_1: selectedFields[priority[0]].field_name}),
+            ...(priority[1] && {priority_2: selectedFields[priority[1]].field_name}),
+            ...(priority[2] && {priority_3: selectedFields[priority[2]].field_name}),
             form: selectedFields.map(e => ({
                 ...e,
                 required: e.required === 'true' ? true : false,
@@ -462,7 +467,7 @@ const Payment = () => {
                             <Grid item xs={12} md={5}>
                                 <div className='flex flex-col create-payment-details'>
                                     <div className='w-full px-5'>
-                                        <form className='w-full space-y-4'>
+                                        <form className='w-full space-y-6'>
                                             <div className='py-4'>
                                                 <h3 className='text-gray-700 text-lg font-bold home'>Payment Link Details</h3>
                                             </div>
@@ -504,7 +509,7 @@ const Payment = () => {
                                             <p className='font-bold text-gray-700 text-lg'>Forms</p>
                                             {
                                                 selectedFields.map((each, index) => (
-                                                    <div className='mt-4' key={index}>
+                                                    <div className='mt-4 mb-4' key={index}>
                                                         <Grid container onClick={() => setUniqueSelection(index)} spacing={1} className={uniqueSelection === index ? 'create-payment-details-unique-selection cursor-pointer' : 'cursor-pointer'}>
                                                             <Grid item md={1}>
                                                                 <div className='font-bold text-lg text-gray-700'>{index + 1})</div>
@@ -515,7 +520,7 @@ const Payment = () => {
                                                                         <span className='create-payment-details-unique-selection-text'>Unique Field</span>
                                                                     ) : ''
                                                                 }
-                                                                <div>
+                                                                <div className='relative'>
                                                                     <div className='mb-4'>
                                                                         <small className='font-bold text-gray-500'>Field Name: </small>
                                                                         <small className='text-md font-bold mt-0'>{each.field_name || 'Nill'}</small>
@@ -534,6 +539,14 @@ const Payment = () => {
                                                                             <span key={i}>{e} &nbsp;</span>
                                                                         )) : 'Nil'}</small>
                                                                     </div>
+                                                                    {
+                                                                       (((priority.length < 3) && (uniqueSelection !== index)) || (priority.indexOf(index) >= 0)) ? (
+                                                                            <div className='mb-4 c-toggle-botton'>
+                                                                                <ToggleButton switcher={(val) => assignPriority(val, index)} />
+                                                                            </div>
+                                                                        ): ''
+                                                                    }
+                                                                    
                                                                 </div>
                                                             </Grid>
                                                         </Grid>

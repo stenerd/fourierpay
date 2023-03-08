@@ -353,7 +353,7 @@ const Dashboard = () => {
                                                     <h2>Available Links</h2>
                                                 </div>
                                                 <div className='flex items-center space-x-3'>
-                                                    <div className='h-4 w-4 rounded-full bg-[#97f675]'></div>
+                                                    <div className='h-4 w-4 rounded-full bg-[#6dd976]'></div>
                                                     <h2>Used Links</h2>
                                                 </div>
 

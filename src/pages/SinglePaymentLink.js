@@ -17,6 +17,9 @@ import LinkIcon from '@mui/icons-material/Link';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Tabs from '../components/Tabs';
+import PaymentLinkSettings from '../components/PaymentLinkSettings';
+import PayersSheetTable from '../components/PayersSheetTable';
 
 
 
@@ -28,17 +31,72 @@ const SinglePaymentLink = () => {
     const [end, setEnd] = React.useState("")
     const [status, setStatus] = React.useState("")
     const [data, setData] = useState({})
+    const [payersSheet, setPayersSheet] = useState({})
 
     const [isCopied, setIsCopied] = useState(false)
     const [search, setSearch] = useState('')
     const [paymentLink, setPaymentLink] = useState("")
     const [loading,setLoading] = useState(false)
-    const [load,setLoad] = useState(false)
+    const [load, setLoad] = useState(false)
+    const [loadPayersSheet, setLoadPayersSheet] = useState(false)
+    const [linkData, setLinkData] = useState({
+        isPublic: true
+    })
+
+    const [tabList, setTabList] = useState([
+        {
+            key: 'payments',
+            value: "Payments",
+            icon: <>
+                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+            </>
+        },
+        {
+            key: 'settings',
+            value: 'Settings',
+            icon: <>
+                <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
+            </>
+        },
+    ])
+    const [tab, setTab] = useState(tabList[tabList.length - 1])
+
+    const checkPayerSheetUpdate = (data) => {
+        if (data.paymentLink.state === 'private') {
+            setTabList([
+                {
+                    key: 'payments',
+                    value: "Payments",
+                    icon: <>
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                    </>
+                },
+                {
+                    key: 'payers_sheet',
+                    value: 'Payers Sheet',
+                    icon: <>
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                    </>
+                },
+                {
+                    key: 'settings',
+                    value: 'Settings',
+                    icon: <>
+                        <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
+                    </>
+                },
+            ])
+        }
+    }
 
     const SearchPayment = async () => {
         const res = await Protected.get(`${BASE_URL}/api/payment/${code}?q=${search}`)
         console.log(res?.data?.data?.data)
         setData(res?.data?.data?.data)
+        checkPayerSheetUpdate(res?.data?.data?.data)
     }
 
     const [opener, setOpener] = React.useState(false);
@@ -62,7 +120,7 @@ const SinglePaymentLink = () => {
         }if(status!==''&&end!==''&&start===''){
             link = `${BASE_URL}/api/payment/${code}?q=${search}&status=${status}&endDate=${end}`
             return link
-        }if(end!==''&&start===''&&status==''){
+        }if(end!==''&&start===''&&status===''){
             link = `${BASE_URL}/api/payment/${code}?q=${search}&endDate=${end}`
             return link;
         }if(start!==''&&status===''&&end===''){
@@ -95,6 +153,7 @@ const SinglePaymentLink = () => {
             console.log(response.data.data.data)  
             setLoading(false)    
             setData(response.data.data.data)
+            checkPayerSheetUpdate(response.data.data.data)
             console.log(data)
             // setEnd('')
             // setStart('')
@@ -120,6 +179,7 @@ const SinglePaymentLink = () => {
            const data = filterLink(status,start,end)
            const response = await Protected.get(data)
            setData(response?.data?.data?.data)
+           checkPayerSheetUpdate(response?.data?.data?.data)
         }
    
     };
@@ -135,6 +195,10 @@ const SinglePaymentLink = () => {
             // console.log(res.data.data.data)
             console.log(response.data.data.data)
             setData(response.data.data.data)
+            checkPayerSheetUpdate(response.data.data.data)
+            if (response.data.data.data.paymentLink.state === 'private') {
+                FetchPayersSheet()
+            }
             setLoad(false)
             // setPaymentLink(response?.data?.data.paymentLink.link)
         } catch (error) {
@@ -143,9 +207,26 @@ const SinglePaymentLink = () => {
         }
     }
 
+    const recallServerData = async () => {
+        FetchLinks()
+    }
+
+    const FetchPayersSheet = async () => {
+        setLoadPayersSheet(true)
+        try {
+            const response = await Protected.get(`${BASE_URL}/api/payment-link/${code}/payers-sheet`)
+            console.log("payers sheet >> ", response.data.data)
+            setPayersSheet(response.data.data)
+            setLoadPayersSheet(false)
+        } catch (error) {
+            console.log(error)
+            setLoadPayersSheet(false)
+        }
+    }
+
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-        height: 25,
+        height: 15,
         borderRadius: 10,
         [`&.${linearProgressClasses.colorPrimary}`]: {
             backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
@@ -198,26 +279,29 @@ const SinglePaymentLink = () => {
                     {
                         data.paymentLink ? (
                             <div className='w-[90%] mx-auto py-6' >
-                                <Grid container className='mb-8'>
+                                <Grid container spacing={2} className='mb-8'>
                                     <Grid item xs={12} md={5}>
-                                        <div>
-                                            <div className='font-bold'>Description:</div>
-                                            <div className='pl-16 italic text-gray-500'>{data.paymentLink.description}</div>
-                                        </div>
-                                        <div className='flex space-x-2 items-center mt-4'>
-                                            <IconButton onClick={copyText}>
-                                                <ContentPasteIcon />
-                                            </IconButton>
-                                            <h2 className='break-all text-[13px] text-[#1d3329] font-bold'>{data.paymentLink.link}</h2>
-                                        </div>
-                                        <div>
-                                            {
-                                                data.paymentLink.expected_number_of_payments ? (
-                                                    <div className='pb-2 w-[90%] rounded-lg'>
-                                                        <BorderLinearProgress variant="determinate" value={((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100) > 100 ? 100 : ((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100)} />
-                                                    </div>
-                                                ) : ''
-                                            }
+                                        <div className='min-h-full c-single-payment-description'>
+                                            <div className='pb-8'>
+                                                <div className='font-bold'>Description:</div>
+                                                <div className='italic text-gray-500'>{data.paymentLink.description}</div>
+                                            </div>
+                                            <div className='flex space-x-2 items-center mt-4'>
+                                                {/* <IconButton>
+                                                    <ContentPasteIcon onClick={copyText} />
+                                                </IconButton> */}
+                                                <ContentPasteIcon onClick={copyText} className="cursor-pointer" />
+                                                <h2 className='break-all text-[13px] text-[#1d3329] font-bold'>{data.paymentLink.link}</h2>
+                                            </div>
+                                            <div className='mt-2'>
+                                                {
+                                                    data.paymentLink.expected_number_of_payments ? (
+                                                        <div className='pb-2 w-[90%] rounded-lg'>
+                                                            <BorderLinearProgress variant="determinate" value={((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100) > 100 ? 100 : ((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100)} />
+                                                        </div>
+                                                    ) : ''
+                                                }
+                                            </div>
                                         </div>
                                     </Grid>
                                     <Grid item xs={12} md={7}>
@@ -298,72 +382,60 @@ const SinglePaymentLink = () => {
                                     </Grid>
                                 </Grid>
 
-                                {/* <Grid container>
-                                    <Grid item xs={12} md={6}>
-                                        <div className='bg-[#f8faf7] h-full cursor-pointer border-dotted border-2 rounded-lg py-3 px-3'>
-                                            <div className='p-4'>
-                                                <div className='cursor-pointer'>
-                                                    <div className='flex justify-between'>
-                                                        <h2 className='fourier text-2xl text-[#1d3329] font-bold'>{data.paymentLink && data.paymentLink.name}</h2>
-                                                        <small className='text-sm text-[#00bf00] status-pill'>{data.paymentLink && data.paymentLink.status} {data.paymentLink && data.paymentLink.expires_at && '- 24th March 2023'}</small>
-                                                    </div>
-                                                    <div className='py-3'>
-                                                        <div className="flex items-center space-x-6">
-                                                            {data.paymentLink.expected_number_of_payments ?
-                                                                (
-                                                                    <div>
-                                                                        <h2 className='text-sm text-gray-400 font-bold'>Expected</h2>
-                                                                        <h1 className='text-2xl font-bold '>${data.paymentLink.amount * data.paymentLink.expected_number_of_payments}</h1>
-                                                                    </div>
-                                                                )
-                                                                : ''
-                                                            }
-                                                            <div>
-                                                                <h2 className='text-sm text-gray-400 font-bold'>Total Balance</h2>
-                                                                <h1 className='text-2xl font-bold'>$90000</h1>
-                                                            </div>
-                                                            <div>
-                                                                <h2 className='text-sm text-gray-400 font-bold'>Amount</h2>
-                                                                <h1 className='text-2xl font-bold'>${data.paymentLink.amount}</h1>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="pt-3">
-                                                        <div className='bg-gray-100 pt-2 px-2 c-border-gray'>
-                                                            <div className='flex space-x-2 items-center'>
-                                                                <IconButton>
-                                                                    <ContentPasteIcon />
-                                                                </IconButton>
-                                                                <h2 className='break-all text-[13px]'>{data.paymentLink.link}</h2>
-                                                            </div>
-                                                        </div>
-                                                        {
-                                                            data.paymentLink.expected_number_of_payments ? (
-                                                                <div className='pb-2'>
-                                                                    <BorderLinearProgress variant="determinate" value={((90000 / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100) > 100 ? 100 : ((90000 / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100)} />
-                                                                </div>
-                                                            ) : ''
-                                                        }
-                                                        <div>
-                                                            <h2 className="pb-3 text-gray-400 font-bold">42 reciepients</h2>
-                                                        </div>
+                                <Tabs tabList={tabList} currentTab={tabList[tabList.length - 1]} switcher={(tab) => setTab(tab)} />
 
-                                                    </div>
-                                                </div>
+
+
+                                {
+                                    (tab.key === 'payments') ? 
+                                    (
+                                        !data.payments ?
+                                        (<>
+                                            <div className='flex justify-center items-center h-[30vh]'>
+                                                <h2 className='text-center text-2xl'>No  Payments made yet</h2>
                                             </div>
+                                        </>) :
+                                        (<div className='py-6'>
+                                            <PaymentTable loading={loading} opener={opener} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} data={data} onChange={onChange} handleKeyDown={handleKeyDown}  start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} setStatus={setStatus} filterData={filterData}/>
+                                        </div>)
+                                        
+                                    ) : ''
+                                }
+                                {
+                                    (tab.key === 'payers_sheet') ? 
+                                    (
+                                        <div className='py-6'>
+                                            <PayersSheetTable
+                                                loading={loadPayersSheet}
+                                                opener={opener}
+                                                setOpener={setOpener}
+                                                handleClickOpen={handleClickOpen}
+                                                handleCloser={handleCloser}
+                                                data={data}
+                                                payersSheet={payersSheet}
+                                                onChange={onChange}
+                                                handleKeyDown={handleKeyDown}
+                                                start={start}
+                                                end={end}
+                                                setStart={setStart}
+                                                setEnd={setEnd}
+                                                status={status}
+                                                setStatus={setStatus}
+                                                filterData={filterData}
+                                            />
                                         </div>
-                                    </Grid>
-                                </Grid> */}
-
-                                {!data.payments ? (
-                                    <>
-                                        <div className='flex justify-center items-center h-[30vh]'>
-                                            <h2 className='text-center text-2xl'>No  Payments made yet</h2>
-                                        </div>
-                                    </>
-                                ) : (<div className='py-6'>
-                                    <PaymentTable loading={loading} opener={opener} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} data={data} onChange={onChange} handleKeyDown={handleKeyDown}  start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} setStatus={setStatus} filterData={filterData}/>
-                                </div>)}
+                                    ) : ''
+                                }
+                                {
+                                    (tab.key === 'settings') ? 
+                                    (
+                                        <PaymentLinkSettings
+                                            linkData={linkData}
+                                            paymentLink={data.paymentLink}
+                                            recallServerData={recallServerData}
+                                        />
+                                    ): ''
+                                }
 
                             </div>
                         ) : ''

@@ -141,7 +141,7 @@
 }
 .create-payment-details{
     background: #f8faf7;
-    border-left: 2px dashed #dedcdc;
+    /* border-left: 2px dashed #dedcdc; */
     min-height: 100%;
 }
 .create-payment-dynamic-form-close{
@@ -151,6 +151,11 @@
     padding: 0.1rem;
     color: #f30909;
     cursor: pointer;
+}
+.c-single-payment-description{
+    background: #97f67526;
+    border: 1px solid #97f67536;
+    padding: 1.5rem;
 }
 .create-payment-dynamic-form-options-close{
     display: inline-block;
