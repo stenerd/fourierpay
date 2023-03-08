@@ -95,8 +95,13 @@ const Login = () => {
                                                 <input placeholder='Password' name='password' onChange={handleChange} required type="password" className='py-2 px-4 w-full outline-none c-text-input' />
                                             </Grid>
                                         </Grid>
-                                        <div className='mt-12 mb-6'>
+                                        <div className='mt-12 mb-6 hidden md:block'>
                                             <button disabled={loading ? true : false} className='c-primary-button'>
+                                                {loading ? 'loading....' : 'Login'}
+                                            </button>
+                                        </div>
+                                        <div className='mt-12 mb-6 block md:hidden'>
+                                            <button disabled={loading ? true : false} className='c-primary-button w-full'>
                                                 {loading ? 'loading....' : 'Login'}
                                             </button>
                                         </div>
