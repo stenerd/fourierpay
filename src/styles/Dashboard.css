@@ -305,6 +305,17 @@
     padding: 20px 0px;
 }
 
+.odd_numbers{
+    background: rgba(240, 218, 15, 0.2);
+}
+.even_numbers{
+    background: rgba(179, 7, 208, 0.2);
+}
+
+.pills-expiry-date{
+    background: rgba(13, 152, 35, 0.1);
+}
+
 @media (max-width:950px){
     .mobile-grid-1{
         display: none;

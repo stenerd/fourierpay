@@ -209,6 +209,9 @@ const MakePayment = () => {
 
     return (
         <>
+        {/* <div className='block lg:hidden'>
+            
+        </div> */}
              <div className='min-h-screen'>
                 <div className='px-4 lg:px-16 py-8 lg:py-16 mx-auto'>
                     <div className='flex mx-auto min-h-[85vh]'>
