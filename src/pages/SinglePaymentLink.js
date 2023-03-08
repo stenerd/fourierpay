@@ -296,7 +296,7 @@ const SinglePaymentLink = () => {
                                             <div className='mt-2'>
                                                 {
                                                     data.paymentLink.expected_number_of_payments ? (
-                                                        <div className='pb-2 w-[90%] rounded-lg'>
+                                                        <div className='pb-2 w-[100%] rounded-lg'>
                                                             <BorderLinearProgress variant="determinate" value={((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100) > 100 ? 100 : ((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100)} />
                                                         </div>
                                                     ) : ''

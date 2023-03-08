@@ -1,4 +1,4 @@
-import { Button, Divider } from '@mui/material'
+import { Button, Divider, IconButton, InputBase } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import TransactionTable from '../components/TransactionsTable'
@@ -6,7 +6,26 @@ import TuneIcon from '@mui/icons-material/Tune';
 import PayOutTable from '../components/PayoutTable';
 import Titlebar from '../components/TitleBar'
 import Protected, { BASE_URL } from '../utils/axios';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import RestoreIcon from '@mui/icons-material/Restore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ArchiveIcon from '@mui/icons-material/Archive';
+import Paper from '@mui/material/Paper';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+// import List from '@mui/material/List';
+// import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+// import ListItemText from '@mui/material/ListItemText';
+// import Avatar from '@mui/material/Avatar';
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
+import Person3Icon from '@mui/icons-material/Person3';
+// import TuneIcon from '@mui/icons-material/Tune';
+import moment from 'moment'
 
+import FolderIcon from '@mui/icons-material/Folder';
+import { useNavigate } from 'react-router-dom';
 const Transactions = () => {
     const [payin, setPayin] = useState(true)
     const [payout, setPayout] = useState(false)
@@ -29,9 +48,18 @@ const Transactions = () => {
     const [type, setType] = useState("")
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(false)
-    const [load,setLoad] = useState(false)
+    const [load, setLoad] = useState(false)
+    const navigate = useNavigate()
 
     const [opener, setOpener] = React.useState(false);
+    const [value, setValue] = React.useState(0);
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    useEffect(() => {
+        setValue('transactions')
+    }, [])
 
     const handleClickOpen = () => {
         setOpener(true);
@@ -130,11 +158,11 @@ const Transactions = () => {
     }
 
 
-    const handleKeyDown = async(event) => {
+    const handleKeyDown = async (event) => {
         if (event.key === 'Enter') {
             // 👇 Get input value
             // SearchTransaction()
-            const data = filterLink(status,start,end,type,entity)
+            const data = filterLink(status, start, end, type, entity)
             const response = await Protected.get(data)
             console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
@@ -154,7 +182,7 @@ const Transactions = () => {
             console.log(error.response)
         }
     }
- 
+
     const filterData = async () => {
         // let link =`http://localhost:4000/api/transaction?status=${status}`
         // if (status=''>0&&)
@@ -192,19 +220,118 @@ const Transactions = () => {
 
     return (
         <>
-            <DashboardLayout>
-                <Titlebar>
-                    <h2 className='fourier font-bold'>Transactions</h2>
-                </Titlebar>
-                <div className='py-4 px-3 w-[90%] my-8 mx-auto'>
+            <div className="hidden lg:block">
+                <DashboardLayout>
+                    <Titlebar>
+                        <h2 className='fourier font-bold'>Transactions</h2>
+                    </Titlebar>
+                    <div className='py-4 px-3 w-[90%] my-8 mx-auto'>
 
-                    {payin ? (
-                        <TransactionTable handleClickOpen={handleClickOpen} handleCloser={handleCloser} opener={opener} setOpener={setOpener} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} />
-                    ) : <PayOutTable />}
+                        {payin ? (
+                            <TransactionTable handleClickOpen={handleClickOpen} handleCloser={handleCloser} opener={opener} setOpener={setOpener} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} />
+                        ) : <PayOutTable />}
 
+                    </div>
+
+                </DashboardLayout>
+            </div>
+
+
+            {/* MOBILE SCREENS */}
+
+            
+            <div className='block lg:hidden'>
+                <div className='py-6'>
+                    {/* <div className='py-6 flex justify-between items-center  w-[85%] mx-auto '>
+                        <div className=''> 
+                            <h2 className='text-xl title fourier font-bold'>Fourier<span>Pay</span></h2>
+                        </div>  
+                        <div className='py-2 px-3 rounded-full bg-[#1D3329]'>
+                            <Person3Icon className="text-white" />
+                        </div>     
+                    </div> */}
+                    <div className='w-[90%] mx-auto'>
+                        <div className='py-3'>
+                            <h2 className='text-xl fourier font-bold'>Transactions</h2>
+                            <div className='py-3 mt-2'>
+                                <Paper
+                                    component="form"
+                                    sx={{ p: '2px 4px', display: 'flex', alignItems: 'center' }}
+                                >
+                                    <InputBase
+                                        sx={{ ml: 1, flex: 1 }}
+                                        placeholder="Search"
+                                        // className='w-2/5 mx-auto'
+                                        inputProps={{ 'aria-label': 'search google maps' }}
+                                    />
+                                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                                        {/* <SearchIcon /> */}
+                                        <TuneIcon />
+                                    </IconButton>
+                                </Paper>
+                            </div>
+                            <div className='py-2 mb-4'>
+                                {transactions ? transactions.map((each, index) => (
+                                    <div className='flex justify-between items-center' key={index}>
+                                        <div className='flex items-center space-x-2'>
+                                            {each.in_entity==='Wallet' ? (  <img src='/images/paidd.png'/>):(
+                                                  <img src='/images/paiddd.png'/>
+                                            )}
+                                          
+                                            <div className='flex flex-col'>
+                                                <h2 className='font-bold'>{each.reference}</h2>
+                                                <small className='text-sm py-2  flex-1  text-gray-300'>{moment(each.createdAt
+                                                ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mma')}</small>
+
+                                            </div>
+                                        </div>
+                                        
+                                        <div className='flex flex-col'>
+                                            <h2 className='text-sm py-2 text-gray-400 font-bold self-end'>{each.in_entity}</h2>
+                                            <small className={each.in_entity === 'Wallet' ? 'py-2 self-end  flex-1  font-bold text-gray-600' : 'py-2 self-end  flex-1  font-bold text-red-600'}>{each.in_entity === 'Wallet' ? '+' : '-'}₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
+                                        </div>
+                                    </div>
+                                )) : ''}
+                                {/* {} */}
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
+                    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
+                        <BottomNavigationAction
+                            label="Dashboard"
+                            value="dashboard"
+                            onClick={() => navigate('/dashboard')}
+                            icon={<DashboardIcon />}
+                        />
+                        <BottomNavigationAction
+                            label="Transactions"
+                            value="transactions"
+                            onClick={() => navigate('/dashboard/transaction')}
+                            icon={<ReceiptIcon />}
+                        />
+                        <BottomNavigationAction
+                            label="Links"
+                            value="links"
+                            icon={<InsertLinkIcon />}
+                        onClick={()=>navigate('/dashboard/paymentlinks')}
+                        />
+                        {/* <BottomNavigationAction
+                            label="Favorites"
+                            value="favorites"
+                            icon={<FavoriteIcon />}
+                        /> */}
+                        {/* <BottomNavigationAction
+                            label="Nearby"
+                            value="nearby"
+                            icon={<LocationOnIcon />}
+                        /> */}
+                        <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
+                    </BottomNavigation>
+                </Paper>
+            </div>
 
-            </DashboardLayout>
         </>
     )
 }

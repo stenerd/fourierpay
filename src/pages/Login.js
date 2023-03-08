@@ -24,7 +24,7 @@ const Login = () => {
         setLoading(true)
         try {
             const res = await axios.post(`${BASE_URL}/api/auth/login`, state)
-            window.localStorage.setItem('bearer_token',res?.data?.data.token)
+            window.localStorage.setItem('bearer_token', res?.data?.data.token)
             console.log(res?.data?.data.token)
             navigate('/dashboard')
             setLoading(false)
@@ -33,7 +33,6 @@ const Login = () => {
             toast.error(error.response.data.message)
             setLoading(false)
         }
-
     }
 
     const handleConfirmEmail = async () => {
@@ -55,7 +54,6 @@ const Login = () => {
         } catch (error) {
             console.log(error.response)
         }
-
     }
 
     useEffect(() => {
@@ -98,18 +96,18 @@ const Login = () => {
                                             </Grid>
                                         </Grid>
                                         <div className='mt-12 mb-6'>
-                                            <button disabled={loading ? true:false}  className='c-primary-button'>
+                                            <button disabled={loading ? true : false} className='c-primary-button'>
                                                 {loading ? 'loading....' : 'Login'}
                                             </button>
                                         </div>
                                     </form>
                                     <div className=''>
-                                        <p className="text-gray-700 font-bold">Do not have an account? 
-                                        <Link to="/signup">
-                                            <span className='cursor-pointer c-primary-link-color'> Register</span>
-                                        </Link>
+                                        <p className="text-gray-700 font-bold">Do not have an account?
+                                            <Link to="/signup">
+                                                <span className='cursor-pointer c-primary-link-color'> Register</span>
+                                            </Link>
                                         </p>
-                                        <p className="text-gray-700 font-bold">Can't remember your password? 
+                                        <p className="text-gray-700 font-bold">Can't remember your password?
                                             <Link to="/forgot-password">
                                                 <span className='cursor-pointer c-primary-link-color'> Click here</span>
                                             </Link>
@@ -119,7 +117,7 @@ const Login = () => {
                             </div>
                         </Grid>
                         <Grid item xs={12} md={7}>
-                            <img src="/images/registration.jpg" className='w-full h-screen object-cover hidden md:block'/>
+                            <img src="/images/registration.jpg" className='w-full h-screen object-cover hidden md:block' />
                         </Grid>
                     </Grid>
 
