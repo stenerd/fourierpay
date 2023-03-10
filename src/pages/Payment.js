@@ -454,7 +454,7 @@ const Payment = () => {
                                                 <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
                                             </div> */}
                                             <div className='py-4'>
-                                                <button disabled={loading ? true : false} className='c-primary-button' onClick={createLink}>
+                                                <button disabled={loading ? true : false} className='c-bg-primary-light' onClick={createLink}>
                                                     {loading ? 'Creating...' : 'Create Link'}
                                                 </button>
                                             </div>

@@ -162,9 +162,12 @@ export default function WithdrawalTable({ load, handleKeyDown, withdrawals, open
                                 </TableRow>
                             ))}
                         </TableBody>
-                    ) : (
+                    ) : ""}
+
+                    {
+                        load ? (
                         <TableBody>
-                            {[1, 2, 3, 4].map((arr, index) => (
+                            {[1, 2, 3, 4, 5, 6, 7].map((arr, index) => (
                                 <TableRow>
 
                                     <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
@@ -176,20 +179,16 @@ export default function WithdrawalTable({ load, handleKeyDown, withdrawals, open
                                     <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
                                 </TableRow>
                             ))}
-
-                            {/* <Stack spacing={3}>
-                      <Skeleton animation="wave" variant="rectangular" width={"100%"} height={60} />
-                      <Skeleton animation="wave" variant="rounded" width={"100%"} height={60} />
-                    </Stack> */}
                         </TableBody>
-                    )}
+                    ): ''
+                    }
                   
                     {withdrawals?.length===0  && !load&& (
                         <>
                             {/* <div className='relative'> */}
                             <div className='absolute top-[40%] left-[40%] z-20' >
-                                <img src="/images/wihdrawal.svg" className='w-40' />
-                                <h2 className='text-gray-300 text-xl text-center font-bold'>No Withdrawals Yet!</h2>
+                                <img src="/images/wihdrawal.svg" alt="alt-img" className='w-40' />
+                                <h2 className='text-gray-600 text-xl text-center font-bold'>No Withdrawals Yet!</h2>
                             </div>
 
                             {array.map((arr) => (
@@ -198,52 +197,52 @@ export default function WithdrawalTable({ load, handleKeyDown, withdrawals, open
                                     <TableRow>
 
                                         <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-200 h-4 w-[60%]'>
+                                            <div className='bg-gray-100 h-4 w-[60%]'>
                                             </div>
 
-                                            {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                                            {/* <div className='bg-gray-100 h-4 w-[40%]'>
                               </div> */}
 
                                         </div></TableCell>
                                         <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-200 h-4 w-[60%]'>
+                                            <div className='bg-gray-100 h-4 w-[60%]'>
                                             </div>
 
-                                            {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                                            {/* <div className='bg-gray-100 h-4 w-[40%]'>
                               </div> */}
 
                                         </div></TableCell>
                                         <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-200 h-4 w-[60%]'>
+                                            <div className='bg-gray-100 h-4 w-[60%]'>
                                             </div>
 
 
                                         </div></TableCell>
                                         <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-200 h-4 w-[60%]'>
+                                            <div className='bg-gray-100 h-4 w-[60%]'>
                                             </div>
 
 
 
                                         </div></TableCell>
                                         <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-200 h-4 w-[60%]'>
+                                            <div className='bg-gray-100 h-4 w-[60%]'>
                                             </div>
 
-                                            {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                                            {/* <div className='bg-gray-100 h-4 w-[40%]'>
                               </div> */}
 
                                         </div></TableCell>
                                         <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-200 h-4 w-[60%]'>
+                                            <div className='bg-gray-100 h-4 w-[60%]'>
                                             </div>
 
-                                            {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                                            {/* <div className='bg-gray-100 h-4 w-[40%]'>
                               </div> */}
 
                                         </div></TableCell>
                                         <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-200 h-8 rounded-full w-[60%]'>
+                                            <div className='bg-gray-100 h-8 rounded-full w-[60%]'>
                                             </div>
 
 

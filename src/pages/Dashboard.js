@@ -501,7 +501,7 @@ const Dashboard = () => {
                     <Titlebar>
                         <h2 className='fourier font-bold'>DashBoard</h2>
                         <div>
-                            <button onClick={() => navigate('/dashboard/payment')} className='px-4 py-2 rounded-sm font-medium text-white bg-[#1d3329]'>Create Payment</button>
+                            <button onClick={() => navigate('/dashboard/payment')} className='c-bg-primary-light'>Create Payment</button>
                         </div>
                     </Titlebar>
                     <div className='px-16 py-8'>

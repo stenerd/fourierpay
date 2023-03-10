@@ -227,7 +227,7 @@ const PaymentLinks = () => {
                         <h2 className='fourier font-bold'>Payment Links</h2>
                         <div>
                             <Link to="/dashboard/payment">
-                                <button className='px-4 py-2 rounded-sm font-medium text-white bg-[#1d3329]'>Create Payment</button>
+                                <button className='c-bg-primary-light'>Create Payment</button>
                             </Link>
                         </div>
                     </Titlebar>

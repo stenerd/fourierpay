@@ -321,6 +321,17 @@
     background: rgba(13, 152, 35, 0.1);
 }
 
+.c-bg-primary-light{
+    background-color: #97F675;
+    font-weight: 600;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    color: #222926;
+    border-radius: 0.3rem;
+}
+
 @media (max-width:950px){
     .mobile-grid-1{
         display: none;
