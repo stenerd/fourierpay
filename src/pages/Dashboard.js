@@ -60,15 +60,12 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 // import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
-
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FolderIcon from '@mui/icons-material/Folder';
 // import RestoreIcon from '@mui/icons-material/Restore';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WithdrawDialog from '../components/WithdrawDialog';
-
-
 // import DashboardChart from '../components/DashboardChart';
 
 const Dashboard = () => {
@@ -101,7 +98,19 @@ const Dashboard = () => {
     const [tables, setTables] = React.useState({});
     const [pieChartData, setPieChartData] = React.useState([]);
     const [opener, setOpener] = React.useState(false);
-    const handleChange = (event, newValue) => {
+
+    const [openup ,setOpenup] = useState(false)
+    // const [] = useState()
+    
+    const handleClickOpened = () => {
+        setOpenup(true);
+    };
+
+    const handleCloseer = () => {
+        setOpenup(false);
+    };
+
+        const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
@@ -395,7 +404,18 @@ const Dashboard = () => {
 
                                 </div>
                             </div>
-                        )) : ''}
+                        )) : (
+                            <div>
+                                <div>
+                                    <Stack spacing={3}>
+                                        <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                        <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
+                                        <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                        <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
+                                    </Stack>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
@@ -416,6 +436,12 @@ const Dashboard = () => {
                             value="links"
                             icon={<InsertLinkIcon />}
                             onClick={() => navigate('/dashboard/paymentlinks')}
+                        />
+                        <BottomNavigationAction
+                            label="Profile"
+                            value="profile"
+                            icon={<AccountCircleIcon />}
+                            onClick={() => navigate('/dashboard/profile')}
                         />
                         {/* <BottomNavigationAction
                             label="Favorites"
@@ -487,9 +513,24 @@ const Dashboard = () => {
                                     )
                                 }
                             }
+                            ) : (
+                                <div>
+                                    <div>
+                                        <Stack spacing={3}>
+                                            <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                            <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
+                                            <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                            <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
+                                        </Stack>
+                                    </div>
+                                </div>
+                            )}
 
-                            ) : ''}
-                            {/* {tables.recentPaymentLinks ? '':''} */}
+                            {tables?.recentPayments?.length && (
+                                <div className='flex justify-center py-2 px-2'>
+                                    <img src="/images/payments.svg" />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

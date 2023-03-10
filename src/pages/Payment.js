@@ -12,7 +12,20 @@ import SendIcon from '@mui/icons-material/Send';
 import Protected, { BASE_URL } from '../utils/axios';
 import { useDispatch } from 'react-redux';
 import { ADD_PAYMENTLINKS } from '../redux/DashboardSlice';
+
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import RestoreIcon from '@mui/icons-material/Restore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ArchiveIcon from '@mui/icons-material/Archive';
+import Paper from '@mui/material/Paper';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
+import FolderIcon from '@mui/icons-material/Folder';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ToggleButton from '../components/ToggleButton';
+
 
 
 
@@ -41,6 +54,11 @@ const Payment = () => {
         }
     ])
     const [selectedFieldsError, setSelectedFieldsError] = React.useState([''])
+
+    const [value, setValue] = React.useState(0);
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
 
 
     const handleChanges = (e) => {
@@ -229,7 +247,8 @@ const Payment = () => {
 
     return (
         <>
-            <DashboardLayout>
+            <div className='hidden lg:block'>
+                <DashboardLayout>
                 <Titlebar>
                     <h2 className='fourier font-bold'>Create Payment Links</h2>
                     {/* <div>
@@ -584,6 +603,286 @@ const Payment = () => {
                 pauseOnHover
                 theme="light"
             />
+            </div>
+            
+
+
+
+
+
+
+
+            <div className='block lg:hidden mb-6 min-h-screen'>
+                <div className='w-[90%] mx-auto py-5'>
+                    <div className='py-2'>
+                        {/* <h2>Create Payment Link</h2> */}
+                        {/* <div>
+                            <p>New Payment Link</p>
+                        </div> */}
+                        <div className='flex flex-col justify-center items-center'>
+                            <div className='w-full'>
+                                <form className='w-full space-y-4'>
+                                    <h3 className='text-gray-700 text-xl font-bold home'>Create Payment Link</h3>
+                                    <div className='mb-8'>
+                                        {stateError && <small className='text-red-600'> {stateError}</small>}
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={12} md={6}>
+                                                <div className='flex flex-col space-y-3 mb-3'>
+                                                    <div className='flex items-center space-x-3'>
+
+                                                        <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Name</label>
+                                                        <span className='text-red-500 text-2xl font-bold'>*</span>
+
+                                                    </div>
+                                                    <Tooltip title='Name of Payment'>
+                                                        <input placeholder='Name' name='name' onChange={handleChanges} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                    </Tooltip>
+
+                                                    {/* <input placeholder='Name' name='name' onChange={handleChanges} className="py-2 px-4 w-full outline-none c-text-input" /> */}
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={12} md={6}>
+                                                <div className='flex flex-col space-y-3 mb-3'>
+                                                    <div className='flex items-center space-x-3'>
+
+                                                        <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Amount</label>
+                                                        <span className='text-red-500 text-2xl font-bold'>*</span>
+
+                                                    </div>
+                                                    <Tooltip title='Amount for Payment'>
+                                                        <input placeholder='Amount' name='amount' onChange={handleChanges} type="number" className="py-2 px-4 w-full outline-none c-text-input" />
+                                                    </Tooltip>
+
+                                                </div>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={12} md={6}>
+                                                <div className='flex flex-col space-y-3 mb-8'>
+                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Expected Number Of Payments</label>
+                                                    <input placeholder='Expected Number Of Payment' name='expected_number_of_payment' onChange={handleChanges} type="number" className="py-2 px-4 w-full outline-none c-text-input" />
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={12} md={6}>
+                                                <div className='flex flex-col space-y-3 mb-8'>
+                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Expiry Date</label>
+                                                    <Tooltip title='Make your payment link expire at a particulat date'>
+                                                        <input placeholder='Expiry Date' name='expires_at' onChange={handleChanges} type="date" className="py-2 px-4 w-full outline-none c-text-input" />
+                                                    </Tooltip>
+
+                                                </div>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid container spacing={2} className='mb-8'>
+                                            <Grid item xs={12} md={12}>
+                                                <div className='flex flex-col space-y-3 '>
+                                                    <div className='flex items-center space-x-3'>
+
+                                                        <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Description</label>
+                                                        <span className='text-red-500 text-2xl font-bold'>*</span>
+
+                                                    </div>
+                                                    <Tooltip title='Payment Description'>
+                                                        <textarea placeholder='Description' name='description' onChange={handleChanges} className="py-2 px-4 w-full outline-none c-text-input"></textarea>
+                                                    </Tooltip>
+
+                                                </div>
+                                            </Grid>
+                                        </Grid>
+                                    </div>
+
+
+                                    <div className='relative my-8'>
+                                        <Tooltip title='Generate a form that users can fill before making payment'>
+                                            <h1 className='text-gray-700 text-lg font-bold home absolute create-payment-divider-title'>Generate Form</h1>
+
+                                        </Tooltip>
+                                        <Divider className='creat-payment-divider' />
+
+                                    </div>
+
+                                    <div className='mt-4 pt-8 relative'>
+                                        {selectedFieldsError[0] && <small className='text-red-600'> {selectedFieldsError[0]}</small>}
+                                        {/* <span className='absolute create-payment-dynamic-form-close'> <CloseIcon /></span> */}
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={12} className='mb-0'>
+                                                <div className='flex flex-col space-y-3 mb-4'>
+                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field name</label>
+                                                    <input placeholder='Field Name' name='field_name' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={12} className='mb-0'>
+                                                <div className='flex flex-col space-y-3 mb-4'>
+                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field Type</label>
+                                                    <select placeholder='Field Type' name='field_type' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                        <option value={''}>Select One </option>
+                                                        <option value={'text'}>Text Field </option>
+                                                        <option value={'select'}>Select Field </option>
+                                                    </select>
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <div className='flex flex-col space-y-3 mb-0'>
+                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Required</label>
+                                                    <select placeholder='Required' name='required' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                        <option value={''}>Select One </option>
+                                                        <option value={true}>True </option>
+                                                        <option value={false}>False </option>
+                                                    </select>
+                                                </div>
+                                            </Grid>
+                                            {
+                                                selectedFields[0].field_type === 'select' ? (
+                                                    <Grid item xs={6}>
+                                                        <div className='flex flex-col space-y-3 mb-0'>
+                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Options</label>
+                                                            <div className='flex'>
+                                                                <input placeholder='Options' name='options' id='option0' className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                <span className='dynamic-form-option-cta' onClick={(e) => onKeyDownHandler('option0', 0)}>
+                                                                    <SendIcon className='text-gray-500' />
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </Grid>
+                                                ) : ''
+                                            }
+                                            <Grid item xs={12}>
+                                                {selectedFields[0].options.map((e, index) => (
+                                                    <small key={index} className='create-payment-divider-options'>{e} &nbsp; &nbsp; <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' onClick={(e) => handleRemoveFieldOption(e, 0, index)}> x</span></small>
+                                                ))}
+                                            </Grid>
+
+                                        </Grid>
+                                    </div>
+
+                                    {/* {fields} */}
+
+                                    {[...selectedFields].slice(1).map((e, i) => (
+                                        <div className='mt-8 relative' key={'' + (i + 1)}>
+                                            <span className='absolute create-payment-dynamic-form-close' onClick={(e) => handleRemoveField(e, i + 1)}> <CloseIcon /></span>
+                                            <Divider className='creat-payment-divider' />
+                                            <Grid container spacing={2} className='pt-10'>
+                                                <Grid item xs={12}>
+                                                    {selectedFieldsError[i + 1] && <small className='text-red-600'> {selectedFieldsError[i + 1]}</small>}
+                                                </Grid>
+                                                <Grid item xs={12} className='mb-0'>
+                                                    <div className='flex flex-col space-y-3 mb-4'>
+                                                        <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field name</label>
+                                                        <input placeholder='Field Name' name={'field_name' + (i + 1)} onChange={(e) => handleFieldChanges(e, i + 1)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                    </div>
+                                                </Grid>
+                                                <Grid item xs={6} className='mb-0'>
+                                                    <div className='flex flex-col space-y-3 mb-4'>
+                                                        <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field Type</label>
+                                                        <select placeholder='Field Type' name={'field_type' + (i + 1)} onChange={(e) => handleFieldChanges(e, i + 1)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                            <option value={''}>Select One </option>
+                                                            <option value={'text'}>Text Field </option>
+                                                            <option value={'select'}>Select Field </option>
+                                                        </select>
+                                                    </div>
+                                                </Grid>
+                                                <Grid item xs={6}>
+                                                    <div className='flex flex-col space-y-3 mb-8'>
+                                                        <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Required</label>
+                                                        <select placeholder='Required' name={'required' + (i + 1)} onChange={(e) => handleFieldChanges(e, i + 1)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                            <option value={''}>Select One </option>
+                                                            <option value={true}>True </option>
+                                                            <option value={false}>False </option>
+                                                        </select>
+                                                    </div>
+                                                </Grid>
+                                                {
+                                                    selectedFields[i + 1].field_type === 'select' ? (
+                                                        <Grid item xs={6}>
+                                                            <div className='flex flex-col space-y-3 mb-0'>
+                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Options</label>
+                                                                <div className='flex'>
+                                                                    <input placeholder='Options' id={'option' + (i + 1)} name={'options' + (i + 1)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                    <span className='dynamic-form-option-cta' onClick={(e) => onKeyDownHandler('option' + (i + 1), i + 1)}>
+                                                                        <SendIcon className='text-gray-500' />
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </Grid>
+                                                    ) : ''
+                                                }
+                                                <Grid item xs={12} className='dynamic-form-option-pill'>
+                                                    {selectedFields[i + 1].options.map((e, index) => (
+                                                        <small key={index} className='create-payment-divider-options'>{e} &nbsp; &nbsp; <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' onClick={(e) => handleRemoveFieldOption(e, i + 1, index)}> x</span></small>
+                                                    ))}
+                                                </Grid>
+                                            </Grid>
+                                        </div>
+                                    ))}
+                                    <div className='c-mt-0'>
+                                        <small className='cursor-pointer c-primary-link-color font-bold underline' onClick={generateField}>Add More</small>
+                                    </div>
+                                    {/* {fields}
+                                            <div className='flex flex-col space-y-3'>
+                                                <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
+                                            </div> */}
+                                    <div className='py-4 w-full'>
+                                        <button disabled={loading ? true : false} className='c-primary-button w-full' onClick={createLink}>
+                                            {loading ? 'Creating...' : 'Create Link'}
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
+                    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
+                        <BottomNavigationAction
+                            label="Dashboard"
+                            value="dashboard"
+                            onClick={() => navigate('/dashboard')}
+                            icon={<DashboardIcon />}
+                        />
+                        <BottomNavigationAction
+                            label="Transactions"
+                            value="transactions"
+                            onClick={() => navigate('/dashboard/transaction')}
+                            icon={<ReceiptIcon />}
+                        />
+                        <BottomNavigationAction
+                            label="Links"
+                            value="links"
+                            icon={<InsertLinkIcon />}
+                            onClick={() => navigate('/dashboard/paymentlinks')}
+                        />
+                        <BottomNavigationAction
+                            label="Links"
+                            value="links"
+                            icon={<AccountCircleIcon />}
+                            onClick={() => navigate('/dashboard/profile')}
+                        />
+                        {/* <BottomNavigationAction
+                            label="Favorites"
+                            value="favorites"
+                            icon={<FavoriteIcon />}
+                        /> */}
+                        {/* <BottomNavigationAction
+                            label="Nearby"
+                            value="nearby"
+                            icon={<LocationOnIcon />}
+                        /> */}
+                        <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
+                    </BottomNavigation>
+                </Paper>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
+            </div>
 
         </>
     )
