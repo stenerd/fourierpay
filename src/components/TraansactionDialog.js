@@ -7,136 +7,137 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-// import { DateRangePicker } from 'react-date-range';
-import { addDays } from 'date-fns';
-import { LocalizationProvider } from '@mui/x-date-pickers-pro';
-import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-import 'react-date-range/dist/styles.css'; // main css file
-import 'react-date-range/dist/theme/default.css'; // theme css file
-import { Box, Grid, TextField } from '@mui/material';
-import dayjs from 'dayjs';
-import 'dayjs/locale/ru';
-import 'dayjs/locale/ar-sa';
-import Protected from '../utils/axios';
+import moment from 'moment';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import RestoreIcon from '@mui/icons-material/Restore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ArchiveIcon from '@mui/icons-material/Archive';
+import Paper from '@mui/material/Paper';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import FolderIcon from '@mui/icons-material/Folder';
+import { useNavigate } from 'react-router-dom';
+import { IconButton } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
 
-const locales = ['en', 'ru', 'ar-sa'];
-
-const ampmOptions = {
-    'undefined': undefined,
-    true: true,
-    false: false
-};
-
-export default function TransactionDialog({ loading,opener, setOpener, handleCloser, handleClickOpen, start, setStart, setStatus, status, end, setEnd, filterData, entity, setEntity, type, setType }) {
-
-    // const [state, setState] = React.useState({
-    //     selection: {
-    //         startDate: new Date(),
-    //         endDate: null,
-    //         key: 'selection'
-    //     },
-    //     compare: {
-    //         startDate: new Date(),
-    //         endDate: addDays(new Date(), 3),
-    //         key: 'compare'
-    //     }
-    // });
-    // console.log(state)
-
-
-
+export default function TransactionDialog({ open, setOpen, handleClickOpener, handleCloseer, transact: recentTransaction }) {
+    //   const [open, setOpen] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        borderRadius: 2,
-        boxShadow: 24,
-        p: 4,
+    const [value, setValue] = React.useState(0);
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
     };
-    // console.log(value)
+    const navigate = useNavigate()
+
+    React.useEffect(() => {
+        setValue('transactions')
+    })
+
 
 
     return (
         <div>
-            {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open responsive dialog
-      </Button> */}
+
             <Dialog
                 fullScreen={fullScreen}
-                open={opener}
-                onClose={handleCloser}
-                fullWidth={true}
+                open={open}
+                onClose={handleCloseer}
                 aria-labelledby="responsive-dialog-title"
             >
-                <div className='w-4/5 mx-auto py-6 '>
-                    <h2 className='font-bold text-xl'>Filtering By</h2>
-                    <div className='py-3 '>
-                        <h2>You are filtering the item currently in the table below</h2>
-                    </div>
-                    <div className='flex py-2 space-x-4 items-center'>
-                        <div>
-                            <label>Start Date</label>
-                            <input placeholder='Expiry Date' onChange={(e) => setStart(e.target.value)} name='expires_at' type="date" className="py-2 px-4 w-full outline-none c-text-input" />
-                        </div>
-                        <div>
-                            <label>End Date</label>
-                            <input placeholder='Expiry Date' onChange={(e) => setEnd(e.target.value)} name='expires_at' type="date" className="py-2 px-4 w-full outline-none c-text-input" />
+                <div className='flex w-[90%] mx-auto flex-col justify-start  items-start min-h-screen'>
+                    <div className='absolute top-4 right-4 cursor-pointer' onClick={() => handleCloseer()}>
+                        <div className='flex items-center space-x-1'>
+                            <IconButton>
+                                <CancelIcon className='text-red-500 ' />
+                            </IconButton>
+                            <h2 className='font-bold'>Close</h2>
                         </div>
                     </div>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
-                            <div className="py-2">
-                                <div className='py-2 font-bold'>Status</div>
-                                <select className="py-2 px-4 w-full outline-none c-text-input" onChange={(e) => setStatus(e.target.value)}>
-                                    <option>Select One</option>
-                                    <option value={"pending"}>pending</option>
-                                    <option value={"paid"}>paid</option>
-                                    <option value={"declined"}>declined</option>
-                                    <option value={"abandoned"}>abandoned</option>
-                                </select>
-                            </div>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <div className="py-2">
-                                <div className='py-2 font-bold'>Entity</div>
-                                <select className="py-2 px-4 w-full outline-none c-text-input" onChange={(e) => setEntity(e.target.value)}>
-                                    <option>Select One</option>
-                                    <option value={"Payment"}>Payment</option>
-                                    <option value={"Withdrawal"}>Withdrawal</option>
-                                    <option value={"Wallet"}>Wallet</option>
-                                    {/* <option value={"abandoned"}>abandoned</option> */}
-                                </select>
-                            </div>
-                        </Grid>
-                        <Grid item xs={12} md={12}>
-                            <div className="py-2">
-                                <div className='py-2 font-bold'>Type</div>
-                                <select className="py-2 px-4 w-full outline-none c-text-input" onChange={(e) => setType(e.target.value)}>
-                                    <option>Select One</option>
-                                    <option value={"credit"}>credit</option>
-                                    <option value={"debit"}>debit</option>
-                                    {/* <option value={"Wallet"}>Wallet</option> */}
-                                    {/* <option value={"abandoned"}>abandoned</option> */}
-                                </select>
-                            </div>
-                        </Grid>
-                    </Grid>
+                    <div className='py-10 w-full mt-6'>
+                        <div className='py-3'>
+                            <h2 className='text-xl text-center font-bold'>Transaction Reciept</h2>
+                        </div>
+                        <div className='py-3 divide-y-2 space-y-4 w-full'>
 
-                    <div className='flex justify-end items-end'>
-                        <button className='c-primary-button rounded-md' onClick={() => filterData()}>
-                           {loading?'Loading...':'Filter'}
-                        </button>
+                            {/* <h1 className='text-center font-bold'>{recentPayment?.payment_link_id?.name}</h1> */}
+                            <div className='flex justify-between items-center py-3'>
+                                <h2 className='text-gray-400'>Reference</h2>
+                                <p className='font-bold'>{recentTransaction?.reference}</p>
+                            </div>
+                            <div className='flex justify-between items-center py-3'>
+                                <h2 className='text-gray-400'>Amount</h2>
+                                <p className='font-bold text-sm'>{recentTransaction?.amount}</p>
+                            </div>
+                            <div className='flex justify-between items-center py-3'>
+                                <h2 className='text-gray-400'>Status</h2>
+                                <p className={recentTransaction?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{recentTransaction?.status}</p>
+                            </div>
+                            {recentTransaction?.in_entity_id?.form?.map((tx, index) => (
+                                <div className='flex justify-between items-center py-3'>
+                                    <h2 className='text-gray-400 capitalize'>{tx?.field_name}</h2>
+                                    <p className='font-bold text-sm'>{tx?.answer}</p>
+                                </div>
+                            ))}
+                            <div className='flex justify-between items-center py-3'>
+                                <h2 className='text-gray-400'>Date</h2>
+                                <p className='font-bold text-sm'>{moment(recentTransaction?.createdAt).format('dddd, DD MMMM YYYY')}</p>
+                            </div>
+
+                            <div className='flex justify-between items-center py-3'>
+                                <h2 className='text-gray-400'>Payment Method</h2>
+                                <p className='font-bold text-sm'>{recentTransaction?.type}</p>
+                            </div>
+
+                            {/* <h2>Amount :</h2> */}
+                        </div>
                     </div>
+
                 </div>
-
-
+                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
+                    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
+                        <BottomNavigationAction
+                            label="Dashboard"
+                            value="dashboard"
+                            onClick={() => navigate('/dashboard')}
+                            icon={<DashboardIcon />}
+                        />
+                        <BottomNavigationAction
+                            label="Transactions"
+                            value="transactions"
+                            onClick={() => navigate('/dashboard/transaction')}
+                            icon={<ReceiptIcon />}
+                        />
+                        <BottomNavigationAction
+                            label="Links"
+                            value="links"
+                            icon={<InsertLinkIcon />}
+                            onClick={() => navigate('/dashboard/paymentlinks')}
+                        />
+                        <BottomNavigationAction
+                            label="Profile"
+                            value="profile"
+                            icon={<AccountCircleIcon />}
+                            onClick={() => navigate('/dashboard/profile')}
+                        />
+                        {/* <BottomNavigationAction
+                            label="Favorites"
+                            value="favorites"
+                            icon={<FavoriteIcon />}
+                        /> */}
+                        {/* <BottomNavigationAction
+                            label="Nearby"
+                            value="nearby"
+                            icon={<LocationOnIcon />}
+                        /> */}
+                        <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
+                    </BottomNavigation>
+                </Paper>
             </Dialog>
+
         </div>
     );
 }

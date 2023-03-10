@@ -18,7 +18,6 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment'
-
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import RestoreIcon from '@mui/icons-material/Restore';
@@ -29,6 +28,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import FolderIcon from '@mui/icons-material/Folder';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 
@@ -370,6 +370,12 @@ const SinglePaymentLink = () => {
                                 value="links"
                                 icon={<InsertLinkIcon />}
                             // onClick={()=>navigate('/dashboard/paymentlinks')}
+                            />
+                            <BottomNavigationAction
+                                label="Profile"
+                                value="profile"
+                                icon={<AccountCircleIcon />}
+                                onClick={() => navigate('/dashboard/profile')}
                             />
                             {/* <BottomNavigationAction
                             label="Favorites"

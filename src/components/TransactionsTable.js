@@ -189,7 +189,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
               <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
             </TableRow>
           </TableHead>
-          {transactions?.length&& !loading ? (
+          {transactions?.length && !loading ? (
             <TableBody>
               {transactions.map((row, index) => (
                 <TableRow
@@ -229,7 +229,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
           ) : (
 
             <TableBody>
-              {[1,2,3,4].map((arr, index) => (
+              {[1, 2, 3, 4].map((arr, index) => (
                 <TableRow>
 
                   <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
@@ -251,7 +251,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
             //   <h2 className='text-center  py-2'>There is no data Available</h2>
             // </div>
           )}
-          {transactions?.length===0 && !load && (
+          {transactions?.length === 0 && !load && (
             <>
               {/* <div className='relative'> */}
               <div className='absolute top-[40%] left-[40%] z-20' >

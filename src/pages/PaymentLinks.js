@@ -11,13 +11,14 @@ import '../styles/PaymentLink.css'
 import { Link } from 'react-router-dom';
 import Protected, { BASE_URL } from '../utils/axios'
 import { useDispatch, useSelector } from 'react-redux';
-import useClipboard from "react-use-clipboard";
+
 import { useNavigate } from 'react-router-dom';
 import { ADD_PAYMENTLINKS, SINGLE_PAYMENTLINK } from '../redux/DashboardSlice';
 import moment from 'moment'
+import useClipboard from "react-use-clipboard";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import RestoreIcon from '@mui/icons-material/Restore';
@@ -205,7 +206,13 @@ const PaymentLinks = () => {
                             label="Links"
                             value="links"
                             icon={<InsertLinkIcon />}
-                        // onClick={()=>navigate('/dashboard/paymentlinks')}
+                            onClick={() => navigate('/dashboard/paymentlinks')}
+                        />
+                        <BottomNavigationAction
+                            label="Profile"
+                            value="profile"
+                            icon={<AccountCircleIcon />}
+                            onClick={() => navigate('/dashboard/profile')}
                         />
                         {/* <BottomNavigationAction
                             label="Favorites"

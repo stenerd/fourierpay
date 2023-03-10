@@ -33,6 +33,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import FolderIcon from '@mui/icons-material/Folder';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 
@@ -476,7 +477,13 @@ const Payment = () => {
                             label="Links"
                             value="links"
                             icon={<InsertLinkIcon />}
-                        // onClick={()=>navigate('/dashboard/paymentlinks')}
+                            onClick={() => navigate('/dashboard/paymentlinks')}
+                        />
+                        <BottomNavigationAction
+                            label="Links"
+                            value="links"
+                            icon={<AccountCircleIcon />}
+                            onClick={() => navigate('/dashboard/profile')}
                         />
                         {/* <BottomNavigationAction
                             label="Favorites"
