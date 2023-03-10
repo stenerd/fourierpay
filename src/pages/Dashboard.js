@@ -526,9 +526,10 @@ const Dashboard = () => {
                                 </div>
                             )}
 
-                            {tables?.recentPayments?.length && (
-                                <div className='flex justify-center py-2 px-2'>
-                                    <img src="/images/payments.svg" />
+                            {tables?.recentPayments?.length===0&& (
+                                <div className='flex flex-col justify-center py-2 px-2'>
+                                    <img src="/images/payments.svg" className='w-2/5 mx-auto'/>
+                                    <p className='text-gray-500 text-center'>No Links Yet!</p>
                                 </div>
                             )}
                         </div>
