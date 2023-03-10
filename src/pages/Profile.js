@@ -53,6 +53,7 @@ import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FolderIcon from '@mui/icons-material/Folder';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import TransactionDialog from '../components/TraansactionDialog';
 // import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Profile = () => {
     const [state, setState] = React.useState({
@@ -394,6 +395,7 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
+                {/* <TransactionDialog  open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact}/> */}
                 <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
                     <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
                         <BottomNavigationAction
