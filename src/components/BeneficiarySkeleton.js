@@ -9,14 +9,14 @@ const BeneficiarySkeleton = () => {
                 <div className='c-center-absolute z-20'>
                     
                     <div className='flex justify-center'>
-                        <img src="/images/wihdrawal.svg" className='w-24'/>
+                        <img src="/images/wihdrawal.svg" alt="alt-img" className='w-24'/>
                     </div>
                     <div className='py-2'>
-                       <p className='text-black text-center font-bold text-gray-500'>No Beneficiary Yet!</p>
+                       <p className='text-black text-center font-bold text-gray-600'>No Beneficiary Yet!</p>
                     </div>
                 </div>
                 {array.map((arr) => (
-                    <div className='py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden'>
+                    <div className='py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden opacity-40'>
                         <span className='profile-beneficiary-overlay'></span>
                         <Grid container spacing={3}>
                             <Grid item xs={12}>

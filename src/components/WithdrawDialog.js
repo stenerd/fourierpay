@@ -9,7 +9,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Protected, { BASE_URL } from '../utils/axios';
 // import { toast } from 'react-toastify';
-
+import CancelIcon from '@mui/icons-material/Cancel';
 
 import Typography from '@mui/material/Typography';
 // import Modal from '@mui/material/Modal';
@@ -21,6 +21,7 @@ import Select from '@mui/material/Select';
 import { DashBoardContext } from '../context/Dashboard';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { IconButton } from '@mui/material';
 
 export default function WithdrawDialog({ opener, setOpener, handleClosed, handleClickOpen }) {
     //   const [open, setOpen] = React.useState(false);
@@ -103,9 +104,13 @@ export default function WithdrawDialog({ opener, setOpener, handleClosed, handle
         >
             <div className='py-5 px-3 min-h-screen relative'>
                 <div className='absolute top-4 right-4 cursor-pointer' onClick={() => handleClosed()}>
-                    <h2 className='text-red-500 font-bold'>Close</h2>
+                    <div className='flex items-center space-x-1'>
+                        <IconButton>
+                            <CancelIcon/>
+                        </IconButton>
+                        <h2 className='text-red-500 font-bold'>Close</h2>
+                    </div>
                 </div>
-
                 <div className='flex flex-col justify-center h-[80vh] items-center'>
                     <div className='w-[80%] mx-auto title'>
                         <h2 className='text-2xl font-bold fourier text-left'>Withdraw</h2>
@@ -124,7 +129,6 @@ export default function WithdrawDialog({ opener, setOpener, handleClosed, handle
                                             <option onSelect={() => console.log(beneficiary)} value={beneficiary.account_number} onClick={() => console.log(beneficiary)}> {beneficiary.account_name}</option>
                                         ))}
                                     </select>
-
                                 )}
                             </div>
                             {current && (
@@ -138,7 +142,6 @@ export default function WithdrawDialog({ opener, setOpener, handleClosed, handle
                                         <input placeholder='Amount' required name='amount' type="text" value={current.bank_name} readOnly={true} className='py-2 px-4 w-full outline-none c-text-input' />
                                     </div>
                                 </>
-
                             )}
                             {/* {
                             current && (state.amount >= 1000) ? ( */}
@@ -150,7 +153,6 @@ export default function WithdrawDialog({ opener, setOpener, handleClosed, handle
                             {/* ) : '' */}
                             {/* } */}
                         </div>
-
                     </form>
                     <ToastContainer
                         position="top-right"

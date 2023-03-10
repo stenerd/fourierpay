@@ -1,4 +1,4 @@
-import { Button, Divider, IconButton, InputBase } from '@mui/material'
+import { Button, Divider, IconButton, InputBase, Skeleton, Stack } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import TransactionTable from '../components/TransactionsTable'
@@ -20,12 +20,15 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 // import ListItemText from '@mui/material/ListItemText';
 // import Avatar from '@mui/material/Avatar';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 import Person3Icon from '@mui/icons-material/Person3';
 // import TuneIcon from '@mui/icons-material/Tune';
 import moment from 'moment'
 
 import FolderIcon from '@mui/icons-material/Folder';
 import { useNavigate } from 'react-router-dom';
+import TransactionDialog from '../components/TraansactionDialog';
 const Transactions = () => {
     const [payin, setPayin] = useState(true)
     const [payout, setPayout] = useState(false)
@@ -41,6 +44,16 @@ const Transactions = () => {
         }
 
     }
+    const [open, setOpen] = useState()
+
+    const handleClickOpener = () => {
+        setOpen(true);
+    };
+
+    const handleCloseer = () => {
+        setOpen(false);
+    };
+
     const [start, setStart] = React.useState("")
     const [end, setEnd] = React.useState("")
     const [status, setStatus] = React.useState("")
@@ -78,6 +91,7 @@ const Transactions = () => {
         setPayout(true)
         setPayin(false)
     }
+    const [transact,setTransact] = useState()
 
     const filterLink = (status, start, end, type, entity) => {
         let link = `${BASE_URL}/api/transaction?q=${search}`
@@ -232,14 +246,13 @@ const Transactions = () => {
                         ) : <PayOutTable />}
 
                     </div>
-
                 </DashboardLayout>
             </div>
 
 
             {/* MOBILE SCREENS */}
 
-            
+
             <div className='block lg:hidden'>
                 <div className='py-6'>
                     {/* <div className='py-6 flex justify-between items-center  w-[85%] mx-auto '>
@@ -271,13 +284,17 @@ const Transactions = () => {
                                 </Paper>
                             </div>
                             <div className='py-2 mb-4'>
-                                {transactions ? transactions.map((each, index) => (
-                                    <div className='flex justify-between items-center' key={index}>
+                                {transactions && !load ? transactions.map((each, index) => (
+                                    <div className='flex justify-between items-center' key={index} onClick={() => {
+                                        // console.log(each)
+                                        setTransact(each)
+                                        handleClickOpener()
+                                    }}>
                                         <div className='flex items-center space-x-2'>
-                                            {each.in_entity==='Wallet' ? (  <img src='/images/paidd.png'/>):(
-                                                  <img src='/images/paiddd.png'/>
+                                            {each.in_entity === 'Wallet' ? (<img src='/images/paidd.png' />) : (
+                                                <img src='/images/paiddd.png' />
                                             )}
-                                          
+
                                             <div className='flex flex-col'>
                                                 <h2 className='font-bold'>{each.reference}</h2>
                                                 <small className='text-sm py-2  flex-1  text-gray-300'>{moment(each.createdAt
@@ -285,18 +302,31 @@ const Transactions = () => {
 
                                             </div>
                                         </div>
-                                        
                                         <div className='flex flex-col'>
                                             <h2 className='text-sm py-2 text-gray-400 font-bold self-end'>{each.in_entity}</h2>
                                             <small className={each.in_entity === 'Wallet' ? 'py-2 self-end  flex-1  font-bold text-gray-600' : 'py-2 self-end  flex-1  font-bold text-red-600'}>{each.in_entity === 'Wallet' ? '+' : '-'}₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
                                         </div>
                                     </div>
-                                )) : ''}
+                                )) : (
+                                    <div>
+                                        <div>
+                                            <Stack spacing={2}>
+                                                <Skeleton animation="wave" variant="rectangular" width={"100%"} height={40} />
+                                                <Skeleton animation="wave" variant="rounded" width={"100%"} height={40} />
+                                                <Skeleton animation="wave" variant="rectangular" width={"100%"} height={40} />
+                                                <Skeleton animation="wave" variant="rounded" width={"100%"} height={40} />
+                                                <Skeleton animation="wave" variant="rectangular" width={"100%"} height={40} />
+                                                <Skeleton animation="wave" variant="rounded" width={"100%"} height={40} />
+                                            </Stack>
+                                        </div>
+                                    </div>
+                                )}
                                 {/* {} */}
                             </div>
                         </div>
                     </div>
                 </div>
+                <TransactionDialog open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact}/>
                 <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
                     <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
                         <BottomNavigationAction
@@ -315,7 +345,13 @@ const Transactions = () => {
                             label="Links"
                             value="links"
                             icon={<InsertLinkIcon />}
-                        onClick={()=>navigate('/dashboard/paymentlinks')}
+                            onClick={() => navigate('/dashboard/paymentlinks')}
+                        />
+                        <BottomNavigationAction
+                            label="Profile"
+                            value="profile"
+                            icon={<AccountCircleIcon />}
+                            onClick={() => navigate('/dashboard/profile')}
                         />
                         {/* <BottomNavigationAction
                             label="Favorites"
