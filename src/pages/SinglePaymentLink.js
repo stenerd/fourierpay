@@ -1,6 +1,6 @@
 import { Grid, IconButton, Skeleton } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import DashboardLayout from '../components/DashboardLayout'
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
@@ -20,6 +20,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import Tabs from '../components/Tabs';
 import PaymentLinkSettings from '../components/PaymentLinkSettings';
 import PayersSheetTable from '../components/PayersSheetTable';
+import moment from 'moment'
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import RestoreIcon from '@mui/icons-material/Restore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ArchiveIcon from '@mui/icons-material/Archive';
+import Paper from '@mui/material/Paper';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
+import FolderIcon from '@mui/icons-material/Folder';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 
@@ -42,6 +54,10 @@ const SinglePaymentLink = () => {
     const [linkData, setLinkData] = useState({
         isPublic: true
     })
+
+    const [payments, setPayments] = useState(true)
+    const [pending, setPending] = useState(false)
+    const [settings, setSettings] = useState(false)
 
     const [tabList, setTabList] = useState([
         {
@@ -92,6 +108,31 @@ const SinglePaymentLink = () => {
         }
     }
 
+    const navigate = useNavigate()
+
+    const handlePayment = () => {
+        setPending(false)
+        setSettings(false)
+        setPayments(true)
+    }
+
+    const handlePending = () => {
+        setPending(true)
+        setSettings(false)
+        setPayments(false)
+    }
+
+    const handleSettings = () => {
+        setPending(false)
+        setSettings(true)
+        setPayments(false)
+    }
+
+    const [value, setValue] = React.useState(0);
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+    
     const SearchPayment = async () => {
         const res = await Protected.get(`${BASE_URL}/api/payment/${code}?q=${search}`)
         console.log(res?.data?.data?.data)
@@ -266,8 +307,9 @@ const SinglePaymentLink = () => {
 
 
 
-    return (
-        <>
+return (
+    <>
+        <div className='hidden lg:block'>
             <DashboardLayout>
                 <div ref={topRef}>
                     <Titlebar  >
@@ -456,6 +498,186 @@ const SinglePaymentLink = () => {
                 </div>
 
             </DashboardLayout>
+        </div>
+
+
+        <div className='block lg:hidden'>
+                <div className='py-6'>
+                    <div className='w-[90%] mx-auto py-2'>
+                        <h2 className='font-bold fourier'>{data?.paymentLink?.name}</h2>
+                        <div className='py-4 mt-3'>
+                            <div className='border-2  border-gray-300 px-3 py-4 rounded-[10px]'>
+                                <div className='py-1 px-1'>
+                                    <div className='flex justify-between items-center'>
+                                        <h1 className='flex-1'>Description</h1>
+                                        <span className='text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-[#00832D] pills-expiry-date'>{moment(data?.paymentLink?.expires_at).format(('MMM DD, YYYY'))}</span>
+                                    </div>
+                                    <div className='py-2'>
+                                        <p className='text-[12px]'>{data?.paymentLink?.name}</p>
+                                    </div>
+                                    <div className='py-2 mt-2'>
+                                        <div className='bg-gray-200 px-2 py-1 rounded-md flex items-center space-x-1'>
+                                            <IconButton onClick={() => {
+                                                // setCopied()
+                                                copyText()
+                                                // console.log(link, index)
+                                            }}>
+                                                <ContentPasteIcon fontSize='small' />
+                                            </IconButton>
+                                            <h1 className='break-all text-[10px]'>{data?.paymentLink?.link}</h1>
+                                        </div>
+                                    </div>
+                                    <div className='py-2 mt-2'>
+                                        <div>
+                                            {
+                                                data?.paymentLink?.expected_number_of_payments ? (
+                                                    <div className='pb-2 w-full rounded-lg'>
+                                                        <BorderLinearProgress variant="determinate" value={((data?.recievedAmount / (data.paymentLink?.amount * data?.paymentLink?.expected_number_of_payments)) * 100) > 100 ? 100 : ((data?.recievedAmount / (data?.paymentLink?.amount * data?.paymentLink?.expected_number_of_payments)) * 100)} />
+                                                    </div>
+                                                ) : ''
+                                            }
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div className='py-3 mt-2'>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={4}>
+                                        <div>
+                                            <div className='py-4 px-2 border border-[#FFD469] rounded-[10px]' style={{ background: 'rgba(199, 199, 199, 0.15)' }}>
+                                                <div className='overlay'></div>
+                                                <h2 className='text-gray-400 text-[12px]'>Expected Amount</h2>
+                                                <h6 className='font-bold text-[14px] fourier'>₦ {Intl.NumberFormat('en-US').format(data?.paymentLink?.amount * data?.paymentLink?.expected_number_of_payments || 0)}</h6>
+                                            </div>
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <div>
+                                            <div className='py-4 px-2 border border-[#0D9823] rounded-[10px]' style={{ background: 'rgba(199, 199, 199, 0.15)' }}>
+                                                <div className='overlay'></div>
+                                                <h2 className='text-gray-400 text-[12px]'>Amount Per Amount</h2>
+                                                <h6 className='font-bold text-[14px] fourier'>₦ {Intl.NumberFormat('en-US').format(data?.paymentLink?.amount || 0)}</h6>
+                                            </div>
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <div>
+                                            <div className='py-4 px-2 border border-[#F6AE9E] rounded-md' style={{ background: ' rgba(199, 199, 199, 0.15)' }}>
+                                                <h2 className='text-gray-400 text-[12px]'>Recieved Payment</h2>
+                                                <h6 className='font-bold text-[14px] fourier'>₦ {Intl.NumberFormat('en-US').format(data?.recievedAmount || 0)}</h6>
+                                            </div>
+                                        </div>
+                                    </Grid>
+                                </Grid>
+                            </div>
+                        </div>
+                        <div className='py-2 mt-2'>
+                            <div className='px-1 rounded-md flex justify-between items-center py-1' style={{ background: 'rgba(0, 0, 0, 0.15)' }}>
+                                <div className='flex-1'>
+                                    <button className={payments ? 'bg-white rounded-md transition ease-in-out text-black px-4 py-1 fourier' : 'text-gray-500 transition ease-in-out px-4 text-center'} onClick={() => handlePayment()}>Payments</button>
+                                </div>
+                                <div className='flex-1 self-center' onClick={() => handlePending()}>
+                                    <button className={pending ? 'bg-white rounded-md text-black transition ease-in-out px-4 py-1 fourier' : 'text-gray-500 transition ease-in-out px-4 text-center'}>Pending</button>
+                                </div>
+                                <div className='flex-1 self-center' onClick={() => handleSettings()}>
+                                    <button className={settings ? 'bg-white transition ease-in-out rounded-md text-black px-4 py-1 fourier' : 'text-gray-500 px-4 transition ease-in-out text-center'}>Settings</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='py-2 mt-2 space-y-2'>
+                            {payments && (
+                                <>
+                                    {data ? data?.payments?.map((row, index) => (
+                                        <div className='flex justify-between items-center' key={index}>
+                                            <div className=' flex flex-1 flex-col items-start'>
+                                                <h2 className='font-semibold fourier text-[12px]'>{row?.unique_answer}</h2>
+                                                <small className='text-sm py-2  flex-1  text-gray-300'>{moment(row.createdAt
+                                                ).format('MMM DD, YYYY')} | {moment(row.createdAt).format('h:mma')}</small>
+                                            </div>
+                                            <div className=' flex flex-1 flex-col items-end'>
+                                                <h2 className=''>₦{Intl.NumberFormat('en-US').format(row.amount || 0)}</h2>
+                                                <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{row.status}</p>
+                                            </div>
+                                        </div>
+                                    )) : ''}
+                                </>
+
+                            )}
+
+                            {pending && (
+                                <>
+                                    <div>
+                                        <p>Pending</p>
+                                    </div>
+                                </>
+                            )}
+                            {settings && (
+                                <>
+                                    <div>
+                                        <p>settings</p>
+                                    </div>
+                                </>
+                            )}
+
+                        </div>
+                    </div>
+                    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
+                        <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
+                            <BottomNavigationAction
+                                label="Dashboard"
+                                value="dashboard"
+                                onClick={() => navigate('/dashboard')}
+                                icon={<DashboardIcon />}
+                            />
+                            <BottomNavigationAction
+                                label="Transactions"
+                                value="transactions"
+                                onClick={() => navigate('/dashboard/transaction')}
+                                icon={<ReceiptIcon />}
+                            />
+                            <BottomNavigationAction
+                                label="Links"
+                                value="links"
+                                icon={<InsertLinkIcon />}
+                            // onClick={()=>navigate('/dashboard/paymentlinks')}
+                            />
+                            <BottomNavigationAction
+                                label="Profile"
+                                value="profile"
+                                icon={<AccountCircleIcon />}
+                                onClick={() => navigate('/dashboard/profile')}
+                            />
+                            {/* <BottomNavigationAction
+                            label="Favorites"
+                            value="favorites"
+                            icon={<FavoriteIcon />}
+                        /> */}
+                            {/* <BottomNavigationAction
+                            label="Nearby"
+                            value="nearby"
+                            icon={<LocationOnIcon />}
+                        /> */}
+                            <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
+                        </BottomNavigation>
+                    </Paper>
+
+                </div>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
+            </div>
+            
         </>
     )
 }

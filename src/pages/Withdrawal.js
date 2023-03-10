@@ -139,7 +139,7 @@ const Withdrawal = ({}) => {
                 <Titlebar>
                     <h2>Withdrawal</h2>
                     <div>
-                        <button className='px-4 py-2 rounded-sm font-medium text-white bg-[#1d3329]' onClick={() => handleOpen()}>Withdraw</button>
+                        <button className='c-bg-primary-light' onClick={() => handleOpen()}>Withdraw</button>
                     </div>
                 </Titlebar>
                 <div className='py-4 w-[90%] mx-auto'>

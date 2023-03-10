@@ -4,15 +4,15 @@ const RecentLinksSkeleton = () => {
     return (
         <>
             <div className='space-y-3 relative'>
-                <div className='c-center-absolute'>
+                <div className='c-center-absolute z-10'>
                     <div className='flex justify-center'>
-                        <img src="/images/nolinks.svg" />
+                        <img src="/images/nolinks.svg" alt="alt-img" />
                     </div>
                     <div className='py-2'>
-                       <p className='text-center font-bold text-gray-500'>No Links Yet!</p>
+                       <p className='text-center font-bold text-gray-600'>No Links Yet!</p>
                     </div>
                 </div>
-                <div className='py-2 border border-gray-200'>
+                <div className='py-2 border border-gray-200 opacity-40'>
                     <div className='w-[95%] mx-auto space-y-4 justify-between items-center'>
                         <div className='flex justify-between items-center'>
                             <div className='space-y-2'>
@@ -34,7 +34,7 @@ const RecentLinksSkeleton = () => {
                         </div>
                     </div>
                 </div>
-                <div className='py-2 bg-gray-100 border border-gray-200'>
+                <div className='py-2 bg-gray-100 border border-gray-200 opacity-40'>
                     <div className='w-[95%] mx-auto space-y-4 justify-between items-center'>
                         <div className='flex justify-between items-center'>
                             <div className='space-y-2'>
@@ -56,7 +56,7 @@ const RecentLinksSkeleton = () => {
                         </div>
                     </div>
                 </div>
-                <div className='py-2 border border-gray-200'>
+                <div className='py-2 border border-gray-200 opacity-40'>
                     <div className='w-[95%] mx-auto space-y-4 justify-between items-center'>
                         <div className='flex justify-between items-center'>
                             <div className='space-y-2'>
@@ -78,7 +78,7 @@ const RecentLinksSkeleton = () => {
                         </div>
                     </div>
                 </div>
-                <div className='py-2 border bg-gray-100 border-gray-200'>
+                <div className='py-2 border bg-gray-100 border-gray-200 opacity-40'>
                     <div className='w-[95%] mx-auto space-y-4 justify-between items-center'>
                         <div className='flex justify-between items-center'>
                             <div className='space-y-2'>
@@ -100,7 +100,7 @@ const RecentLinksSkeleton = () => {
                         </div>
                     </div>
                 </div>
-                <div className='py-2 border border-gray-200'>
+                <div className='py-2 border border-gray-200 opacity-40'>
                     <div className='w-[95%] mx-auto space-y-4 justify-between items-center'>
                         <div className='flex justify-between items-center'>
                             <div className='space-y-2'>
@@ -122,7 +122,7 @@ const RecentLinksSkeleton = () => {
                         </div>
                     </div>
                 </div>
-                <div className='py-2 border bg-gray-100 border-gray-200'>
+                {/* <div className='py-2 border bg-gray-100 border-gray-200 opacity-40'>
                     <div className='w-[95%] mx-auto space-y-4 justify-between items-center'>
                         <div className='flex justify-between items-center'>
                             <div className='space-y-2'>
@@ -143,7 +143,7 @@ const RecentLinksSkeleton = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         </>
     )

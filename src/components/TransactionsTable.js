@@ -189,7 +189,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
               <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
             </TableRow>
           </TableHead>
-          {transactions?.length&& !loading ? (
+          {transactions?.length && !loading ? (
             <TableBody>
               {transactions.map((row, index) => (
                 <TableRow
@@ -226,10 +226,12 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
                 </TableRow>
               ))}
             </TableBody>
-          ) : (
+          ) : ''}
+          {
+            (loading || load) ? (
 
             <TableBody>
-              {[1,2,3,4].map((arr, index) => (
+              {[1,2,3,4,5,6,7].map((arr, index) => (
                 <TableRow>
 
                   <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
@@ -241,22 +243,15 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
                   <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
                 </TableRow>
               ))}
-
-              {/* <Stack spacing={3}>
-                <Skeleton animation="wave" variant="rectangular" width={"100%"} height={60} />
-                <Skeleton animation="wave" variant="rounded" width={"100%"} height={60} />
-              </Stack> */}
             </TableBody>
-            // <div className='flex justify-center items-center'>
-            //   <h2 className='text-center  py-2'>There is no data Available</h2>
-            // </div>
-          )}
+          ): ''
+          }
           {transactions?.length===0 && !load && (
             <>
               {/* <div className='relative'> */}
               <div className='absolute top-[40%] left-[40%] z-20' >
-                <img src="/images/cuate.svg" className='w-40' />
-                <h2 className='text-gray-300 text-xl text-center font-bold'>No Transactions Yet!</h2>
+                <img src="/images/cuate.svg" alt="alt-img" className='w-40' />
+                <h2 className='text-gray-600 text-xl text-center font-bold'>No Transactions Yet!</h2>
               </div>
 
               {array.map((arr) => (
@@ -265,7 +260,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
                   <TableRow>
 
                     <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      <div className='bg-gray-100 h-4 w-[60%]'>
                       </div>
 
                       {/* <div className='bg-gray-200 h-4 w-[40%]'>
@@ -273,44 +268,44 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
 
                     </div></TableCell>
                     <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      <div className='bg-gray-100 h-4 w-[60%]'>
                       </div>
 
-                      {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                      {/* <div className='bg-gray-100 h-4 w-[40%]'>
                           </div> */}
 
                     </div></TableCell>
                     <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      <div className='bg-gray-100 h-4 w-[60%]'>
                       </div>
 
 
                     </div></TableCell>
                     <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      <div className='bg-gray-100 h-4 w-[60%]'>
                       </div>
 
 
 
                     </div></TableCell>
                     <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      <div className='bg-gray-100 h-4 w-[60%]'>
                       </div>
 
-                      {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                      {/* <div className='bg-gray-100 h-4 w-[40%]'>
                           </div> */}
 
                     </div></TableCell>
                     <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      <div className='bg-gray-100 h-4 w-[60%]'>
                       </div>
 
-                      {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                      {/* <div className='bg-gray-100 h-4 w-[40%]'>
                           </div> */}
 
                     </div></TableCell>
                     <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-200 h-8 rounded-full w-[60%]'>
+                      <div className='bg-gray-100 h-8 rounded-full w-[60%]'>
                       </div>
 
 
