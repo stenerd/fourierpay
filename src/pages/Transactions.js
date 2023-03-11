@@ -25,10 +25,11 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Person3Icon from '@mui/icons-material/Person3';
 // import TuneIcon from '@mui/icons-material/Tune';
 import moment from 'moment'
-
+// import RecentTransacton from '../components/RecentTransaction';
 import FolderIcon from '@mui/icons-material/Folder';
 import { useNavigate } from 'react-router-dom';
 import TransactionDialog from '../components/TraansactionDialog';
+import RecentTransacton from '../components/RecentTransaction';
 const Transactions = () => {
     const [payin, setPayin] = useState(true)
     const [payout, setPayout] = useState(false)
@@ -325,10 +326,14 @@ const Transactions = () => {
                                 )}
                                 {/* {} */}
                                 {transactions?.length === 0 && !load && (
-                                    <div className='flex flex-col h-[60vh] justify-center py-2 px-2'>
-                                        <img src="/images/payments.svg" className='w-2/5 mx-auto' />
-                                        <p className='text-gray-500 text-center'>No Transactions Yet!</p>
-                                    </div>
+                                    // <div className='flex flex-col h-[60vh] justify-center py-2 px-2'>
+                                    //     <img src="/images/payments.svg" className='w-2/5 mx-auto' />
+                                    //     <p className='text-gray-500 text-center'>No Transactions Yet!</p>
+                                    // </div>
+                                    // <RecentTransacton/>
+                                    <>
+                                     <RecentTransacton/>
+                                    </>
                                 )}
                             </div>
                         </div>
