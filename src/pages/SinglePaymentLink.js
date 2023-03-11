@@ -612,7 +612,7 @@ const SinglePaymentLink = () => {
                                             </div>
                                         </div>
                                     )}
-                                    {data?.payments.length === 0 && (
+                                    {data?.payments?.length === 0 && (
                                         <div className='flex flex-col py-6 justify-center px-2'>
                                             <img src="/images/nolinks.svg" className='w-2/5 mx-auto' />
                                             <p className='text-gray-500 text-center'>No Payments Yet!</p>
