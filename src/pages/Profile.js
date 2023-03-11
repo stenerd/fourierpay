@@ -305,6 +305,36 @@ const Profile = () => {
                                             </div>
                                         </div>
                                     </div>
+                                    <div className='py-3 mt-2'>
+                                        <div className='flex items-center justify-between'>
+                                            <h1 className='text-xl font-bold'>Beneficiaries</h1>
+                                            <IconButton>
+                                                <AddIcon />
+                                            </IconButton>
+                                        </div>
+                                        <div className='py-2'>
+                                            {beneficiaries ? (
+                                                <>
+                                                    {beneficiaries.map((beneficiary, index) => (
+                                                        <div className='py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden' key={index}>
+                                                            <span className='profile-beneficiary-overlay'></span>
+                                                            <Grid container spacing={3}>
+                                                                <Grid item xs={12}>
+                                                                    <div>
+                                                                        <h2 className='font-bold'>{beneficiary.account_name}</h2>
+                                                                        <div className='mt-4'>
+                                                                            <p className='text-sm text-gray-400 font-bold'>{beneficiary.account_number}</p>
+                                                                            <p className='c-primary-color font-bold'>{beneficiary.bank_name}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </div>
+                                                    ))}
+                                                </>
+                                            ) : ''}
+                                        </div>
+                                    </div>
                                     <div className='py-2 mt-2'>
                                         <div className='flex justify-between items-center'>
                                             <div className='py-2'>
@@ -315,7 +345,6 @@ const Profile = () => {
                                                     <p className=''>View All</p>
                                                 </div>
                                             </Link>
-
                                         </div>
                                         <div className='py-2'>
                                             {profileTables.recentTransaction ? profileTables.recentTransaction.map((each, index) => (
@@ -376,7 +405,7 @@ const Profile = () => {
                                                                 <Stack spacing={3}>
                                                                     <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
                                                                     <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
-                                                                   
+
                                                                 </Stack>
                                                             </div>
                                                         </div>
