@@ -415,11 +415,7 @@ const Profile = () => {
                                                             </div>
                                                         </div>
                                                     )}
-                                                    {!isLoading && profileTables?.recentWithdrawals?.length === 0 && (
-                                                        // <div className='flex flex-col justify-center py-2 px-2'>
-                                                        //     <img src="/images/nolinks.svg" className='w-2/5 mx-auto'/>
-                                                        //     <p className='text-gray-500 text-center'>No Withdrawals Yet!</p>
-                                                        // </div>
+                                                    {!isLoading && profileTables?.recentWithdrawals?.length === 0 && (                                           
                                                         <RecentLinksSkeleton />
                                                     )}
                                                 </div>
