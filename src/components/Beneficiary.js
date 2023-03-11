@@ -6,6 +6,7 @@ import Modal from '@mui/material/Modal';
 import Protected, { BASE_URL } from '../utils/axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -18,7 +19,7 @@ const style = {
     p: 4,
 };
 
-export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, handleClose3,beneficiaries,setBeneficiaries }) {
+export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, handleClose3, beneficiaries, setBeneficiaries }) {
     const [loading, setLoading] = React.useState(false)
     console.log(data)
     console.log(beneficiaries)
@@ -30,7 +31,7 @@ export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, h
             const response = await Protected.delete(`${BASE_URL}/api/beneficiary/remove/${data._id}`)
             console.log(response.data)
             setLoading(false)
-            const newBeneficiaries = beneficiaries.filter((e)=>e._id!==data._id)
+            const newBeneficiaries = beneficiaries.filter((e) => e._id !== data._id)
             setBeneficiaries(newBeneficiaries)
             toast.success('Beneficiary Deleted!', {
                 position: "top-right",
@@ -50,7 +51,7 @@ export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, h
             setLoading(false)
             toast.error(error.response.data.message)
             console.log(error.response)
-        }
+          }
     }
 
     return (
