@@ -44,6 +44,7 @@ const Transactions = () => {
         }
 
     }
+    console.log(transactions)
     const [open, setOpen] = useState()
 
     const handleClickOpener = () => {
@@ -91,7 +92,7 @@ const Transactions = () => {
         setPayout(true)
         setPayin(false)
     }
-    const [transact,setTransact] = useState()
+    const [transact, setTransact] = useState()
 
     const filterLink = (status, start, end, type, entity) => {
         let link = `${BASE_URL}/api/transaction?q=${search}`
@@ -183,6 +184,7 @@ const Transactions = () => {
         }
 
     };
+    console.log(transactions)
 
     const fetchTransaction = async () => {
         setLoad(true)
@@ -322,11 +324,17 @@ const Transactions = () => {
                                     </div>
                                 )}
                                 {/* {} */}
+                                {transactions?.length === 0 && !load && (
+                                    <div className='flex flex-col h-[60vh] justify-center py-2 px-2'>
+                                        <img src="/images/payments.svg" className='w-2/5 mx-auto' />
+                                        <p className='text-gray-500 text-center'>No Transactions Yet!</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
-                <TransactionDialog open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact}/>
+                <TransactionDialog open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact} />
                 <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
                     <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
                         <BottomNavigationAction
