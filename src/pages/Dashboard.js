@@ -99,17 +99,17 @@ const Dashboard = () => {
     const [tables, setTables] = React.useState({});
     const [pieChartData, setPieChartData] = React.useState([]);
     const [opener, setOpener] = React.useState(false);
-    const [transact,setTransact] = useState()
+    const [transact, setTransact] = useState()
     const [openup, setOpenup] = useState(false)
 
     const [open1, setOpen1] = React.useState(false);
 
     const handleClickOpen1 = () => {
         setOpen1(true);
-      };
-      const handleClose1 = () => {
+    };
+    const handleClose1 = () => {
         setOpen1(false);
-      };
+    };
     // const [] = useState()
 
     const handleClickOpened = () => {
@@ -407,7 +407,7 @@ const Dashboard = () => {
 
                     <div className='py-2 '>
                         {tables.recentPayments ? tables.recentPayments.map((each, index) => (
-                            <div className='flex justify-between items-center' key={index} onClick={()=>{console.log(each); handleClickOpen1(); setTransact(each)}}>
+                            <div className='flex justify-between items-center' key={index} onClick={() => { console.log(each); handleClickOpen1(); setTransact(each) }}>
                                 <div className='flex flex-col'>
                                     <h2 className='text-sm py-2 font-bold'>{each.payment_link_id.name}</h2>
                                     <small className='text-sm py-2  flex-1  font-bold text-gray-400'>{moment(each.createdAt
@@ -431,6 +431,12 @@ const Dashboard = () => {
                                         <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
                                     </Stack>
                                 </div>
+                            </div>
+                        )}
+                        {tables?.recentPayments?.length === 0 && (
+                            <div className='flex flex-col justify-center py-2 px-2'>
+                                <img  src="/images/nolinks.svg" className='w-2/5 mx-auto' />
+                                <p className='text-gray-500 text-center'>No Transactions Yet!</p>
                             </div>
                         )}
                     </div>
@@ -486,7 +492,7 @@ const Dashboard = () => {
                                 console.log(index)
                                 if (index % 2 === 0) {
                                     return (
-                                        <div className=' border border-2  rounded-[10px]' key={index} onClick={()=>navigate(`/dashboard/payment/${each.code}`)}>
+                                        <div className=' border border-2  rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
                                             <div className='flex justify-center items-center odd_numbers'>
                                                 <img src='/images/illustration (2).png' />
                                             </div>
@@ -508,7 +514,7 @@ const Dashboard = () => {
                                     )
                                 } else {
                                     return (
-                                        <div className='border border-2  rounded-[10px]' key={index} onClick={()=>navigate(`/dashboard/payment/${each.code}`)}>
+                                        <div className='border border-2  rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
                                             <div className='flex justify-center items-center even_numbers'>
                                                 <img src='/images/illustration (1).png' />
                                             </div>
@@ -544,7 +550,7 @@ const Dashboard = () => {
                                 </div>
                             )}
 
-                            {tables?.recentPayments?.length === 0 && (
+                            {tables?.recentPaymentLinks?.length === 0 && (
                                 <div className='flex flex-col justify-center py-2 px-2'>
                                     <img src="/images/payments.svg" className='w-2/5 mx-auto' />
                                     <p className='text-gray-500 text-center'>No Links Yet!</p>
@@ -553,7 +559,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-                <PaymentDialog open1={open1} transact={transact} setOpen1={setOpen1} handleClickOpen1={handleClickOpen1} handleClose1={handleClose1}/>
+                <PaymentDialog open1={open1} transact={transact} setOpen1={setOpen1} handleClickOpen1={handleClickOpen1} handleClose1={handleClose1} />
                 <WithdrawDialog opener={opener} handleClosed={handleClosed} handleClickOpen={handleClickOpen} setOpener={setOpener} />
             </div>
             {/* Desktop screen page */}

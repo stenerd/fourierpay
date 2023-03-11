@@ -308,7 +308,7 @@ const Profile = () => {
                                     <div className='py-3 mt-2'>
                                         <div className='flex items-center justify-between'>
                                             <h1 className='text-xl font-bold'>Beneficiaries</h1>
-                                            <IconButton onClick={()=>handleOpen2()}>
+                                            <IconButton onClick={() => handleOpen2()}>
                                                 <AddIcon />
                                             </IconButton>
                                         </div>
@@ -375,9 +375,11 @@ const Profile = () => {
                                                 </div>
                                             </div>}
                                             {profileTables?.recentTransaction?.length === 0 && (
-                                                <div className='flex justify-center py-2 px-2'>
-                                                    <img src="/images/nolinks.svg" />
+                                                <div className='flex flex-col justify-center py-2 px-2'>
+                                                    <img src="/images/payments.svg" className='w-2/5 mx-auto' />
+                                                    <p className='text-gray-500 text-center'>No Transactions Yet!</p>
                                                 </div>
+
                                             )}
                                         </div>
                                         <div className='py-4'>
@@ -410,8 +412,9 @@ const Profile = () => {
                                                         </div>
                                                     )}
                                                     {!isLoading && profileTables?.recentWithdrawals?.length === 0 && (
-                                                        <div className='flex justify-center py-2 px-2'>
-                                                            <img src="/images/nolinks.svg" />
+                                                        <div className='flex flex-col justify-center py-2 px-2'>
+                                                            <img src="/images/nolinks.svg" className='w-2/5 mx-auto'/>
+                                                            <p className='text-gray-500 text-center'>No Withdrawals Yet!</p>
                                                         </div>
                                                     )}
                                                 </div>
