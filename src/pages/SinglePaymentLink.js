@@ -1,4 +1,4 @@
-import { Grid, IconButton, Skeleton } from '@mui/material'
+import { Grid, IconButton, Skeleton, Stack } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
@@ -48,7 +48,7 @@ const SinglePaymentLink = () => {
     const [isCopied, setIsCopied] = useState(false)
     const [search, setSearch] = useState('')
     const [paymentLink, setPaymentLink] = useState("")
-    const [loading,setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [load, setLoad] = useState(false)
     const [loadPayersSheet, setLoadPayersSheet] = useState(false)
     const [linkData, setLinkData] = useState({
@@ -132,7 +132,7 @@ const SinglePaymentLink = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    
+
     const SearchPayment = async () => {
         const res = await Protected.get(`${BASE_URL}/api/payment/${code}?q=${search}`)
         console.log(res?.data?.data?.data)
@@ -143,56 +143,56 @@ const SinglePaymentLink = () => {
     const [opener, setOpener] = React.useState(false);
 
     const handleClickOpen = () => {
-      setOpener(true);
-    };
-  
-    const handleCloser = () => {
-      setOpener(false);
+        setOpener(true);
     };
 
-    const filterLink = (status,start,end)=>{
+    const handleCloser = () => {
+        setOpener(false);
+    };
+
+    const filterLink = (status, start, end) => {
         let link = `${BASE_URL}/api/payment/${code}?q=${search}`
-        if(status!==''&&end!==''&&start!==''){
+        if (status !== '' && end !== '' && start !== '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&status=${status}&startDate=${start}&endDate=${end}`
             return link
-        }if(status!==''&&start===''&&end===''){
+        } if (status !== '' && start === '' && end === '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&status=${status}`
             return link
-        }if(status!==''&&end!==''&&start===''){
+        } if (status !== '' && end !== '' && start === '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&status=${status}&endDate=${end}`
             return link
-        }if(end!==''&&start===''&&status===''){
+        } if (end !== '' && start === '' && status === '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&endDate=${end}`
             return link;
-        }if(start!==''&&status===''&&end===''){
+        } if (start !== '' && status === '' && end === '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&startDate=${start}`
             return link
         }
-        if(start!==''&&end!==''&&status===''){
+        if (start !== '' && end !== '' && status === '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&startDate=${start}&endDate=${end}`
             return link
         }
-        if(start!==''&&end===''&&status!==''){
+        if (start !== '' && end === '' && status !== '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&startDate=${start}&status=${status}`
             return link
         }
-        if(start===''&&end===''&&status===''){
+        if (start === '' && end === '' && status === '') {
             return link
         }
-        if(start!==''&&end===''&&status===''){
+        if (start !== '' && end === '' && status === '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&startDate=${start}`
             return link
         }
     }
 
-    const filterData = async()=>{
+    const filterData = async () => {
         setLoading(true)
         try {
             setLoading(true)
-            const data = filterLink(status,start,end)
+            const data = filterLink(status, start, end)
             const response = await Protected.get(data)
-            console.log(response.data.data.data)  
-            setLoading(false)    
+            console.log(response.data.data.data)
+            setLoading(false)
             setData(response.data.data.data)
             checkPayerSheetUpdate(response.data.data.data)
             console.log(data)
@@ -201,9 +201,9 @@ const SinglePaymentLink = () => {
             // setStatus('')
             handleCloser()
         } catch (error) {
-             console.log(error.response)
-             setLoading(false)
-             console.log('error')
+            console.log(error.response)
+            setLoading(false)
+            console.log('error')
         }
     }
 
@@ -214,18 +214,18 @@ const SinglePaymentLink = () => {
         // }, 1000)
 
     }
-    const handleKeyDown =async (event) => {
+    const handleKeyDown = async (event) => {
         if (event.key === 'Enter') {
             // 👇 Get input value
-           const data = filterLink(status,start,end)
-           const response = await Protected.get(data)
-           setData(response?.data?.data?.data)
-           checkPayerSheetUpdate(response?.data?.data?.data)
+            const data = filterLink(status, start, end)
+            const response = await Protected.get(data)
+            setData(response?.data?.data?.data)
+            checkPayerSheetUpdate(response?.data?.data?.data)
         }
-   
+
     };
 
-   
+
 
     const FetchLinks = async () => {
         // setLoading(true)
@@ -307,201 +307,201 @@ const SinglePaymentLink = () => {
 
 
 
-return (
-    <>
-        <div className='hidden lg:block'>
-            <DashboardLayout>
-                <div ref={topRef}>
-                    <Titlebar  >
-                        {load ?  <h2 className='text-xl'>{`Payment Links -`} <span><Skeleton variant="rectangular" width={210}  height={40} /></span></h2>:  <h2 className='text-xl'>{`Payment Links - ${data.paymentLink && data.paymentLink.name}`}</h2>}
-                      
-                        
-                        <p className='text-xl text-[#00bf00] status-pill capitalize'>{data.paymentLink && data.paymentLink.status} {data.paymentLink && data.paymentLink.expires_at && '- 24th March 2023'}</p>
-                    </Titlebar>
-                    {
-                        data.paymentLink ? (
-                            <div className='w-[90%] mx-auto py-6' >
-                                <Grid container spacing={2} className='mb-8'>
-                                    <Grid item xs={12} md={5}>
-                                        <div className='min-h-full c-single-payment-description'>
-                                            <div className='pb-8'>
-                                                <div className='font-bold'>Description:</div>
-                                                <div className='italic text-gray-500'>{data.paymentLink.description}</div>
-                                            </div>
-                                            <div className='flex space-x-2 items-center mt-4'>
-                                                {/* <IconButton>
+    return (
+        <>
+            <div className='hidden lg:block'>
+                <DashboardLayout>
+                    <div ref={topRef}>
+                        <Titlebar  >
+                            {load ? <h2 className='text-xl'>{`Payment Links -`} <span><Skeleton variant="rectangular" width={210} height={40} /></span></h2> : <h2 className='text-xl'>{`Payment Links - ${data.paymentLink && data.paymentLink.name}`}</h2>}
+
+
+                            <p className='text-xl text-[#00bf00] status-pill capitalize'>{data.paymentLink && data.paymentLink.status} {data.paymentLink && data.paymentLink.expires_at && '- 24th March 2023'}</p>
+                        </Titlebar>
+                        {
+                            data.paymentLink ? (
+                                <div className='w-[90%] mx-auto py-6' >
+                                    <Grid container spacing={2} className='mb-8'>
+                                        <Grid item xs={12} md={5}>
+                                            <div className='min-h-full c-single-payment-description'>
+                                                <div className='pb-8'>
+                                                    <div className='font-bold'>Description:</div>
+                                                    <div className='italic text-gray-500'>{data.paymentLink.description}</div>
+                                                </div>
+                                                <div className='flex space-x-2 items-center mt-4'>
+                                                    {/* <IconButton>
                                                     <ContentPasteIcon onClick={copyText} />
                                                 </IconButton> */}
-                                                <ContentPasteIcon onClick={copyText} className="cursor-pointer" />
-                                                <h2 className='break-all text-[13px] text-[#1d3329] font-bold'>{data.paymentLink.link}</h2>
+                                                    <ContentPasteIcon onClick={copyText} className="cursor-pointer" />
+                                                    <h2 className='break-all text-[13px] text-[#1d3329] font-bold'>{data.paymentLink.link}</h2>
+                                                </div>
+                                                <div className='mt-2'>
+                                                    {
+                                                        data.paymentLink.expected_number_of_payments ? (
+                                                            <div className='pb-2 w-[100%] rounded-lg'>
+                                                                <BorderLinearProgress variant="determinate" value={((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100) > 100 ? 100 : ((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100)} />
+                                                            </div>
+                                                        ) : ''
+                                                    }
+                                                </div>
                                             </div>
-                                            <div className='mt-2'>
-                                                {
-                                                    data.paymentLink.expected_number_of_payments ? (
-                                                        <div className='pb-2 w-[100%] rounded-lg'>
-                                                            <BorderLinearProgress variant="determinate" value={((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100) > 100 ? 100 : ((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100)} />
+                                        </Grid>
+                                        <Grid item xs={12} md={7}>
+                                            <div className='create-payment-details p-8'>
+                                                <Grid container spacing={3}>
+                                                    <Grid item xs={3}>
+                                                        <div className='bg-white py-2 rounded-md dashboard-matrix'>
+                                                            <div className='overlay'></div>
+                                                            <div className="p-2 w-[90%] mx-auto">
+                                                                <div className='space-y-3 flex flex-col items-start justify-start'>
+                                                                    {/* <IconButton> */}
+                                                                    <div className='content'>
+                                                                        <AttachMoneyIcon className='text-[#1d3329]' />
+                                                                    </div>
+                                                                    {/* </IconButton> */}
+                                                                    <div className='pt-8'>
+                                                                        <h2 className='text-sm text-gray-400 font-bold'>Expected Amount</h2>
+                                                                        <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.amount * data.paymentLink.expected_number_of_payments || 0)}</h1>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    ) : ''
-                                                }
+                                                    </Grid>
+                                                    <Grid item xs={3}>
+                                                        <div className='bg-white py-2 rounded-md dashboard-matrix'>
+                                                            <div className='overlay'></div>
+                                                            <div className="p-2 w-[90%] mx-auto relative">
+                                                                <div className='space-y-3 flex flex-col items-start justify-start'>
+                                                                    <div className='c-charges-matrics'>
+                                                                        <p className='font-bold text-red-700 text-sm'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.charges || 0)}</p>
+                                                                        <small className='italic text-right font-medium  text-gray-600'>VAT</small>
+                                                                    </div>
+                                                                    <div className='content' style={{ marginTop: '0' }}>
+                                                                        <LinkIcon className='text-[#1d3329]' />
+                                                                    </div>
+                                                                    <div className='pt-8'>
+                                                                        <h2 className='text-sm text-gray-400 font-bold'>Amount Per Payment</h2>
+                                                                        <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.amount || 0)}</h1>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid item xs={3}>
+                                                        <div className='bg-white py-2 rounded-md dashboard-matrix'>
+                                                            <div className='overlay'></div>
+                                                            <div className="p-2 w-[90%] mx-auto">
+                                                                <div className='space-y-3 flex flex-col items-start justify-start'>
+                                                                    <div className='content'>
+                                                                        <PaidIcon className='text-[#1d3329]' />
+                                                                    </div>
+                                                                    <div className='pt-8'>
+                                                                        <h2 className='text-sm text-gray-400 font-bold'>Recieved Payment</h2>
+                                                                        <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.recievedAmount || 0)}</h1>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid item xs={3}>
+                                                        <div className='bg-white py-2 rounded-md dashboard-matrix'>
+                                                            <div className='overlay'></div>
+                                                            <div className="p-2 w-[90%] mx-auto">
+                                                                <div className='space-y-3 flex flex-col items-start justify-start'>
+                                                                    <div className='content'>
+                                                                        <PaymentsIcon className='text-[#1d3329]' />
+                                                                    </div>
+                                                                    <div className='pt-8'>
+                                                                        <h2 className='text-sm text-gray-400 font-bold'>Number Of Recipient</h2>
+                                                                        <h1 className='font-bold fourier'>{data.numberOfRecipient}</h1>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </Grid>
+                                                </Grid>
                                             </div>
-                                        </div>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={12} md={7}>
-                                        <div className='create-payment-details p-8'>
-                                            <Grid container spacing={3}>
-                                                <Grid item xs={3}>
-                                                    <div className='bg-white py-2 rounded-md dashboard-matrix'>
-                                                        <div className='overlay'></div>
-                                                        <div className="p-2 w-[90%] mx-auto">
-                                                            <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                                {/* <IconButton> */}
-                                                                <div className='content'>
-                                                                    <AttachMoneyIcon className='text-[#1d3329]' />
-                                                                </div>
-                                                                {/* </IconButton> */}
-                                                                <div className='pt-8'>
-                                                                    <h2 className='text-sm text-gray-400 font-bold'>Expected Amount</h2>
-                                                                    <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.amount * data.paymentLink.expected_number_of_payments || 0)}</h1>
-                                                                </div>
-                                                            </div>
+
+                                    <Tabs tabList={tabList} currentTab={tabList[tabList.length - 1]} switcher={(tab) => setTab(tab)} />
+
+
+
+                                    {
+                                        (tab.key === 'payments') ?
+                                            (
+                                                !data.payments ?
+                                                    (<>
+                                                        <div className='flex justify-center items-center h-[30vh]'>
+                                                            <h2 className='text-center text-2xl'>No  Payments made yet</h2>
                                                         </div>
-                                                    </div>
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                    <div className='bg-white py-2 rounded-md dashboard-matrix'>
-                                                        <div className='overlay'></div>
-                                                        <div className="p-2 w-[90%] mx-auto relative">
-                                                            <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                                <div className='c-charges-matrics'>
-                                                                    <p className='font-bold text-red-700 text-sm'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.charges || 0)}</p>
-                                                                    <small className='italic text-right font-medium  text-gray-600'>VAT</small>
-                                                                </div>
-                                                                <div className='content' style={{marginTop: '0'}}>
-                                                                    <LinkIcon className='text-[#1d3329]' />
-                                                                </div>
-                                                                <div className='pt-8'>
-                                                                    <h2 className='text-sm text-gray-400 font-bold'>Amount Per Payment</h2>
-                                                                    <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.amount || 0)}</h1>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                    <div className='bg-white py-2 rounded-md dashboard-matrix'>
-                                                        <div className='overlay'></div>
-                                                        <div className="p-2 w-[90%] mx-auto">
-                                                            <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                                <div className='content'>
-                                                                    <PaidIcon className='text-[#1d3329]' />
-                                                                </div>
-                                                                <div className='pt-8'>
-                                                                    <h2 className='text-sm text-gray-400 font-bold'>Recieved Payment</h2>
-                                                                    <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.recievedAmount || 0)}</h1>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                    <div className='bg-white py-2 rounded-md dashboard-matrix'>
-                                                        <div className='overlay'></div>
-                                                        <div className="p-2 w-[90%] mx-auto">
-                                                            <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                                <div className='content'>
-                                                                    <PaymentsIcon className='text-[#1d3329]' />
-                                                                </div>
-                                                                <div className='pt-8'>
-                                                                    <h2 className='text-sm text-gray-400 font-bold'>Number Of Recipient</h2>
-                                                                    <h1 className='font-bold fourier'>{data.numberOfRecipient}</h1>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Grid>
-                                            </Grid>
-                                        </div>
-                                    </Grid>
-                                </Grid>
+                                                    </>) :
+                                                    (<div className='py-6'>
+                                                        <PaymentTable loading={loading} opener={opener} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} data={data} onChange={onChange} handleKeyDown={handleKeyDown} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} setStatus={setStatus} filterData={filterData} />
+                                                    </div>)
 
-                                <Tabs tabList={tabList} currentTab={tabList[tabList.length - 1]} switcher={(tab) => setTab(tab)} />
+                                            ) : ''
+                                    }
+                                    {
+                                        (tab.key === 'payers_sheet') ?
+                                            (
+                                                <div className='py-6'>
+                                                    <PayersSheetTable
+                                                        loading={loadPayersSheet}
+                                                        opener={opener}
+                                                        setOpener={setOpener}
+                                                        handleClickOpen={handleClickOpen}
+                                                        handleCloser={handleCloser}
+                                                        data={data}
+                                                        payersSheet={payersSheet}
+                                                        onChange={onChange}
+                                                        handleKeyDown={handleKeyDown}
+                                                        start={start}
+                                                        end={end}
+                                                        setStart={setStart}
+                                                        setEnd={setEnd}
+                                                        status={status}
+                                                        setStatus={setStatus}
+                                                        filterData={filterData}
+                                                    />
+                                                </div>
+                                            ) : ''
+                                    }
+                                    {
+                                        (tab.key === 'settings') ?
+                                            (
+                                                <PaymentLinkSettings
+                                                    linkData={linkData}
+                                                    paymentLink={data.paymentLink}
+                                                    recallServerData={recallServerData}
+                                                />
+                                            ) : ''
+                                    }
 
+                                </div>
+                            ) : ''
+                        }
+                        <ToastContainer
+                            position="top-right"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                        />
 
+                    </div>
 
-                                {
-                                    (tab.key === 'payments') ? 
-                                    (
-                                        !data.payments ?
-                                        (<>
-                                            <div className='flex justify-center items-center h-[30vh]'>
-                                                <h2 className='text-center text-2xl'>No  Payments made yet</h2>
-                                            </div>
-                                        </>) :
-                                        (<div className='py-6'>
-                                            <PaymentTable loading={loading} opener={opener} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} data={data} onChange={onChange} handleKeyDown={handleKeyDown}  start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} setStatus={setStatus} filterData={filterData}/>
-                                        </div>)
-                                        
-                                    ) : ''
-                                }
-                                {
-                                    (tab.key === 'payers_sheet') ? 
-                                    (
-                                        <div className='py-6'>
-                                            <PayersSheetTable
-                                                loading={loadPayersSheet}
-                                                opener={opener}
-                                                setOpener={setOpener}
-                                                handleClickOpen={handleClickOpen}
-                                                handleCloser={handleCloser}
-                                                data={data}
-                                                payersSheet={payersSheet}
-                                                onChange={onChange}
-                                                handleKeyDown={handleKeyDown}
-                                                start={start}
-                                                end={end}
-                                                setStart={setStart}
-                                                setEnd={setEnd}
-                                                status={status}
-                                                setStatus={setStatus}
-                                                filterData={filterData}
-                                            />
-                                        </div>
-                                    ) : ''
-                                }
-                                {
-                                    (tab.key === 'settings') ? 
-                                    (
-                                        <PaymentLinkSettings
-                                            linkData={linkData}
-                                            paymentLink={data.paymentLink}
-                                            recallServerData={recallServerData}
-                                        />
-                                    ): ''
-                                }
-
-                            </div>
-                        ) : ''
-                    }
-                    <ToastContainer
-                        position="top-right"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="light"
-                    />
-
-                </div>
-
-            </DashboardLayout>
-        </div>
+                </DashboardLayout>
+            </div>
 
 
-        <div className='block lg:hidden'>
+            <div className='block lg:hidden'>
                 <div className='py-6'>
                     <div className='w-[90%] mx-auto py-2'>
                         <h2 className='font-bold fourier'>{data?.paymentLink?.name}</h2>
@@ -601,7 +601,23 @@ return (
                                                 <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{row.status}</p>
                                             </div>
                                         </div>
-                                    )) : ''}
+                                    )) : (
+                                        <div>
+                                            <div>
+                                                <Stack spacing={3}>
+                                                    <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                                    <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
+
+                                                </Stack>
+                                            </div>
+                                        </div>
+                                    )}
+                                    {data?.payments.length === 0 && (
+                                        <div className='flex flex-col py-6 justify-center px-2'>
+                                            <img src="/images/nolinks.svg" className='w-2/5 mx-auto' />
+                                            <p className='text-gray-500 text-center'>No Payments Yet!</p>
+                                        </div>
+                                    )}
                                 </>
 
                             )}
@@ -677,7 +693,7 @@ return (
                     theme="light"
                 />
             </div>
-            
+
         </>
     )
 }
