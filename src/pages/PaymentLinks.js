@@ -1,4 +1,4 @@
-import { Grid, IconButton, LinearProgress } from '@mui/material'
+import { Grid, IconButton, LinearProgress, Skeleton, Stack } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import Avatar from '@mui/material/Avatar';
@@ -170,9 +170,18 @@ const PaymentLinks = () => {
                             ))
                                 : (
                                     <div>
-
+                                        <Stack spacing={3}>
+                                            <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                            <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
+                                        </Stack>
                                     </div>
                                 )}
+                            {paymentLinks?.length === 0 && (
+                                <div className='flex flex-col justify-center py-2 px-2'>
+                                    <img src="/images/payments.svg" className='w-2/5 mx-auto' />
+                                    <p className='text-gray-500 text-center'>No Links Yet!</p>
+                                </div>
+                            )}
                         </div>
                         <ToastContainer
                             position="top-right"
