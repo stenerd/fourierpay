@@ -534,7 +534,16 @@ const SinglePaymentLink = () => {
                                                     <div className='pb-2 w-full rounded-lg'>
                                                         <BorderLinearProgress variant="determinate" value={((data?.recievedAmount / (data.paymentLink?.amount * data?.paymentLink?.expected_number_of_payments)) * 100) > 100 ? 100 : ((data?.recievedAmount / (data?.paymentLink?.amount * data?.paymentLink?.expected_number_of_payments)) * 100)} />
                                                     </div>
-                                                ) : ''
+                                                ) : (
+                                                    <>
+                                                        {/* <div>
+                                                            <Stack spacing={3}>
+                                                                <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                                                <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
+                                                            </Stack>
+                                                        </div> */}
+                                                    </>
+                                                )
                                             }
                                         </div>
                                     </div>
@@ -619,7 +628,6 @@ const SinglePaymentLink = () => {
                                         </div>
                                     )}
                                 </>
-
                             )}
 
                             {pending && (
