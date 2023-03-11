@@ -54,6 +54,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FolderIcon from '@mui/icons-material/Folder';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import TransactionDialog from '../components/TraansactionDialog';
+import BeneficiaryDialog from '../components/BeneficiartDialog';
 // import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Profile = () => {
     const [state, setState] = React.useState({
@@ -225,6 +226,15 @@ const Profile = () => {
         handleOpen7()
     }
 
+    const [open8,setOpen8] = useState()
+    const handleClickOpen8 = () => {
+        setOpen8(true);
+      };
+    
+      const handleClose8 = () => {
+        setOpen8(false);
+      };
+
     const findLink = async (link, index) => {
         // setSingleLink(link.link)
         try {
@@ -308,15 +318,15 @@ const Profile = () => {
                                     <div className='py-3 mt-2'>
                                         <div className='flex items-center justify-between'>
                                             <h1 className='text-xl font-bold'>Beneficiaries</h1>
-                                            <IconButton onClick={() => handleOpen2()}>
-                                                <AddIcon />
+                                            <IconButton onClick={() => handleClickOpen8()}>
+                                                <AddIcon className='cursor-pointer font-bold text-lg c-primary-link-color'/>
                                             </IconButton>
                                         </div>
                                         <div className='py-2'>
                                             {beneficiaries ? (
                                                 <>
                                                     {beneficiaries.map((beneficiary, index) => (
-                                                        <div className='py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden' key={index}>
+                                                        <div className='py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden' key={index} onClick={()=>console.log(beneficiary)}>
                                                             <span className='profile-beneficiary-overlay'></span>
                                                             <Grid container spacing={3}>
                                                                 <Grid item xs={12}>
@@ -345,7 +355,7 @@ const Profile = () => {
                                             </div>
                                             <Link to='/dashboard/transaction'>
                                                 <div>
-                                                    <p className=''>View All</p>
+                                                    <p className='cursor-pointer font-bold c-primary-link-color'>View All</p>
                                                 </div>
                                             </Link>
                                         </div>
@@ -394,7 +404,7 @@ const Profile = () => {
                                                     </div>
                                                     <Link to='/dashboard/transaction'>
                                                         <div>
-                                                            <p className=''>View All</p>
+                                                            <p className='cursor-pointer font-bold  c-primary-link-color'>View All</p>
                                                         </div>
                                                     </Link>
 
@@ -427,6 +437,7 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
+                <BeneficiaryDialog FetchBeneficiary={FetchBeneficiary}  open8={open8} setOpen8={setOpen8} handleClickOpen8={handleClickOpen8} handleClose8={handleClose8} bankList={bankList} />
                 {/* <TransactionDialog  open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact}/> */}
                 {/* <TransactionDialog open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact}/> */}
                 <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
