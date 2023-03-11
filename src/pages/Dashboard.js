@@ -66,6 +66,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WithdrawDialog from '../components/WithdrawDialog';
+import PaymentDialog from '../components/PaymentsDialog';
 // import DashboardChart from '../components/DashboardChart';
 
 const Dashboard = () => {
@@ -98,10 +99,19 @@ const Dashboard = () => {
     const [tables, setTables] = React.useState({});
     const [pieChartData, setPieChartData] = React.useState([]);
     const [opener, setOpener] = React.useState(false);
+    const [transact,setTransact] = useState()
+    const [openup, setOpenup] = useState(false)
 
-    const [openup ,setOpenup] = useState(false)
+    const [open1, setOpen1] = React.useState(false);
+
+    const handleClickOpen1 = () => {
+        setOpen1(true);
+      };
+      const handleClose1 = () => {
+        setOpen1(false);
+      };
     // const [] = useState()
-    
+
     const handleClickOpened = () => {
         setOpenup(true);
     };
@@ -110,7 +120,7 @@ const Dashboard = () => {
         setOpenup(false);
     };
 
-        const handleChange = (event, newValue) => {
+    const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
@@ -387,10 +397,17 @@ const Dashboard = () => {
                     {/* <DashboardChart/> */}
                 </div>
                 <div className='py-3 w-[85%] mx-auto'>
-                    <h2 className='font-bold text-xl py-4 fourier'>Recent Payments</h2>
+                    <div className='flex items-center justify-between py-3'>
+                        <h2 className='font-bold text-xl py-4 fourier'>Recent Payments</h2>
+                        <Link to='/dashboard/transaction'>
+                            <p className='text-gray-500 font-bold'>View All</p>
+                        </Link>
+
+                    </div>
+
                     <div className='py-2 '>
                         {tables.recentPayments ? tables.recentPayments.map((each, index) => (
-                            <div className='flex justify-between items-center' key={index}>
+                            <div className='flex justify-between items-center' key={index} onClick={()=>{console.log(each); handleClickOpen1(); setTransact(each)}}>
                                 <div className='flex flex-col'>
                                     <h2 className='text-sm py-2 font-bold'>{each.payment_link_id.name}</h2>
                                     <small className='text-sm py-2  flex-1  font-bold text-gray-400'>{moment(each.createdAt
@@ -456,30 +473,31 @@ const Dashboard = () => {
                         <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
                     </BottomNavigation>
                 </Paper>
-
                 <div className='py-3 mb-14 w-[85%] mx-auto'>
                     <div className='flex items-center justify-between'>
                         <h2 className='font-bold text-xl fourier'>Recent Links</h2>
-                        <p className='text-sm text-gray-400'>View all</p>
+                        <Link to='/dashboard/paymentlinks'>
+                            <p className='font-bold text-gray-400'>View all</p>
+                        </Link>
                     </div>
                     <div className='py-4 '>
                         <div className='space-y-2'>
-                            {tables.recentPayments ? tables.recentPayments.map((each, index) => {
+                            {tables.recentPaymentLinks ? tables.recentPaymentLinks.map((each, index) => {
                                 console.log(index)
                                 if (index % 2 === 0) {
                                     return (
-                                        <div className=' border border-2  rounded-[10px]' key={index}>
+                                        <div className=' border border-2  rounded-[10px]' key={index} onClick={()=>navigate(`/dashboard/payment/${each.code}`)}>
                                             <div className='flex justify-center items-center odd_numbers'>
                                                 <img src='/images/illustration (2).png' />
                                             </div>
                                             <div className='px-2 py-6'>
                                                 <div>
-                                                    <h2 className='text-xl font-bold'>{each.payment_link_id.name}</h2>
+                                                    <h2 className='text-xl font-bold'>{each.name}</h2>
                                                 </div>
                                                 <div className=' flex justify-between items-center'>
                                                     <div className='space-y-1'>
                                                         <p className='text-gray-400'>Amount</p>
-                                                        <h2 className='text-[#15C01A] font-bold'>{each.payment_link_id.amount}</h2>
+                                                        <h2 className='text-[#15C01A] font-bold'>{each.amount}</h2>
                                                     </div>
                                                     <IconButton>
                                                         <ContentPasteIcon />
@@ -490,18 +508,18 @@ const Dashboard = () => {
                                     )
                                 } else {
                                     return (
-                                        <div className='border border-2  rounded-[10px]' key={index}>
+                                        <div className='border border-2  rounded-[10px]' key={index} onClick={()=>navigate(`/dashboard/payment/${each.code}`)}>
                                             <div className='flex justify-center items-center even_numbers'>
                                                 <img src='/images/illustration (1).png' />
                                             </div>
                                             <div className='py-6 px-2'>
                                                 <div>
-                                                    <h2 className='text-xl font-bold'>{each.payment_link_id.name}</h2>
+                                                    <h2 className='text-xl font-bold'>{each.name}</h2>
                                                 </div>
                                                 <div className=' flex justify-between items-center'>
                                                     <div className='space-y-1'>
                                                         <p className='text-gray-400'>Amount</p>
-                                                        <h2 className='text-[#15C01A] font-bold'>{each.payment_link_id.amount}</h2>
+                                                        <h2 className='text-[#15C01A] font-bold'>{each.amount}</h2>
                                                     </div>
                                                     <IconButton>
                                                         <ContentPasteIcon />
@@ -526,15 +544,16 @@ const Dashboard = () => {
                                 </div>
                             )}
 
-                            {tables?.recentPayments?.length===0&& (
+                            {tables?.recentPayments?.length === 0 && (
                                 <div className='flex flex-col justify-center py-2 px-2'>
-                                    <img src="/images/payments.svg" className='w-2/5 mx-auto'/>
+                                    <img src="/images/payments.svg" className='w-2/5 mx-auto' />
                                     <p className='text-gray-500 text-center'>No Links Yet!</p>
                                 </div>
                             )}
                         </div>
                     </div>
                 </div>
+                <PaymentDialog open1={open1} transact={transact} setOpen1={setOpen1} handleClickOpen1={handleClickOpen1} handleClose1={handleClose1}/>
                 <WithdrawDialog opener={opener} handleClosed={handleClosed} handleClickOpen={handleClickOpen} setOpener={setOpener} />
             </div>
             {/* Desktop screen page */}
