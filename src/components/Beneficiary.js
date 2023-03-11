@@ -51,7 +51,7 @@ export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, h
             setLoading(false)
             toast.error(error.response.data.message)
             console.log(error.response)
-        }
+          }
     }
 
     return (

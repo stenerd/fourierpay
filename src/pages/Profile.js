@@ -308,7 +308,7 @@ const Profile = () => {
                                     <div className='py-3 mt-2'>
                                         <div className='flex items-center justify-between'>
                                             <h1 className='text-xl font-bold'>Beneficiaries</h1>
-                                            <IconButton>
+                                            <IconButton onClick={()=>handleOpen2()}>
                                                 <AddIcon />
                                             </IconButton>
                                         </div>
@@ -361,7 +361,6 @@ const Profile = () => {
 
                                                         </div>
                                                     </div>
-
                                                     <div className='flex flex-col'>
                                                         <h2 className='text-sm py-2 text-gray-400 font-bold self-end'>{each.in_entity}</h2>
                                                         <small className={each.in_entity === 'Wallet' ? 'py-2 self-end  flex-1  font-bold text-gray-600' : 'py-2 self-end  flex-1  font-bold text-red-600'}>{each.in_entity === 'Wallet' ? '+' : '-'}₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
@@ -425,6 +424,7 @@ const Profile = () => {
                     </div>
                 </div>
                 {/* <TransactionDialog  open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact}/> */}
+                {/* <TransactionDialog open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact}/> */}
                 <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
                     <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
                         <BottomNavigationAction
@@ -479,8 +479,6 @@ const Profile = () => {
                                 </div>
                             )}
                             {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<small className='font-bold text-gray-500'>{profile?.email} {profile?.phonenumber}</small>)}
-
-
                         </div>
                     </Titlebar>
                     <div className='px-16 py-8'>
@@ -508,7 +506,6 @@ const Profile = () => {
                                                         </IconButton>
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
                                         <div className="px-0 pt-2">
@@ -524,7 +521,6 @@ const Profile = () => {
                                                     <div class="tooltip-arrow" data-popper-arrow></div>
                                                 </div>
                                             </div>
-
                                             <div className='py-2 dashboard-payment-link'>
                                                 {beneficiaries ? (
                                                     <List>
@@ -564,7 +560,6 @@ const Profile = () => {
                                                     </>
                                                 )}
                                             </div>
-
                                         </div>
                                     </Stack>
                                 </Grid>
@@ -679,7 +674,6 @@ const Profile = () => {
                                     </div>
                                 </Grid>
                             </Grid>
-
                         </div>
                     </div>
                 </DashboardLayout>
