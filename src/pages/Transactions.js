@@ -380,7 +380,6 @@ const Transactions = () => {
                     </BottomNavigation>
                 </Paper>
             </div>
-
         </>
     )
 }
