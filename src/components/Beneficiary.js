@@ -68,15 +68,15 @@ export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, h
                     <form onSubmit={DeleteBenefiary}>
                         <div>
                             <label className='text-sm font-bold block my-2 text-gray-700'>Account Name</label>
-                            <input value={data.account_name} readOnly required name='Account Name' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                            <input value={data.account_name} readOnly required name='Account Name' type="text" className='py-2 px-4 w-full outline-none c-text-input'/>
                         </div>
                         <div>
                             <label className='text-sm font-bold block my-2 text-gray-700'>Bank Name</label>
-                            <input value={data.bank_name} readOnly required name='Bank Name' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                            <input value={data.bank_name} readOnly required name='Bank Name' type="text" className='py-2 px-4 w-full outline-none c-text-input'/>
                         </div>
                         <div>
                             <label className='text-sm font-bold block my-2 text-gray-700'>Account Number</label>
-                            <input value={data.account_number} readOnly name='Account Number' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                            <input value={data.account_number} readOnly name='Account Number' type="text" className='py-2 px-4 w-full outline-none c-text-input'/>
                         </div>
                         <div className='py-4'>
                             <button className='c-secondary-button'>
