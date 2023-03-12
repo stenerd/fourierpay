@@ -113,6 +113,10 @@ const PaymentLinks = () => {
 
         console.log({ link, singleLink: link.link })
     }
+    const compareDate = ()=>{
+        console.log(moment(Date.now()).format(('MMM DD, YYYY')))
+    }
+    
 
     useEffect(() => {
         setValue('links')
@@ -120,6 +124,7 @@ const PaymentLinks = () => {
 
     useEffect(() => {
         FetchLinks()
+        compareDate()
     }, [])
 
     return (
@@ -140,6 +145,7 @@ const PaymentLinks = () => {
                                 <div className='border border-gray-300 px-3 py-4 rounded-[10px]' key={index}>
                                     <div className='flex justify-between items-center'>
                                         <h2 onClick={() => Payments(each)} className='font-bold fourier flex-1 hover:text-[#00832D]'>{each.name}</h2>
+                                     
                                         <span className='text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-[#00832D] pills-expiry-date'>{moment(each.expires_at).format(('MMM DD, YYYY'))}</span>
                                     </div>
                                     <div className='py-2'>
@@ -326,7 +332,6 @@ const PaymentLinks = () => {
                                                 </Grid>
                                             ))
                                         }
-
                                     </Grid>
                                 )
                             }
@@ -348,8 +353,6 @@ const PaymentLinks = () => {
 
                 </DashboardLayout>
             </div>
-
-
         </>
     )
 }
