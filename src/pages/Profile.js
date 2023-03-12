@@ -54,6 +54,9 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FolderIcon from '@mui/icons-material/Folder';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import TransactionDialog from '../components/TraansactionDialog';
+import BeneficiaryDialog from '../components/BeneficiartDialog';
+import DeleteBenefiaryDialog from '../components/DeleteBeneficiaryDialog';
+import ProfileDialog from '../components/ProfileDialog';
 // import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Profile = () => {
     const [state, setState] = React.useState({
@@ -121,6 +124,31 @@ const Profile = () => {
     const [value, setValue] = React.useState(0);
     const [singleLink, setSingleLink] = useState("")
 
+    const [open10, setOpen10] = React.useState(false);
+
+    const handleClickOpen10 = () => {
+        setOpen10(true);
+    };
+
+    const handleClose10 = () => {
+        setOpen10(false);
+    };
+
+    const [open11, setOpen11] = React.useState(false);
+
+    const handleClickOpen11 = () => {
+        setOpen11(true);
+    };
+
+    const handleClose11 = () => {
+        setOpen11(false);
+    };
+
+    const retrieve = (data) => {
+        setData(data)
+        handleClickOpen10()
+    }
+
     const [isCopied, setIsCopied] = useClipboard(singleLink, {
         // `isCopied` will go back to `false` after 1000ms.
         successDuration: 1000,
@@ -158,7 +186,6 @@ const Profile = () => {
         } catch (error) {
             console.log(error)
         }
-
     }
     const FetchWithdrawal = async () => {
         setIsloading(true)
@@ -225,6 +252,15 @@ const Profile = () => {
         handleOpen7()
     }
 
+    const [open8, setOpen8] = useState()
+    const handleClickOpen8 = () => {
+        setOpen8(true);
+    };
+
+    const handleClose8 = () => {
+        setOpen8(false);
+    };
+
     const findLink = async (link, index) => {
         // setSingleLink(link.link)
         try {
@@ -284,10 +320,16 @@ const Profile = () => {
                                             <div className='space-y-2 w-full'>
                                                 <div className='flex items-start justify-between'>
                                                     <div className='space-y-2'>
-                                                        {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<h2 style={{ textTransform: 'uppercase' }} className='fourier text-white font-bold'>{profile.firstname} {profile.lastname} </h2>)}
+                                                        {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (
+                                                            <div className='flex items-center space-x-2'>
+                                                                <h2 style={{ textTransform: 'uppercase' }} className='fourier text-white font-bold'>{profile.firstname} {profile.lastname} </h2>
+                                                                <AutoFixHighIcon className="mx-2 mb-2 text-gray-500 fourier-profile-icon cursor-pointer" onClick={() => handleClickOpen11()} />
+                                                            </div>
+
+                                                        )}
                                                         <h3 className="text-gray-500">{moment(new Date()).format('dddd, MMMM DD YYYY')}</h3>
                                                     </div>
-                                                    <div className='py-2 ' >
+                                                    <div className='py-2'>
                                                         <IconButton>
                                                             <AccountCircleIcon className='text-white' fontSize='large' />
                                                         </IconButton>
@@ -308,15 +350,15 @@ const Profile = () => {
                                     <div className='py-3 mt-2'>
                                         <div className='flex items-center justify-between'>
                                             <h1 className='text-xl font-bold'>Beneficiaries</h1>
-                                            <IconButton onClick={() => handleOpen2()}>
-                                                <AddIcon />
+                                            <IconButton onClick={() => handleClickOpen8()}>
+                                                <AddIcon className='cursor-pointer font-bold text-lg c-primary-link-color' />
                                             </IconButton>
                                         </div>
                                         <div className='py-2'>
                                             {beneficiaries ? (
                                                 <>
                                                     {beneficiaries.map((beneficiary, index) => (
-                                                        <div className='py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden' key={index}>
+                                                        <div className='py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden' key={index} onClick={() => retrieve(beneficiary)}>
                                                             <span className='profile-beneficiary-overlay'></span>
                                                             <Grid container spacing={3}>
                                                                 <Grid item xs={12}>
@@ -333,8 +375,8 @@ const Profile = () => {
                                                     ))}
                                                 </>
                                             ) : ''}
-                                            {beneficiaries.length===0&&(
-                                                <BeneficiarySkeleton/>
+                                            {beneficiaries.length === 0 && (
+                                                <BeneficiarySkeleton />
                                             )}
                                         </div>
                                     </div>
@@ -345,7 +387,7 @@ const Profile = () => {
                                             </div>
                                             <Link to='/dashboard/transaction'>
                                                 <div>
-                                                    <p className=''>View All</p>
+                                                    <p className='cursor-pointer font-bold c-primary-link-color'>View All</p>
                                                 </div>
                                             </Link>
                                         </div>
@@ -382,7 +424,7 @@ const Profile = () => {
                                                 //     <img src="/images/payments.svg" className='w-2/5 mx-auto' />
                                                 //     <p className='text-gray-500 text-center'>No Transactions Yet!</p>
                                                 // </div>
-                                                <RecentTransacton/>
+                                                <RecentTransacton />
 
                                             )}
                                         </div>
@@ -394,7 +436,7 @@ const Profile = () => {
                                                     </div>
                                                     <Link to='/dashboard/transaction'>
                                                         <div>
-                                                            <p className=''>View All</p>
+                                                            <p className='cursor-pointer font-bold  c-primary-link-color'>View All</p>
                                                         </div>
                                                     </Link>
 
@@ -415,7 +457,7 @@ const Profile = () => {
                                                             </div>
                                                         </div>
                                                     )}
-                                                    {!isLoading && profileTables?.recentWithdrawals?.length === 0 && (                                           
+                                                    {!isLoading && profileTables?.recentWithdrawals?.length === 0 && (
                                                         <RecentLinksSkeleton />
                                                     )}
                                                 </div>
@@ -427,8 +469,11 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
+                <DeleteBenefiaryDialog data={data} open10={open10} handleClickOpen10={handleClickOpen10} setOpen10={setOpen10} handleClose10={handleClose10} beneficiaries={beneficiaries} setBeneficiaries={setBeneficiaries} />
+                <BeneficiaryDialog FetchBeneficiary={FetchBeneficiary} open8={open8} setOpen8={setOpen8} handleClickOpen8={handleClickOpen8} handleClose8={handleClose8} bankList={bankList} />
                 {/* <TransactionDialog  open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact}/> */}
                 {/* <TransactionDialog open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact}/> */}
+                <ProfileDialog open11={open11} setOpen11={setOpen11} handleClickOpen11={handleClickOpen11} handleClose11={handleClose11} profile={profile} setProfile={setProfile} fetchProfile={fetchProfile} />
                 <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
                     <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
                         <BottomNavigationAction
@@ -469,6 +514,7 @@ const Profile = () => {
                     </BottomNavigation>
                 </Paper>
             </div>
+
             <div className='hidden lg:block'>
                 <DashboardLayout>
                     <Titlebar>
@@ -689,7 +735,6 @@ const Profile = () => {
                 <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={withdrawPopUpHandleClose} />
                 <SingleTransactionModal open7={open7} setOpen7={setOpen7} handleOpen7={handleOpen7} handleClose7={handleClose7} singleTransaction={singleTransaction} />
             </div>
-
         </>
     )
 }

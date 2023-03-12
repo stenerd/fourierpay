@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Protected, { BASE_URL } from '../utils/axios';
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const style = {
@@ -74,9 +73,6 @@ export default function ProfileModal({ open5, handleOpen5, handleClose5, setOpen
             });
         }
     }
-
-
-
     return (
         <div>
 
@@ -111,10 +107,8 @@ export default function ProfileModal({ open5, handleOpen5, handleClose5, setOpen
                                     {loading ? 'Loading....' : 'Save'}
                                 </button>
                             </div>
-
                         </div>
                     </form>
-
                 </Box>
             </Modal>
             <ToastContainer
