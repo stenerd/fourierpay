@@ -315,7 +315,7 @@ const Profile = () => {
                             <div>
                                 <h1 className='text-xl font-bold fourier'>Profile</h1>
                                 <div className='py-2 mt-3'>
-                                    <div className='w-full rounded-[15px] py-2 px-4 bg-[#1D3329]'>
+                                    <div className='w-full rounded-[15px] py-6 px-4 bg-[#1D3329]'>
                                         <div className='flex items-start gap-4 w-full'>
                                             <div className='space-y-2 w-full'>
                                                 <div className='flex items-start justify-between'>
@@ -514,7 +514,6 @@ const Profile = () => {
                     </BottomNavigation>
                 </Paper>
             </div>
-
             <div className='hidden lg:block'>
                 <DashboardLayout>
                     <Titlebar>

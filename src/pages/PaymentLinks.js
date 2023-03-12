@@ -282,8 +282,6 @@ const PaymentLinks = () => {
                                                                     ):(
                                                                         <small className='text-sm text-red-500 italic font-bold'>expired</small>
                                                                     )}
-
-
                                                                 </div>
                                                                 {/* <button onClick={setCopied}>
                                                                 Was it copied? {isCopied ? "Yes! 👍" : "Nope! 👎"}
