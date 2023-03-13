@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import CancelIcon from '@mui/icons-material/Cancel';
 import moment from 'moment'
 import { IconButton } from '@mui/material';
-export default function PaymentDialog({ open1, setOpen1, handleClose1, handleClickOpen1, transact:recentTransaction }) {
+export default function PaymentDialog({ open1, setOpen1, handleClose1, handleClickOpen1, transact: recentTransaction }) {
   const [value, setValue] = React.useState(0);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -73,7 +73,7 @@ export default function PaymentDialog({ open1, setOpen1, handleClose1, handleCli
                 <h2 className='text-gray-400'>Status</h2>
                 <p className={recentTransaction?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{recentTransaction?.status}</p>
               </div>
-              {recentTransaction?.payment_link_id?.form?.map((tx, index) => (
+              {recentTransaction?.form?.map((tx, index) => (
                 <div className='flex justify-between items-center py-3' key={index}>
                   <h2 className='text-gray-400 capitalize'>{tx?.field_name}</h2>
                   <p className='font-bold text-sm'>{tx?.answer}</p>
@@ -83,11 +83,11 @@ export default function PaymentDialog({ open1, setOpen1, handleClose1, handleCli
                 <h2 className='text-gray-400'>Date</h2>
                 <p className='font-bold text-sm'>{moment(recentTransaction?.createdAt).format('dddd, DD MMMM YYYY')}</p>
               </div>
-
-              <div className='flex justify-between items-center py-3'>
+              {/* check later */}
+              {/* <div className='flex justify-between items-center py-3'>
                 <h2 className='text-gray-400'>Payment Method</h2>
                 <p className='font-bold text-sm'>{recentTransaction?.type}</p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

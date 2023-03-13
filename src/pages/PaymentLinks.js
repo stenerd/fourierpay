@@ -32,6 +32,7 @@ import InsertLinkIcon from '@mui/icons-material/InsertLink';
 // import moment from 'moment'
 
 import FolderIcon from '@mui/icons-material/Folder';
+import MenuDropDown from '../components/Menu';
 
 const PaymentLinks = () => {
     const [loading, setLoading] = useState(false)
@@ -47,6 +48,17 @@ const PaymentLinks = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open20 = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose20 = () => {
+        setAnchorEl(null);
+    };
+    const { profile } = useSelector((state) => state.dashboard)
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 3,
@@ -135,11 +147,12 @@ const PaymentLinks = () => {
                         <div className='py-3'>
                             <div className='flex justify-between items-center'>
                                 <h2 className='text-xl font-bold fourier'>Payment Links</h2>
+                                <div className=''>
+                                    <MenuDropDown open20={open20} handleClose20={handleClose20} handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl} name={`${profile.firstname} ${profile.lastname}`} />
+                                </div>
                             </div>
                         </div>
-                        <div className='py-2'>
 
-                        </div>
                         <div className='py-3 space-y-2'>
                             {paymentLinks ? paymentLinks.map((each, index) => (
                                 <div className='border border-gray-300 px-3 py-4 rounded-[10px]' key={index}>
@@ -279,7 +292,7 @@ const PaymentLinks = () => {
                                                                     <h2 className='fourier text-2xl text-[#1d3329] max-w-[60%] font-bold hover:text-blue-500 cursor-pointer' onClick={() => Payments(link)}>{link.name}</h2>
                                                                     {moment(link.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? (
                                                                         <small className='text-sm text-[#00bf00] status-pill'>{link.status} {link.expires_at && `- ${moment(link.expires_at).format('MMMM DD, YYYY')}`}</small>
-                                                                    ):(
+                                                                    ) : (
                                                                         <small className='text-sm text-red-500 italic font-bold'>expired</small>
                                                                     )}
                                                                 </div>

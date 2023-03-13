@@ -30,6 +30,8 @@ import FolderIcon from '@mui/icons-material/Folder';
 import { useNavigate } from 'react-router-dom';
 import TransactionDialog from '../components/TraansactionDialog';
 import RecentTransacton from '../components/RecentTransaction';
+import { useSelector } from 'react-redux';
+import MenuDropDown from '../components/Menu';
 const Transactions = () => {
     const [payin, setPayin] = useState(true)
     const [payout, setPayout] = useState(false)
@@ -56,6 +58,16 @@ const Transactions = () => {
         setOpen(false);
     };
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open20 = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose20 = () => {
+        setAnchorEl(null);
+    };
+    const {profile} = useSelector((state)=>state.dashboard)
+
     const [start, setStart] = React.useState("")
     const [end, setEnd] = React.useState("")
     const [status, setStatus] = React.useState("")
@@ -67,7 +79,7 @@ const Transactions = () => {
     const navigate = useNavigate()
 
     const [opener, setOpener] = React.useState(false);
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = React.useState(0);  
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -93,6 +105,8 @@ const Transactions = () => {
         setPayout(true)
         setPayin(false)
     }
+    // const {profile} = useSelector((state)=>state.dashboard)
+    console.log(profile)   
     const [transact, setTransact] = useState()
 
     const filterLink = (status, start, end, type, entity) => {
@@ -268,7 +282,10 @@ const Transactions = () => {
                     </div> */}
                     <div className='w-[90%] mx-auto'>
                         <div className='py-3'>
-                            <h2 className='text-xl fourier font-bold'>Transactions</h2>
+                            <div className='flex justify-between items-center py-4'>
+                                <h2 className='text-xl fourier font-bold'>Transactions</h2>
+                                <MenuDropDown open20={open20} handleClose20={handleClose20} handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl} name={`${profile.firstname} ${profile.lastname}`} />
+                            </div>
                             <div className='py-3 mt-2'>
                                 <Paper
                                     component="form"
@@ -332,7 +349,7 @@ const Transactions = () => {
                                     // </div>
                                     // <RecentTransacton/>
                                     <>
-                                     <RecentTransacton/>
+                                        <RecentTransacton />
                                     </>
                                 )}
                             </div>
