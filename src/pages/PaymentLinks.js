@@ -10,6 +10,7 @@ import { linearProgressClasses } from '@mui/material/LinearProgress';
 import '../styles/PaymentLink.css'
 import { Link } from 'react-router-dom';
 import Protected, { BASE_URL } from '../utils/axios'
+import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
@@ -233,6 +234,12 @@ const PaymentLinks = () => {
                             value="transactions"
                             onClick={() => navigate('/dashboard/transaction')}
                             icon={<ReceiptIcon />}
+                        />
+                         <BottomNavigationAction
+                            label="New Link"
+                            value="new link"
+                            icon={<AddIcon className='c-primary-link-color ' />}
+                            onClick={() => navigate('/dashboard/payment')}
                         />
                         <BottomNavigationAction
                             label="Links"

@@ -82,7 +82,9 @@ export default function MenuDropDown({ open20, handleClose20, handleClick, ancho
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={handleClose20}>
+                <MenuItem onClick={()=>{
+                     navigate('/dashboard/profile')
+                }}>
                     <Avatar /> {name}
                 </MenuItem>
 

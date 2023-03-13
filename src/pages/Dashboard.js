@@ -464,6 +464,12 @@ const Dashboard = () => {
                             onClick={() => navigate('/dashboard/transaction')}
                             icon={<ReceiptIcon />}
                         />
+                          <BottomNavigationAction
+                            label="Create"
+                            value="create"
+                            icon={<AddIcon className='c-primary-link-color '/>}
+                            onClick={() => navigate('/dashboard/payment')}
+                        />
                         <BottomNavigationAction
                             label="Links"
                             value="links"
@@ -476,6 +482,7 @@ const Dashboard = () => {
                             icon={<AccountCircleIcon />}
                             onClick={() => navigate('/dashboard/profile')}
                         />
+                      
                         {/* <BottomNavigationAction
                             label="Favorites"
                             value="favorites"

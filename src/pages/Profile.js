@@ -230,7 +230,7 @@ const Profile = () => {
     const handleClose20 = () => {
         setAnchorEl(null);
     };
-    const { profile:details } = useSelector((state) => state.dashboard)
+    const { profile: details } = useSelector((state) => state.dashboard)
 
     const fetchWallet = async () => {
         try {
@@ -501,6 +501,12 @@ const Profile = () => {
                             value="transactions"
                             onClick={() => navigate('/dashboard/transaction')}
                             icon={<ReceiptIcon />}
+                        />
+                        <BottomNavigationAction
+                            label="New Link"
+                            value="new link"
+                            icon={<AddIcon className='c-primary-link-color ' />}
+                            onClick={() => navigate('/dashboard/payment')}
                         />
                         <BottomNavigationAction
                             label="Links"

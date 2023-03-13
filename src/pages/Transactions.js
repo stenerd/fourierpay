@@ -14,6 +14,7 @@ import ArchiveIcon from '@mui/icons-material/Archive';
 import Paper from '@mui/material/Paper';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ReceiptIcon from '@mui/icons-material/Receipt';
+import AddIcon from '@mui/icons-material/Add';
 // import List from '@mui/material/List';
 // import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -66,7 +67,7 @@ const Transactions = () => {
     const handleClose20 = () => {
         setAnchorEl(null);
     };
-    const {profile} = useSelector((state)=>state.dashboard)
+    const { profile } = useSelector((state) => state.dashboard)
 
     const [start, setStart] = React.useState("")
     const [end, setEnd] = React.useState("")
@@ -79,7 +80,7 @@ const Transactions = () => {
     const navigate = useNavigate()
 
     const [opener, setOpener] = React.useState(false);
-    const [value, setValue] = React.useState(0);  
+    const [value, setValue] = React.useState(0);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -106,7 +107,7 @@ const Transactions = () => {
         setPayin(false)
     }
     // const {profile} = useSelector((state)=>state.dashboard)
-    console.log(profile)   
+    console.log(profile)
     const [transact, setTransact] = useState()
 
     const filterLink = (status, start, end, type, entity) => {
@@ -370,6 +371,12 @@ const Transactions = () => {
                             value="transactions"
                             onClick={() => navigate('/dashboard/transaction')}
                             icon={<ReceiptIcon />}
+                        />
+                        <BottomNavigationAction
+                            label="New Link"
+                            value="new link"
+                            icon={<AddIcon className='c-primary-link-color ' />}
+                            onClick={() => navigate('/dashboard/payment')}
                         />
                         <BottomNavigationAction
                             label="Links"
