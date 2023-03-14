@@ -45,7 +45,6 @@ const SinglePaymentLink = () => {
     const [data, setData] = useState({})
     const [payersSheet, setPayersSheet] = useState({})
 
-    const [isCopied, setIsCopied] = useState(false)
     const [search, setSearch] = useState('')
     const [paymentLink, setPaymentLink] = useState("")
     const [loading, setLoading] = useState(false)
@@ -278,10 +277,9 @@ const SinglePaymentLink = () => {
         },
     }));
 
-    const copyText = async () => {
+    const copyText = async (link) => {
         try {
-            await navigator.clipboard.writeText(data.paymentLink.link)
-            setIsCopied(true)
+            await navigator.clipboard.writeText(link)
             toast.success('Copied To Clipboard', {
                 position: "top-right",
                 autoClose: 5000,
@@ -292,9 +290,6 @@ const SinglePaymentLink = () => {
                 progress: undefined,
                 theme: "light",
             });
-            setTimeout(() => {
-                setIsCopied(false)
-            }, 1500)
         } catch (error) {
             console.log(error.response)
         }
@@ -332,7 +327,7 @@ const SinglePaymentLink = () => {
                                                     {/* <IconButton>
                                                     <ContentPasteIcon onClick={copyText} />
                                                 </IconButton> */}
-                                                    <ContentPasteIcon onClick={copyText} className="cursor-pointer" />
+                                                    <ContentPasteIcon onClick={() => copyText(data.paymentLink.link)} className="cursor-pointer" />
                                                     <h2 className='break-all text-[13px] text-[#1d3329] font-bold'>{data.paymentLink.link}</h2>
                                                 </div>
                                                 <div className='mt-2'>
@@ -475,6 +470,7 @@ const SinglePaymentLink = () => {
                                                     linkData={linkData}
                                                     paymentLink={data.paymentLink}
                                                     recallServerData={recallServerData}
+                                                    copyText={copyText}
                                                 />
                                             ) : ''
                                     }

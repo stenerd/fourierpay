@@ -15,7 +15,7 @@ const STATUS_MAP = {
     'terminated': 'Terminated',
 }
 
-export default function PaymentLinkSettings({recallServerData, initialOpenState, linkData, paymentLink }) {
+export default function PaymentLinkSettings({recallServerData, initialOpenState, linkData, paymentLink, copyText }) {
     const [openDownloadModal, setOpenDownloadModal] = useState(false);
     const [openStatusModal, setOpenStatusModal] = useState(false);
     const [openSetPublicModal, setOpenSetPublicModal] = useState(false);
@@ -35,11 +35,23 @@ export default function PaymentLinkSettings({recallServerData, initialOpenState,
     const [statusCheckBox, setStatusCheckBox] = useState(paymentLink && paymentLink.status)
 
     const [showUpload, setShowUpload] = useState(paymentLink && (paymentLink.state === 'private'))
-    const [showPublicLink, setShowPublicLink] = useState(linkData.isPublic)
+    const [showPublicLink, setShowPublicLink] = useState(paymentLink && paymentLink.activate_public_link)
     const [remountShowUploadToggle, setRemountShowUploadToggle] = useState(1)
 
     const changeSetOpenState = (key) => {
         setOpen({...open, [key]: !open[key]})
+    }
+
+    const changeSetShowPublicLink = async (val) => {
+        try {
+            const resp = await changePublicLinkCall()
+            console.log('resp >> ', resp)
+            toast.success(val ? 'Link is now transparent to the public.' : 'Link is not transparent.')
+            setShowPublicLink(val)
+        } catch (error) {
+            console.log(error.response.data.message)
+            toast.error(error.response.data.message)
+        }
     }
 
     const changeSetStatusCheckBox = (e, key, disabled = false) => {
@@ -124,6 +136,11 @@ export default function PaymentLinkSettings({recallServerData, initialOpenState,
         const resp = await Protected.put(`${BASE_URL}/api/payment-link/change-status/${paymentLink && paymentLink.code}`, {
             status
         })
+        return resp;
+    };
+
+    const changePublicLinkCall = async () => {
+        const resp = await Protected.put(`${BASE_URL}/api/payment-link/${paymentLink && paymentLink.code}/change-public-link-state`)
         return resp;
     };
 
@@ -300,17 +317,17 @@ export default function PaymentLinkSettings({recallServerData, initialOpenState,
                             {
                                 open.link ? (
                                     <div className="mb-8 text-gray-600 w-[90%]">
-                                        <div className="flex mb-4 text-gray-600 justify-between w-[90%]">
+                                        <div className="flex mb-4 text-gray-600 justify-between w-full">
                                             <p className="font-bold text-base">Make paymemt analysis available for the public</p>
-                                            <ToggleButton full={true} initialState={linkData.isPublic} switcher={(val) => setShowPublicLink(val)} />
+                                            <ToggleButton full={true} initialState={showPublicLink} switcher={(val) => changeSetShowPublicLink(val)} />
                                         </div>
                                         {
                                             showPublicLink ? (
                                                 <div className="mt-8 flex">
-                                                    <div className="px-4 py-3 c-link-public-url">
-                                                        fourierpay/ENG/2023/shareurlevrybody
+                                                    <div className="pl-4 pr-20 py-3 c-link-public-url">
+                                                        http://www.fourierpay.com/payment/{paymentLink && paymentLink.code}
                                                     </div>
-                                                    <div className="c-link-public-url-button">
+                                                    <div className="c-link-public-url-button" onClick={() => copyText(`http://www.fourierpay.com/payment/${paymentLink && paymentLink.code}`)}>
                                                         <span>copy</span>
                                                     </div>
                                                 </div>

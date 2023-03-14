@@ -372,33 +372,29 @@ const Dashboard = () => {
 
                     {/* </IconButton> */}
                 </div>
-                <div className='py-4'>
+                <div className='py-2'>
                     <SwiperCards />
                 </div>
                 <div className='py-4 w-[85%] flex justify-between gap-3 items-center mx-auto '>
-                    <div className='flex items-center px-2 space-x-1 py-3 flex-1 bg-[#FADB8B] rounded-[15px]' onClick={() => handleClickOpen()}>
-                        <IconButton>
-                            <SendIcon />
-                        </IconButton>
+                    <div className='flex items-center p-3 space-x-1 flex-1 bg-[#FADB8B] rounded-[6px] w-[50%]' onClick={() => handleClickOpen()}>
+                        <SendIcon />
                         <h1 className='font-bold'>Withdraw</h1>
                     </div>
-                    <Link to='/dashboard/payment'>
-                        <div className='flex items-center px-2 py-3 flex-1  bg-[#97F675] rounded-[15px]'>
-                            <IconButton>
-                                <AddIcon />
-                            </IconButton>
+                    <Link to='/dashboard/payment' className='w-[50%]'>
+                        <div className='flex items-center p-3 flex-1  bg-[#97F675] rounded-[6px]'>
+                            <AddIcon />
                             <h1 className='font-bold text-center'>Payment Link</h1>
                         </div>
                     </Link>
 
                 </div>
-                <div className='py-4'>
+                <div className='py-0'>
                     <BarCharted />
                     {/* <DashboardChart/> */}
                 </div>
-                <div className='py-3 w-[85%] mx-auto'>
-                    <div className='flex items-center justify-between py-3'>
-                        <h2 className='font-bold text-xl py-4 fourier'>Recent Payments</h2>
+                <div className='py-0 w-[85%] mx-auto'>
+                    <div className='flex items-center justify-between py-0'>
+                        <h2 className='font-bold text-xl pt-4 fourier'>Recent Payments</h2>
                         <Link to='/dashboard/transaction'>
                             <p className='text-gray-500 font-bold'>View All</p>
                         </Link>
