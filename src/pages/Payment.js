@@ -67,7 +67,7 @@ const Payment = () => {
 
     const assignPriority = (val, index) => {
         if (val) {
-            setPriority((prev) => ([ ...prev, index]))
+            setPriority((prev) => ([...prev, index]))
         } else {
             const data = priority.filter(e => e !== index)
             setPriority(data)
@@ -92,6 +92,10 @@ const Payment = () => {
             return new_data;
         })
     }
+
+    React.useEffect(()=>{
+        setValue('new link')
+    })
 
     const validateInput = () => {
         setStateError('')
@@ -186,9 +190,9 @@ const Payment = () => {
             amount: Number(state.amount),
             expected_number_of_payments: Number(state.expected_number_of_payment),
             unique_field: selectedFields[uniqueSelection].field_name,
-            ...(priority[0] && {priority_1: selectedFields[priority[0]].field_name}),
-            ...(priority[1] && {priority_2: selectedFields[priority[1]].field_name}),
-            ...(priority[2] && {priority_3: selectedFields[priority[2]].field_name}),
+            ...(priority[0] && { priority_1: selectedFields[priority[0]].field_name }),
+            ...(priority[1] && { priority_2: selectedFields[priority[1]].field_name }),
+            ...(priority[2] && { priority_3: selectedFields[priority[2]].field_name }),
             form: selectedFields.map(e => ({
                 ...e,
                 required: e.required === 'true' ? true : false,
@@ -226,7 +230,7 @@ const Payment = () => {
         }
         console.log(state)
 
-    }  
+    }
 
 
     const generateField = () => {
@@ -249,176 +253,116 @@ const Payment = () => {
         <>
             <div className='hidden lg:block'>
                 <DashboardLayout>
-                <Titlebar>
-                    <h2 className='fourier font-bold'>Create Payment Links</h2>
-                    {/* <div>
+                    <Titlebar>
+                        <h2 className='fourier font-bold'>Create Payment Links</h2>
+                        {/* <div>
                         <Link to="/dashboard/payment">
                             <button className='px-4 py-2 rounded-md text-white bg-[#1d3329]'>Create Payment</button>
                         </Link>
                     </div> */}
-                </Titlebar>
-                <div className='min-h-screen'>
-                    <div className='px-16 py-12'>
-                        <Grid container spacing={3}>
+                    </Titlebar>
+                    <div className='min-h-screen'>
+                        <div className='px-16 py-12'>
+                            <Grid container spacing={3}>
 
 
-                            <Grid item xs={12} md={7}>
-                                <div className='flex flex-col justify-center items-center'>
-                                    <div className='w-full'>
-                                        <form className='w-full space-y-4'>
-                                            <h3 className='text-gray-700 text-lg font-bold home'>New Payment Link</h3>
-                                            <div className='mb-8'>
-                                                {stateError && <small className='text-red-600'> {stateError}</small>}
-                                                <Grid container spacing={2}>
-                                                    <Grid item xs={12} md={6}>
-                                                        <div className='flex flex-col space-y-3 mb-8'>
-                                                            <div className='flex items-center space-x-3'>
+                                <Grid item xs={12} md={7}>
+                                    <div className='flex flex-col justify-center items-center'>
+                                        <div className='w-full'>
+                                            <form className='w-full space-y-4'>
+                                                <h3 className='text-gray-700 text-lg font-bold home'>New Payment Link</h3>
+                                                <div className='mb-8'>
+                                                    {stateError && <small className='text-red-600'> {stateError}</small>}
+                                                    <Grid container spacing={2}>
+                                                        <Grid item xs={12} md={6}>
+                                                            <div className='flex flex-col space-y-3 mb-8'>
+                                                                <div className='flex items-center space-x-3'>
 
-                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Name</label>
-                                                                <span className='text-red-500 text-2xl font-bold'>*</span>
+                                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Name</label>
+                                                                    <span className='text-red-500 text-2xl font-bold'>*</span>
 
-                                                            </div>
-                                                            <Tooltip title='Name of Payment'>
-                                                                <input placeholder='Name' name='name' onChange={handleChanges} className="py-2 px-4 w-full outline-none c-text-input" />
-                                                            </Tooltip>
-
-                                                            {/* <input placeholder='Name' name='name' onChange={handleChanges} className="py-2 px-4 w-full outline-none c-text-input" /> */}
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid item xs={12} md={6}>
-                                                        <div className='flex flex-col space-y-3 mb-8'>
-                                                            <div className='flex items-center space-x-3'>
-
-                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Amount</label>
-                                                                <span className='text-red-500 text-2xl font-bold'>*</span>
-
-                                                            </div>
-                                                            <Tooltip title='Amount for Payment'>
-                                                                <input placeholder='Amount' name='amount' onChange={handleChanges} type="number" className="py-2 px-4 w-full outline-none c-text-input" />
-                                                            </Tooltip>
-
-                                                        </div>
-                                                    </Grid>
-                                                </Grid>
-                                                <Grid container spacing={2}>
-                                                    <Grid item xs={12} md={6}>
-                                                        <div className='flex flex-col space-y-3 mb-8'>
-                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Expected Number Of Payments</label>
-                                                            <input placeholder='Expected Number Of Payment' name='expected_number_of_payment' onChange={handleChanges} type="number" className="py-2 px-4 w-full outline-none c-text-input" />
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid item xs={12} md={6}>
-                                                        <div className='flex flex-col space-y-3 mb-8'>
-                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Expiry Date</label>
-                                                            <Tooltip title='Make your payment link expire at a particulat date'>
-                                                                <input placeholder='Expiry Date' name='expires_at' onChange={handleChanges} type="date" className="py-2 px-4 w-full outline-none c-text-input" />
-                                                            </Tooltip>
-
-                                                        </div>
-                                                    </Grid>
-                                                </Grid>
-                                                <Grid container spacing={2} className='mb-8'>
-                                                    <Grid item xs={12} md={12}>
-                                                        <div className='flex flex-col space-y-3 '>
-                                                            <div className='flex items-center space-x-3'>
-
-                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Description</label>
-                                                                <span className='text-red-500 text-2xl font-bold'>*</span>
-
-                                                            </div>
-                                                            <Tooltip title='Payment Description'>
-                                                                <textarea placeholder='Description' name='description' onChange={handleChanges} className="py-2 px-4 w-full outline-none c-text-input"></textarea>
-                                                            </Tooltip>
-
-                                                        </div>
-                                                    </Grid>
-                                                </Grid>
-                                            </div>
-
-
-                                            <div className='relative my-8'>
-                                                <Tooltip title='Generate a form that users can fill before making payment'>
-                                                    <h1 className='text-gray-700 text-lg font-bold home absolute create-payment-divider-title'>Generate Form</h1>
-
-                                                </Tooltip>
-                                                <Divider className='creat-payment-divider' />
-
-                                            </div>
-
-                                            <div className='mt-4 pt-8 relative'>
-                                                {selectedFieldsError[0] && <small className='text-red-600'> {selectedFieldsError[0]}</small>}
-                                                {/* <span className='absolute create-payment-dynamic-form-close'> <CloseIcon /></span> */}
-                                                <Grid container spacing={2}>
-                                                    <Grid item xs={6} className='mb-0'>
-                                                        <div className='flex flex-col space-y-3 mb-4'>
-                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field name</label>
-                                                            <input placeholder='Field Name' name='field_name' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input" />
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid item xs={6} className='mb-0'>
-                                                        <div className='flex flex-col space-y-3 mb-4'>
-                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field Type</label>
-                                                            <select placeholder='Field Type' name='field_type' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input">
-                                                                <option value={''}>Select One </option>
-                                                                <option value={'text'}>Text Field </option>
-                                                                <option value={'select'}>Select Field </option>
-                                                            </select>
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid item xs={6}>
-                                                        <div className='flex flex-col space-y-3 mb-0'>
-                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Required</label>
-                                                            <select placeholder='Required' name='required' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input">
-                                                                <option value={''}>Select One </option>
-                                                                <option value={true}>True </option>
-                                                                <option value={false}>False </option>
-                                                            </select>
-                                                        </div>
-                                                    </Grid>
-                                                    {
-                                                        selectedFields[0].field_type === 'select' ? (
-                                                            <Grid item xs={6}>
-                                                                <div className='flex flex-col space-y-3 mb-0'>
-                                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Options</label>
-                                                                    <div className='flex'>
-                                                                        <input placeholder='Options' name='options' id='option0' className="py-2 px-4 w-full outline-none c-text-input" />
-                                                                        <span className='dynamic-form-option-cta' onClick={(e) => onKeyDownHandler('option0', 0)}>
-                                                                            <SendIcon className='text-gray-500' />
-                                                                        </span>
-                                                                    </div>
                                                                 </div>
-                                                            </Grid>
-                                                        ) : ''
-                                                    }
-                                                    <Grid item xs={12}>
-                                                        {selectedFields[0].options.map((e, index) => (
-                                                            <small key={index} className='create-payment-divider-options'>{e} &nbsp; &nbsp; <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' onClick={(e) => handleRemoveFieldOption(e, 0, index)}> x</span></small>
-                                                        ))}
-                                                    </Grid>
+                                                                <Tooltip title='Name of Payment'>
+                                                                    <input placeholder='Name' name='name' onChange={handleChanges} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                </Tooltip>
 
-                                                </Grid>
-                                            </div>
-
-                                            {/* {fields} */}
-
-                                            {[...selectedFields].slice(1).map((e, i) => (
-                                                <div className='mt-8 relative' key={'' + (i + 1)}>
-                                                    <span className='absolute create-payment-dynamic-form-close' onClick={(e) => handleRemoveField(e, i + 1)}> <CloseIcon /></span>
-                                                    <Divider className='creat-payment-divider' />
-                                                    <Grid container spacing={2} className='pt-10'>
-                                                        <Grid item xs={12}>
-                                                            {selectedFieldsError[i + 1] && <small className='text-red-600'> {selectedFieldsError[i + 1]}</small>}
+                                                                {/* <input placeholder='Name' name='name' onChange={handleChanges} className="py-2 px-4 w-full outline-none c-text-input" /> */}
+                                                            </div>
                                                         </Grid>
+                                                        <Grid item xs={12} md={6}>
+                                                            <div className='flex flex-col space-y-3 mb-8'>
+                                                                <div className='flex items-center space-x-3'>
+
+                                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Amount</label>
+                                                                    <span className='text-red-500 text-2xl font-bold'>*</span>
+
+                                                                </div>
+                                                                <Tooltip title='Amount for Payment'>
+                                                                    <input placeholder='Amount' name='amount' onChange={handleChanges} type="number" className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                </Tooltip>
+
+                                                            </div>
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid container spacing={2}>
+                                                        <Grid item xs={12} md={6}>
+                                                            <div className='flex flex-col space-y-3 mb-8'>
+                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Expected Number Of Payments</label>
+                                                                <input placeholder='Expected Number Of Payment' name='expected_number_of_payment' onChange={handleChanges} type="number" className="py-2 px-4 w-full outline-none c-text-input" />
+                                                            </div>
+                                                        </Grid>
+                                                        <Grid item xs={12} md={6}>
+                                                            <div className='flex flex-col space-y-3 mb-8'>
+                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Expiry Date</label>
+                                                                <Tooltip title='Make your payment link expire at a particulat date'>
+                                                                    <input placeholder='Expiry Date' name='expires_at' onChange={handleChanges} type="date" className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                </Tooltip>
+
+                                                            </div>
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid container spacing={2} className='mb-8'>
+                                                        <Grid item xs={12} md={12}>
+                                                            <div className='flex flex-col space-y-3 '>
+                                                                <div className='flex items-center space-x-3'>
+
+                                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Description</label>
+                                                                    <span className='text-red-500 text-2xl font-bold'>*</span>
+
+                                                                </div>
+                                                                <Tooltip title='Payment Description'>
+                                                                    <textarea placeholder='Description' name='description' onChange={handleChanges} className="py-2 px-4 w-full outline-none c-text-input"></textarea>
+                                                                </Tooltip>
+
+                                                            </div>
+                                                        </Grid>
+                                                    </Grid>
+                                                </div>
+
+
+                                                <div className='relative my-8'>
+                                                    <Tooltip title='Generate a form that users can fill before making payment'>
+                                                        <h1 className='text-gray-700 text-lg font-bold home absolute create-payment-divider-title'>Generate Form</h1>
+
+                                                    </Tooltip>
+                                                    <Divider className='creat-payment-divider' />
+
+                                                </div>
+
+                                                <div className='mt-4 pt-8 relative'>
+                                                    {selectedFieldsError[0] && <small className='text-red-600'> {selectedFieldsError[0]}</small>}
+                                                    {/* <span className='absolute create-payment-dynamic-form-close'> <CloseIcon /></span> */}
+                                                    <Grid container spacing={2}>
                                                         <Grid item xs={6} className='mb-0'>
                                                             <div className='flex flex-col space-y-3 mb-4'>
                                                                 <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field name</label>
-                                                                <input placeholder='Field Name' name={'field_name' + (i + 1)} onChange={(e) => handleFieldChanges(e, i + 1)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                <input placeholder='Field Name' name='field_name' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input" />
                                                             </div>
                                                         </Grid>
                                                         <Grid item xs={6} className='mb-0'>
                                                             <div className='flex flex-col space-y-3 mb-4'>
                                                                 <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field Type</label>
-                                                                <select placeholder='Field Type' name={'field_type' + (i + 1)} onChange={(e) => handleFieldChanges(e, i + 1)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                                <select placeholder='Field Type' name='field_type' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input">
                                                                     <option value={''}>Select One </option>
                                                                     <option value={'text'}>Text Field </option>
                                                                     <option value={'select'}>Select Field </option>
@@ -426,9 +370,9 @@ const Payment = () => {
                                                             </div>
                                                         </Grid>
                                                         <Grid item xs={6}>
-                                                            <div className='flex flex-col space-y-3 mb-8'>
+                                                            <div className='flex flex-col space-y-3 mb-0'>
                                                                 <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Required</label>
-                                                                <select placeholder='Required' name={'required' + (i + 1)} onChange={(e) => handleFieldChanges(e, i + 1)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                                <select placeholder='Required' name='required' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input">
                                                                     <option value={''}>Select One </option>
                                                                     <option value={true}>True </option>
                                                                     <option value={false}>False </option>
@@ -436,175 +380,235 @@ const Payment = () => {
                                                             </div>
                                                         </Grid>
                                                         {
-                                                            selectedFields[i+1].field_type === 'select' ? (
+                                                            selectedFields[0].field_type === 'select' ? (
                                                                 <Grid item xs={6}>
                                                                     <div className='flex flex-col space-y-3 mb-0'>
                                                                         <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Options</label>
                                                                         <div className='flex'>
-                                                                            <input placeholder='Options' id={'option' + (i + 1)} name={'options' + (i + 1)} className="py-2 px-4 w-full outline-none c-text-input" />
-                                                                            <span className='dynamic-form-option-cta' onClick={(e) => onKeyDownHandler('option' + (i + 1), i + 1)}>
+                                                                            <input placeholder='Options' name='options' id='option0' className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                            <span className='dynamic-form-option-cta' onClick={(e) => onKeyDownHandler('option0', 0)}>
                                                                                 <SendIcon className='text-gray-500' />
                                                                             </span>
                                                                         </div>
                                                                     </div>
                                                                 </Grid>
-                                                            ): ''
+                                                            ) : ''
                                                         }
-                                                        <Grid item xs={12} className='dynamic-form-option-pill'>
-                                                            {selectedFields[i + 1].options.map((e, index) => (
-                                                                <small key={index} className='create-payment-divider-options'>{e} &nbsp; &nbsp; <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' onClick={(e) => handleRemoveFieldOption(e, i + 1, index)}> x</span></small>
+                                                        <Grid item xs={12}>
+                                                            {selectedFields[0].options.map((e, index) => (
+                                                                <small key={index} className='create-payment-divider-options'>{e} &nbsp; &nbsp; <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' onClick={(e) => handleRemoveFieldOption(e, 0, index)}> x</span></small>
                                                             ))}
                                                         </Grid>
 
                                                     </Grid>
                                                 </div>
-                                            ))}
+
+                                                {/* {fields} */}
+
+                                                {[...selectedFields].slice(1).map((e, i) => (
+                                                    <div className='mt-8 relative' key={'' + (i + 1)}>
+                                                        <span className='absolute create-payment-dynamic-form-close' onClick={(e) => handleRemoveField(e, i + 1)}> <CloseIcon /></span>
+                                                        <Divider className='creat-payment-divider' />
+                                                        <Grid container spacing={2} className='pt-10'>
+                                                            <Grid item xs={12}>
+                                                                {selectedFieldsError[i + 1] && <small className='text-red-600'> {selectedFieldsError[i + 1]}</small>}
+                                                            </Grid>
+                                                            <Grid item xs={6} className='mb-0'>
+                                                                <div className='flex flex-col space-y-3 mb-4'>
+                                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field name</label>
+                                                                    <input placeholder='Field Name' name={'field_name' + (i + 1)} onChange={(e) => handleFieldChanges(e, i + 1)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                </div>
+                                                            </Grid>
+                                                            <Grid item xs={6} className='mb-0'>
+                                                                <div className='flex flex-col space-y-3 mb-4'>
+                                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field Type</label>
+                                                                    <select placeholder='Field Type' name={'field_type' + (i + 1)} onChange={(e) => handleFieldChanges(e, i + 1)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                                        <option value={''}>Select One </option>
+                                                                        <option value={'text'}>Text Field </option>
+                                                                        <option value={'select'}>Select Field </option>
+                                                                    </select>
+                                                                </div>
+                                                            </Grid>
+                                                            <Grid item xs={6}>
+                                                                <div className='flex flex-col space-y-3 mb-8'>
+                                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Required</label>
+                                                                    <select placeholder='Required' name={'required' + (i + 1)} onChange={(e) => handleFieldChanges(e, i + 1)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                                        <option value={''}>Select One </option>
+                                                                        <option value={true}>True </option>
+                                                                        <option value={false}>False </option>
+                                                                    </select>
+                                                                </div>
+                                                            </Grid>
+                                                            {
+                                                                selectedFields[i + 1].field_type === 'select' ? (
+                                                                    <Grid item xs={6}>
+                                                                        <div className='flex flex-col space-y-3 mb-0'>
+                                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Options</label>
+                                                                            <div className='flex'>
+                                                                                <input placeholder='Options' id={'option' + (i + 1)} name={'options' + (i + 1)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                                <span className='dynamic-form-option-cta' onClick={(e) => onKeyDownHandler('option' + (i + 1), i + 1)}>
+                                                                                    <SendIcon className='text-gray-500' />
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </Grid>
+                                                                ) : ''
+                                                            }
+                                                            <Grid item xs={12} className='dynamic-form-option-pill'>
+                                                                {selectedFields[i + 1].options.map((e, index) => (
+                                                                    <small key={index} className='create-payment-divider-options'>{e} &nbsp; &nbsp; <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' onClick={(e) => handleRemoveFieldOption(e, i + 1, index)}> x</span></small>
+                                                                ))}
+                                                            </Grid>
+
+                                                        </Grid>
+                                                    </div>
+                                                ))}
 
 
-                                            <div className='c-mt-0'>
-                                                <small className='cursor-pointer c-primary-link-color font-bold underline' onClick={generateField}>Add More</small>
-                                            </div>
+                                                <div className='c-mt-0'>
+                                                    <small className='cursor-pointer c-primary-link-color font-bold underline' onClick={generateField}>Add More</small>
+                                                </div>
 
 
 
 
-                                            {/* {fields}
+                                                {/* {fields}
                                             <div className='flex flex-col space-y-3'>
                                                 <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
                                             </div> */}
-                                            <div className='py-4'>
-                                                <button disabled={loading ? true : false} className='c-bg-primary-light' onClick={createLink}>
-                                                    {loading ? 'Creating...' : 'Create Link'}
-                                                </button>
-                                            </div>
-                                        </form>
+                                                <div className='py-4'>
+                                                    <button disabled={loading ? true : false} className='c-bg-primary-light' onClick={createLink}>
+                                                        {loading ? 'Creating...' : 'Create Link'}
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+
                                     </div>
+                                </Grid>
 
-                                </div>
-                            </Grid>
+                                <Grid item xs={12} md={5}>
+                                    <div className='flex flex-col create-payment-details'>
+                                        <div className='w-full px-5'>
+                                            <form className='w-full space-y-6'>
+                                                <div className='py-4'>
+                                                    <h3 className='text-gray-700 text-lg font-bold home'>Payment Link Details</h3>
+                                                </div>
 
-                            <Grid item xs={12} md={5}>
-                                <div className='flex flex-col create-payment-details'>
-                                    <div className='w-full px-5'>
-                                        <form className='w-full space-y-6'>
-                                            <div className='py-4'>
-                                                <h3 className='text-gray-700 text-lg font-bold home'>Payment Link Details</h3>
-                                            </div>
-
-                                            <div className='flex flex-col'>
-                                                <small className='font-bold text-gray-500'>Name</small>
-                                                <h2 className='text-lg font-bold mt-0'>{state.name || 'Nill'}</h2>
-                                            </div>
-                                            <div className='flex flex-col'>
-                                                <small className='font-bold text-gray-500'>Amount</small>
-                                                <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format(state.amount || 0)}</h2>
-                                            </div>
-                                            <div className='flex flex-col'>
-                                                <small className='font-bold text-gray-500'>Charges</small>
-                                                <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format((+state.amount >= 2000 ? +state.amount * 0.02 + 100 : +state.amount * 0.02) || 0)}</h2>
-                                            </div>
-                                            {
-                                                state.expected_number_of_payment ? (
-                                                    <>
-                                                        <div className='flex flex-col'>
-                                                            <small className='font-bold text-gray-500'>Expected Number OF Payments</small>
-                                                            <h2 className='text-lg font-bold mt-0'>{state.expected_number_of_payment || 'Nil'}</h2>
-                                                        </div>
-                                                        <div className='flex flex-col'>
-                                                            <small className='font-bold text-gray-500'>Expected Total</small>
-                                                            <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format((state.amount * state.expected_number_of_payment) || 0)}</h2>
-                                                        </div>
-                                                    </>
-                                                ): ''
-                                            }
-                                            <div className='flex flex-col'>
-                                                <small className='font-bold text-gray-500'>Expiry Date</small>
-                                                <h2 className='text-lg font-bold mt-0'>{state.expires_at || 'Nil'}</h2>
-                                            </div>
-                                            <div className='flex flex-col'>
-                                                <small className='font-bold text-gray-500'>Description</small>
-                                                <h2 className='text-lg font-bold mt-0'>{state.description || 'Nil'}</h2>
-                                            </div>
-                                            <p className='font-bold text-gray-700 text-lg'>Forms</p>
-                                            {
-                                                selectedFields.map((each, index) => (
-                                                    <div className='mt-4 mb-4' key={index}>
-                                                        <Grid container onClick={() => setUniqueSelection(index)} spacing={1} className={uniqueSelection === index ? 'create-payment-details-unique-selection cursor-pointer' : 'cursor-pointer'}>
-                                                            <Grid item md={1}>
-                                                                <div className='font-bold text-lg text-gray-700'>{index + 1})</div>
-                                                            </Grid>
-                                                            <Grid item md={11}>
-                                                                {
-                                                                    uniqueSelection === index ? (
-                                                                        <span className='create-payment-details-unique-selection-text'>Unique Field</span>
-                                                                    ) : ''
-                                                                }
-                                                                <div className='relative'>
-                                                                    <div className='mb-4'>
-                                                                        <small className='font-bold text-gray-500'>Field Name: </small>
-                                                                        <small className='text-md font-bold mt-0'>{each.field_name || 'Nill'}</small>
-                                                                    </div>
-                                                                    <div className='mb-4'>
-                                                                        <small className='font-bold text-gray-500'>Field Type: </small>
-                                                                        <small className='text-md font-bold mt-0'>{each.field_type || 'Nill'}</small>
-                                                                    </div>
-                                                                    <div className='mb-4'>
-                                                                        <small className='font-bold text-gray-500'>Required: </small>
-                                                                        <small className='text-md font-bold mt-0'>{each.required || 'Nil'}</small>
-                                                                    </div>
-                                                                    <div className='mb-4'>
-                                                                        <small className='font-bold text-gray-500'>Options: </small>
-                                                                        <small className='text-md font-bold mt-0'>{each.options.length ? each.options.map((e, i) => (
-                                                                            <span key={i}>{e} &nbsp;</span>
-                                                                        )) : 'Nil'}</small>
-                                                                    </div>
+                                                <div className='flex flex-col'>
+                                                    <small className='font-bold text-gray-500'>Name</small>
+                                                    <h2 className='text-lg font-bold mt-0'>{state.name || 'Nill'}</h2>
+                                                </div>
+                                                <div className='flex flex-col'>
+                                                    <small className='font-bold text-gray-500'>Amount</small>
+                                                    <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format(state.amount || 0)}</h2>
+                                                </div>
+                                                <div className='flex flex-col'>
+                                                    <small className='font-bold text-gray-500'>Charges</small>
+                                                    <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format((+state.amount >= 2000 ? +state.amount * 0.02 + 100 : +state.amount * 0.02) || 0)}</h2>
+                                                </div>
+                                                {
+                                                    state.expected_number_of_payment ? (
+                                                        <>
+                                                            <div className='flex flex-col'>
+                                                                <small className='font-bold text-gray-500'>Expected Number OF Payments</small>
+                                                                <h2 className='text-lg font-bold mt-0'>{state.expected_number_of_payment || 'Nil'}</h2>
+                                                            </div>
+                                                            <div className='flex flex-col'>
+                                                                <small className='font-bold text-gray-500'>Expected Total</small>
+                                                                <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format((state.amount * state.expected_number_of_payment) || 0)}</h2>
+                                                            </div>
+                                                        </>
+                                                    ) : ''
+                                                }
+                                                <div className='flex flex-col'>
+                                                    <small className='font-bold text-gray-500'>Expiry Date</small>
+                                                    <h2 className='text-lg font-bold mt-0'>{state.expires_at || 'Nil'}</h2>
+                                                </div>
+                                                <div className='flex flex-col'>
+                                                    <small className='font-bold text-gray-500'>Description</small>
+                                                    <h2 className='text-lg font-bold mt-0'>{state.description || 'Nil'}</h2>
+                                                </div>
+                                                <p className='font-bold text-gray-700 text-lg'>Forms</p>
+                                                {
+                                                    selectedFields.map((each, index) => (
+                                                        <div className='mt-4 mb-4' key={index}>
+                                                            <Grid container onClick={() => setUniqueSelection(index)} spacing={1} className={uniqueSelection === index ? 'create-payment-details-unique-selection cursor-pointer' : 'cursor-pointer'}>
+                                                                <Grid item md={1}>
+                                                                    <div className='font-bold text-lg text-gray-700'>{index + 1})</div>
+                                                                </Grid>
+                                                                <Grid item md={11}>
                                                                     {
-                                                                       (((priority.length < 3) && (uniqueSelection !== index)) || (priority.indexOf(index) >= 0)) ? (
-                                                                            <div className='mb-4 c-toggle-botton'>
-                                                                                <ToggleButton switcher={(val) => assignPriority(val, index)} />
-                                                                            </div>
-                                                                        ): ''
+                                                                        uniqueSelection === index ? (
+                                                                            <span className='create-payment-details-unique-selection-text'>Unique Field</span>
+                                                                        ) : ''
                                                                     }
-                                                                    
-                                                                </div>
+                                                                    <div className='relative'>
+                                                                        <div className='mb-4'>
+                                                                            <small className='font-bold text-gray-500'>Field Name: </small>
+                                                                            <small className='text-md font-bold mt-0'>{each.field_name || 'Nill'}</small>
+                                                                        </div>
+                                                                        <div className='mb-4'>
+                                                                            <small className='font-bold text-gray-500'>Field Type: </small>
+                                                                            <small className='text-md font-bold mt-0'>{each.field_type || 'Nill'}</small>
+                                                                        </div>
+                                                                        <div className='mb-4'>
+                                                                            <small className='font-bold text-gray-500'>Required: </small>
+                                                                            <small className='text-md font-bold mt-0'>{each.required || 'Nil'}</small>
+                                                                        </div>
+                                                                        <div className='mb-4'>
+                                                                            <small className='font-bold text-gray-500'>Options: </small>
+                                                                            <small className='text-md font-bold mt-0'>{each.options.length ? each.options.map((e, i) => (
+                                                                                <span key={i}>{e} &nbsp;</span>
+                                                                            )) : 'Nil'}</small>
+                                                                        </div>
+                                                                        {
+                                                                            (((priority.length < 3) && (uniqueSelection !== index)) || (priority.indexOf(index) >= 0)) ? (
+                                                                                <div className='mb-4 c-toggle-botton'>
+                                                                                    <ToggleButton switcher={(val) => assignPriority(val, index)} />
+                                                                                </div>
+                                                                            ) : ''
+                                                                        }
+
+                                                                    </div>
+                                                                </Grid>
                                                             </Grid>
-                                                        </Grid>
-                                                    </div>
-                                                ))
-                                            }
-                                            <div className='py-4'>
-                                                {/* <button className='bg-[#0d1510] py-3 px-4 w-full rounded-md text-white'>Create Link</button> */}
-                                            </div>
-                                        </form>
+                                                        </div>
+                                                    ))
+                                                }
+                                                <div className='py-4'>
+                                                    {/* <button className='bg-[#0d1510] py-3 px-4 w-full rounded-md text-white'>Create Link</button> */}
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
+                                </Grid>
+
+
+
+
+
+
                             </Grid>
+                        </div>
 
 
-
-
-
-
-                        </Grid>
                     </div>
-
-
-                </div>
-            </DashboardLayout>
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
+                </DashboardLayout>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
             </div>
-            
+
 
 
 
@@ -844,6 +848,12 @@ const Payment = () => {
                             value="transactions"
                             onClick={() => navigate('/dashboard/transaction')}
                             icon={<ReceiptIcon />}
+                        />
+                        <BottomNavigationAction
+                            label="New Link"
+                            value="new link"
+                            icon={<AddIcon className='c-primary-link-color ' />}
+                            onClick={() => navigate('/dashboard/payment')}
                         />
                         <BottomNavigationAction
                             label="Links"

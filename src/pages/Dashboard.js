@@ -67,6 +67,8 @@ import FolderIcon from '@mui/icons-material/Folder';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WithdrawDialog from '../components/WithdrawDialog';
 import PaymentDialog from '../components/PaymentsDialog';
+import Menu from '../components/Menu';
+import MenuDropDown from '../components/Menu';
 // import DashboardChart from '../components/DashboardChart';
 
 const Dashboard = () => {
@@ -165,6 +167,15 @@ const Dashboard = () => {
     const [wallet, setWallet] = useState({})
     const [recentPayment, setRecentPayment] = useState()
     const { open, setOpen, handleOpen, handleClose } = useContext(DashBoardContext)
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open20 = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose20 = () => {
+        setAnchorEl(null);
+    };
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 10,
@@ -366,10 +377,14 @@ const Dashboard = () => {
                         <h2 className='text-xl title fourier font-bold'>Fourier<span>Pay</span></h2>
                     </div>
                     {/* <IconButton className='bg-[#1D3329]'> */}
-                    <div className='py-2 px-3 rounded-full bg-[#1D3329]'>
+                    {/* <div className='py-2 px-3 rounded-full bg-[#1D3329]'
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                    >
                         <Person3Icon className="text-white" />
-                    </div>
-
+                    </div> */}
+                    <MenuDropDown open20={open20} handleClose20={handleClose20} handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl} name={`${wallet?.user_id?.firstname} ${wallet?.user_id?.lastname}`} />
                     {/* </IconButton> */}
                 </div>
                 <div className='py-2'>
@@ -396,11 +411,9 @@ const Dashboard = () => {
                     <div className='flex items-center justify-between py-0'>
                         <h2 className='font-bold text-xl pt-4 fourier'>Recent Payments</h2>
                         <Link to='/dashboard/transaction'>
-                            <p className='text-gray-500 font-bold'>View All</p>
+                            <p className='c-primary-link-color font-bold'>View All</p>
                         </Link>
-
                     </div>
-
                     <div className='py-2 '>
                         {tables.recentPayments ? tables.recentPayments.map((each, index) => (
                             <div className='flex justify-between items-center' key={index} onClick={() => { console.log(each); handleClickOpen1(); setTransact(each) }}>
@@ -408,13 +421,10 @@ const Dashboard = () => {
                                     <h2 className='text-sm py-2 font-bold'>{each.payment_link_id.name}</h2>
                                     <small className='text-sm py-2  flex-1  font-bold text-gray-400'>{moment(each.createdAt
                                     ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mma')}</small>
-
                                 </div>
                                 <div className='flex flex-col'>
                                     <small className='text-sm py-2 self-end  flex-1  font-bold text-gray-400'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</small>
                                     <h2 className='text-sm py-2 text-gray-400 font-bold self-end'>{each.unique_answer}</h2>
-
-
                                 </div>
                             </div>
                         )) : (
@@ -431,7 +441,7 @@ const Dashboard = () => {
                         )}
                         {tables?.recentPayments?.length === 0 && (
                             <div className='flex flex-col justify-center py-2 px-2'>
-                                <img  src="/images/nolinks.svg" className='w-2/5 mx-auto' />
+                                <img src="/images/nolinks.svg" className='w-2/5 mx-auto' />
                                 <p className='text-gray-500 text-center'>No Transactions Yet!</p>
                             </div>
                         )}
@@ -450,6 +460,12 @@ const Dashboard = () => {
                             onClick={() => navigate('/dashboard/transaction')}
                             icon={<ReceiptIcon />}
                         />
+                          <BottomNavigationAction
+                            label="Create"
+                            value="create"
+                            icon={<AddIcon className='c-primary-link-color '/>}
+                            onClick={() => navigate('/dashboard/payment')}
+                        />
                         <BottomNavigationAction
                             label="Links"
                             value="links"
@@ -462,6 +478,7 @@ const Dashboard = () => {
                             icon={<AccountCircleIcon />}
                             onClick={() => navigate('/dashboard/profile')}
                         />
+                      
                         {/* <BottomNavigationAction
                             label="Favorites"
                             value="favorites"
@@ -479,7 +496,7 @@ const Dashboard = () => {
                     <div className='flex items-center justify-between'>
                         <h2 className='font-bold text-xl fourier'>Recent Links</h2>
                         <Link to='/dashboard/paymentlinks'>
-                            <p className='font-bold text-gray-400'>View all</p>
+                            <p className='font-bold c-primary-link-color '>View all</p>
                         </Link>
                     </div>
                     <div className='py-4 '>

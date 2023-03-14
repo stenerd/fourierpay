@@ -10,6 +10,7 @@ import { linearProgressClasses } from '@mui/material/LinearProgress';
 import '../styles/PaymentLink.css'
 import { Link } from 'react-router-dom';
 import Protected, { BASE_URL } from '../utils/axios'
+import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
@@ -32,6 +33,7 @@ import InsertLinkIcon from '@mui/icons-material/InsertLink';
 // import moment from 'moment'
 
 import FolderIcon from '@mui/icons-material/Folder';
+import MenuDropDown from '../components/Menu';
 
 const PaymentLinks = () => {
     const [loading, setLoading] = useState(false)
@@ -47,6 +49,17 @@ const PaymentLinks = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open20 = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose20 = () => {
+        setAnchorEl(null);
+    };
+    const { profile } = useSelector((state) => state.dashboard)
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 3,
@@ -113,6 +126,10 @@ const PaymentLinks = () => {
 
         console.log({ link, singleLink: link.link })
     }
+    const compareDate = () => {
+        console.log(moment(Date.now()).format(('MMM DD, YYYY')))
+    }
+
 
     useEffect(() => {
         setValue('links')
@@ -120,6 +137,7 @@ const PaymentLinks = () => {
 
     useEffect(() => {
         FetchLinks()
+        compareDate()
     }, [])
 
     return (
@@ -130,17 +148,23 @@ const PaymentLinks = () => {
                         <div className='py-3'>
                             <div className='flex justify-between items-center'>
                                 <h2 className='text-xl font-bold fourier'>Payment Links</h2>
+                                <div className=''>
+                                    <MenuDropDown open20={open20} handleClose20={handleClose20} handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl} name={`${profile.firstname} ${profile.lastname}`} />
+                                </div>
                             </div>
                         </div>
-                        <div className='py-2'>
 
-                        </div>
                         <div className='py-3 space-y-2'>
                             {paymentLinks ? paymentLinks.map((each, index) => (
                                 <div className='border border-gray-300 px-3 py-4 rounded-[10px]' key={index}>
                                     <div className='flex justify-between items-center'>
                                         <h2 onClick={() => Payments(each)} className='font-bold fourier flex-1 hover:text-[#00832D]'>{each.name}</h2>
-                                        <span className='text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-[#00832D] pills-expiry-date'>{moment(each.expires_at).format(('MMM DD, YYYY'))}</span>
+                                        {/* text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-[#00832D] pills-expiry-date */}
+                                        {moment(each.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? (
+                                            <span className={moment(each.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? 'text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-[#00832D] pills-expiry-date' : 'text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-white bg-red-400'}>{moment(each.expires_at).format(('MMM DD, YYYY'))}</span>
+                                        ) : (
+                                            <p className='text-red-500 italic text-[10px] font-bold'>Expired</p>
+                                        )}
                                     </div>
                                     <div className='py-2'>
                                         <div className='bg-gray-200 px-2 py-1 rounded-md flex items-center space-x-1'>
@@ -211,6 +235,12 @@ const PaymentLinks = () => {
                             onClick={() => navigate('/dashboard/transaction')}
                             icon={<ReceiptIcon />}
                         />
+                         <BottomNavigationAction
+                            label="New Link"
+                            value="new link"
+                            icon={<AddIcon className='c-primary-link-color ' />}
+                            onClick={() => navigate('/dashboard/payment')}
+                        />
                         <BottomNavigationAction
                             label="Links"
                             value="links"
@@ -267,7 +297,11 @@ const PaymentLinks = () => {
                                                             <div className=''>
                                                                 <div className='flex justify-between'>
                                                                     <h2 className='fourier text-2xl text-[#1d3329] max-w-[60%] font-bold hover:text-blue-500 cursor-pointer' onClick={() => Payments(link)}>{link.name}</h2>
-                                                                    <small className='text-sm text-[#00bf00] status-pill'>{link.status} {link.expires_at && `- ${moment(link.expires_at).format('MMMM DD, YYYY')}`}</small>
+                                                                    {moment(link.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? (
+                                                                        <small className='text-sm text-[#00bf00] status-pill'>{link.status} {link.expires_at && `- ${moment(link.expires_at).format('MMMM DD, YYYY')}`}</small>
+                                                                    ) : (
+                                                                        <small className='text-sm text-red-500 italic font-bold'>expired</small>
+                                                                    )}
                                                                 </div>
                                                                 {/* <button onClick={setCopied}>
                                                                 Was it copied? {isCopied ? "Yes! 👍" : "Nope! 👎"}
@@ -326,7 +360,6 @@ const PaymentLinks = () => {
                                                 </Grid>
                                             ))
                                         }
-
                                     </Grid>
                                 )
                             }
@@ -348,8 +381,6 @@ const PaymentLinks = () => {
 
                 </DashboardLayout>
             </div>
-
-
         </>
     )
 }

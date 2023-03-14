@@ -32,6 +32,7 @@ import ReceiptIcon from '@mui/icons-material/Receipt';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import FolderIcon from '@mui/icons-material/Folder';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AddIcon from '@mui/icons-material/Add';
 
 
 
@@ -656,6 +657,12 @@ const SinglePaymentLink = () => {
                                 value="transactions"
                                 onClick={() => navigate('/dashboard/transaction')}
                                 icon={<ReceiptIcon />}
+                            />
+                            <BottomNavigationAction
+                                label="New Link"
+                                value="new link"
+                                icon={<AddIcon className='c-primary-link-color ' />}
+                                onClick={() => navigate('/dashboard/payment')}
                             />
                             <BottomNavigationAction
                                 label="Links"

@@ -57,6 +57,7 @@ import TransactionDialog from '../components/TraansactionDialog';
 import BeneficiaryDialog from '../components/BeneficiartDialog';
 import DeleteBenefiaryDialog from '../components/DeleteBeneficiaryDialog';
 import ProfileDialog from '../components/ProfileDialog';
+import MenuDropDown from '../components/Menu';
 // import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Profile = () => {
     const [state, setState] = React.useState({
@@ -221,6 +222,16 @@ const Profile = () => {
         }
     }
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open20 = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose20 = () => {
+        setAnchorEl(null);
+    };
+    const { profile: details } = useSelector((state) => state.dashboard)
+
     const fetchWallet = async () => {
         try {
             const response = await Protected.get(`${BASE_URL}/api/wallet`)
@@ -313,9 +324,12 @@ const Profile = () => {
                     <div className='w-[90%] mx-auto'>
                         <div className='py-2'>
                             <div>
-                                <h1 className='text-xl font-bold fourier'>Profile</h1>
+                                <div className='flex justify-between items-center'>
+                                    <h1 className='text-xl font-bold fourier'>Profile</h1>
+                                    <MenuDropDown open20={open20} handleClose20={handleClose20} handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl} name={`${details.firstname} ${details.lastname}`} />
+                                </div>
                                 <div className='py-2 mt-3'>
-                                    <div className='w-full rounded-[15px] py-2 px-4 bg-[#1D3329]'>
+                                    <div className='w-full rounded-[15px] py-6 px-4 bg-[#1D3329]'>
                                         <div className='flex items-start gap-4 w-full'>
                                             <div className='space-y-2 w-full'>
                                                 <div className='flex items-start justify-between'>
@@ -489,6 +503,12 @@ const Profile = () => {
                             icon={<ReceiptIcon />}
                         />
                         <BottomNavigationAction
+                            label="New Link"
+                            value="new link"
+                            icon={<AddIcon className='c-primary-link-color ' />}
+                            onClick={() => navigate('/dashboard/payment')}
+                        />
+                        <BottomNavigationAction
                             label="Links"
                             value="links"
                             icon={<InsertLinkIcon />}
@@ -514,7 +534,6 @@ const Profile = () => {
                     </BottomNavigation>
                 </Paper>
             </div>
-
             <div className='hidden lg:block'>
                 <DashboardLayout>
                     <Titlebar>
