@@ -313,6 +313,9 @@
 .odd_numbers{
     background: rgba(240, 218, 15, 0.2);
 }
+.three_numbers{
+    background: rgba(42, 134, 242, 0.2);
+}
 .even_numbers{
     background: rgba(179, 7, 208, 0.2);
 }
@@ -331,6 +334,16 @@
     color: #222926;
     border-radius: 0.3rem;
 }
+.c-bg-primary-light-mobile{
+    background-color: #97F675;
+    font-weight: 600;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color: #008950;
+    border-radius: 0.3rem;
+}
 
 @media (max-width:950px){
     .mobile-grid-1{
@@ -346,4 +359,13 @@
         display: none;
     }
 
+}
+
+.c-text-green{
+    color: #018a50;
+}
+
+.c-icon-bg{
+    background: #daffda;
+    border-radius: 8px;
 }
