@@ -1,5 +1,5 @@
 import { Button, Divider, IconButton, InputBase, Skeleton, Stack } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import TransactionTable from '../components/TransactionsTable'
 import TuneIcon from '@mui/icons-material/Tune';
@@ -33,6 +33,7 @@ import TransactionDialog from '../components/TraansactionDialog';
 import RecentTransacton from '../components/RecentTransaction';
 import { useSelector } from 'react-redux';
 import MenuDropDown from '../components/Menu';
+import FilterDialog from './FilterDialog';
 const Transactions = () => {
     const [payin, setPayin] = useState(true)
     const [payout, setPayout] = useState(false)
@@ -188,6 +189,22 @@ const Transactions = () => {
 
     }
 
+    const [open21, setOpen21] = React.useState(false);
+    const handleClickOpen21 = () => {
+        setOpen21(true);
+    };
+
+    const handleClose21 = () => {
+        setOpen21(false);
+    };
+
+    const formRef = useRef()
+    const startRef = useRef()
+    const endRef = useRef()
+    const statusRef = useRef()
+    const typeRef = useRef()
+    const entityRef = useRef()
+
 
     const handleKeyDown = async (event) => {
         if (event.key === 'Enter') {
@@ -225,12 +242,13 @@ const Transactions = () => {
             setLoading(true)
             const data = filterLink(status, start, end, type, entity)
             const response = await Protected.get(data)
-            console.log(response.data.data.data)
+            // console.log(response.data.data.data)
             setTransaction(response.data.data.data)
             setLoading(false)
             // console.log('processing')
             console.log(data)
             handleCloser()
+            handleClose21()
             console.log({ status, type, entity, end, start })
             // setEntity('')
             // setEnd('')
@@ -245,6 +263,47 @@ const Transactions = () => {
             console.log('error')
         }
     }
+
+    const clearData = async () => {
+        formRef.current.reset()
+        setEnd("")
+        setStart("")
+        setStatus("")
+        setType("")
+        setEntity("")
+        try {
+            // const response = await Protected.get(`http://localhost:4000/api/transaction?status=${status}&startDate=${start}&endDate=${end}`)
+            // const response = await Protected.get(`http://localhost:4000/api/transaction?`+status==''?null:status=status+`&`+end==''?null:end=end+`&`+start==''?null:start=start)
+            // const response = await Protected.get(link)
+            setLoading(true)
+            // const data = filterLink(status='', start='', end='', type='', entity='')
+            const response = await Protected.get(`${BASE_URL}/api/transaction`)
+            // console.log(response.data.data.data)
+            setTransaction(response.data.data.data)
+            setLoading(false)
+            // console.log('processing')
+            console.log(data)
+            handleCloser()
+            handleClose21()
+            console.log({ status, type, entity, end, start })
+            // setEntity('')
+            // setEnd('')
+            // setStart('')
+            // setStatus('')
+            // setType('')
+
+        } catch (error) {
+            console.log(error.response)
+            setLoading(false)
+
+            console.log('error')
+        }
+    }
+
+    // const filterThrough = (value)=>{
+    //     value('')
+
+    // }
 
     useEffect(() => {
         fetchTransaction()
@@ -273,14 +332,6 @@ const Transactions = () => {
 
             <div className='block lg:hidden'>
                 <div className='py-6'>
-                    {/* <div className='py-6 flex justify-between items-center  w-[85%] mx-auto '>
-                        <div className=''> 
-                            <h2 className='text-xl title fourier font-bold'>Fourier<span>Pay</span></h2>
-                        </div>  
-                        <div className='py-2 px-3 rounded-full bg-[#1D3329]'>
-                            <Person3Icon className="text-white" />
-                        </div>     
-                    </div> */}
                     <div className='w-[90%] mx-auto'>
                         <div className='py-3'>
                             <div className='flex justify-between items-center py-4'>
@@ -298,11 +349,37 @@ const Transactions = () => {
                                         // className='w-2/5 mx-auto'
                                         inputProps={{ 'aria-label': 'search google maps' }}
                                     />
-                                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleClickOpen21}>
                                         {/* <SearchIcon /> */}
                                         <TuneIcon />
                                     </IconButton>
                                 </Paper>
+                            </div>
+
+                            <div className='flex flex-col'>
+                                {start !== '' || end !== '' || entity !== '' || type !== '' || entity !== '' || status!=='' ? (
+                                    <h2 className='font-bold'>Filtering By</h2>
+                                ):''}
+                               
+
+                                <div className='flex items-center flex-wrap space-x-1 gap-4 py-3'>
+                                    {start !== '' && (
+                                        <small onClick={()=>handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>StartDate <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' > x</span></small>
+                                    )}
+                                    {end !== '' && (
+                                        <small onClick={()=>handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>EndDate <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' > x</span></small>
+                                    )}
+                                    {status !== '' && (
+                                        <small onClick={()=>handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>Status <span className='text-white create-payment-dynamic-form-options-close cursor-pointer'  > x</span></small>
+                                    )}
+                                    {type !== '' && (
+                                        <small onClick={()=>handleClickOpen21()}  className={`create-payment-divider-options cursor-pointer`}>Type <span className='text-white create-payment-dynamic-form-options-close cursor-pointer'  > x</span></small>
+                                    )}
+                                    {entity !== '' && (
+                                        <small onClick={()=>handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>Entity <span className='text-white create-payment-dynamic-form-options-close cursor-pointer'  > x</span></small>
+                                    )}
+                                </div>
+
                             </div>
                             <div className='py-2 mb-4'>
                                 {transactions && !load ? transactions.map((each, index) => (
@@ -357,6 +434,8 @@ const Transactions = () => {
                         </div>
                     </div>
                 </div>
+                <FilterDialog open21={open21} setOpen21={setOpen21} handleClose21={handleClose21} handleClickOpen21={handleClickOpen21} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} formRef={formRef} statusRef={statusRef} startRef={startRef} endRef={endRef} typeRef={typeRef} entityRef={entityRef} filterLink={filterLink} clearData={clearData} />
+
                 <TransactionDialog open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact} />
                 <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
                     <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
