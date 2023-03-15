@@ -32,7 +32,7 @@ const BottomNav = () => {
         navigate(route)
     };
     return (
-        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, boxShadow: '0 0 2rem #ccc' }}>
+        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, boxShadow: '0 0 2rem #ccc', zIndex: '1000' }}>
             <BottomNavigation sx={{ width: '100%' }} value={value} onChange={handleChange}>
                 <BottomNavigationAction
                     label=""

@@ -364,8 +364,24 @@
 .c-text-green{
     color: #018a50;
 }
+.c-text-danger{
+    color: #ff5701;
+}
 
 .c-icon-bg{
     background: #daffda;
     border-radius: 8px;
+}
+.c-icon-bg-withdrawal{
+    border-radius: 8px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    background: #ff85392e;
+}
+.c-text-elipses{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
 }
