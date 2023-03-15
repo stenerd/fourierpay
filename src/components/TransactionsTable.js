@@ -39,6 +39,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
 
     formRef.current.reset()
     setTimeout(() => {
+      // formRef.current.reset()
       filterData()
     }, 1000)
 
