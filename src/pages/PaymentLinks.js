@@ -1,8 +1,6 @@
 import { Grid, IconButton, LinearProgress, Skeleton, Stack } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
-import Avatar from '@mui/material/Avatar';
-import AvatarGroup from '@mui/material/AvatarGroup';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import Titlebar from '../components/TitleBar'
 import { styled } from '@mui/material/styles';
@@ -10,7 +8,6 @@ import { linearProgressClasses } from '@mui/material/LinearProgress';
 import '../styles/PaymentLink.css'
 import { Link } from 'react-router-dom';
 import Protected, { BASE_URL } from '../utils/axios'
-import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
@@ -19,21 +16,12 @@ import moment from 'moment'
 import useClipboard from "react-use-clipboard";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import Paper from '@mui/material/Paper';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
 
 // import moment from 'moment'
 
 import FolderIcon from '@mui/icons-material/Folder';
 import MenuDropDown from '../components/Menu';
+import BottomNav from '../components/bottomNav';
 
 const PaymentLinks = () => {
     const [loading, setLoading] = useState(false)
@@ -221,51 +209,7 @@ const PaymentLinks = () => {
                         />
                     </div>
                 </div>
-                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
-                    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-                        <BottomNavigationAction
-                            label="Dashboard"
-                            value="dashboard"
-                            onClick={() => navigate('/dashboard')}
-                            icon={<DashboardIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="Transactions"
-                            value="transactions"
-                            onClick={() => navigate('/dashboard/transaction')}
-                            icon={<ReceiptIcon />}
-                        />
-                         <BottomNavigationAction
-                            label="New Link"
-                            value="new link"
-                            icon={<AddIcon className='c-primary-link-color ' />}
-                            onClick={() => navigate('/dashboard/payment')}
-                        />
-                        <BottomNavigationAction
-                            label="Links"
-                            value="links"
-                            icon={<InsertLinkIcon />}
-                            onClick={() => navigate('/dashboard/paymentlinks')}
-                        />
-                        <BottomNavigationAction
-                            label="Profile"
-                            value="profile"
-                            icon={<AccountCircleIcon />}
-                            onClick={() => navigate('/dashboard/profile')}
-                        />
-                        {/* <BottomNavigationAction
-                            label="Favorites"
-                            value="favorites"
-                            icon={<FavoriteIcon />}
-                        /> */}
-                        {/* <BottomNavigationAction
-                            label="Nearby"
-                            value="nearby"
-                            icon={<LocationOnIcon />}
-                        /> */}
-                        <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
-                    </BottomNavigation>
-                </Paper>
+                <BottomNav />
             </div>
             <div className='hidden lg:block'>
                 <DashboardLayout>
