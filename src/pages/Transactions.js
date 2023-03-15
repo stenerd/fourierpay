@@ -254,7 +254,7 @@ const Transactions = () => {
 
 
             <div className='block lg:hidden'>
-                <div className='py-0'>
+                <div className='mb-16'>
                     {/* <div className='py-6 flex justify-between items-center  w-[85%] mx-auto '>
                         <div className=''> 
                             <h2 className='text-xl title fourier font-bold'>Fourier<span>Pay</span></h2>
@@ -264,12 +264,12 @@ const Transactions = () => {
                         </div>     
                     </div> */}
                     <div className='w-[90%] mx-auto'>
-                        <div className='py-3'>
-                            <div className='flex justify-between items-center py-4'>
+                        <div className='py-0'>
+                            <div className='flex justify-between items-center py-6'>
                                 <h2 className='text-xl fourier font-bold'>Transactions</h2>
                                 <MenuDropDown open20={open20} handleClose20={handleClose20} handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl} name={`${profile.firstname} ${profile.lastname}`} />
                             </div>
-                            <div className='py-3 mt-2'>
+                            <div className=''>
                                 <Paper
                                     component="form"
                                     sx={{ p: '2px 4px', display: 'flex', alignItems: 'center' }}
@@ -308,7 +308,7 @@ const Transactions = () => {
                                             }
 
                                             <div className='flex flex-col'>
-                                                <h2 className='font-bold text-base c-text-elipses'>{each.in_entity === 'Wallet' ? each.out_entity_id.name : each.payment_link_id.name}</h2>
+                                                <h2 className='font-bold text-base text-[#2d2d2d] c-text-elipses'>{each.in_entity === 'Wallet' ? each.out_entity_id.name : each.payment_link_id.name}</h2>
                                                 <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
                                                 ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
                                                 <small className='block text-xs font-bold pt-1 text-gray-500'>
