@@ -1,25 +1,13 @@
 import { Divider, Grid, IconButton, LinearProgress, List, Skeleton, Stack } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
-import WalletIcon from '@mui/icons-material/Wallet';
-import LinkIcon from '@mui/icons-material/Link';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
 import PaymentDrawer from '../components/PaymentDrawer';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import PaidIcon from '@mui/icons-material/Paid';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import CircularProgress, {
-    circularProgressClasses,
-} from '@mui/material/CircularProgress';
 import { linearProgressClasses } from '@mui/material/LinearProgress';
-import PaymentsIcon from '@mui/icons-material/Payments';
 import Titlebar from '../components/TitleBar'
 import AddIcon from '@mui/icons-material/Add';
 import '../styles/Dashboard.css'
@@ -41,23 +29,12 @@ import BeneficiarySkeleton from '../components/BeneficiarySkeleton';
 import RecentTransacton from '../components/RecentTransaction';
 import useClipboard from "react-use-clipboard";
 import { ToastContainer, toast } from 'react-toastify';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import Paper from '@mui/material/Paper';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import FolderIcon from '@mui/icons-material/Folder';
-import ContentPasteIcon from '@mui/icons-material/ContentPaste';
-import TransactionDialog from '../components/TraansactionDialog';
 import BeneficiaryDialog from '../components/BeneficiartDialog';
 import DeleteBenefiaryDialog from '../components/DeleteBeneficiaryDialog';
 import ProfileDialog from '../components/ProfileDialog';
 import MenuDropDown from '../components/Menu';
+import BottomNav from '../components/bottomNav';
 // import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Profile = () => {
     const [state, setState] = React.useState({
@@ -488,51 +465,7 @@ const Profile = () => {
                 {/* <TransactionDialog  open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact}/> */}
                 {/* <TransactionDialog open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact}/> */}
                 <ProfileDialog open11={open11} setOpen11={setOpen11} handleClickOpen11={handleClickOpen11} handleClose11={handleClose11} profile={profile} setProfile={setProfile} fetchProfile={fetchProfile} />
-                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
-                    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-                        <BottomNavigationAction
-                            label="Dashboard"
-                            value="dashboard"
-                            onClick={() => navigate('/dashboard')}
-                            icon={<DashboardIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="Transactions"
-                            value="transactions"
-                            onClick={() => navigate('/dashboard/transaction')}
-                            icon={<ReceiptIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="New Link"
-                            value="new link"
-                            icon={<AddIcon className='c-primary-link-color ' />}
-                            onClick={() => navigate('/dashboard/payment')}
-                        />
-                        <BottomNavigationAction
-                            label="Links"
-                            value="links"
-                            icon={<InsertLinkIcon />}
-                            onClick={() => navigate('/dashboard/paymentlinks')}
-                        />
-                        <BottomNavigationAction
-                            label="Profile"
-                            value="profile"
-                            icon={<AccountCircleIcon />}
-                            onClick={() => navigate('/dashboard/profile')}
-                        />
-                        {/* <BottomNavigationAction
-                            label="Favorites"
-                            value="favorites"
-                            icon={<FavoriteIcon />}
-                        /> */}
-                        {/* <BottomNavigationAction
-                            label="Nearby"
-                            value="nearby"
-                            icon={<LocationOnIcon />}
-                        /> */}
-                        <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
-                    </BottomNavigation>
-                </Paper>
+                <BottomNav />
             </div>
             <div className='hidden lg:block'>
                 <DashboardLayout>

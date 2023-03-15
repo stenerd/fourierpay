@@ -70,6 +70,7 @@ import PaymentDialog from '../components/PaymentsDialog';
 import Menu from '../components/Menu';
 import MenuDropDown from '../components/Menu';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import BottomNav from '../components/bottomNav';
 // import DashboardChart from '../components/DashboardChart';
 
 const Dashboard = () => {
@@ -457,8 +458,8 @@ const Dashboard = () => {
                         )}
                     </div>
                 </div>
-                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
-                    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
+                {/* <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
+                    <BottomNavigation sx={{ width: '100%' }} value={value} onChange={handleChange}>
                         <BottomNavigationAction
                             label="Dashboard"
                             value="dashboard"
@@ -489,19 +490,22 @@ const Dashboard = () => {
                             onClick={() => navigate('/dashboard/profile')}
                         />
                       
-                        {/* <BottomNavigationAction
+                        <BottomNavigationAction
                             label="Favorites"
                             value="favorites"
                             icon={<FavoriteIcon />}
-                        /> */}
-                        {/* <BottomNavigationAction
+                        />
+                        <BottomNavigationAction
                             label="Nearby"
                             value="nearby"
                             icon={<LocationOnIcon />}
-                        /> */}
+                        />
                         <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
                     </BottomNavigation>
-                </Paper>
+                </Paper> */}
+
+                <BottomNav />
+
                 <div className='py-4 mb-14 w-[85%] mx-auto'>
                     <div className='flex items-center justify-between'>
                         <h2 className='font-bold text-xl fourier'>Recent Links</h2>
