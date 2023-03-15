@@ -373,7 +373,7 @@ const Dashboard = () => {
         <>
             {/* mobile screens page dashboard */}
             <div className='block md:hidden relative'>
-                <div className='py-6 flex justify-between items-center  w-[85%] mx-auto '>
+                <div className='py-6 flex justify-between items-center w-[90%] mx-auto '>
                     <div className=''>
                         {/* <img src="/images/two.svg" className='h-24'/> */}
                         <h2 className='text-xl title fourier font-bold'>Fourier<span>Pay</span></h2>
@@ -389,10 +389,10 @@ const Dashboard = () => {
                     <MenuDropDown open20={open20} handleClose20={handleClose20} handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl} name={`${wallet?.user_id?.firstname} ${wallet?.user_id?.lastname}`} />
                     {/* </IconButton> */}
                 </div>
-                <div className='py-2'>
+                <div className='pb-2'>
                     <SwiperCards />
                 </div>
-                <div className='py-4 w-[85%] flex justify-between gap-3 items-center mx-auto '>
+                <div className='py-4 w-[90%] flex justify-between gap-3 items-center mx-auto '>
                     <div className='flex items-center justify-center p-3 space-x-1 flex-1 bg-[#FADB8B] rounded-[10px] w-[50%]' onClick={() => handleClickOpen()}>
                         {/* <SendIcon /> */}
                          <img src="/images/arrow-pointer.svg" alt="alt-img" className='w-[20px]'/>
@@ -411,7 +411,7 @@ const Dashboard = () => {
                     <BarCharted />
                     {/* <DashboardChart/> */}
                 </div>
-                <div className='py-0 w-[85%] mx-auto'>
+                <div className='py-0 w-[90%] mx-auto'>
                     <div className='flex items-center justify-between pt-4'>
                         <h2 className='font-bold text-xl pt-0 fourier'>Recent Payments</h2>
                         <Link to='/dashboard/transaction'>
@@ -420,7 +420,7 @@ const Dashboard = () => {
                     </div>
                     <div className='py-2 '>
                         {tables.recentPayments ? tables.recentPayments.map((each, index) => (
-                            <div className='flex w-full items-center' key={index} onClick={() => { console.log(each); handleClickOpen1(); setTransact(each) }}>
+                            <div className='flex w-full items-center mb-2' key={index} onClick={() => { console.log(each); handleClickOpen1(); setTransact(each) }}>
                                 <div className='mr-2'>
                                     <div className='p-2 c-icon-bg'>
                                         <img src="/images/payment-icon-in.svg" alt="alt-img" className='w-[20px]'/>
@@ -506,7 +506,7 @@ const Dashboard = () => {
 
                 <BottomNav />
 
-                <div className='py-4 mb-14 w-[85%] mx-auto'>
+                <div className='py-4 mb-14 w-[90%] mx-auto'>
                     <div className='flex items-center justify-between'>
                         <h2 className='font-bold text-xl fourier'>Recent Links</h2>
                         <Link to='/dashboard/paymentlinks'>
