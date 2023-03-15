@@ -33,6 +33,7 @@ import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import FolderIcon from '@mui/icons-material/Folder';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddIcon from '@mui/icons-material/Add';
+import BottomNav from '../components/bottomNav';
 
 
 
@@ -644,7 +645,8 @@ const SinglePaymentLink = () => {
 
                         </div>
                     </div>
-                    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
+                    <BottomNav/>
+                    {/* <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
                         <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
                             <BottomNavigationAction
                                 label="Dashboard"
@@ -668,7 +670,6 @@ const SinglePaymentLink = () => {
                                 label="Links"
                                 value="links"
                                 icon={<InsertLinkIcon />}
-                            // onClick={()=>navigate('/dashboard/paymentlinks')}
                             />
                             <BottomNavigationAction
                                 label="Profile"
@@ -676,19 +677,10 @@ const SinglePaymentLink = () => {
                                 icon={<AccountCircleIcon />}
                                 onClick={() => navigate('/dashboard/profile')}
                             />
-                            {/* <BottomNavigationAction
-                            label="Favorites"
-                            value="favorites"
-                            icon={<FavoriteIcon />}
-                        /> */}
-                            {/* <BottomNavigationAction
-                            label="Nearby"
-                            value="nearby"
-                            icon={<LocationOnIcon />}
-                        /> */}
+                           
                             <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
                         </BottomNavigation>
-                    </Paper>
+                    </Paper> */}
 
                 </div>
                 <ToastContainer

@@ -112,14 +112,11 @@ const PaymentLinks = () => {
         } catch (error) {
             console.log(error.response)
         }
-
-
         console.log({ link, singleLink: link.link })
     }
     const compareDate = () => {
         console.log(moment(Date.now()).format(('MMM DD, YYYY')))
     }
-
 
     useEffect(() => {
         setValue('links')
