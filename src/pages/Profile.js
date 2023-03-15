@@ -1,25 +1,13 @@
 import { Divider, Grid, IconButton, LinearProgress, List, Skeleton, Stack } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
-import WalletIcon from '@mui/icons-material/Wallet';
-import LinkIcon from '@mui/icons-material/Link';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
 import PaymentDrawer from '../components/PaymentDrawer';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import PaidIcon from '@mui/icons-material/Paid';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import CircularProgress, {
-    circularProgressClasses,
-} from '@mui/material/CircularProgress';
 import { linearProgressClasses } from '@mui/material/LinearProgress';
-import PaymentsIcon from '@mui/icons-material/Payments';
 import Titlebar from '../components/TitleBar'
 import AddIcon from '@mui/icons-material/Add';
 import '../styles/Dashboard.css'
@@ -41,23 +29,12 @@ import BeneficiarySkeleton from '../components/BeneficiarySkeleton';
 import RecentTransacton from '../components/RecentTransaction';
 import useClipboard from "react-use-clipboard";
 import { ToastContainer, toast } from 'react-toastify';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import Paper from '@mui/material/Paper';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import FolderIcon from '@mui/icons-material/Folder';
-import ContentPasteIcon from '@mui/icons-material/ContentPaste';
-import TransactionDialog from '../components/TraansactionDialog';
 import BeneficiaryDialog from '../components/BeneficiartDialog';
 import DeleteBenefiaryDialog from '../components/DeleteBeneficiaryDialog';
 import ProfileDialog from '../components/ProfileDialog';
 import MenuDropDown from '../components/Menu';
+import BottomNav from '../components/bottomNav';
 // import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Profile = () => {
     const [state, setState] = React.useState({
@@ -320,42 +297,40 @@ const Profile = () => {
     return (
         <>
             <div className='block lg:hidden'>
-                <div className='py-6 mt-3'>
+                <div className='mb-24'>
                     <div className='w-[90%] mx-auto'>
-                        <div className='py-2'>
+                        <div className=''>
                             <div>
-                                <div className='flex justify-between items-center'>
+                                <div className='flex justify-between items-center py-6'>
                                     <h1 className='text-xl font-bold fourier'>Profile</h1>
                                     <MenuDropDown open20={open20} handleClose20={handleClose20} handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl} name={`${details.firstname} ${details.lastname}`} />
                                 </div>
-                                <div className='py-2 mt-3'>
-                                    <div className='w-full rounded-[15px] py-6 px-4 bg-[#1D3329]'>
+                                <div className='pb-2 0'>
+                                    <div className='w-full rounded-[15px] py-6 px-6 bg-[#1D3329]'>
                                         <div className='flex items-start gap-4 w-full'>
-                                            <div className='space-y-2 w-full'>
+                                            <div className='space-y-6 w-full'>
                                                 <div className='flex items-start justify-between'>
-                                                    <div className='space-y-2'>
-                                                        {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (
+                                                    <div className=''>
+                                                        {loading ? <Skeleton variant="text" width={150} height={32} sx={{ fontSize: '1rem' }} /> : (
                                                             <div className='flex items-center space-x-2'>
                                                                 <h2 style={{ textTransform: 'uppercase' }} className='fourier text-white font-bold'>{profile.firstname} {profile.lastname} </h2>
-                                                                <AutoFixHighIcon className="mx-2 mb-2 text-gray-500 fourier-profile-icon cursor-pointer" onClick={() => handleClickOpen11()} />
+                                                                <AutoFixHighIcon className="mx-2 mb-2 text-gray-400 fourier-profile-icon cursor-pointer" onClick={() => handleClickOpen11()} />
                                                             </div>
 
                                                         )}
-                                                        <h3 className="text-gray-500">{moment(new Date()).format('dddd, MMMM DD YYYY')}</h3>
+                                                        <h3 className="text-gray-400 font-bold">{moment(new Date()).format('dddd, MMMM DD YYYY')}</h3>
                                                     </div>
-                                                    <div className='py-2'>
-                                                        <IconButton>
-                                                            <AccountCircleIcon className='text-white' fontSize='large' />
-                                                        </IconButton>
+                                                    <div className='py-0'>
+                                                        <AccountCircleIcon className='text-white' fontSize='large' />
                                                     </div>
                                                 </div>
                                                 <div className='flex justify-between items-center'>
-                                                    <div className='py-4'>
+                                                    <div className='py-0'>
                                                         <h1 className='fourier text-[20px] text-white font-bold'>₦ {Intl.NumberFormat('en-US').format(wallet?.amount || 0)}</h1>
                                                         <h3 className="text-white font-bold">Total Balance</h3>
                                                     </div>
                                                     <div className='items-end'>
-                                                        {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<div className='font-bold text-gray-500 text-sm'> <p>{profile?.email}</p> <p className='text-right'>{profile?.phonenumber}</p></div>)}
+                                                        {loading ? <Skeleton variant="text" width={150} height={32} sx={{ fontSize: '1rem' }} /> : (<div className='font-bold text-gray-500 text-sm'> <p>{profile?.email}</p> <p className='text-right'>{profile?.phonenumber}</p></div>)}
                                                     </div>
                                                 </div>
                                             </div>
@@ -394,10 +369,10 @@ const Profile = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className='py-2 mt-2'>
+                                    <div className='pb-2'>
                                         <div className='flex justify-between items-center'>
                                             <div className='py-2'>
-                                                <h2 className='font-bold fourier'>Recent Transactions</h2>
+                                                <h2 className='font-bold text-xl'>Recent Transactions</h2>
                                             </div>
                                             <Link to='/dashboard/transaction'>
                                                 <div>
@@ -405,29 +380,43 @@ const Profile = () => {
                                                 </div>
                                             </Link>
                                         </div>
-                                        <div className='py-2'>
+                                        <div className='pb-2 pt-4'>
                                             {profileTables.recentTransaction ? profileTables.recentTransaction.map((each, index) => (
-                                                <div className='flex justify-between items-center' key={index}>
-                                                    <div className='flex items-center space-x-2'>
-                                                        {each.in_entity === 'Wallet' ? (<img src='/images/paidd.png' />) : (
-                                                            <img src='/images/paiddd.png' />
-                                                        )}
+                                                <div className='flex justify-between mb-8 items-center' key={index}>
+                                                    <div className='flex items-center space-x-3'>
+                                                        {each.in_entity !== 'Wallet' ?
+                                                            (
+                                                            <div className='p-2 c-icon-bg'>
+                                                                <img src='/images/payment-icon-in.svg' className='w-[20px]' alt="alt-img" />
+                                                            </div>
+                                                            ) :
+                                                            (
+                                                                <div className='p-2 c-icon-bg-withdrawal'>
+                                                                    <img src='/images/withdrawal-icon-out.svg' className='w-[20px]' alt="alt-img" />
+                                                                </div>
+                                                            )
+                                                        }
 
                                                         <div className='flex flex-col'>
-                                                            <h2 className='font-bold'>{each.reference}</h2>
-                                                            <small className='text-sm py-2  flex-1  text-gray-300'>{moment(each.createdAt
-                                                            ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mma')}</small>
+                                                            <h2 className='font-bold text-base c-text-elipses text-[#2d2d2d]'>{each.in_entity === 'Wallet' ? each.out_entity_id.name : each.payment_link_id.name}</h2>
+                                                            <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
+                                                            ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
+                                                            <small className='block text-xs font-bold pt-1 text-gray-500'>
+                                                                { each.in_entity === 'Wallet' ? 'Wallet | ' : `${each.in_entity_id.unique_answer} | ` } {each.reference}
+                                                            </small>
 
                                                         </div>
                                                     </div>
                                                     <div className='flex flex-col'>
-                                                        <h2 className='text-sm py-2 text-gray-400 font-bold self-end'>{each.in_entity}</h2>
-                                                        <small className={each.in_entity === 'Wallet' ? 'py-2 self-end  flex-1  font-bold text-gray-600' : 'py-2 self-end  flex-1  font-bold text-red-600'}>{each.in_entity === 'Wallet' ? '+' : '-'}₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
+                                                        <h2 className='text-sm p-0 text-gray-500 font-bold lowercase self-end'>{each.in_entity !== 'Wallet' ? each.in_entity : 'Withdrawal'}</h2>
+                                                        <small className={each.in_entity !== 'Wallet' ? 'pt-1 self-end flex-1 font-bold c-text-green' : 'pt-1 self-end flex-1 font-bold c-text-danger'}>{each.in_entity !== 'Wallet' ? '+' : '-'} ₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
                                                     </div>
                                                 </div>
                                             )) : <div>
                                                 <div>
                                                     <Stack spacing={3}>
+                                                        <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                                        <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
                                                         <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
                                                         <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
                                                     </Stack>
@@ -446,7 +435,7 @@ const Profile = () => {
                                             <div className='py-2'>
                                                 <div className='flex justify-between items-center'>
                                                     <div className='py-2'>
-                                                        <h2 className='font-bold fourier'>Recent Withdrawal</h2>
+                                                        <h2 className='font-bold text-xl'>Recent Withdrawal</h2>
                                                     </div>
                                                     <Link to='/dashboard/transaction'>
                                                         <div>
@@ -466,7 +455,8 @@ const Profile = () => {
                                                                 <Stack spacing={3}>
                                                                     <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
                                                                     <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
-
+                                                                    <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                                                    <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
                                                                 </Stack>
                                                             </div>
                                                         </div>
@@ -488,51 +478,7 @@ const Profile = () => {
                 {/* <TransactionDialog  open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact}/> */}
                 {/* <TransactionDialog open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact}/> */}
                 <ProfileDialog open11={open11} setOpen11={setOpen11} handleClickOpen11={handleClickOpen11} handleClose11={handleClose11} profile={profile} setProfile={setProfile} fetchProfile={fetchProfile} />
-                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
-                    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-                        <BottomNavigationAction
-                            label="Dashboard"
-                            value="dashboard"
-                            onClick={() => navigate('/dashboard')}
-                            icon={<DashboardIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="Transactions"
-                            value="transactions"
-                            onClick={() => navigate('/dashboard/transaction')}
-                            icon={<ReceiptIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="New Link"
-                            value="new link"
-                            icon={<AddIcon className='c-primary-link-color ' />}
-                            onClick={() => navigate('/dashboard/payment')}
-                        />
-                        <BottomNavigationAction
-                            label="Links"
-                            value="links"
-                            icon={<InsertLinkIcon />}
-                            onClick={() => navigate('/dashboard/paymentlinks')}
-                        />
-                        <BottomNavigationAction
-                            label="Profile"
-                            value="profile"
-                            icon={<AccountCircleIcon />}
-                            onClick={() => navigate('/dashboard/profile')}
-                        />
-                        {/* <BottomNavigationAction
-                            label="Favorites"
-                            value="favorites"
-                            icon={<FavoriteIcon />}
-                        /> */}
-                        {/* <BottomNavigationAction
-                            label="Nearby"
-                            value="nearby"
-                            icon={<LocationOnIcon />}
-                        /> */}
-                        <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
-                    </BottomNavigation>
-                </Paper>
+                <BottomNav />
             </div>
             <div className='hidden lg:block'>
                 <DashboardLayout>

@@ -3,28 +3,14 @@ import { FormControl, Grid, InputLabel, MenuItem, Select, TextField, Divider, To
 import DashboardLayout from '../components/DashboardLayout';
 import Titlebar from '../components/TitleBar';
 import { Link, useNavigate } from 'react-router-dom';
-import Fields from '../components/Fields';
-import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { ToastContainer, toast } from 'react-toastify';
-import axios from 'axios'
 import SendIcon from '@mui/icons-material/Send';
 import Protected, { BASE_URL } from '../utils/axios';
 import { useDispatch } from 'react-redux';
 import { ADD_PAYMENTLINKS } from '../redux/DashboardSlice';
-
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import Paper from '@mui/material/Paper';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
-import FolderIcon from '@mui/icons-material/Folder';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ToggleButton from '../components/ToggleButton';
+import BottomNav from '../components/bottomNav';
 
 
 
@@ -835,51 +821,7 @@ const Payment = () => {
                         </div>
                     </div>
                 </div>
-                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
-                    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-                        <BottomNavigationAction
-                            label="Dashboard"
-                            value="dashboard"
-                            onClick={() => navigate('/dashboard')}
-                            icon={<DashboardIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="Transactions"
-                            value="transactions"
-                            onClick={() => navigate('/dashboard/transaction')}
-                            icon={<ReceiptIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="New Link"
-                            value="new link"
-                            icon={<AddIcon className='c-primary-link-color ' />}
-                            onClick={() => navigate('/dashboard/payment')}
-                        />
-                        <BottomNavigationAction
-                            label="Links"
-                            value="links"
-                            icon={<InsertLinkIcon />}
-                            onClick={() => navigate('/dashboard/paymentlinks')}
-                        />
-                        <BottomNavigationAction
-                            label="Links"
-                            value="links"
-                            icon={<AccountCircleIcon />}
-                            onClick={() => navigate('/dashboard/profile')}
-                        />
-                        {/* <BottomNavigationAction
-                            label="Favorites"
-                            value="favorites"
-                            icon={<FavoriteIcon />}
-                        /> */}
-                        {/* <BottomNavigationAction
-                            label="Nearby"
-                            value="nearby"
-                            icon={<LocationOnIcon />}
-                        /> */}
-                        <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
-                    </BottomNavigation>
-                </Paper>
+                <BottomNav />
                 <ToastContainer
                     position="top-right"
                     autoClose={5000}

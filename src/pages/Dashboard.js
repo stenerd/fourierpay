@@ -69,6 +69,8 @@ import WithdrawDialog from '../components/WithdrawDialog';
 import PaymentDialog from '../components/PaymentsDialog';
 import Menu from '../components/Menu';
 import MenuDropDown from '../components/Menu';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import BottomNav from '../components/bottomNav';
 // import DashboardChart from '../components/DashboardChart';
 
 const Dashboard = () => {
@@ -371,7 +373,7 @@ const Dashboard = () => {
         <>
             {/* mobile screens page dashboard */}
             <div className='block md:hidden relative'>
-                <div className='py-6 flex justify-between items-center  w-[85%] mx-auto '>
+                <div className='py-6 flex justify-between items-center w-[90%] mx-auto '>
                     <div className=''>
                         {/* <img src="/images/two.svg" className='h-24'/> */}
                         <h2 className='text-xl title fourier font-bold'>Fourier<span>Pay</span></h2>
@@ -387,48 +389,53 @@ const Dashboard = () => {
                     <MenuDropDown open20={open20} handleClose20={handleClose20} handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl} name={`${wallet?.user_id?.firstname} ${wallet?.user_id?.lastname}`} />
                     {/* </IconButton> */}
                 </div>
-                <div className='py-4'>
+                <div className='pb-2'>
                     <SwiperCards />
                 </div>
-                <div className='py-4 w-[85%] flex justify-between gap-3 items-center mx-auto '>
-                    <div className='flex items-center px-2 space-x-1 py-3 flex-1 bg-[#FADB8B] rounded-[15px]' onClick={() => handleClickOpen()}>
-                        <IconButton>
-                            <SendIcon />
-                        </IconButton>
-                        <h1 className='font-bold'>Withdraw</h1>
+                <div className='py-4 w-[90%] flex justify-between gap-3 items-center mx-auto '>
+                    <div className='flex items-center justify-center p-3 space-x-1 flex-1 bg-[#FADB8B] rounded-[10px] w-[50%]' onClick={() => handleClickOpen()}>
+                        {/* <SendIcon /> */}
+                         <img src="/images/arrow-pointer.svg" alt="alt-img" className='w-[20px]'/>
+                        <h1 className='font-bold text-[#856100]'>Withdraw</h1>
                     </div>
-                    <Link to='/dashboard/payment'>
-                        <div className='flex items-center px-2 py-3 flex-1  bg-[#97F675] rounded-[15px]'>
-                            <IconButton>
-                                <AddIcon />
-                            </IconButton>
-                            <h1 className='font-bold text-center'>Payment Link</h1>
+                    <Link to='/dashboard/payment' className='w-[50%]'>
+                        <div className='flex justify-center items-center p-3 flex-1  bg-[#97F675] rounded-[10px]'>
+                            {/* <AddIcon /> */}
+                            <img src="/images/plus.svg" alt="alt-img" className='w-[15px]'/>
+                            <h1 className='font-bold pl-1 text-center text-[#008950]'>Create Link</h1>
                         </div>
                     </Link>
 
                 </div>
-                <div className='py-4'>
+                <div className='py-0'>
                     <BarCharted />
                     {/* <DashboardChart/> */}
                 </div>
-                <div className='py-3 w-[85%] mx-auto'>
-                    <div className='flex items-center justify-between py-3'>
-                        <h2 className='font-bold text-xl py-4 fourier'>Recent Payments</h2>
+                <div className='py-0 w-[90%] mx-auto'>
+                    <div className='flex items-center justify-between pt-4'>
+                        <h2 className='font-bold text-xl pt-0 fourier'>Recent Payments</h2>
                         <Link to='/dashboard/transaction'>
                             <p className='c-primary-link-color font-bold'>View All</p>
                         </Link>
                     </div>
                     <div className='py-2 '>
                         {tables.recentPayments ? tables.recentPayments.map((each, index) => (
-                            <div className='flex justify-between items-center' key={index} onClick={() => { console.log(each); handleClickOpen1(); setTransact(each) }}>
-                                <div className='flex flex-col'>
-                                    <h2 className='text-sm py-2 font-bold'>{each.payment_link_id.name}</h2>
-                                    <small className='text-sm py-2  flex-1  font-bold text-gray-400'>{moment(each.createdAt
-                                    ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mma')}</small>
+                            <div className='flex w-full items-center mb-2' key={index} onClick={() => { console.log(each); handleClickOpen1(); setTransact(each) }}>
+                                <div className='mr-2'>
+                                    <div className='p-2 c-icon-bg'>
+                                        <img src="/images/payment-icon-in.svg" alt="alt-img" className='w-[20px]'/>
+                                    </div>
                                 </div>
-                                <div className='flex flex-col'>
-                                    <small className='text-sm py-2 self-end  flex-1  font-bold text-gray-400'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</small>
-                                    <h2 className='text-sm py-2 text-gray-400 font-bold self-end'>{each.unique_answer}</h2>
+                                <div className='flex justify-between w-full items-center'>
+                                    <div className='flex flex-col'>
+                                        <h2 className='text-base pt-2 pb-1 font-bold'>{each.payment_link_id.name}</h2>
+                                        <small className='text-xs pb-3 flex-1 font-medium text-gray-500'>{moment(each.createdAt
+                                        ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
+                                    </div>
+                                    <div className='flex flex-col'>
+                                        <small className='text-sm pt-2 pb-1 self-end flex-1 font-bold c-text-green'>+ ₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</small>
+                                        <h2 className='text-sm pb-3 text-gray-500 font-medium self-end'>{each.unique_answer}</h2>
+                                    </div>
                                 </div>
                             </div>
                         )) : (
@@ -445,14 +452,14 @@ const Dashboard = () => {
                         )}
                         {tables?.recentPayments?.length === 0 && (
                             <div className='flex flex-col justify-center py-2 px-2'>
-                                <img src="/images/nolinks.svg" className='w-2/5 mx-auto' />
+                                <img src="/images/nolinks.svg" alt='alt-img' className='w-2/5 mx-auto' />
                                 <p className='text-gray-500 text-center'>No Transactions Yet!</p>
                             </div>
                         )}
                     </div>
                 </div>
-                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
-                    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
+                {/* <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
+                    <BottomNavigation sx={{ width: '100%' }} value={value} onChange={handleChange}>
                         <BottomNavigationAction
                             label="Dashboard"
                             value="dashboard"
@@ -483,70 +490,96 @@ const Dashboard = () => {
                             onClick={() => navigate('/dashboard/profile')}
                         />
                       
-                        {/* <BottomNavigationAction
+                        <BottomNavigationAction
                             label="Favorites"
                             value="favorites"
                             icon={<FavoriteIcon />}
-                        /> */}
-                        {/* <BottomNavigationAction
+                        />
+                        <BottomNavigationAction
                             label="Nearby"
                             value="nearby"
                             icon={<LocationOnIcon />}
-                        /> */}
+                        />
                         <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
                     </BottomNavigation>
-                </Paper>
-                <div className='py-3 mb-14 w-[85%] mx-auto'>
+                </Paper> */}
+
+                <BottomNav />
+
+                <div className='py-4 mb-14 w-[90%] mx-auto'>
                     <div className='flex items-center justify-between'>
                         <h2 className='font-bold text-xl fourier'>Recent Links</h2>
                         <Link to='/dashboard/paymentlinks'>
-                            <p className='font-bold c-primary-link-color '>View all</p>
+                            <p className='font-bold c-primary-link-color '>View All</p>
                         </Link>
                     </div>
                     <div className='py-4 '>
-                        <div className='space-y-2'>
+                        <div className='space-y-4'>
                             {tables.recentPaymentLinks ? tables.recentPaymentLinks.map((each, index) => {
-                                console.log(index)
-                                if (index % 2 === 0) {
+                                if (index % 3 === 0) {
                                     return (
-                                        <div className=' border border-2  rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
+                                        <div className='border border-1 overflow-hidden rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
                                             <div className='flex justify-center items-center odd_numbers'>
-                                                <img src='/images/illustration (2).png' />
+                                                <img src='/images/target1.svg' alt='alt-img' />
                                             </div>
-                                            <div className='px-2 py-6'>
+                                            <div className='p-5'>
                                                 <div>
                                                     <h2 className='text-xl font-bold'>{each.name}</h2>
                                                 </div>
                                                 <div className=' flex justify-between items-center'>
-                                                    <div className='space-y-1'>
-                                                        <p className='text-gray-400'>Amount</p>
-                                                        <h2 className='text-[#15C01A] font-bold'>{each.amount}</h2>
+                                                    <div className='pt-2'>
+                                                        <p className='text-gray-500 font-medium'>Amount</p>
+                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
                                                     </div>
-                                                    <IconButton>
-                                                        <ContentPasteIcon />
-                                                    </IconButton>
+                                                    <button className='c-bg-primary-light-mobile'>
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
+                                                        Share
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                } else if (index % 2 === 0) {
+                                    return (
+                                        <div className='border border-1 overflow-hidden rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
+                                            <div className='flex justify-center items-center three_numbers'>
+                                                <img src='/images/target3.svg' alt='alt-img' />
+                                            </div>
+                                            <div className='p-5'>
+                                                <div>
+                                                    <h2 className='text-xl font-bold'>{each.name}</h2>
+                                                </div>
+                                                <div className=' flex justify-between items-center'>
+                                                    <div className='pt-2'>
+                                                        <p className='text-gray-500 font-medium'>Amount</p>
+                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
+                                                    </div>
+                                                    <button className='c-bg-primary-light-mobile'>
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
+                                                        Share
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                     )
                                 } else {
                                     return (
-                                        <div className='border border-2  rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
+                                        <div className='border border-1 overflow-hidden rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
                                             <div className='flex justify-center items-center even_numbers'>
-                                                <img src='/images/illustration (1).png' />
+                                                <img src='/images/target2.svg' alt='alt-img' />
                                             </div>
-                                            <div className='py-6 px-2'>
+                                            <div className='p-5'>
                                                 <div>
                                                     <h2 className='text-xl font-bold'>{each.name}</h2>
                                                 </div>
                                                 <div className=' flex justify-between items-center'>
-                                                    <div className='space-y-1'>
-                                                        <p className='text-gray-400'>Amount</p>
-                                                        <h2 className='text-[#15C01A] font-bold'>{each.amount}</h2>
+                                                    <div className='pt-2'>
+                                                        <p className='text-gray-500 font-medium'>Amount</p>
+                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
                                                     </div>
-                                                    <IconButton>
-                                                        <ContentPasteIcon />
-                                                    </IconButton>
+                                                    <button className='c-bg-primary-light-mobile'>
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
+                                                        Share</button>
                                                 </div>
                                             </div>
 

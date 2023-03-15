@@ -7,33 +7,16 @@ import PayOutTable from '../components/PayoutTable';
 import Titlebar from '../components/TitleBar'
 import Protected, { BASE_URL } from '../utils/axios';
 import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ArchiveIcon from '@mui/icons-material/Archive';
 import Paper from '@mui/material/Paper';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import AddIcon from '@mui/icons-material/Add';
-// import List from '@mui/material/List';
-// import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-// import ListItemText from '@mui/material/ListItemText';
-// import Avatar from '@mui/material/Avatar';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
-import Person3Icon from '@mui/icons-material/Person3';
-// import TuneIcon from '@mui/icons-material/Tune';
 import moment from 'moment'
-// import RecentTransacton from '../components/RecentTransaction';
-import FolderIcon from '@mui/icons-material/Folder';
 import { useNavigate } from 'react-router-dom';
 import TransactionDialog from '../components/TraansactionDialog';
 import RecentTransacton from '../components/RecentTransaction';
 import { useSelector } from 'react-redux';
 import MenuDropDown from '../components/Menu';
-import FilterDialog from './FilterDialog';
+import BottomNav from '../components/bottomNav';
+import FilterDialog from '../components/FilterDialog';
+// import FilterDialog from '../components/FilterDialog';
 const Transactions = () => {
     const [payin, setPayin] = useState(true)
     const [payout, setPayout] = useState(false)
@@ -333,12 +316,12 @@ const Transactions = () => {
             <div className='block lg:hidden'>
                 <div className='py-6'>
                     <div className='w-[90%] mx-auto'>
-                        <div className='py-3'>
-                            <div className='flex justify-between items-center py-4'>
+                        <div className='py-0'>
+                            <div className='flex justify-between items-center py-6'>
                                 <h2 className='text-xl fourier font-bold'>Transactions</h2>
                                 <MenuDropDown open20={open20} handleClose20={handleClose20} handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl} name={`${profile.firstname} ${profile.lastname}`} />
                             </div>
-                            <div className='py-3 mt-2'>
+                            <div className=''>
                                 <Paper
                                     component="form"
                                     sx={{ p: '2px 4px', display: 'flex', alignItems: 'center' }}
@@ -357,52 +340,67 @@ const Transactions = () => {
                             </div>
 
                             <div className='flex flex-col'>
-                                {start !== '' || end !== '' || entity !== '' || type !== '' || entity !== '' || status!=='' ? (
-                                    <h2 className='font-bold'>Filtering By</h2>
-                                ):''}
-                               
+                                {start !== '' || end !== '' || entity !== '' || type !== '' || entity !== '' || status !== '' ? (
+                                    <div className='py-4'>
+                                        <h2 className='font-bold'>Filtering By</h2>
+                                    </div>
 
-                                <div className='flex items-center flex-wrap space-x-1 gap-4 py-3'>
+                                ) : ''}
+
+
+                                <div className='flex items-center flex-wrap space-x-1 gap-4'>
                                     {start !== '' && (
-                                        <small onClick={()=>handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>StartDate <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' > x</span></small>
+                                        <small onClick={() => handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>StartDate <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' > x</span></small>
                                     )}
                                     {end !== '' && (
-                                        <small onClick={()=>handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>EndDate <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' > x</span></small>
+                                        <small onClick={() => handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>EndDate <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' > x</span></small>
                                     )}
                                     {status !== '' && (
-                                        <small onClick={()=>handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>Status <span className='text-white create-payment-dynamic-form-options-close cursor-pointer'  > x</span></small>
+                                        <small onClick={() => handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>Status <span className='text-white create-payment-dynamic-form-options-close cursor-pointer'  > x</span></small>
                                     )}
                                     {type !== '' && (
-                                        <small onClick={()=>handleClickOpen21()}  className={`create-payment-divider-options cursor-pointer`}>Type <span className='text-white create-payment-dynamic-form-options-close cursor-pointer'  > x</span></small>
+                                        <small onClick={() => handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>Type <span className='text-white create-payment-dynamic-form-options-close cursor-pointer'  > x</span></small>
                                     )}
                                     {entity !== '' && (
-                                        <small onClick={()=>handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>Entity <span className='text-white create-payment-dynamic-form-options-close cursor-pointer'  > x</span></small>
+                                        <small onClick={() => handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>Entity <span className='text-white create-payment-dynamic-form-options-close cursor-pointer'  > x</span></small>
                                     )}
                                 </div>
 
                             </div>
                             <div className='py-2 mb-4'>
                                 {transactions && !load ? transactions.map((each, index) => (
-                                    <div className='flex justify-between items-center' key={index} onClick={() => {
+                                    <div className='flex justify-between mb-8 items-center' key={index} onClick={() => {
                                         // console.log(each)
                                         setTransact(each)
                                         handleClickOpener()
                                     }}>
-                                        <div className='flex items-center space-x-2'>
-                                            {each.in_entity === 'Wallet' ? (<img src='/images/paidd.png' />) : (
-                                                <img src='/images/paiddd.png' />
-                                            )}
+                                        <div className='flex items-center space-x-3'>
+                                            {each.in_entity !== 'Wallet' ?
+                                                (
+                                                    <div className='p-2 c-icon-bg'>
+                                                        <img src='/images/payment-icon-in.svg' className='w-[20px]' alt="alt-img" />
+                                                    </div>
+                                                ) :
+                                                (
+                                                    <div className='p-2 c-icon-bg-withdrawal'>
+                                                        <img src='/images/withdrawal-icon-out.svg' className='w-[20px]' alt="alt-img" />
+                                                    </div>
+                                                )
+                                            }
 
                                             <div className='flex flex-col'>
-                                                <h2 className='font-bold'>{each.reference}</h2>
-                                                <small className='text-sm py-2  flex-1  text-gray-300'>{moment(each.createdAt
-                                                ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mma')}</small>
+                                                <h2 className='font-bold text-base text-[#2d2d2d] c-text-elipses'>{each.in_entity === 'Wallet' ? each.out_entity_id.name : each.payment_link_id.name}</h2>
+                                                <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
+                                                ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
+                                                <small className='block text-xs font-bold pt-1 text-gray-500'>
+                                                    {each.in_entity === 'Wallet' ? 'Wallet | ' : `${each.in_entity_id.unique_answer} | `} {each.reference}
+                                                </small>
 
                                             </div>
                                         </div>
                                         <div className='flex flex-col'>
-                                            <h2 className='text-sm py-2 text-gray-400 font-bold self-end'>{each.in_entity}</h2>
-                                            <small className={each.in_entity === 'Wallet' ? 'py-2 self-end  flex-1  font-bold text-gray-600' : 'py-2 self-end  flex-1  font-bold text-red-600'}>{each.in_entity === 'Wallet' ? '+' : '-'}₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
+                                            <h2 className='text-sm p-0 text-gray-500 font-bold lowercase self-end'>{each.in_entity !== 'Wallet' ? each.in_entity : 'Withdrawal'}</h2>
+                                            <small className={each.in_entity !== 'Wallet' ? 'pt-1 self-end flex-1 font-bold c-text-green' : 'pt-1 self-end flex-1 font-bold c-text-danger'}>{each.in_entity !== 'Wallet' ? '+' : '-'} ₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
                                         </div>
                                     </div>
                                 )) : (
@@ -433,55 +431,12 @@ const Transactions = () => {
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <FilterDialog open21={open21} setOpen21={setOpen21} handleClose21={handleClose21} handleClickOpen21={handleClickOpen21} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} formRef={formRef} statusRef={statusRef} startRef={startRef} endRef={endRef} typeRef={typeRef} entityRef={entityRef} filterLink={filterLink} clearData={clearData} />
 
                 <TransactionDialog open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact} />
-                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
-                    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-                        <BottomNavigationAction
-                            label="Dashboard"
-                            value="dashboard"
-                            onClick={() => navigate('/dashboard')}
-                            icon={<DashboardIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="Transactions"
-                            value="transactions"
-                            onClick={() => navigate('/dashboard/transaction')}
-                            icon={<ReceiptIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="New Link"
-                            value="new link"
-                            icon={<AddIcon className='c-primary-link-color ' />}
-                            onClick={() => navigate('/dashboard/payment')}
-                        />
-                        <BottomNavigationAction
-                            label="Links"
-                            value="links"
-                            icon={<InsertLinkIcon />}
-                            onClick={() => navigate('/dashboard/paymentlinks')}
-                        />
-                        <BottomNavigationAction
-                            label="Profile"
-                            value="profile"
-                            icon={<AccountCircleIcon />}
-                            onClick={() => navigate('/dashboard/profile')}
-                        />
-                        {/* <BottomNavigationAction
-                            label="Favorites"
-                            value="favorites"
-                            icon={<FavoriteIcon />}
-                        /> */}
-                        {/* <BottomNavigationAction
-                            label="Nearby"
-                            value="nearby"
-                            icon={<LocationOnIcon />}
-                        /> */}
-                        <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
-                    </BottomNavigation>
-                </Paper>
+                <BottomNav />
             </div>
         </>
     )

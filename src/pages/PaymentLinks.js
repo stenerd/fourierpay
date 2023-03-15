@@ -1,8 +1,6 @@
 import { Grid, IconButton, LinearProgress, Skeleton, Stack } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
-import Avatar from '@mui/material/Avatar';
-import AvatarGroup from '@mui/material/AvatarGroup';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import Titlebar from '../components/TitleBar'
 import { styled } from '@mui/material/styles';
@@ -10,7 +8,6 @@ import { linearProgressClasses } from '@mui/material/LinearProgress';
 import '../styles/PaymentLink.css'
 import { Link } from 'react-router-dom';
 import Protected, { BASE_URL } from '../utils/axios'
-import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
@@ -19,21 +16,14 @@ import moment from 'moment'
 import useClipboard from "react-use-clipboard";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import Paper from '@mui/material/Paper';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
 
 // import moment from 'moment'
 
 import FolderIcon from '@mui/icons-material/Folder';
 import MenuDropDown from '../components/Menu';
+import BottomNav from '../components/bottomNav';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+
 
 const PaymentLinks = () => {
     const [loading, setLoading] = useState(false)
@@ -143,9 +133,9 @@ const PaymentLinks = () => {
     return (
         <>
             <div className='block lg:hidden min-h-screen'>
-                <div classsName='py-8 mt-4 mb-24'>
-                    <div className='w-[90%] mx-auto py-5'>
-                        <div className='py-3'>
+                <div classsName=' mb-24'>
+                    <div className='w-[90%] mx-auto'>
+                        <div className='py-6'>
                             <div className='flex justify-between items-center'>
                                 <h2 className='text-xl font-bold fourier'>Payment Links</h2>
                                 <div className=''>
@@ -154,47 +144,125 @@ const PaymentLinks = () => {
                             </div>
                         </div>
 
-                        <div className='py-3 space-y-2'>
-                            {paymentLinks ? paymentLinks.map((each, index) => (
-                                <div className='border border-gray-300 px-3 py-4 rounded-[10px]' key={index}>
-                                    <div className='flex justify-between items-center'>
-                                        <h2 onClick={() => Payments(each)} className='font-bold fourier flex-1 hover:text-[#00832D]'>{each.name}</h2>
-                                        {/* text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-[#00832D] pills-expiry-date */}
-                                        {moment(each.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? (
-                                            <span className={moment(each.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? 'text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-[#00832D] pills-expiry-date' : 'text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-white bg-red-400'}>{moment(each.expires_at).format(('MMM DD, YYYY'))}</span>
-                                        ) : (
-                                            <p className='text-red-500 italic text-[10px] font-bold'>Expired</p>
-                                        )}
-                                    </div>
-                                    <div className='py-2'>
-                                        <div className='bg-gray-200 px-2 py-1 rounded-md flex items-center space-x-1'>
-                                            <IconButton onClick={() => {
-                                                // setCopied()
-                                                findLink(each, index)
-                                                // console.log(link, index)
-                                            }}>
-                                                <ContentPasteIcon fontSize='small' />
-                                            </IconButton>
-                                            <h1 className='break-all text-[10px]'>{each.link}</h1>
-                                        </div>
-                                    </div>
-                                    <div className='flex items-center space-x-3'>
-                                        {each.expected_number_of_payments && (
-                                            <div>
-                                                <h2 className='text-[10px] text-gray-400'>Expected Amount</h2>
-                                                <p className='font-semibold'>  {Intl.NumberFormat('en-US').format(each.amount * each.expected_number_of_payments)}</p>
+                        <div className='mb-32 space-y-4'>
+                            {paymentLinks ? paymentLinks.map((each, index) => {
+                                // return (
+                                //     <div className='border border-gray-300 px-3 py-4 rounded-[10px]' key={index}>
+                                //         <div className='flex justify-between items-center'>
+                                //             <h2 onClick={() => Payments(each)} className='font-bold fourier flex-1 hover:text-[#00832D]'>{each.name}</h2>
+                                //             {/* text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-[#00832D] pills-expiry-date */}
+                                //             {moment(each.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? (
+                                //                 <span className={moment(each.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? 'text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-[#00832D] pills-expiry-date' : 'text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-white bg-red-400'}>{moment(each.expires_at).format(('MMM DD, YYYY'))}</span>
+                                //             ) : (
+                                //                 <p className='text-red-500 italic text-[10px] font-bold'>Expired</p>
+                                //             )}
+                                //         </div>
+                                //         <div className='py-2'>
+                                //             <div className='bg-gray-200 px-2 py-1 rounded-md flex items-center space-x-1'>
+                                //                 <IconButton onClick={() => {
+                                //                     // setCopied()
+                                //                     findLink(each, index)
+                                //                     // console.log(link, index)
+                                //                 }}>
+                                //                     <ContentPasteIcon fontSize='small' />
+                                //                 </IconButton>
+                                //                 <h1 className='break-all text-[10px]'>{each.link}</h1>
+                                //             </div>
+                                //         </div>
+                                //         <div className='flex items-center space-x-3'>
+                                //             {each.expected_number_of_payments && (
+                                //                 <div>
+                                //                     <h2 className='text-[10px] text-gray-400'>Expected Amount</h2>
+                                //                     <p className='font-semibold'>  {Intl.NumberFormat('en-US').format(each.amount * each.expected_number_of_payments)}</p>
+                                //                 </div>
+                                //             )}
+                                //             <div>
+                                //                 <h2 className='text-[10px] text-gray-400'>Amount</h2>
+                                //                 <p className='font-semibold'>{each.amount}</p>
+                                //             </div>
+                                //         </div>
+                                //     </div>
+                                // )
+
+
+                                if (index % 3 === 0) {
+                                    return (
+                                        <div className='border border-1 overflow-hidden rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
+                                            <div className='flex justify-center items-center odd_numbers'>
+                                                <img src='/images/target1.svg' alt='alt-img' />
                                             </div>
-                                        )}
-                                        <div>
-                                            <h2 className='text-[10px] text-gray-400'>Amount</h2>
-                                            <p className='font-semibold'>{each.amount}</p>
+                                            <div className='p-5'>
+                                                <div>
+                                                    <h2 className='text-xl font-bold'>{each.name}</h2>
+                                                </div>
+                                                <div className=' flex justify-between items-center'>
+                                                    <div className='pt-2'>
+                                                        <p className='text-gray-500 font-medium'>Amount</p>
+                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
+                                                    </div>
+                                                    <button className='c-bg-primary-light-mobile'>
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
+                                                        Share
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            ))
+                                    )
+                                } else if (index % 2 === 0) {
+                                    return (
+                                        <div className='border border-1 overflow-hidden rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
+                                            <div className='flex justify-center items-center three_numbers'>
+                                                <img src='/images/target3.svg' alt='alt-img' />
+                                            </div>
+                                            <div className='p-5'>
+                                                <div>
+                                                    <h2 className='text-xl font-bold'>{each.name}</h2>
+                                                </div>
+                                                <div className=' flex justify-between items-center'>
+                                                    <div className='pt-2'>
+                                                        <p className='text-gray-500 font-medium'>Amount</p>
+                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
+                                                    </div>
+                                                    <button className='c-bg-primary-light-mobile'>
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
+                                                        Share
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                } else {
+                                    return (
+                                        <div className='border border-1 overflow-hidden rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
+                                            <div className='flex justify-center items-center even_numbers'>
+                                                <img src='/images/target2.svg' alt='alt-img' />
+                                            </div>
+                                            <div className='p-5'>
+                                                <div>
+                                                    <h2 className='text-xl font-bold'>{each.name}</h2>
+                                                </div>
+                                                <div className=' flex justify-between items-center'>
+                                                    <div className='pt-2'>
+                                                        <p className='text-gray-500 font-medium'>Amount</p>
+                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
+                                                    </div>
+                                                    <button className='c-bg-primary-light-mobile'>
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
+                                                        Share</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    )
+                                }
+                            })
                                 : (
                                     <div>
                                         <Stack spacing={3}>
+                                            <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                            <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
+                                            <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                            <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
                                             <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
                                             <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
                                         </Stack>
@@ -202,7 +270,7 @@ const PaymentLinks = () => {
                                 )}
                             {paymentLinks?.length === 0 && (
                                 <div className='flex flex-col justify-center py-2 px-2'>
-                                    <img src="/images/payments.svg" className='w-2/5 mx-auto' />
+                                    <img src="/images/payments.svg" alt='alt-img' className='w-2/5 mx-auto' />
                                     <p className='text-gray-500 text-center'>No Links Yet!</p>
                                 </div>
                             )}
@@ -221,51 +289,7 @@ const PaymentLinks = () => {
                         />
                     </div>
                 </div>
-                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
-                    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-                        <BottomNavigationAction
-                            label="Dashboard"
-                            value="dashboard"
-                            onClick={() => navigate('/dashboard')}
-                            icon={<DashboardIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="Transactions"
-                            value="transactions"
-                            onClick={() => navigate('/dashboard/transaction')}
-                            icon={<ReceiptIcon />}
-                        />
-                         <BottomNavigationAction
-                            label="New Link"
-                            value="new link"
-                            icon={<AddIcon className='c-primary-link-color ' />}
-                            onClick={() => navigate('/dashboard/payment')}
-                        />
-                        <BottomNavigationAction
-                            label="Links"
-                            value="links"
-                            icon={<InsertLinkIcon />}
-                            onClick={() => navigate('/dashboard/paymentlinks')}
-                        />
-                        <BottomNavigationAction
-                            label="Profile"
-                            value="profile"
-                            icon={<AccountCircleIcon />}
-                            onClick={() => navigate('/dashboard/profile')}
-                        />
-                        {/* <BottomNavigationAction
-                            label="Favorites"
-                            value="favorites"
-                            icon={<FavoriteIcon />}
-                        /> */}
-                        {/* <BottomNavigationAction
-                            label="Nearby"
-                            value="nearby"
-                            icon={<LocationOnIcon />}
-                        /> */}
-                        <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
-                    </BottomNavigation>
-                </Paper>
+                <BottomNav />
             </div>
             <div className='hidden lg:block'>
                 <DashboardLayout>
