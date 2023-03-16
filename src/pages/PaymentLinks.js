@@ -23,6 +23,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import MenuDropDown from '../components/Menu';
 import BottomNav from '../components/bottomNav';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import RecentLinksSkeleton from '../components/RecentLinksSkeleton';
 
 
 const PaymentLinks = () => {
@@ -266,9 +267,10 @@ const PaymentLinks = () => {
                                     </div>
                                 )}
                             {paymentLinks?.length === 0 && (
-                                <div className='flex flex-col justify-center py-2 px-2'>
-                                    <img src="/images/payments.svg" alt='alt-img' className='w-2/5 mx-auto' />
-                                    <p className='text-gray-500 text-center'>No Links Yet!</p>
+                                <div className=''>
+                                    {/* <img src="/images/payments.svg" alt='alt-img' className='w-2/5 mx-auto' />
+                                    <p className='text-gray-500 text-center'>No Links Yet!</p> */}
+                                    <RecentLinksSkeleton/>
                                 </div>
                             )}
                         </div>
