@@ -447,7 +447,7 @@ const Profile = () => {
                                                 <div>
                                                     {withdrawals && !isLoading ? (
                                                         <div>
-
+                                                            
                                                         </div>
                                                     ) : (
                                                         <div>
