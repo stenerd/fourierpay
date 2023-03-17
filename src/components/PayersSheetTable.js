@@ -169,7 +169,7 @@ export default function PayersSheetTable({
                   <TableCell>{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
                   <TableCell>
                     <div className="text-left">
-                      <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{row.status}</p>
+                      <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-base uppercase status-paid2' : 'py-2 px-2 rounded-lg text-base uppercase status-fail2'}>{row.status}</p>
                     </div>
                   </TableCell>
                 </TableRow>

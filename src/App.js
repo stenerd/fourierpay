@@ -16,6 +16,7 @@ import SinglePaymentLink from "./pages/SinglePaymentLink";
 // import Protected from "./utils/axios";
 import PrivateRoutes from "./pages/Protected";
 import PaymentReciept from "./pages/PaymentReciept";
+import PublicPayment from "./pages/PublicPayment";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/external-link/:code" element={<PublicPayment />} />
         <Route path="/pay/:code" element={<MakePayment />} />
         <Route path="/pay/:code/reciept/:reference" element={<PaymentReciept />} />
         <Route element={<PrivateRoutes/>}>
