@@ -190,6 +190,7 @@ const Transactions = () => {
 
 
     const handleKeyDown = async (event) => {
+        // event.preventDefault()
         if (event.key === 'Enter') {
             // 👇 Get input value
             // SearchTransaction()
@@ -198,7 +199,6 @@ const Transactions = () => {
             console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
         }
-
     };
     console.log(transactions)
 
@@ -331,6 +331,7 @@ const Transactions = () => {
                                         placeholder="Search"
                                         // className='w-2/5 mx-auto'
                                         inputProps={{ 'aria-label': 'search google maps' }}
+                                        onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)}
                                     />
                                     <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleClickOpen21}>
                                         {/* <SearchIcon /> */}
@@ -346,8 +347,6 @@ const Transactions = () => {
                                     </div>
 
                                 ) : ''}
-
-
                                 <div className='flex items-center flex-wrap space-x-1 gap-4'>
                                     {start !== '' && (
                                         <small onClick={() => handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>StartDate <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' > x</span></small>

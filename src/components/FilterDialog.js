@@ -9,6 +9,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { IconButton } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
+import BottomNav from './bottomNav';
 
 export default function FilterDialog({ open21, setOpen21, handleClickOpen21, handleClose21, transactions, setSearch, search, start, end, status, setStatus, setEnd, setStart, filterData, entity, setEntity, type, setType, load, loading, formRef, startRef, endRef, statusRef, typeRef, entityRef, filterLink, clearData }) {
 
@@ -171,7 +172,7 @@ export default function FilterDialog({ open21, setOpen21, handleClickOpen21, han
             </div>
           </div>
         </div>
-
+        <BottomNav />
       </Dialog>
     </div>
   );

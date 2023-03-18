@@ -22,6 +22,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import { useNavigate } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
+import BottomNav from './bottomNav';
 
 export default function TransactionDialog({ open, setOpen, handleClickOpener, handleCloseer, transact: recentTransaction }) {
     //   const [open, setOpen] = React.useState(false);
@@ -97,7 +98,7 @@ export default function TransactionDialog({ open, setOpen, handleClickOpener, ha
                     </div>
 
                 </div>
-                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
+                {/* <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
                     <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
                         <BottomNavigationAction
                             label="Dashboard"
@@ -123,19 +124,11 @@ export default function TransactionDialog({ open, setOpen, handleClickOpener, ha
                             icon={<AccountCircleIcon />}
                             onClick={() => navigate('/dashboard/profile')}
                         />
-                        {/* <BottomNavigationAction
-                            label="Favorites"
-                            value="favorites"
-                            icon={<FavoriteIcon />}
-                        /> */}
-                        {/* <BottomNavigationAction
-                            label="Nearby"
-                            value="nearby"
-                            icon={<LocationOnIcon />}
-                        /> */}
+                      
                         <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
                     </BottomNavigation>
-                </Paper>
+                </Paper> */}
+                <BottomNav/>
             </Dialog>
 
         </div>
