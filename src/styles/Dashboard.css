@@ -450,3 +450,53 @@
 .c-pp-header-card.color4{
     background: #B22AF2;
 }
+
+.cm-mobile-make-payment{
+    background-image: url('../../public//images/background.svg');
+    min-height: 100vh;
+    min-width: 100vw;
+    max-height: 100vh;
+    max-width: 100vw;
+}
+.cm-mobile-make-payment-topic{
+    border: 1px solid #909492;
+    border-radius: 4px;
+    background: rgba(186, 249, 163, 0.1);
+}
+.cm-mobile-make-payment-topic-success{
+    border-radius: 4px;
+    background: #F9F9F9;
+}
+
+.cm-mobile-make-payment-divider{
+    border-bottom: 1px solid #909492;
+}
+.cm-mobile-make-payment-panel{
+    bottom: 0;
+    height: 30%;
+    width: 100%;
+    background: white;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+}
+.cm-mobile-make-payment-panel.info{
+    height: 75%;
+}
+.cm-mobile-make-payment-panel .controller{
+    width: 5rem;
+    height: 0.5rem;
+    background: #D9D9D9;
+    border-radius: 5rem;
+}
+.cm-mobile-make-payment-panel .top-section{
+    width: 100%;
+    min-height: 4.5rem;
+    background: #d9d9d9;
+}
+.cm-buttom{
+    background: #97F675;
+    padding: 0.8rem 1.3rem;
+    font-weight: 600;
+    border-radius: 4px;
+    color: #1d3329;
+}
