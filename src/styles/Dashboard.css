@@ -473,14 +473,14 @@
 }
 .cm-mobile-make-payment-panel{
     bottom: 0;
-    height: 30%;
+    max-height: 30%;
     width: 100%;
     background: white;
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
 }
 .cm-mobile-make-payment-panel.info{
-    height: 75%;
+    max-height: 75%;
 }
 .cm-mobile-make-payment-panel .controller{
     width: 5rem;
