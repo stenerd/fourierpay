@@ -23,6 +23,7 @@ import Protected, { BASE_URL } from '../utils/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { PaystackButton, PaystackConsumer } from 'react-paystack'
 import moment from 'moment'
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
 
 
 
@@ -34,6 +35,7 @@ const MakePayment = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = React.useState(false);
     const [value, setValue] = React.useState(0);
+    const [tab, setTab] = React.useState(1);
     const [paymentData, setPaymentData] = React.useState({});
     const [paymentLink, setPaymentLink] = React.useState({});
     const paystackButtonRef = React.useRef(null);
@@ -212,44 +214,91 @@ const MakePayment = () => {
         {/* <div className='block lg:hidden'>
             
         </div> */}
-             <div className='min-h-screen'>
-                <div className='px-4 lg:px-16 py-8 lg:py-16 mx-auto'>
-                    <div className='flex mx-auto min-h-[85vh]'>
+            <div className='block md:hidden relative'>
+                <div className='cm-mobile-make-payment relative'>
+                    <div className='relative px-6 pt-6 w-full'>
+                        <img src='/images/logo-header.svg' className='absolute' alt="alt-img" />
+                        <p className='text-center text-white text-2xl font-bold'>Pay</p>
+                    </div>
+                    <div className='relative px-6 pt-6 w-full'>
+                        <div className='w-full p-4 flex cm-mobile-make-payment-topic'>
+                            <div className='flex items-center justify-center'>
+                                <img src='/images/make-payment-icon.svg' alt="alt-img" />
+                            </div>
+                            <div className='pl-4 w-full'>
+                                <p className='font-bold text-white text-lg'>Class Dues</p>
+                                <p className='pt-3 flex justify-between w-full'>
+                                    <p className='font-medium text-[#D3D4D4] text-base'>By Admin</p>
+                                    <p className='font-bold text-[#97F675] text-lg'>₦ 50,000</p>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='relative px-6 pt-6 w-full'>
+                        <p className='text-[#D3D4D4] font-medium italic'>Description</p>
+                        <p className='text-white pt-2 font-medium'>
+                            Class DuesClass DuesClass DuesClass DuesClass DuesClass Dues italic italic...
+                        </p>
+                    </div>
+                    <div className='relative px-6 pt-6 w-full'>
+                        <p className='text-[#D3D4D4] font-medium italic'>Expiry Date - <span>Active</span></p>
+                        <p className='text-white pt-2 font-medium'>
+                            12, September 2022
+                        </p>
+                    </div>
+                    <div className='relative px-6 pt-2 w-full'>
+                        <p className='text-white font-medium cm-mobile-make-payment-divider pb-6'>
+                            ₦ 15 VAT
+                        </p>
+                    </div>
 
-                    
-                        <div className='w-[90%] lg:w-[55%] mx-auto c-make-payment p-[1.5rem] lg:p-[4rem]'>
-                            <div className='flex flex-col justify-center items-center'>
-                                <div className='w-full'>
-                                    <form className='w-full'>
-                                        <div className='flex justify-between'>
-                                            <h3 className='text-xl mb-16 font-bold home c-auth-title'>Pay</h3>
-                                            <div>
-                                                <small className='text-sm text-[#00bf00] status-pill c-status-border-pill capitalize'>{paymentLink.status} {paymentLink.expires_at && ' - ' + moment(paymentLink.expires_at).format('dddd, DD MMMM YYYY')}</small>
-                                            </div>
-                                        </div>
-                                        
-                                        <p className='font-bold text-[#234244] text-xl uppercase c-make-payment-owner'>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
-                                        <p className='font-bold text-gray-700 text-lg'>{paymentLink.name}</p>
-                                        <span className='font-bold text-gray-500 inline-block w-full'>{paymentLink.description}</span>
-                                        <Divider className='creat-payment-divider' />
-                                        <p className='font-bold text-gray-700 text-lg mt-8'>Amount: ₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
-                                        <p className='font-bold text-gray-700 text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)}</p>
-                                        <p className='font-bold text-[#39c531] text-xl mt-4'>Total: ₦ {Intl.NumberFormat('en-US').format((paymentLink.amount + paymentLink.charges) || 0)}</p>
-                                        <Divider className='creat-payment-divider' />
+                    <div className='relative px-6 pt-6 w-full'>
+                        <p className='text-center pb-2'>
+                            <span className='text-white font-medium text-lg'>₦ &nbsp;</span>
+                            <span className='text-[#97F675] font-bold text-3xl'>50,015</span>
+                        </p>
+                    </div>
+
+                    {
+                        (tab === 1) ? (
+                            <div className='absolute cm-mobile-make-payment-panel'>
+                                <div className='pt-3 flex justify-center'>
+                                    <span className='controller'></span>
+                                </div>
+                                <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
+                                    <div className='pt-4 mb-12 top-section'></div>
+                                    <button className='cm-buttom' onClick={() => setTab(2)}>Pay ₦50,050</button>
+                                </div>
+                            </div>
+                        ): ''
+                    }
+                    {
+                        (tab === 2) ? (
+                            <div className='absolute cm-mobile-make-payment-panel info'>
+                                <div className='pt-3 flex justify-center'>
+                                    <span className='controller'></span>
+                                </div>
+                                <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
+                                    <div className='pt-0 overflow-y-scroll'>
+                                        <span className='cursor-pointer' onClick={() => setTab(1)}>
+                                            <KeyboardBackspaceOutlinedIcon style={{ color: '#0067ffe3' }} />
+                                            <span className='pl-1 text-[#0067ffe3] font-bold'>Back</span>
+                                        </span>
+
                                         {
                                             paymentLink.form && paymentLink.form.length ? (
-                                                <div className='mt-8 mb-8'>
+                                                <div className='mt-4 mb-8'>
                                                     <Grid container spacing={2}>
                                                         {
                                                             paymentLink.form.map((link, index) => (
-                                                                <Grid item xs={12} md={6} key={index}>
-                                                                    <div className='flex flex-col space-y-3 mb-8'>
-                                                                        <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
+                                                                <Grid item xs={12} key={index}>
+                                                                    <div className='flex flex-col space-y-3 mb-2'>
+                                                                        <label for={'for'+index+1} className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
                                                                         {
                                                                             link.field_type === 'text' ? (
-                                                                                <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                                <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="pb-2 px-4 w-full outline-none c-text-input" />
                                                                             ) : (
-                                                                                <select placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                                                <select id={'for'+index+1} placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="pb-2 px-4 w-full outline-none c-text-input">
                                                                                     <option value={''}>Select {link.field_name} </option>
                                                                                     {
                                                                                         link.options.map((option, i) => (
@@ -272,46 +321,176 @@ const MakePayment = () => {
                                                 </div>
                                             ) : ''
                                         }
-                                        
-                                        
-
-                                        
-                                        
-                                        
-                                        
-                                        {/* {fields}
-                                        <div className='flex flex-col space-y-3'>
-                                            <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
-                                        </div> */} 
-                                        <div className='py-4'>
-                                            <button disabled={loading?true:false} className='c-primary-button'  onClick={(e) => makePaymentHandler(e)}>
-                                                {loading ? 'Processing.....' : 'Make Payment'}
-                                            </button>
-
-                                            <PaystackConsumer 
-                                                className='hidden'
-                                                onSuccess = {(reference) => handleSuccess(reference)}
-                                                onClose = {(reference) => handleClose(reference)}
-                                                {...paymentData}
-                                            >
-                                                {({initializePayment}) => <button className='hidden' disabled={loading?true:false}  ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
-                                                    {loading ? 'Paying...' : 'Make Payment'}
-                                                </button>}
-                                            </PaystackConsumer>
 
 
-                                        </div>
-                                    </form>
+                                    </div>
+                                    <button className='cm-buttom' onClick={() => setTab(3)}>Pay ₦50,050</button>
                                 </div>
-
                             </div>
-                        </div>
+                        ): ''
+                    }
+                    {
+                        (tab === 3) ? (
+                            <div className='absolute cm-mobile-make-payment-panel info'>
+                                <div className='pt-3 flex justify-center'>
+                                    {/* <span className='controller'></span> */}
+                                </div>
+                                <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
+                                    <div className='pt-0'>
+                                        <div className='flex justify-center'>
+                                           <img src='/images/payment-successful.svg' alt="alt-img" />
+                                        </div>
+                                        <div className='flex justify-center mt-4'>
+                                            <p className='font-bold text-base text-[#222926]'>Transfer Successful</p>
+                                        </div>
+                                        <div className='flex justify-center mt-0'>
+                                            <p className='text-gray-400 text-sm font-medium'>Your money was successfully sent</p>
+                                        </div>
+                                        <div className='flex justify-center mt-3'>
+                                            <p className='text-[#15C01A] pr-2 text-base font-medium'>TDFGHSBJDS64746YUR</p>
+                                            <img src='/images/copy.svg' alt="alt-img" />
+                                        </div>
+                                        <div className='flex justify-center mt-4'>
+                                            <p className='font-bold text-base text-[#222926]'>
+                                                <span className='text-gray-400 font-medium text-lg'>₦ &nbsp;</span>
+                                                <span className='font-bold text-3xl'>50,015</span>
+                                            </p>
+                                        </div>
+                                        <div className='mt-6'>
+                                            <p className='font-medium text-sm text-gray-500'>Recepient</p>
+                                        </div>
+
+                                        <div className='relative px-0 pt-1 w-full pb-12'>
+                                            <div className='w-full p-4 flex cm-mobile-make-payment-topic-success'>
+                                                <div className='flex items-center justify-center'>
+                                                    <img src='/images/make-payment-icon.svg' alt="alt-img" />
+                                                </div>
+                                                <div className='pl-4 w-full'>
+                                                    <p className='font-bold text-[#222926] text-lg'>Class Dues</p>
+                                                    <p className='pt-1 flex justify-between w-full'>
+                                                        <p className='text-[#222926] text-sm'>21-03-2023 - 3:48pm</p>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <button className='cm-buttom' onClick={() => setTab(1)}>Done</button>
+                                </div>
+                            </div>
+                        ): ''
+                    }
+
                     
-                    </div>
+
+                    
                 </div>
-
-
             </div>
+            <div className='hidden md:block'>
+                <div className='min-h-screen'>
+                    <div className='px-4 lg:px-16 py-8 lg:py-16 mx-auto'>
+                        <div className='flex mx-auto min-h-[85vh]'>
+
+                        
+                            <div className='w-[90%] lg:w-[55%] mx-auto c-make-payment p-[1.5rem] lg:p-[4rem]'>
+                                <div className='flex flex-col justify-center items-center'>
+                                    <div className='w-full'>
+                                        <form className='w-full'>
+                                            <div className='flex justify-between'>
+                                                <h3 className='text-xl mb-16 font-bold home c-auth-title'>Pay</h3>
+                                                <div>
+                                                    <small className='text-sm text-[#00bf00] status-pill c-status-border-pill capitalize'>{paymentLink.status} {paymentLink.expires_at && ' - ' + moment(paymentLink.expires_at).format('dddd, DD MMMM YYYY')}</small>
+                                                </div>
+                                            </div>
+                                            
+                                            <p className='font-bold text-[#234244] text-xl uppercase c-make-payment-owner'>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
+                                            <p className='font-bold text-gray-700 text-lg'>{paymentLink.name}</p>
+                                            <span className='font-bold text-gray-500 inline-block w-full'>{paymentLink.description}</span>
+                                            <Divider className='creat-payment-divider' />
+                                            <p className='font-bold text-gray-700 text-lg mt-8'>Amount: ₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
+                                            <p className='font-bold text-gray-700 text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)}</p>
+                                            <p className='font-bold text-[#39c531] text-xl mt-4'>Total: ₦ {Intl.NumberFormat('en-US').format((paymentLink.amount + paymentLink.charges) || 0)}</p>
+                                            <Divider className='creat-payment-divider' />
+                                            {
+                                                paymentLink.form && paymentLink.form.length ? (
+                                                    <div className='mt-8 mb-8'>
+                                                        <Grid container spacing={2}>
+                                                            {
+                                                                paymentLink.form.map((link, index) => (
+                                                                    <Grid item xs={12} md={6} key={index}>
+                                                                        <div className='flex flex-col space-y-3 mb-8'>
+                                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
+                                                                            {
+                                                                                link.field_type === 'text' ? (
+                                                                                    <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                                ) : (
+                                                                                    <select placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                                                        <option value={''}>Select {link.field_name} </option>
+                                                                                        {
+                                                                                            link.options.map((option, i) => (
+                                                                                                <option key={option + i} value={option}>{option} </option>
+                                                                                            ))
+                                                                                        }
+                                                                                    </select>
+                                                                                )
+                                                                            }
+                                                                            {
+                                                                                link.error ? (
+                                                                                    <small className='c-pay-error'>{link.error}</small>
+                                                                                ) : ''
+                                                                            }
+                                                                        </div>
+                                                                    </Grid>
+                                                                ))
+                                                            }
+                                                        </Grid>
+                                                    </div>
+                                                ) : ''
+                                            }
+                                            
+                                            
+
+                                            
+                                            
+                                            
+                                            
+                                            {/* {fields}
+                                            <div className='flex flex-col space-y-3'>
+                                                <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
+                                            </div> */} 
+                                            <div className='py-4'>
+                                                <button disabled={loading?true:false} className='c-primary-button'  onClick={(e) => makePaymentHandler(e)}>
+                                                    {loading ? 'Processing.....' : 'Make Payment'}
+                                                </button>
+
+                                                <PaystackConsumer 
+                                                    className='hidden'
+                                                    onSuccess = {(reference) => handleSuccess(reference)}
+                                                    onClose = {(reference) => handleClose(reference)}
+                                                    {...paymentData}
+                                                >
+                                                    {({initializePayment}) => <button className='hidden' disabled={loading?true:false}  ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
+                                                        {loading ? 'Paying...' : 'Make Payment'}
+                                                    </button>}
+                                                </PaystackConsumer>
+
+
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+             
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
