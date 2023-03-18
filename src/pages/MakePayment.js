@@ -266,7 +266,7 @@ const MakePayment = () => {
                                     <span className='controller'></span>
                                 </div>
                                 <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
-                                    <div className='pt-4 top-section'></div>
+                                    <div className='pt-4 mb-12 top-section'></div>
                                     <button className='cm-buttom' onClick={() => setTab(2)}>Pay ₦50,050</button>
                                 </div>
                             </div>
@@ -346,6 +346,10 @@ const MakePayment = () => {
                                         <div className='flex justify-center mt-0'>
                                             <p className='text-gray-400 text-sm font-medium'>Your money was successfully sent</p>
                                         </div>
+                                        <div className='flex justify-center mt-3'>
+                                            <p className='text-[#15C01A] pr-2 text-base font-medium'>TDFGHSBJDS64746YUR</p>
+                                            <img src='/images/copy.svg' alt="alt-img" />
+                                        </div>
                                         <div className='flex justify-center mt-4'>
                                             <p className='font-bold text-base text-[#222926]'>
                                                 <span className='text-gray-400 font-medium text-lg'>₦ &nbsp;</span>
@@ -356,7 +360,7 @@ const MakePayment = () => {
                                             <p className='font-medium text-sm text-gray-500'>Recepient</p>
                                         </div>
 
-                                        <div className='relative px-0 pt-1 w-full'>
+                                        <div className='relative px-0 pt-1 w-full pb-12'>
                                             <div className='w-full p-4 flex cm-mobile-make-payment-topic-success'>
                                                 <div className='flex items-center justify-center'>
                                                     <img src='/images/make-payment-icon.svg' alt="alt-img" />
