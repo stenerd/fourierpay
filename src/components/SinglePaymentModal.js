@@ -62,7 +62,7 @@ export default function SinglePaymentModal({ open, setOpen, handleOpen, handleCl
                             </div> */}
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Status</h2>
-                                <p className={recentPayment?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{recentPayment?.status}</p>
+                                <p className={recentPayment?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid2' : 'py-2 px-2 rounded-lg text-sm status-fail2'}>{recentPayment?.status}</p>
                             </div>
                             {/* <h2>Amount :</h2> */}
                         </div>

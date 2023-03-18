@@ -300,10 +300,6 @@ const SinglePaymentLink = () => {
         topRef.current.scrollIntoView({ behaviour: "smoooth" })
         FetchLinks()
     }, [])
-
-
-
-
     return (
         <>
             <div className='hidden lg:block'>
@@ -420,11 +416,7 @@ const SinglePaymentLink = () => {
                                             </div>
                                         </Grid>
                                     </Grid>
-
                                     <Tabs tabList={tabList} currentTab={tabList[tabList.length - 1]} switcher={(tab) => setTab(tab)} />
-
-
-
                                     {
                                         (tab.key === 'payments') ?
                                             (
@@ -492,13 +484,9 @@ const SinglePaymentLink = () => {
                             pauseOnHover
                             theme="light"
                         />
-
                     </div>
-
                 </DashboardLayout>
             </div>
-
-
             <div className='block lg:hidden'>
                 <div className='py-6'>
                     <div className='w-[90%] mx-auto py-2'>
@@ -545,8 +533,6 @@ const SinglePaymentLink = () => {
                                             }
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
                             <div className='py-3 mt-2'>
@@ -582,30 +568,59 @@ const SinglePaymentLink = () => {
                         </div>
                         <div className='py-2 mt-2'>
                             <div className='px-1 rounded-md flex justify-between items-center py-1' style={{ background: 'rgba(0, 0, 0, 0.15)' }}>
-                                <div className='flex-1'>
-                                    <button className={payments ? 'bg-white rounded-md transition ease-in-out text-black px-4 py-1 fourier' : 'text-gray-500 transition ease-in-out px-4 text-center'} onClick={() => handlePayment()}>Payments</button>
-                                </div>
-                                <div className='flex-1 self-center' onClick={() => handlePending()}>
-                                    <button className={pending ? 'bg-white rounded-md text-black transition ease-in-out px-4 py-1 fourier' : 'text-gray-500 transition ease-in-out px-4 text-center'}>Pending</button>
-                                </div>
-                                <div className='flex-1 self-center' onClick={() => handleSettings()}>
-                                    <button className={settings ? 'bg-white transition ease-in-out rounded-md text-black px-4 py-1 fourier' : 'text-gray-500 px-4 transition ease-in-out text-center'}>Settings</button>
-                                </div>
+                                {data?.paymentLink?.state === 'private' ? (
+                                    <>
+                                        <div className='flex-1 text-center'>
+                                            <button className={payments ? 'bg-white rounded-md transition ease-in-out text-black px-4 py-1 fourier w-full' : 'text-gray-500 transition ease-in-out px-4 text-center'} onClick={() => handlePayment()}>Payments</button>
+                                        </div>
+                                        <div className='flex-1 self-center text-center' onClick={() => handlePending()}>
+                                            <button className={pending ? 'bg-white rounded-md text-black transition ease-in-out px-4 py-1 fourier w-full' : 'text-gray-500 transition ease-in-out px-4 text-center'}>Pending</button>
+                                        </div>
+                                        <div className='flex-1 self-center text-center' onClick={() => handleSettings()}>
+                                            <button className={settings ? 'bg-white transition ease-in-out rounded-md text-black px-4 py-1 fourier w-full' : 'text-gray-500 px-4 transition ease-in-out text-center'}>Settings</button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className='flex-1 text-center'>
+                                            <button className={payments ? 'bg-white rounded-md transition ease-in-out text-black px-4 py-1 fourier w-full' : 'text-gray-500 transition ease-in-out px-4 text-center'} onClick={() => handlePayment()}>Payments</button>
+                                        </div>
+                                        <div className='flex-1 self-center text-center' onClick={() => handleSettings()}>
+                                            <button className={settings ? 'bg-white transition ease-in-out rounded-md text-black px-4 py-1 fourier w-full' : 'text-gray-500 px-4 transition ease-in-out'}>Settings</button>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
-                        <div className='py-2 mt-2 space-y-2'>
+                        <div className='py-3 mt-2 space-y-3 mb-5'>
                             {payments && (
                                 <>
                                     {data ? data?.payments?.map((row, index) => (
-                                        <div className='flex justify-between items-center' key={index}>
-                                            <div className=' flex flex-1 flex-col items-start'>
-                                                <h2 className='font-semibold fourier text-[12px]'>{row?.unique_answer}</h2>
-                                                <small className='text-sm py-2  flex-1  text-gray-300'>{moment(row.createdAt
+                                        <div className='flex space-x-2 items-center' key={index}>
+                                            {row.transaction_id.status === 'paid' ?
+                                                (
+                                                    <div className='p-2 c-icon-bg'>
+                                                        <img src='/images/payment-icon-in.svg' className='w-[20px]' alt="alt-img" />
+                                                    </div>
+                                                ) :
+                                                (
+                                                    <div className='p-2 c-icon-bg-withdrawal'>
+                                                        <img src='/images/withdrawal-icon-out.svg' className='w-[20px]' alt="alt-img" />
+                                                    </div>
+                                                )
+                                            }
+                                            <div className='flex flex-1 flex-col items-start'>
+
+                                                <h2 className='font-bold text-base text-[#2d2d2d] c-text-elipses'>{row?.unique_answer}</h2>
+                                                <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(row.createdAt
                                                 ).format('MMM DD, YYYY')} | {moment(row.createdAt).format('h:mma')}</small>
+                                                {/* <small className='block text-xs font-bold pt-1 text-gray-500'>
+                                                    {row.transaction_id.in_entity === 'Wallet' ? 'Wallet | ' : `${row.transaction_id.in_entity} | `} {row.transaction_id.reference}
+                                                </small> */}
                                             </div>
-                                            <div className=' flex flex-1 flex-col items-end'>
-                                                <h2 className=''>₦{Intl.NumberFormat('en-US').format(row.amount || 0)}</h2>
-                                                <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{row.status}</p>
+                                            <div className='flex flex-1 flex-col items-end space-y-2'>
+                                                <h2 className='self-end'>₦{Intl.NumberFormat('en-US').format(row.amount || 0)}</h2>
+                                                <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid2 self-end' : 'py-2 px-2 rounded-lg text-sm status-fail2 self-end'}>{row.status}</p>
                                             </div>
                                         </div>
                                     )) : (
@@ -627,25 +642,49 @@ const SinglePaymentLink = () => {
                                     )}
                                 </>
                             )}
-
                             {pending && (
                                 <>
-                                    <div>
-                                        <p>Pending</p>
-                                    </div>
+                                    {/* <div className='py-4'> */}
+                                        <div className='py-6'>
+                                            <PayersSheetTable
+                                                loading={loadPayersSheet}
+                                                opener={opener}
+                                                setOpener={setOpener}
+                                                handleClickOpen={handleClickOpen}
+                                                handleCloser={handleCloser}
+                                                data={data}
+                                                payersSheet={payersSheet}
+                                                onChange={onChange}
+                                                handleKeyDown={handleKeyDown}
+                                                start={start}
+                                                end={end}j
+                                                setStart={setStart}
+                                                setEnd={setEnd}
+                                                status={status}
+                                                setStatus={setStatus}
+                                                filterData={filterData}
+                                            />
+                                        </div>
+                                    {/* </div> */}
                                 </>
                             )}
                             {settings && (
                                 <>
-                                    <div>
-                                        <p>settings</p>
+                                    <div className='py-4'>
+                                        <PaymentLinkSettings
+                                            linkData={linkData}
+                                            paymentLink={data.paymentLink}
+                                            recallServerData={recallServerData}
+                                            copyText={copyText}
+                                        />
                                     </div>
+
                                 </>
                             )}
 
                         </div>
                     </div>
-                    <BottomNav/>
+                    <BottomNav />
                     {/* <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
                         <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
                             <BottomNavigationAction
@@ -696,9 +735,7 @@ const SinglePaymentLink = () => {
                     theme="light"
                 />
             </div>
-
         </>
     )
 }
-
 export default SinglePaymentLink

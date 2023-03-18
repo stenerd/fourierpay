@@ -35,6 +35,7 @@ import DeleteBenefiaryDialog from '../components/DeleteBeneficiaryDialog';
 import ProfileDialog from '../components/ProfileDialog';
 import MenuDropDown from '../components/Menu';
 import BottomNav from '../components/bottomNav';
+// import moment from 'moment';
 // import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Profile = () => {
     const [state, setState] = React.useState({
@@ -386,9 +387,9 @@ const Profile = () => {
                                                     <div className='flex items-center space-x-3'>
                                                         {each.in_entity !== 'Wallet' ?
                                                             (
-                                                            <div className='p-2 c-icon-bg'>
-                                                                <img src='/images/payment-icon-in.svg' className='w-[20px]' alt="alt-img" />
-                                                            </div>
+                                                                <div className='p-2 c-icon-bg'>
+                                                                    <img src='/images/payment-icon-in.svg' className='w-[20px]' alt="alt-img" />
+                                                                </div>
                                                             ) :
                                                             (
                                                                 <div className='p-2 c-icon-bg-withdrawal'>
@@ -402,7 +403,7 @@ const Profile = () => {
                                                             <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
                                                             ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
                                                             <small className='block text-xs font-bold pt-1 text-gray-500'>
-                                                                { each.in_entity === 'Wallet' ? 'Wallet | ' : `${each.in_entity_id.unique_answer} | ` } {each.reference}
+                                                                {each.in_entity === 'Wallet' ? 'Wallet | ' : `${each.in_entity_id.unique_answer} | `} {each.reference}
                                                             </small>
 
                                                         </div>
@@ -428,10 +429,9 @@ const Profile = () => {
                                                 //     <p className='text-gray-500 text-center'>No Transactions Yet!</p>
                                                 // </div>
                                                 <RecentTransacton />
-
                                             )}
                                         </div>
-                                        <div className='py-4'>
+                                        <div className='py-2'>
                                             <div className='py-2'>
                                                 <div className='flex justify-between items-center'>
                                                     <div className='py-2'>
@@ -442,28 +442,42 @@ const Profile = () => {
                                                             <p className='cursor-pointer font-bold  c-primary-link-color'>View All</p>
                                                         </div>
                                                     </Link>
-
                                                 </div>
-                                                <div>
-                                                    {withdrawals && !isLoading ? (
-                                                        <div>
-                                                            
-                                                        </div>
-                                                    ) : (
-                                                        <div>
-                                                            <div>
-                                                                <Stack spacing={3}>
-                                                                    <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
-                                                                    <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
-                                                                    <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
-                                                                    <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
-                                                                </Stack>
+                                                <div className='py-4 space-y-6'>
+                                                    {withdrawals ? withdrawals?.map((each, index) => (
+                                                        <div className='flex justify-between items-center' key={index}>
+                                                            <div className='flex flex-col items-start'>
+                                                                <h2 className='font-bold text-base c-text-elipses text-[#2d2d2d]'>{each.name}</h2>
+                                                                <span className='block text-xs font-bold pt-1 text-gray-500'>
+                                                                    {each.account_number} | {each.bank_name}
+                                                                </span>
+                                                            </div>
+                                                            <div className='flex flex-col items-end'>
+                                                                <h2 className='text-sm p-0 text-gray-500 font-bold lowercase self-end'>
+                                                                    ₦ {Intl.NumberFormat('en-US').format(each.amount)}</h2>
+                                                                <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
+                                                                ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
                                                             </div>
                                                         </div>
+                                                    )) : (
+                                                        <div>
+                                                            <Stack spacing={3}>
+                                                                <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                                                <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
+                                                                <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                                                <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
+                                                            </Stack>
+                                                        </div>
                                                     )}
-                                                    {!isLoading && profileTables?.recentWithdrawals?.length === 0 && (
+                                                    {withdrawals?.length === 0 && (
+                                                        // <div className='flex flex-col justify-center py-2 px-2'>
+                                                        //     <img src="/images/payments.svg" className='w-2/5 mx-auto' />
+                                                        //     <p className='text-gray-500 text-center'>No Transactions Yet!</p>
+                                                        // </div>
                                                         <RecentLinksSkeleton />
+
                                                     )}
+
                                                 </div>
                                             </div>
                                         </div>

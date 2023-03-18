@@ -75,12 +75,12 @@ export default function TransactionDialog({ open, setOpen, handleClickOpener, ha
                             </div>
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Status</h2>
-                                <p className={recentTransaction?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{recentTransaction?.status}</p>
+                                <p className={recentTransaction?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid2' : 'py-2 px-2 rounded-lg text-sm status-fail2'}>{recentTransaction?.status}</p>
                             </div>
                             {recentTransaction?.in_entity_id?.form?.map((tx, index) => (
                                 <div className='flex justify-between items-center py-3'>
                                     <h2 className='text-gray-400 capitalize'>{tx?.field_name}</h2>
-                                    <p className='font-bold text-sm'>{tx?.answer}</p>
+                                    <p className='font-bold text-sm text-right'>{tx?.answer}</p>
                                 </div>
                             ))}
                             <div className='flex justify-between items-center py-3'>

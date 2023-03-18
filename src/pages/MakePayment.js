@@ -9,7 +9,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import dayjs from 'dayjs';
-import { FormControl, Grid, InputLabel, MenuItem, Select, TextField, Divider } from '@mui/material';
+import { FormControl, Grid, InputLabel, MenuItem, Select, TextField, Divider, Backdrop, CircularProgress } from '@mui/material';
 import DashboardLayout from '../components/DashboardLayout';
 import Titlebar from '../components/TitleBar';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -39,22 +39,24 @@ const MakePayment = () => {
     const [paymentData, setPaymentData] = React.useState({});
     const [paymentLink, setPaymentLink] = React.useState({});
     const paystackButtonRef = React.useRef(null);
+    const [delay,setDelay] = React.useState(false)
 
+    const handleClosed = ()=>{
+        setDelay(false)
+    } 
     const FetchPaymentLink = async () => {
         try {
             const response = await axios.get(`${BASE_URL}/api/payment-link/${code}`)
             console.log('ppp >> ', response.data.data)
             setPaymentLink(response.data.data)
-           
+
         } catch (error) {
             console.log(error)
         }
-
     }
-
-    React.useEffect(()=>{
+    React.useEffect(() => {
         FetchPaymentLink()
-    },[])
+    }, [])
 
     const handleFieldChanges = (e, index) => {
         e.preventDefault();
@@ -83,7 +85,7 @@ const MakePayment = () => {
         const validatedForm = []
 
         for (let i = 0; i < paymentLink.form.length; i++) {
-            const each = {...paymentLink.form[i]};
+            const each = { ...paymentLink.form[i] };
 
             delete each.error;
 
@@ -100,7 +102,7 @@ const MakePayment = () => {
             ...prev,
             form: validatedForm
         }))
-        
+
         return check
     }
 
@@ -146,7 +148,7 @@ const MakePayment = () => {
         ...config,
         text: 'Paystack Button Implementation',
         onSuccess: (reference) => handleSuccess(reference),
-        onClose:(reference) => handleClose(reference)
+        onClose: (reference) => handleClose(reference)
     };
 
 
@@ -159,7 +161,7 @@ const MakePayment = () => {
         initializePayment(handleSuccess, handleClose)
 
     }
-    
+
     const makePaymentHandler = async (e) => {
 
         e.preventDefault()
@@ -178,14 +180,18 @@ const MakePayment = () => {
             })
 
             console.log('initiateTrnx >> ', initiateTrnx.data.data)
-            
-            setPaymentData((prev) => ({...initiateTrnx.data.data}))
+
+            setPaymentData((prev) => ({ ...initiateTrnx.data.data }))
             setValue((prev => prev ? 0 : 1))
+
+            setDelay(true)
+
+
 
             setTimeout(() => {
                 paystackButtonRef.current.click()
-               
-            }, 2000);      
+                setDelay(false)
+            }, 2000);
             // console.log('done successfully')
             // ref.current.open();
             // setLoading(false)
@@ -199,19 +205,17 @@ const MakePayment = () => {
             //     progress: undefined,
             //     theme: "light",
             // });
-             setLoading(false)
+            setLoading(false)
         } catch (error) {
             console.log(error.response.data.message)
             toast.error(error.response.data.message)
             console.log('An error occurred')
             setLoading(false)
         }
-
     }
-
     return (
         <>
-        {/* <div className='block lg:hidden'>
+            {/* <div className='block lg:hidden'>
             
         </div> */}
             <div className='block md:hidden relative'>
@@ -270,7 +274,7 @@ const MakePayment = () => {
                                     <button className='cm-buttom' onClick={() => setTab(2)}>Pay ₦50,050</button>
                                 </div>
                             </div>
-                        ): ''
+                        ) : ''
                     }
                     {
                         (tab === 2) ? (
@@ -293,12 +297,12 @@ const MakePayment = () => {
                                                             paymentLink.form.map((link, index) => (
                                                                 <Grid item xs={12} key={index}>
                                                                     <div className='flex flex-col space-y-3 mb-2'>
-                                                                        <label for={'for'+index+1} className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
+                                                                        <label for={'for' + index + 1} className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
                                                                         {
                                                                             link.field_type === 'text' ? (
                                                                                 <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="pb-2 px-4 w-full outline-none c-text-input" />
                                                                             ) : (
-                                                                                <select id={'for'+index+1} placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="pb-2 px-4 w-full outline-none c-text-input">
+                                                                                <select id={'for' + index + 1} placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="pb-2 px-4 w-full outline-none c-text-input">
                                                                                     <option value={''}>Select {link.field_name} </option>
                                                                                     {
                                                                                         link.options.map((option, i) => (
@@ -321,13 +325,11 @@ const MakePayment = () => {
                                                 </div>
                                             ) : ''
                                         }
-
-
                                     </div>
                                     <button className='cm-buttom' onClick={() => setTab(3)}>Pay ₦50,050</button>
                                 </div>
                             </div>
-                        ): ''
+                        ) : ''
                     }
                     {
                         (tab === 3) ? (
@@ -338,7 +340,7 @@ const MakePayment = () => {
                                 <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
                                     <div className='pt-0'>
                                         <div className='flex justify-center'>
-                                           <img src='/images/payment-successful.svg' alt="alt-img" />
+                                            <img src='/images/payment-successful.svg' alt="alt-img" />
                                         </div>
                                         <div className='flex justify-center mt-4'>
                                             <p className='font-bold text-base text-[#222926]'>Transfer Successful</p>
@@ -380,20 +382,27 @@ const MakePayment = () => {
                                     <button className='cm-buttom' onClick={() => setTab(1)}>Done</button>
                                 </div>
                             </div>
-                        ): ''
+                        ) : ''
                     }
 
-                    
 
-                    
+
+
                 </div>
             </div>
             <div className='hidden md:block'>
                 <div className='min-h-screen'>
+                    {delay && (
+                        <Backdrop
+                            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                            open={delay}
+                            onClick={handleClosed}
+                        >
+                            <CircularProgress color="inherit" />
+                        </Backdrop>
+                    )}
                     <div className='px-4 lg:px-16 py-8 lg:py-16 mx-auto'>
                         <div className='flex mx-auto min-h-[85vh]'>
-
-                        
                             <div className='w-[90%] lg:w-[55%] mx-auto c-make-payment p-[1.5rem] lg:p-[4rem]'>
                                 <div className='flex flex-col justify-center items-center'>
                                     <div className='w-full'>
@@ -404,7 +413,7 @@ const MakePayment = () => {
                                                     <small className='text-sm text-[#00bf00] status-pill c-status-border-pill capitalize'>{paymentLink.status} {paymentLink.expires_at && ' - ' + moment(paymentLink.expires_at).format('dddd, DD MMMM YYYY')}</small>
                                                 </div>
                                             </div>
-                                            
+
                                             <p className='font-bold text-[#234244] text-xl uppercase c-make-payment-owner'>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
                                             <p className='font-bold text-gray-700 text-lg'>{paymentLink.name}</p>
                                             <span className='font-bold text-gray-500 inline-block w-full'>{paymentLink.description}</span>
@@ -449,48 +458,45 @@ const MakePayment = () => {
                                                     </div>
                                                 ) : ''
                                             }
-                                            
-                                            
 
-                                            
-                                            
-                                            
-                                            
+
+
+
+
+
+
                                             {/* {fields}
                                             <div className='flex flex-col space-y-3'>
                                                 <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
-                                            </div> */} 
+                                            </div> */}
                                             <div className='py-4'>
-                                                <button disabled={loading?true:false} className='c-primary-button'  onClick={(e) => makePaymentHandler(e)}>
+                                                <button disabled={loading ? true : false} className='c-primary-button' onClick={(e) => makePaymentHandler(e)}>
                                                     {loading ? 'Processing.....' : 'Make Payment'}
                                                 </button>
-
-                                                <PaystackConsumer 
+                                                <PaystackConsumer
                                                     className='hidden'
-                                                    onSuccess = {(reference) => handleSuccess(reference)}
-                                                    onClose = {(reference) => handleClose(reference)}
+                                                    onSuccess={(reference) => handleSuccess(reference)}
+                                                    onClose={(reference) => handleClose(reference)}
                                                     {...paymentData}
                                                 >
-                                                    {({initializePayment}) => <button className='hidden' disabled={loading?true:false}  ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
+                                                    {({ initializePayment }) => <button className='hidden' disabled={loading ? true : false} ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
                                                         {loading ? 'Paying...' : 'Make Payment'}
                                                     </button>}
                                                 </PaystackConsumer>
-
-
                                             </div>
                                         </form>
                                     </div>
 
                                 </div>
                             </div>
-                        
+
                         </div>
                     </div>
 
 
                 </div>
             </div>
-             
+
             <ToastContainer
                 position="top-right"
                 autoClose={5000}

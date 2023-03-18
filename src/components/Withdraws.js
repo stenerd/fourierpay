@@ -60,7 +60,7 @@ export default function WithDraws({ open, setOpen, handleOpen, handleClose, tran
                             </div>
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Status</h2>
-                                <p className={recentTransaction?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{recentTransaction?.status}</p>
+                                <p className={recentTransaction?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid2' : 'py-2 px-2 rounded-lg text-sm status-fail2'}>{recentTransaction?.status}</p>
                             </div>
                             {/* <h2>Amount :</h2> */}
                         </div>

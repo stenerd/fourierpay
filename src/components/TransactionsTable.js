@@ -265,7 +265,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
                   </TableCell>
                   <TableCell>
                     <div className="text-left">
-                      <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{row.status}</p>
+                      <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid2' : 'py-2 px-2 rounded-lg text-sm status-fail2'}>{row.status}</p>
                     </div>
                   </TableCell>
                 </TableRow>

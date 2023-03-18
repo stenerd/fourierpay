@@ -434,7 +434,7 @@ const Dashboard = () => {
                                     </div>
                                     <div className='flex flex-col'>
                                         <small className='text-sm pt-2 pb-1 self-end flex-1 font-bold c-text-green'>+ ₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</small>
-                                        <h2 className='text-sm pb-3 text-gray-500 font-medium self-end'>{each.unique_answer}</h2>
+                                        <h2 className='text-sm pb-3 text-gray-500 text-right font-medium self-end'>{each.unique_answer}</h2>
                                     </div>
                                 </div>
                             </div>

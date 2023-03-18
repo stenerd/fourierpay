@@ -309,12 +309,9 @@ const Transactions = () => {
                         {payin ? (
                             <TransactionTable handleClickOpen={handleClickOpen} handleCloser={handleCloser} opener={opener} setOpener={setOpener} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} meta={meta} setMeta={setMeta} setLoad={setLoad} setTransaction={setTransaction} BASE_URL={BASE_URL} Protected={Protected}/>
                         ) : <PayOutTable />}
-
                     </div>
                 </DashboardLayout>
             </div>
-
-
             {/* MOBILE SCREENS */}
             <div className='block lg:hidden'>
                 <div className='py-6'>
