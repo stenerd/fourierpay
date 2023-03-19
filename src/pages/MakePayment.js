@@ -396,7 +396,7 @@ const MakePayment = () => {
                         <Backdrop
                             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                             open={delay}
-                            onClick={handleClosed}
+                            // onClick={handleClosed}
                         >
                             <CircularProgress color="inherit" />
                         </Backdrop>
@@ -470,7 +470,7 @@ const MakePayment = () => {
                                                 <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
                                             </div> */}
                                             <div className='py-4'>
-                                                <button disabled={loading ? true : false} className='c-primary-button' onClick={(e) => makePaymentHandler(e)}>
+                                                <button disabled={loading || delay ? true : false} className='c-primary-button' onClick={(e) => makePaymentHandler(e)}>
                                                     {loading ? 'Processing.....' : 'Make Payment'}
                                                 </button>
                                                 <PaystackConsumer
@@ -486,14 +486,10 @@ const MakePayment = () => {
                                             </div>
                                         </form>
                                     </div>
-
                                 </div>
                             </div>
-
                         </div>
                     </div>
-
-
                 </div>
             </div>
 
