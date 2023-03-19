@@ -156,7 +156,7 @@ export default function WithdrawalTable({ load, handleKeyDown, withdrawals, open
                                     <TableCell align="left" >{row.paystack_reference}</TableCell>
                                     <TableCell align="left">
                                         <div className="text-left">
-                                            <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{row.status}</p>
+                                            <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid2' : 'py-2 px-2 rounded-lg text-sm status-fail2'}>{row.status}</p>
                                         </div>
                                     </TableCell>
                                 </TableRow>

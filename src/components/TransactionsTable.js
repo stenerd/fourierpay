@@ -11,13 +11,14 @@ import { Button, Skeleton, Stack } from '@mui/material'
 import TuneIcon from '@mui/icons-material/Tune';
 import moment from 'moment'
 import TransactionDialog from './TraansactionDialog';
+import Pagination from './Pagination';
 
 
 function createData(Description, Customer, Amount, Payment, Status) {
   return { Description, Customer, Amount, Payment, Status };
 }
 
-export default function TransactionTable({ opener, setOpener, handleClickOpen, handleCloser, loading, transactions, handleKeyDown, setSearch, search, start, end, status, setStatus, setEnd, setStart, filterData, entity, setEntity, type, setType, load }) {
+export default function TransactionTable({ opener, setOpener, handleClickOpen, handleCloser, loading, transactions, handleKeyDown, setSearch, search, start, end, status, setStatus, setEnd, setStart, filterData, entity, setEntity, type, setType, load, meta ,setMeta,setLoad,setTransaction,Protected,BASE_URL}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -29,6 +30,34 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
   const statusRef = React.useRef()
   const typeRef = React.useRef()
   const entityRef = React.useRef()
+
+  // const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [postsPerPage] = React.useState(meta?.length);
+
+  // Get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = transactions?.slice(indexOfFirstPost, indexOfLastPost);
+
+  // const paginate = pageNumber => setCurrentPage(pageNumber);
+  const paginate = async (pageNumber) => {
+    setLoad(true)
+    try {
+      const response = await Protected.get(`${BASE_URL}/api/transaction?page=${pageNumber}`)
+      console.log(response.data.data)
+      setTransaction(response?.data?.data.data)
+      // setTransaction(response?.data?.data.data)
+      // setMeta(response?.data?.data?.meta)
+      console.log('meta>>>>', response?.data?.data?.meta)
+      setLoad(false)
+    } catch (error) {
+      setLoad(false)
+      console.log(error.response)
+    }
+    console.log(pageNumber)
+
+  }
 
   const clearAll = () => {
     setEnd("")
@@ -66,9 +95,22 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
         <div className='w-[20%]'>
           <input placeholder='Search' style={{ backgroundColor: '#f8faf7' }} onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} type="text" className='py-2 px-4 w-full outline-none c-text-input' />
         </div>
-        <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />} onClick={() => setToggle(!toggle)}>
-          Filter
-        </Button>
+
+        <div className='flex items-center space-x-4'>
+          <div className='mr-5'>
+            <Pagination
+              postsPerPage={postsPerPage}
+              totalPosts={transactions?.length}
+              paginate={paginate}
+              meta={meta}
+            />
+
+          </div>
+          <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />} onClick={() => setToggle(!toggle)}>
+            Filter
+          </Button>
+        </div>
+
       </div>
       {toggle && (
         <div className='w-full mt-2 py-4 rounded-md border-2 border-gray-300'>
@@ -177,6 +219,8 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
           </div>
         </div>
       )}
+
+
       <TableContainer className='relative'>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -192,7 +236,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
           </TableHead>
           {transactions?.length && !loading ? (
             <TableBody>
-              {transactions.map((row, index) => (
+              {transactions?.map((row, index) => (
                 <TableRow
                   key={index}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -221,7 +265,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
                   </TableCell>
                   <TableCell>
                     <div className="text-left">
-                      <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{row.status}</p>
+                      <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid2' : 'py-2 px-2 rounded-lg text-sm status-fail2'}>{row.status}</p>
                     </div>
                   </TableCell>
                 </TableRow>

@@ -23,7 +23,7 @@ const PublicPayment = () => {
     //         const response = await axios.get(`${BASE_URL}/api/payment-link/${code}`)
     //         console.log('ppp >> ', response.data.data)
     //         setPaymentLink(response.data.data)
-           
+
     //     } catch (error) {
     //         console.log(error)
     //     }
@@ -36,7 +36,7 @@ const PublicPayment = () => {
             const response = await axios.get(`${BASE_URL}/api/payment/external-link/${code}`)
             console.log('result >> ', response.data.data)
             setResult(response.data.data)
-           
+
         } catch (error) {
             console.log(error)
         }
@@ -44,7 +44,7 @@ const PublicPayment = () => {
 
     }
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         // FetchPaymentLink()
         FetchData()
     }, [])
@@ -53,7 +53,7 @@ const PublicPayment = () => {
 
     return (
         <>
-             <div className='min-h-screen'>
+            <div className='min-h-screen'>
                 <div className=''>
                     <div className='pt-12 pb-4 flex justify-center c-pp-body'>
                         <div className='font-bold text-lg'>
@@ -73,7 +73,7 @@ const PublicPayment = () => {
                                             result.data.paymentLink.creator_id.lastname
                                         ) +
                                         ' - ' + (result.data && result.data.paymentLink && result.data.paymentLink.name)) :
-                                'Loading...'
+                                    'Loading...'
                             }
                         </div>
                     </div>
@@ -127,7 +127,7 @@ const PublicPayment = () => {
                                 <img src='/images/rp.svg' alt="alt-img" />
                                 <p className='text-[.88rem] pt-3 pb-1 font-medium text-gray-700'>Recieved Payment</p>
                                 <p><span className='text-sm text-gray-500'>₦</span><span className='font-bold text-lg'>
-                                {
+                                    {
                                         Intl.NumberFormat('en-US').format(
                                             ((result.data && result.data.recievedAmount) ? result.data.recievedAmount : 0)
                                         )
@@ -144,138 +144,138 @@ const PublicPayment = () => {
                             </div>
                         </div>
 
-                        
+
                     </div>
                     <div className='w-[75%] pt-32 mb-12 mx-auto relative'>
                         <div>
-                            <TableContainer  style={{borderRadius: '.75rem'}}>
+                            <TableContainer style={{ borderRadius: '.75rem' }}>
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow className='font-bold'>
-                                        <TableCell style={{ fontWeight: '600' }}>S/N</TableCell>
+                                    <TableHead>
+                                        <TableRow className='font-bold'>
+                                            <TableCell style={{ fontWeight: '600' }}>S/N</TableCell>
                                             <TableCell className='font-bold' style={{ fontWeight: '600' }}>
                                                 {
                                                     (result.data && result.data.paymentLink) ? result.data.paymentLink.unique_field : 'Identifier'
                                                 }
-                                        </TableCell>
-                                        <TableCell style={{ fontWeight: '600' }}>DATE PAID | DATE UPLOADED</TableCell>
-                                        <TableCell style={{ fontWeight: '600' }}>TIME</TableCell>
-                                        <TableCell style={{ fontWeight: '600' }}>AMOUNT</TableCell>
-                                        <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                {!loading && (result.data && result.data.payments) ? (
-                                    <TableBody>
-                                    {result.data.payments.map((row, index) => (
-                                        <TableRow
-                                        key={index}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                        <TableCell>{index + 1}</TableCell>
-                                        <TableCell component="th" scope="row" style={{ fontWeight: '700' }} >
-                                            <h2 className='font-bold uppercase'>{row.unique_answer}</h2>
-                                        </TableCell>
-                                        <TableCell>{moment(row.payment_id ? row.payment_id.createdAt : row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
-                                        <TableCell>{moment(row.payment_id ? row.payment_id.createdAt : row.createdAt).format('hh:mm:ss A')}</TableCell>
-                                        <TableCell>
-                                                <p className='font-bold'>₦
-                                                    {Intl.NumberFormat('en-US').format(
-                                                        ((result.data && result.data.paymentLink) ? result.data.paymentLink.amount : 0)
-                                                    )}
-                                                </p>
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="text-left">
-                                            <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-base uppercase status-paid2' : 'py-2 px-2 rounded-lg text-base uppercase text-sm status-fail2'}>{row.status}</p>
-                                            </div>
-                                        </TableCell>
+                                            </TableCell>
+                                            <TableCell style={{ fontWeight: '600' }}>DATE PAID | DATE UPLOADED</TableCell>
+                                            <TableCell style={{ fontWeight: '600' }}>TIME</TableCell>
+                                            <TableCell style={{ fontWeight: '600' }}>AMOUNT</TableCell>
+                                            <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
                                         </TableRow>
-                                    ))}
-                                    </TableBody>
-                                ) : ''}
-                                {
-                                    loading ? (
-
-                                    <TableBody>
-                                    {[1,2,3,4,5,6,7].map((arr, index) => (
-                                        <TableRow key={index}>
-
-                                        <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                                        <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                                        <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                                        <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                                        <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                                        <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                                        </TableRow>
-                                    ))}
-                                    </TableBody>
-                                ): ''
-                                }
-                                {!loading && (result.data && result.data.payments && !result.data.payments.length) && (
-                                    <>
-                                    {/* <div className='relative'> */}
-                                    <div className='absolute top-[40%] left-[40%] z-20' >
-                                        <img src="/images/cuate.svg" alt="alt-img" className='w-40' />
-                                        <h2 className='text-gray-600 text-xl text-center font-bold'>No Transactions Yet!</h2>
-                                    </div>
-
-                                    {array.map((arr, index) => (
-                                        <TableBody className='relative' key={index}>
-
-                                        <TableRow>
-
-                                            <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-100 h-4 w-[60%]'>
-                                            </div>
-
-                                            {/* <div className='bg-gray-200 h-4 w-[40%]'>
-                                                </div> */}
-
-                                            </div></TableCell>
-                                            <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-100 h-4 w-[60%]'>
-                                            </div>
-
-                                            {/* <div className='bg-gray-100 h-4 w-[40%]'>
-                                                </div> */}
-
-                                            </div></TableCell>
-                                            <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-100 h-4 w-[60%]'>
-                                            </div>
-
-
-                                            </div></TableCell>
-                                            <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-100 h-4 w-[60%]'>
-                                            </div>
-
-
-
-                                            </div></TableCell>
-                                            <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-100 h-4 w-[60%]'>
-                                            </div>
-
-
-
-                                            </div></TableCell>
-                                            <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-100 h-4 w-[60%]'>
-                                            </div>
-
-                                            {/* <div className='bg-gray-100 h-4 w-[40%]'>
-                                                </div> */}
-
-                                            </div></TableCell>
-                                        </TableRow>
-
+                                    </TableHead>
+                                    {!loading && (result.data && result.data.payments) ? (
+                                        <TableBody>
+                                            {result.data.payments.map((row, index) => (
+                                                <TableRow
+                                                    key={index}
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell>{index + 1}</TableCell>
+                                                    <TableCell component="th" scope="row" style={{ fontWeight: '700' }} >
+                                                        <h2 className='font-bold uppercase'>{row.unique_answer}</h2>
+                                                    </TableCell>
+                                                    <TableCell>{moment(row.payment_id ? row.payment_id.createdAt : row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
+                                                    <TableCell>{moment(row.payment_id ? row.payment_id.createdAt : row.createdAt).format('hh:mm:ss A')}</TableCell>
+                                                    <TableCell>
+                                                        <p className='font-bold'>₦
+                                                            {Intl.NumberFormat('en-US').format(
+                                                                ((result.data && result.data.paymentLink) ? result.data.paymentLink.amount : 0)
+                                                            )}
+                                                        </p>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <div className="text-left">
+                                                            <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-base uppercase status-paid2' : 'py-2 px-2 rounded-lg text-base uppercase text-sm status-fail2'}>{row.status}</p>
+                                                        </div>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
                                         </TableBody>
-                                    ))}
-                                    {/* </div> */}
+                                    ) : ''}
+                                    {
+                                        loading ? (
 
-                                    </>
-                                )}
+                                            <TableBody>
+                                                {[1, 2, 3, 4, 5, 6, 7].map((arr, index) => (
+                                                    <TableRow key={index}>
+
+                                                        <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                                                        <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                                                        <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                                                        <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                                                        <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                                                        <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        ) : ''
+                                    }
+                                    {!loading && (result.data && result.data.payments && !result.data.payments.length) && (
+                                        <>
+                                            {/* <div className='relative'> */}
+                                            <div className='absolute top-[40%] left-[40%] z-20' >
+                                                <img src="/images/cuate.svg" alt="alt-img" className='w-40' />
+                                                <h2 className='text-gray-600 text-xl text-center font-bold'>No Transactions Yet!</h2>
+                                            </div>
+
+                                            {array.map((arr, index) => (
+                                                <TableBody className='relative' key={index}>
+
+                                                    <TableRow>
+
+                                                        <TableCell> <div className='space-y-2 w-full'>
+                                                            <div className='bg-gray-100 h-4 w-[60%]'>
+                                                            </div>
+
+                                                            {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                                                </div> */}
+
+                                                        </div></TableCell>
+                                                        <TableCell> <div className='space-y-2 w-full'>
+                                                            <div className='bg-gray-100 h-4 w-[60%]'>
+                                                            </div>
+
+                                                            {/* <div className='bg-gray-100 h-4 w-[40%]'>
+                                                </div> */}
+
+                                                        </div></TableCell>
+                                                        <TableCell> <div className='space-y-2 w-full'>
+                                                            <div className='bg-gray-100 h-4 w-[60%]'>
+                                                            </div>
+
+
+                                                        </div></TableCell>
+                                                        <TableCell> <div className='space-y-2 w-full'>
+                                                            <div className='bg-gray-100 h-4 w-[60%]'>
+                                                            </div>
+
+
+
+                                                        </div></TableCell>
+                                                        <TableCell> <div className='space-y-2 w-full'>
+                                                            <div className='bg-gray-100 h-4 w-[60%]'>
+                                                            </div>
+
+
+
+                                                        </div></TableCell>
+                                                        <TableCell> <div className='space-y-2 w-full'>
+                                                            <div className='bg-gray-100 h-4 w-[60%]'>
+                                                            </div>
+
+                                                            {/* <div className='bg-gray-100 h-4 w-[40%]'>
+                                                </div> */}
+
+                                                        </div></TableCell>
+                                                    </TableRow>
+
+                                                </TableBody>
+                                            ))}
+                                            {/* </div> */}
+
+                                        </>
+                                    )}
 
 
                                 </Table>

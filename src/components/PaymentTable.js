@@ -165,7 +165,7 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
                   </TableCell>
                   <TableCell>
                     <div className="text-left">
-                      <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{row.status}</p>
+                      <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid2' : 'py-2 px-2 rounded-lg text-sm status-fail2'}>{row.status}</p>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -219,15 +219,12 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
 
                     {/* <div className='bg-gray-200 h-4 w-[40%]'>
                       </div> */}
-
                   </div></TableCell>
                   <TableCell> <div className='space-y-2 w-full'>
                     <div className='bg-gray-200 h-4 w-[60%]'>
                     </div>
-
                     {/* <div className='bg-gray-200 h-4 w-[40%]'>
                       </div> */}
-
                   </div></TableCell>
                 </TableRow>
 

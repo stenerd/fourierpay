@@ -61,7 +61,10 @@ const Transactions = () => {
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(false)
     const [load, setLoad] = useState(false)
+    const [meta,setMeta] = useState({})
     const navigate = useNavigate()
+    const [page,setPage] = useState()
+    const [perPage,setPerPage] = useState()
 
     const [opener, setOpener] = React.useState(false);
     const [value, setValue] = React.useState(0);
@@ -208,6 +211,8 @@ const Transactions = () => {
             const response = await Protected.get(`${BASE_URL}/api/transaction?q=${search}`)
             console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
+            setMeta(response?.data?.data?.meta)
+            console.log('meta>>>>', response?.data?.data?.meta)
             setLoad(false)
         } catch (error) {
             setLoad(false)
@@ -302,17 +307,12 @@ const Transactions = () => {
                     <div className='py-4 px-3 w-[90%] my-8 mx-auto'>
 
                         {payin ? (
-                            <TransactionTable handleClickOpen={handleClickOpen} handleCloser={handleCloser} opener={opener} setOpener={setOpener} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} />
+                            <TransactionTable handleClickOpen={handleClickOpen} handleCloser={handleCloser} opener={opener} setOpener={setOpener} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} meta={meta} setMeta={setMeta} setLoad={setLoad} setTransaction={setTransaction} BASE_URL={BASE_URL} Protected={Protected}/>
                         ) : <PayOutTable />}
-
                     </div>
                 </DashboardLayout>
             </div>
-
-
             {/* MOBILE SCREENS */}
-
-
             <div className='block lg:hidden'>
                 <div className='py-6'>
                     <div className='w-[90%] mx-auto'>
@@ -339,7 +339,6 @@ const Transactions = () => {
                                     </IconButton>
                                 </Paper>
                             </div>
-
                             <div className='flex flex-col'>
                                 {start !== '' || end !== '' || entity !== '' || type !== '' || entity !== '' || status !== '' ? (
                                     <div className='py-4'>

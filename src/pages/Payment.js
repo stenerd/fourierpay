@@ -250,8 +250,6 @@ const Payment = () => {
                     <div className='min-h-screen'>
                         <div className='px-16 py-12'>
                             <Grid container spacing={3}>
-
-
                                 <Grid item xs={12} md={7}>
                                     <div className='flex flex-col justify-center items-center'>
                                         <div className='w-full'>

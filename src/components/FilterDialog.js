@@ -40,9 +40,6 @@ export default function FilterDialog({ open21, setOpen21, handleClickOpen21, han
     }, 1500)
 
   }
-
-
-
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -77,8 +74,6 @@ export default function FilterDialog({ open21, setOpen21, handleClickOpen21, han
               </div>
 
             ) : ''}
-
-
             <div className='flex items-center flex-wrap space-x-1 gap-4 py-3'>
               {start !== '' && (
                 <small onClick={(e) => {
@@ -112,8 +107,6 @@ export default function FilterDialog({ open21, setOpen21, handleClickOpen21, han
                 }} className={`create-payment-divider-options cursor-pointer`}>Entity <span className='text-white create-payment-dynamic-form-options-close cursor-pointer'  > x</span></small>
               )}
             </div>
-
-
           </div>
           <div className='py-3'>
             <form ref={formRef}>

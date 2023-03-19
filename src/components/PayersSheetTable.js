@@ -238,7 +238,6 @@ export default function PayersSheetTable({
 
           </>
           )}
-
         </Table>
       </TableContainer>
       {/* <TransactionModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} recentTransaction={recentTransaction}/> */}
