@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 import MenuDropDown from '../components/Menu';
 import BottomNav from '../components/bottomNav';
 import FilterDialog from '../components/FilterDialog';
+import StatusBadge from '../components/atom/mobile/StatusBadge';
 // import FilterDialog from '../components/FilterDialog';
 const Transactions = () => {
     const [payin, setPayin] = useState(true)
@@ -61,7 +62,10 @@ const Transactions = () => {
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(false)
     const [load, setLoad] = useState(false)
+    const [meta,setMeta] = useState({})
     const navigate = useNavigate()
+    const [page,setPage] = useState()
+    const [perPage,setPerPage] = useState()
 
     const [opener, setOpener] = React.useState(false);
     const [value, setValue] = React.useState(0);
@@ -190,6 +194,7 @@ const Transactions = () => {
 
 
     const handleKeyDown = async (event) => {
+        // event.preventDefault()
         if (event.key === 'Enter') {
             // 👇 Get input value
             // SearchTransaction()
@@ -198,7 +203,6 @@ const Transactions = () => {
             console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
         }
-
     };
     console.log(transactions)
 
@@ -208,6 +212,8 @@ const Transactions = () => {
             const response = await Protected.get(`${BASE_URL}/api/transaction?q=${search}`)
             console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
+            setMeta(response?.data?.data?.meta)
+            console.log('meta>>>>', response?.data?.data?.meta)
             setLoad(false)
         } catch (error) {
             setLoad(false)
@@ -302,19 +308,14 @@ const Transactions = () => {
                     <div className='py-4 px-3 w-[90%] my-8 mx-auto'>
 
                         {payin ? (
-                            <TransactionTable handleClickOpen={handleClickOpen} handleCloser={handleCloser} opener={opener} setOpener={setOpener} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} />
+                            <TransactionTable handleClickOpen={handleClickOpen} handleCloser={handleCloser} opener={opener} setOpener={setOpener} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} meta={meta} setMeta={setMeta} setLoad={setLoad} setTransaction={setTransaction} BASE_URL={BASE_URL} Protected={Protected}/>
                         ) : <PayOutTable />}
-
                     </div>
                 </DashboardLayout>
             </div>
-
-
             {/* MOBILE SCREENS */}
-
-
             <div className='block lg:hidden'>
-                <div className='py-6'>
+                <div className='py-0'>
                     <div className='w-[90%] mx-auto'>
                         <div className='py-0'>
                             <div className='flex justify-between items-center py-6'>
@@ -331,6 +332,7 @@ const Transactions = () => {
                                         placeholder="Search"
                                         // className='w-2/5 mx-auto'
                                         inputProps={{ 'aria-label': 'search google maps' }}
+                                        onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)}
                                     />
                                     <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleClickOpen21}>
                                         {/* <SearchIcon /> */}
@@ -338,7 +340,6 @@ const Transactions = () => {
                                     </IconButton>
                                 </Paper>
                             </div>
-
                             <div className='flex flex-col'>
                                 {start !== '' || end !== '' || entity !== '' || type !== '' || entity !== '' || status !== '' ? (
                                     <div className='py-4'>
@@ -346,8 +347,6 @@ const Transactions = () => {
                                     </div>
 
                                 ) : ''}
-
-
                                 <div className='flex items-center flex-wrap space-x-1 gap-4'>
                                     {start !== '' && (
                                         <small onClick={() => handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>StartDate <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' > x</span></small>
@@ -367,7 +366,7 @@ const Transactions = () => {
                                 </div>
 
                             </div>
-                            <div className='py-2 mb-4'>
+                            <div className='py-8 mb-4'>
                                 {transactions && !load ? transactions.map((each, index) => (
                                     <div className='flex justify-between mb-8 items-center' key={index} onClick={() => {
                                         // console.log(each)
@@ -378,12 +377,12 @@ const Transactions = () => {
                                             {each.in_entity !== 'Wallet' ?
                                                 (
                                                     <div className='p-2 c-icon-bg'>
-                                                        <img src='/images/payment-icon-in.svg' className='w-[20px]' alt="alt-img" />
+                                                        <img src='/images/in-icon.svg' className='w-[28px]' alt="alt-img" />
                                                     </div>
                                                 ) :
                                                 (
                                                     <div className='p-2 c-icon-bg-withdrawal'>
-                                                        <img src='/images/withdrawal-icon-out.svg' className='w-[20px]' alt="alt-img" />
+                                                        <img src='/images/out-icon.svg' className='w-[28px]' alt="alt-img" />
                                                     </div>
                                                 )
                                             }
@@ -400,7 +399,8 @@ const Transactions = () => {
                                         </div>
                                         <div className='flex flex-col'>
                                             <h2 className='text-sm p-0 text-gray-500 font-bold lowercase self-end'>{each.in_entity !== 'Wallet' ? each.in_entity : 'Withdrawal'}</h2>
-                                            <small className={each.in_entity !== 'Wallet' ? 'pt-1 self-end flex-1 font-bold c-text-green' : 'pt-1 self-end flex-1 font-bold c-text-danger'}>{each.in_entity !== 'Wallet' ? '+' : '-'} ₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
+                                            <small className={each.in_entity !== 'Wallet' ? 'pt-1 self-end flex-1 font-bold text-[#01b133]' : 'pt-1 self-end flex-1 font-bold c-text-danger'}>{each.in_entity !== 'Wallet' ? '+' : '-'} ₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
+                                            <StatusBadge status={each.status} />
                                         </div>
                                     </div>
                                 )) : (

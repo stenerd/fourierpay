@@ -1,8 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import StatusBadge from './atom/web/StatusBadge';
 
 const style = {
     position: 'absolute',
@@ -43,7 +42,7 @@ export default function RecentModal({ opened, setOpened, handleOpened, handleClo
                             </div>
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Status</h2>
-                                <p className={recentPayment?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{recentPayment?.status}</p>
+                                <StatusBadge status={recentPayment?.status} />
                             </div>
                             {/* <h2>Amount :</h2> */}
                         </div>

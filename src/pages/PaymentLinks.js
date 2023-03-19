@@ -23,6 +23,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import MenuDropDown from '../components/Menu';
 import BottomNav from '../components/bottomNav';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import RecentLinksSkeleton from '../components/RecentLinksSkeleton';
 
 
 const PaymentLinks = () => {
@@ -112,14 +113,11 @@ const PaymentLinks = () => {
         } catch (error) {
             console.log(error.response)
         }
-
-
         console.log({ link, singleLink: link.link })
     }
     const compareDate = () => {
         console.log(moment(Date.now()).format(('MMM DD, YYYY')))
     }
-
 
     useEffect(() => {
         setValue('links')
@@ -198,7 +196,7 @@ const PaymentLinks = () => {
                                                 <div className=' flex justify-between items-center'>
                                                     <div className='pt-2'>
                                                         <p className='text-gray-500 font-medium'>Amount</p>
-                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
+                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
                                                     </div>
                                                     <button className='c-bg-primary-light-mobile'>
                                                         <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
@@ -221,7 +219,7 @@ const PaymentLinks = () => {
                                                 <div className=' flex justify-between items-center'>
                                                     <div className='pt-2'>
                                                         <p className='text-gray-500 font-medium'>Amount</p>
-                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
+                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
                                                     </div>
                                                     <button className='c-bg-primary-light-mobile'>
                                                         <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
@@ -244,7 +242,7 @@ const PaymentLinks = () => {
                                                 <div className=' flex justify-between items-center'>
                                                     <div className='pt-2'>
                                                         <p className='text-gray-500 font-medium'>Amount</p>
-                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
+                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
                                                     </div>
                                                     <button className='c-bg-primary-light-mobile'>
                                                         <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
@@ -269,9 +267,10 @@ const PaymentLinks = () => {
                                     </div>
                                 )}
                             {paymentLinks?.length === 0 && (
-                                <div className='flex flex-col justify-center py-2 px-2'>
-                                    <img src="/images/payments.svg" alt='alt-img' className='w-2/5 mx-auto' />
-                                    <p className='text-gray-500 text-center'>No Links Yet!</p>
+                                <div className=''>
+                                    {/* <img src="/images/payments.svg" alt='alt-img' className='w-2/5 mx-auto' />
+                                    <p className='text-gray-500 text-center'>No Links Yet!</p> */}
+                                    <RecentLinksSkeleton/>
                                 </div>
                             )}
                         </div>

@@ -9,7 +9,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import dayjs from 'dayjs';
-import { FormControl, Grid, InputLabel, MenuItem, Select, TextField, Divider } from '@mui/material';
+import { FormControl, Grid, InputLabel, MenuItem, Select, TextField, Divider, Backdrop, CircularProgress } from '@mui/material';
 import DashboardLayout from '../components/DashboardLayout';
 import Titlebar from '../components/TitleBar';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -38,23 +38,26 @@ const MakePayment = () => {
     const [tab, setTab] = React.useState(1);
     const [paymentData, setPaymentData] = React.useState({});
     const [paymentLink, setPaymentLink] = React.useState({});
+    const [result, setResult] = React.useState({});
     const paystackButtonRef = React.useRef(null);
+    const [delay,setDelay] = React.useState(false)
 
+    const handleClosed = ()=>{
+        setDelay(false)
+    } 
     const FetchPaymentLink = async () => {
         try {
             const response = await axios.get(`${BASE_URL}/api/payment-link/${code}`)
             console.log('ppp >> ', response.data.data)
             setPaymentLink(response.data.data)
-           
+
         } catch (error) {
             console.log(error)
         }
-
     }
-
-    React.useEffect(()=>{
+    React.useEffect(() => {
         FetchPaymentLink()
-    },[])
+    }, [])
 
     const handleFieldChanges = (e, index) => {
         e.preventDefault();
@@ -83,7 +86,7 @@ const MakePayment = () => {
         const validatedForm = []
 
         for (let i = 0; i < paymentLink.form.length; i++) {
-            const each = {...paymentLink.form[i]};
+            const each = { ...paymentLink.form[i] };
 
             delete each.error;
 
@@ -100,7 +103,7 @@ const MakePayment = () => {
             ...prev,
             form: validatedForm
         }))
-        
+
         return check
     }
 
@@ -113,15 +116,24 @@ const MakePayment = () => {
         // Implementation for whatever you want to do with reference and after success call.
         console.log(reference);
         try {
-            await axios.post(`${BASE_URL}/api/payment/verify`, {
+            const result = await axios.post(`${BASE_URL}/api/payment/verify`, {
                 reference: paymentData.reference
             })
-            navigate(`/pay/${code}/reciept/${paymentData.reference}`)
+            console.log('result >> ', result)
+            if (tab === 2) {
+                setResult(result.data.data)
+                setTab(3)
+            } else {
+                navigate(`/pay/${code}/reciept/${paymentData.reference}`)
+            }
         } catch (error) {
             console.log(error.response.data.message)
             toast.error(error.response.data.message)
             console.log('An error occurred')
             setLoading(false)
+            if (tab === 2) {
+                setTab(3)
+            }
         }
     };
 
@@ -146,7 +158,7 @@ const MakePayment = () => {
         ...config,
         text: 'Paystack Button Implementation',
         onSuccess: (reference) => handleSuccess(reference),
-        onClose:(reference) => handleClose(reference)
+        onClose: (reference) => handleClose(reference)
     };
 
 
@@ -159,7 +171,7 @@ const MakePayment = () => {
         initializePayment(handleSuccess, handleClose)
 
     }
-    
+
     const makePaymentHandler = async (e) => {
 
         e.preventDefault()
@@ -178,14 +190,18 @@ const MakePayment = () => {
             })
 
             console.log('initiateTrnx >> ', initiateTrnx.data.data)
-            
-            setPaymentData((prev) => ({...initiateTrnx.data.data}))
+
+            setPaymentData((prev) => ({ ...initiateTrnx.data.data }))
             setValue((prev => prev ? 0 : 1))
+
+            setDelay(true)
+
+
 
             setTimeout(() => {
                 paystackButtonRef.current.click()
-               
-            }, 2000);      
+                setDelay(false)
+            }, 2000);
             // console.log('done successfully')
             // ref.current.open();
             // setLoading(false)
@@ -199,19 +215,36 @@ const MakePayment = () => {
             //     progress: undefined,
             //     theme: "light",
             // });
-             setLoading(false)
+            setLoading(false)
         } catch (error) {
             console.log(error.response.data.message)
             toast.error(error.response.data.message)
             console.log('An error occurred')
             setLoading(false)
         }
+    }
 
+    const copyText = async (link) => {
+        try {
+            await navigator.clipboard.writeText(link)
+            toast.success('Copied To Clipboard', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        } catch (error) {
+            console.log(error.response)
+        }
     }
 
     return (
         <>
-        {/* <div className='block lg:hidden'>
+            {/* <div className='block lg:hidden'>
             
         </div> */}
             <div className='block md:hidden relative'>
@@ -226,10 +259,10 @@ const MakePayment = () => {
                                 <img src='/images/make-payment-icon.svg' alt="alt-img" />
                             </div>
                             <div className='pl-4 w-full'>
-                                <p className='font-bold text-white text-lg'>Class Dues</p>
+                                <p className='font-bold text-white text-lg'>{ paymentLink.name }</p>
                                 <p className='pt-3 flex justify-between w-full'>
-                                    <p className='font-medium text-[#D3D4D4] text-base'>By Admin</p>
-                                    <p className='font-bold text-[#97F675] text-lg'>₦ 50,000</p>
+                                    <p className='font-medium text-[#D3D4D4] text-base c-elipses'>By {paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
+                                    <p className='font-bold text-[#97F675] text-lg'>₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
                                 </p>
                             </div>
                         </div>
@@ -237,25 +270,25 @@ const MakePayment = () => {
                     <div className='relative px-6 pt-6 w-full'>
                         <p className='text-[#D3D4D4] font-medium italic'>Description</p>
                         <p className='text-white pt-2 font-medium'>
-                            Class DuesClass DuesClass DuesClass DuesClass DuesClass Dues italic italic...
+                            {paymentLink.description}
                         </p>
                     </div>
                     <div className='relative px-6 pt-6 w-full'>
-                        <p className='text-[#D3D4D4] font-medium italic'>Expiry Date - <span>Active</span></p>
+                        <p className='text-[#D3D4D4] font-medium capitalize italic'>{paymentLink.expires_at && 'Expiry Date - '}<span>{paymentLink.status}</span></p>
                         <p className='text-white pt-2 font-medium'>
-                            12, September 2022
+                            {paymentLink.expires_at && moment(paymentLink.expires_at).format('dddd, DD MMMM YYYY')}
                         </p>
                     </div>
                     <div className='relative px-6 pt-2 w-full'>
                         <p className='text-white font-medium cm-mobile-make-payment-divider pb-6'>
-                            ₦ 15 VAT
+                            ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)} VAT
                         </p>
                     </div>
 
                     <div className='relative px-6 pt-6 w-full'>
                         <p className='text-center pb-2'>
                             <span className='text-white font-medium text-lg'>₦ &nbsp;</span>
-                            <span className='text-[#97F675] font-bold text-3xl'>50,015</span>
+                            <span className='text-[#97F675] font-bold text-3xl'>{Intl.NumberFormat('en-US').format(paymentLink.charges + paymentLink.amount || 0)}</span>
                         </p>
                     </div>
 
@@ -266,11 +299,11 @@ const MakePayment = () => {
                                     <span className='controller'></span>
                                 </div>
                                 <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
-                                    <div className='pt-4 mb-12 top-section'></div>
-                                    <button className='cm-buttom' onClick={() => setTab(2)}>Pay ₦50,050</button>
+                                    <div className='pt-4 mb-12 top-section' onClick={() => setTab(2)}></div>
+                                    <button className='cm-buttom' onClick={() => setTab(2)}>Pay ₦{Intl.NumberFormat('en-US').format(paymentLink.charges + paymentLink.amount || 0)}</button>
                                 </div>
                             </div>
-                        ): ''
+                        ) : ''
                     }
                     {
                         (tab === 2) ? (
@@ -293,12 +326,12 @@ const MakePayment = () => {
                                                             paymentLink.form.map((link, index) => (
                                                                 <Grid item xs={12} key={index}>
                                                                     <div className='flex flex-col space-y-3 mb-2'>
-                                                                        <label for={'for'+index+1} className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
+                                                                        <label for={'for' + index + 1} className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
                                                                         {
                                                                             link.field_type === 'text' ? (
                                                                                 <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="pb-2 px-4 w-full outline-none c-text-input" />
                                                                             ) : (
-                                                                                <select id={'for'+index+1} placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="pb-2 px-4 w-full outline-none c-text-input">
+                                                                                <select id={'for' + index + 1} placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="pb-2 px-4 w-full outline-none c-text-input">
                                                                                     <option value={''}>Select {link.field_name} </option>
                                                                                     {
                                                                                         link.options.map((option, i) => (
@@ -321,13 +354,11 @@ const MakePayment = () => {
                                                 </div>
                                             ) : ''
                                         }
-
-
                                     </div>
-                                    <button className='cm-buttom' onClick={() => setTab(3)}>Pay ₦50,050</button>
+                                    <button className='cm-buttom' onClick={(e) => makePaymentHandler(e)}>Pay ₦{Intl.NumberFormat('en-US').format(paymentLink.charges + paymentLink.amount || 0)}</button>
                                 </div>
                             </div>
-                        ): ''
+                        ) : ''
                     }
                     {
                         (tab === 3) ? (
@@ -338,7 +369,7 @@ const MakePayment = () => {
                                 <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
                                     <div className='pt-0'>
                                         <div className='flex justify-center'>
-                                           <img src='/images/payment-successful.svg' alt="alt-img" />
+                                            <img src='/images/payment-successful.svg' alt="alt-img" />
                                         </div>
                                         <div className='flex justify-center mt-4'>
                                             <p className='font-bold text-base text-[#222926]'>Transfer Successful</p>
@@ -347,13 +378,13 @@ const MakePayment = () => {
                                             <p className='text-gray-400 text-sm font-medium'>Your money was successfully sent</p>
                                         </div>
                                         <div className='flex justify-center mt-3'>
-                                            <p className='text-[#15C01A] pr-2 text-base font-medium'>TDFGHSBJDS64746YUR</p>
+                                            <p className='text-[#15C01A] pr-2 text-base font-medium cursor-pointer' onClick={() => copyText(result.transaction && result.transaction.reference)}>{result.transaction && result.transaction.reference}</p>
                                             <img src='/images/copy.svg' alt="alt-img" />
                                         </div>
                                         <div className='flex justify-center mt-4'>
                                             <p className='font-bold text-base text-[#222926]'>
                                                 <span className='text-gray-400 font-medium text-lg'>₦ &nbsp;</span>
-                                                <span className='font-bold text-3xl'>50,015</span>
+                                                <span className='font-bold text-3xl'>{Intl.NumberFormat('en-US').format(paymentLink.charges + paymentLink.amount || 0)}</span>
                                             </p>
                                         </div>
                                         <div className='mt-6'>
@@ -366,9 +397,9 @@ const MakePayment = () => {
                                                     <img src='/images/make-payment-icon.svg' alt="alt-img" />
                                                 </div>
                                                 <div className='pl-4 w-full'>
-                                                    <p className='font-bold text-[#222926] text-lg'>Class Dues</p>
+                                                    <p className='font-bold text-[#222926] text-lg'>{ paymentLink.name }</p>
                                                     <p className='pt-1 flex justify-between w-full'>
-                                                        <p className='text-[#222926] text-sm'>21-03-2023 - 3:48pm</p>
+                                                        <p className='text-[#222926] text-sm'>{result.payment && moment(result.payment.createdAt).format('dddd MMMM DD, YYYY - hh:mm:A')}</p>
                                                     </p>
                                                 </div>
                                             </div>
@@ -380,20 +411,27 @@ const MakePayment = () => {
                                     <button className='cm-buttom' onClick={() => setTab(1)}>Done</button>
                                 </div>
                             </div>
-                        ): ''
+                        ) : ''
                     }
 
-                    
 
-                    
+
+
                 </div>
             </div>
             <div className='hidden md:block'>
                 <div className='min-h-screen'>
+                    {delay && (
+                        <Backdrop
+                            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                            open={delay}
+                            // onClick={handleClosed}
+                        >
+                            <CircularProgress color="inherit" />
+                        </Backdrop>
+                    )}
                     <div className='px-4 lg:px-16 py-8 lg:py-16 mx-auto'>
                         <div className='flex mx-auto min-h-[85vh]'>
-
-                        
                             <div className='w-[90%] lg:w-[55%] mx-auto c-make-payment p-[1.5rem] lg:p-[4rem]'>
                                 <div className='flex flex-col justify-center items-center'>
                                     <div className='w-full'>
@@ -404,7 +442,7 @@ const MakePayment = () => {
                                                     <small className='text-sm text-[#00bf00] status-pill c-status-border-pill capitalize'>{paymentLink.status} {paymentLink.expires_at && ' - ' + moment(paymentLink.expires_at).format('dddd, DD MMMM YYYY')}</small>
                                                 </div>
                                             </div>
-                                            
+
                                             <p className='font-bold text-[#234244] text-xl uppercase c-make-payment-owner'>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
                                             <p className='font-bold text-gray-700 text-lg'>{paymentLink.name}</p>
                                             <span className='font-bold text-gray-500 inline-block w-full'>{paymentLink.description}</span>
@@ -449,48 +487,41 @@ const MakePayment = () => {
                                                     </div>
                                                 ) : ''
                                             }
-                                            
-                                            
 
-                                            
-                                            
-                                            
-                                            
+
+
+
+
+
+
                                             {/* {fields}
                                             <div className='flex flex-col space-y-3'>
                                                 <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
-                                            </div> */} 
+                                            </div> */}
                                             <div className='py-4'>
-                                                <button disabled={loading?true:false} className='c-primary-button'  onClick={(e) => makePaymentHandler(e)}>
+                                                <button disabled={loading || delay ? true : false} className='c-primary-button' onClick={(e) => makePaymentHandler(e)}>
                                                     {loading ? 'Processing.....' : 'Make Payment'}
                                                 </button>
-
-                                                <PaystackConsumer 
+                                                <PaystackConsumer
                                                     className='hidden'
-                                                    onSuccess = {(reference) => handleSuccess(reference)}
-                                                    onClose = {(reference) => handleClose(reference)}
+                                                    onSuccess={(reference) => handleSuccess(reference)}
+                                                    onClose={(reference) => handleClose(reference)}
                                                     {...paymentData}
                                                 >
-                                                    {({initializePayment}) => <button className='hidden' disabled={loading?true:false}  ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
+                                                    {({ initializePayment }) => <button className='hidden' disabled={loading ? true : false} ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
                                                         {loading ? 'Paying...' : 'Make Payment'}
                                                     </button>}
                                                 </PaystackConsumer>
-
-
                                             </div>
                                         </form>
                                     </div>
-
                                 </div>
                             </div>
-                        
                         </div>
                     </div>
-
-
                 </div>
             </div>
-             
+
             <ToastContainer
                 position="top-right"
                 autoClose={5000}

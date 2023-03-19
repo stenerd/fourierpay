@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import StatusBadge from './atom/web/StatusBadge';
 
 const style = {
     position: 'absolute',
@@ -55,7 +56,7 @@ export default function SingleTransactionModal({ open7, setOpen7, handleOpen7, h
                             </div>
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Status</h2>
-                                <p className={singleTransaction?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{singleTransaction?.status}</p>
+                                <StatusBadge status={singleTransaction?.status} />
                             </div>
                             {/* <h2>Amount :</h2> */}
                         </div>

@@ -9,6 +9,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { IconButton } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
+import BottomNav from './bottomNav';
 
 export default function FilterDialog({ open21, setOpen21, handleClickOpen21, handleClose21, transactions, setSearch, search, start, end, status, setStatus, setEnd, setStart, filterData, entity, setEntity, type, setType, load, loading, formRef, startRef, endRef, statusRef, typeRef, entityRef, filterLink, clearData }) {
 
@@ -39,9 +40,6 @@ export default function FilterDialog({ open21, setOpen21, handleClickOpen21, han
     }, 1500)
 
   }
-
-
-
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -76,8 +74,6 @@ export default function FilterDialog({ open21, setOpen21, handleClickOpen21, han
               </div>
 
             ) : ''}
-
-
             <div className='flex items-center flex-wrap space-x-1 gap-4 py-3'>
               {start !== '' && (
                 <small onClick={(e) => {
@@ -111,8 +107,6 @@ export default function FilterDialog({ open21, setOpen21, handleClickOpen21, han
                 }} className={`create-payment-divider-options cursor-pointer`}>Entity <span className='text-white create-payment-dynamic-form-options-close cursor-pointer'  > x</span></small>
               )}
             </div>
-
-
           </div>
           <div className='py-3'>
             <form ref={formRef}>
@@ -171,7 +165,7 @@ export default function FilterDialog({ open21, setOpen21, handleClickOpen21, han
             </div>
           </div>
         </div>
-
+        <BottomNav />
       </Dialog>
     </div>
   );

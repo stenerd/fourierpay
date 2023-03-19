@@ -21,6 +21,15 @@ export default function PaymentLinkSettings({recallServerData, initialOpenState,
     const [openSetPublicModal, setOpenSetPublicModal] = useState(false);
     const fileTypes = ["xlsx"];
 
+    const [open21, setOpen21] =useState(false);
+    const handleClickOpen21 = () => {
+      setOpen21(true);
+    };
+  
+    const handleClose21 = () => {
+      setOpen(false);
+    };
+
 
     const [open, setOpen] = useState({
         state: true,
@@ -146,7 +155,7 @@ export default function PaymentLinkSettings({recallServerData, initialOpenState,
 
     return (
         <>
-            <div className="w-[65%]">
+            <div className="md:w-[65%] w-full">
                 <div data-accordion="collapse" className="text-[#1d3329]">
                     <h2>
                         <div type="button" className="flex items-center justify-between w-full pb-3 pt-5 text-left">
@@ -173,14 +182,14 @@ export default function PaymentLinkSettings({recallServerData, initialOpenState,
                             {
                                 open.state ? (
                                     <>
-                                        <div className="flex mt-4 text-gray-600 justify-between w-[90%]">
+                                        <div className="flex mt-4 text-gray-600 justify-between md:w-[90%] w-full">
                                             <p className="font-bold text-base">Make your payment link private</p>
                                             <ToggleButton full={true} initialState={showUpload} key={remountShowUploadToggle}  switcher={(val) => confirmSetShowUpload(val)} />
                                         </div>
                                         {
                                             (showUpload && (paymentLink.state === 'public')) ? (
                                                 <>
-                                                    <div className="mt-4 text-gray-600 w-[90%]">
+                                                    <div className="mt-4 text-gray-600 md:w-[90%] w-full">
                                                         <p className="font-bold mb-2 text-base">Upload payer sheet to complete the privitization process</p>
                                                         <FileUploader
                                                             multiple={false}

@@ -78,6 +78,13 @@
     font-size: 70%;
     color: #01b133;
     background: #E6FBEC;
+    border: 1px solid #21b34526;
+}
+.m-status-paid2{
+    display: inline-block;
+    font-weight: bold;
+    font-size: 70%;
+    color: #01b133;
 }
 .status-fail{
     color: #f8faf7;
@@ -97,6 +104,29 @@
     border-radius: 0.8rem;
     font-size: 70%;
     background: #FFE6E2;
+    border: 1px solid #b3212126
+}
+.m-status-fail2 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 70%;
+    color: #E83812;
+}
+.status-pending2{
+    color: #ffb800;
+    display: inline-block;
+    padding: 0.05rem 1rem;
+    font-weight: bold;
+    border-radius: 0.8rem;
+    font-size: 70%;
+    background: #ffdf8b52;
+    border: 1px solid #b3ae2126;
+}
+.m-status-pending2 {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 70%;
+    color: #ffb800;
 }
 
 .fourier.profile{
@@ -499,4 +529,10 @@
     font-weight: 600;
     border-radius: 4px;
     color: #1d3329;
+}
+.c-elipses{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
 }
