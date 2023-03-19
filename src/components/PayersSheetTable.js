@@ -15,22 +15,22 @@ import FilterDialog from './FilterDialog';
 
 
 export default function PayersSheetTable({
-    data,
-    payersSheet,
-    onChange,
-    handleKeyDown,
-    start,
-    end,
-    status,
-    setStatus,
-    setEnd,
-    setStart,
-    filterData,
-    opener,
-    setOpener,
-    handleClickOpen,
-    handleCloser,
-    loading
+  data,
+  payersSheet,
+  onChange,
+  handleKeyDown,
+  start,
+  end,
+  status,
+  setStatus,
+  setEnd,
+  setStart,
+  filterData,
+  opener,
+  setOpener,
+  handleClickOpen,
+  handleCloser,
+  loading
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -56,9 +56,11 @@ export default function PayersSheetTable({
 
   const [recentPayment, setRecentPayment] = React.useState()
 
+  console.log(payersSheet)
+
   return (
     <>
-      <div className='flex justify-between mb-4'>
+      <div className='md:flex justify-between mb-4 hidden'>
         <div className='w-[20%]'>
           <input placeholder='Search' onChange={onChange} onKeyDown={handleKeyDown} style={{ backgroundColor: '#f8faf7' }} name='q' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
         </div>
@@ -134,15 +136,15 @@ export default function PayersSheetTable({
           </div>
         </div>
       )}
-      <TableContainer className='relative'>
+      <TableContainer className='relative hidden md:block'>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow className='font-bold'>
               <TableCell className='font-bold' style={{ fontWeight: '600' }}>{data.paymentLink.unique_field}</TableCell>
-                {
-                    data.paymentLink.priority_1 ?
-                    (<TableCell className='font-bold' style={{ fontWeight: '600' }}>{data.paymentLink.priority_1}</TableCell>): ''
-                }
+              {
+                data.paymentLink.priority_1 ?
+                  (<TableCell className='font-bold' style={{ fontWeight: '600' }}>{data.paymentLink.priority_1}</TableCell>) : ''
+              }
               <TableCell style={{ fontWeight: '600' }}>Personal Link</TableCell>
               <TableCell style={{ fontWeight: '600' }}>Date</TableCell>
               <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
@@ -165,7 +167,7 @@ export default function PayersSheetTable({
                     <h2 className='font-bold'>{row.unique_answer}</h2>
                   </TableCell>
                   <TableCell className='text-gray-400'>{row.priority_1_answer}</TableCell>
-                  <TableCell className='text-gray-400' style={{ fontSize: '72%' }}>{data.paymentLink.link + '/' +row.unique_answer}</TableCell>
+                  <TableCell className='text-gray-400' style={{ fontSize: '72%' }}>{data.paymentLink.link + '/' + row.unique_answer}</TableCell>
                   <TableCell>{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
                   <TableCell>
                     <div className="text-left">
@@ -177,73 +179,89 @@ export default function PayersSheetTable({
             </TableBody>
           ) : (
             <>
-            {/* <div className='relative'> */}
-            <div className='absolute top-[40%] left-[40%] z-20' >
-              <img src="/images/cuate.svg" alt="payers sheet" className='w-40' />
-              <h2 className='text-gray-500 text-lg mt-3 text-center font-bold'>No Data Yet!</h2>
-            </div>
+              {/* <div className='relative'> */}
+              <div className='absolute top-[40%] left-[40%] z-20' >
+                <img src="/images/cuate.svg" alt="payers sheet" className='w-40' />
+                <h2 className='text-gray-500 text-lg mt-3 text-center font-bold'>No Data Yet!</h2>
+              </div>
 
-            {array.map((arr) => (
-              <TableBody className='relative'>
+              {array.map((arr) => (
+                <TableBody className='relative'>
 
-                <TableRow>
+                  <TableRow>
 
-                  <TableCell> <div className='space-y-2 w-full'>
-                    <div className='bg-gray-200 h-4 w-[60%]'>
-                    </div>
+                    <TableCell> <div className='space-y-2 w-full'>
+                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      </div>
 
-                    {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                      {/* <div className='bg-gray-200 h-4 w-[40%]'>
                       </div> */}
 
-                        </div></TableCell>
+                    </div></TableCell>
                     {
-                        data.paymentLink.priority_1 ?
+                      data.paymentLink.priority_1 ?
                         (
-                            <TableCell> <div className='space-y-2 w-full'>
-                                <div className='bg-gray-200 h-4 w-[60%]'>
-                                </div>
+                          <TableCell> <div className='space-y-2 w-full'>
+                            <div className='bg-gray-200 h-4 w-[60%]'>
+                            </div>
 
-                                {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                            {/* <div className='bg-gray-200 h-4 w-[40%]'>
                                 </div> */}
 
-                            </div></TableCell>
-                        ): ''
+                          </div></TableCell>
+                        ) : ''
                     }
                     <TableCell> <div className='space-y-2 w-full'>
-                    <div className='bg-gray-200 h-4 w-[60%]'>
-                    </div>
+                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      </div>
 
-                    {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                      {/* <div className='bg-gray-200 h-4 w-[40%]'>
                       </div> */}
 
-                  </div></TableCell>
-                  <TableCell> <div className='space-y-2 w-full'>
-                    <div className='bg-gray-200 h-4 w-[60%]'>
-                    </div>
+                    </div></TableCell>
+                    <TableCell> <div className='space-y-2 w-full'>
+                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      </div>
 
 
-                  </div></TableCell>
-                  <TableCell> <div className='space-y-2 w-full'>
-                    <div className='bg-gray-200 h-4 w-[60%]'>
-                    </div>
+                    </div></TableCell>
+                    <TableCell> <div className='space-y-2 w-full'>
+                      <div className='bg-gray-200 h-4 w-[60%]'>
+                      </div>
 
 
 
-                  </div></TableCell>
-                </TableRow>
+                    </div></TableCell>
+                  </TableRow>
 
-              </TableBody>
-            ))}
-            {/* </div> */}
+                </TableBody>
+              ))}
+              {/* </div> */}
 
-          </>
+            </>
           )}
         </Table>
       </TableContainer>
+      {/* mobile view */}
+      <div className='px-2 mb-4'>
+        <div>
+          {payersSheet.data ? payersSheet.data.map((each, index) => (
+            <div className='py-3 flex justify-between items-center' key={index}>
+              <div className='flex flex-col items-start'>
+                <h2 className='font-bold text-base text-[#2d2d2d] c-text-elipses'>{each?.unique_answer}</h2>
+                <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
+                ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mma')}</small>
+              </div>
+              <div className='flex flex-col items-end'>
+                <p className={each.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid2 self-end' : 'py-2 px-2 rounded-lg text-sm status-fail2 self-end'}>{each.status}</p>
+              </div>
+            </div>
+          )) : <div></div>}
+        </div>
+      </div>
       {/* <TransactionModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} recentTransaction={recentTransaction}/> */}
       <SinglePaymentModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} recentPayment={recentPayment} />
       <FilterDialog loading={loading} setOpener={setOpener} opener={opener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} start={start} end={end} setStart={setStart} status={status} setEnd={setEnd} setStatus={setStatus} filterData={filterData} />
     </>
-
   );
 }

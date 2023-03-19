@@ -592,7 +592,7 @@ const SinglePaymentLink = () => {
                                 )}
                             </div>
                         </div>
-                        <div className='py-3 mt-2 space-y-3 mb-5'>
+                        <div className='md:py-3 md:mt-3 md:space-y-3 space-y-3 md:mb-5'>
                             {payments && (
                                 <>
                                     {data ? data?.payments?.map((row, index) => (
@@ -645,7 +645,7 @@ const SinglePaymentLink = () => {
                             {pending && (
                                 <>
                                     {/* <div className='py-4'> */}
-                                        <div className='py-6'>
+                                        <div className='py-2'>
                                             <PayersSheetTable
                                                 loading={loadPayersSheet}
                                                 opener={opener}
@@ -670,7 +670,7 @@ const SinglePaymentLink = () => {
                             )}
                             {settings && (
                                 <>
-                                    <div className='py-4'>
+                                    <div className='py-2'>
                                         <PaymentLinkSettings
                                             linkData={linkData}
                                             paymentLink={data.paymentLink}
