@@ -6,15 +6,11 @@ import axios from 'axios'
 import Protected, { BASE_URL } from '../utils/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment'
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import QrCode2Icon from '@mui/icons-material/QrCode2';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 
 const PublicPayment = () => {
     let { code } = useParams();
     const dispatch = useDispatch()
+    const navigate = useNavigate();
     const [result, setResult] = React.useState({});
     const [loading, setLoading] = React.useState(false);
 
@@ -39,6 +35,7 @@ const PublicPayment = () => {
            
         } catch (error) {
             console.log(error)
+            navigate(`/`)
         }
         setLoading(false)
 
@@ -173,7 +170,7 @@ const PublicPayment = () => {
                                         >
                                         <TableCell>{index + 1}</TableCell>
                                         <TableCell component="th" scope="row" style={{ fontWeight: '700' }} >
-                                            <h2 className='font-bold uppercase'>{row.unique_answer}</h2>
+                                            <h2 className='font-bold'>{row.unique_answer}</h2>
                                         </TableCell>
                                         <TableCell>{moment(row.payment_id ? row.payment_id.createdAt : row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
                                         <TableCell>{moment(row.payment_id ? row.payment_id.createdAt : row.createdAt).format('hh:mm:ss A')}</TableCell>

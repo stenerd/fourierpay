@@ -500,3 +500,9 @@
     border-radius: 4px;
     color: #1d3329;
 }
+.c-elipses{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
+}
