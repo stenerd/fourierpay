@@ -1,5 +1,5 @@
 import { Button, Divider, IconButton, InputBase, Skeleton, Stack } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import TransactionTable from '../components/TransactionsTable'
 import TuneIcon from '@mui/icons-material/Tune';
@@ -15,6 +15,9 @@ import RecentTransacton from '../components/RecentTransaction';
 import { useSelector } from 'react-redux';
 import MenuDropDown from '../components/Menu';
 import BottomNav from '../components/bottomNav';
+import FilterDialog from '../components/FilterDialog';
+import StatusBadge from '../components/atom/mobile/StatusBadge';
+// import FilterDialog from '../components/FilterDialog';
 const Transactions = () => {
     const [payin, setPayin] = useState(true)
     const [payout, setPayout] = useState(false)
@@ -59,7 +62,10 @@ const Transactions = () => {
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(false)
     const [load, setLoad] = useState(false)
+    const [meta,setMeta] = useState({})
     const navigate = useNavigate()
+    const [page,setPage] = useState()
+    const [perPage,setPerPage] = useState()
 
     const [opener, setOpener] = React.useState(false);
     const [value, setValue] = React.useState(0);
@@ -170,8 +176,25 @@ const Transactions = () => {
 
     }
 
+    const [open21, setOpen21] = React.useState(false);
+    const handleClickOpen21 = () => {
+        setOpen21(true);
+    };
+
+    const handleClose21 = () => {
+        setOpen21(false);
+    };
+
+    const formRef = useRef()
+    const startRef = useRef()
+    const endRef = useRef()
+    const statusRef = useRef()
+    const typeRef = useRef()
+    const entityRef = useRef()
+
 
     const handleKeyDown = async (event) => {
+        // event.preventDefault()
         if (event.key === 'Enter') {
             // 👇 Get input value
             // SearchTransaction()
@@ -180,7 +203,6 @@ const Transactions = () => {
             console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
         }
-
     };
     console.log(transactions)
 
@@ -190,6 +212,8 @@ const Transactions = () => {
             const response = await Protected.get(`${BASE_URL}/api/transaction?q=${search}`)
             console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
+            setMeta(response?.data?.data?.meta)
+            console.log('meta>>>>', response?.data?.data?.meta)
             setLoad(false)
         } catch (error) {
             setLoad(false)
@@ -207,12 +231,13 @@ const Transactions = () => {
             setLoading(true)
             const data = filterLink(status, start, end, type, entity)
             const response = await Protected.get(data)
-            console.log(response.data.data.data)
+            // console.log(response.data.data.data)
             setTransaction(response.data.data.data)
             setLoading(false)
             // console.log('processing')
             console.log(data)
             handleCloser()
+            handleClose21()
             console.log({ status, type, entity, end, start })
             // setEntity('')
             // setEnd('')
@@ -228,6 +253,47 @@ const Transactions = () => {
         }
     }
 
+    const clearData = async () => {
+        formRef.current.reset()
+        setEnd("")
+        setStart("")
+        setStatus("")
+        setType("")
+        setEntity("")
+        try {
+            // const response = await Protected.get(`http://localhost:4000/api/transaction?status=${status}&startDate=${start}&endDate=${end}`)
+            // const response = await Protected.get(`http://localhost:4000/api/transaction?`+status==''?null:status=status+`&`+end==''?null:end=end+`&`+start==''?null:start=start)
+            // const response = await Protected.get(link)
+            setLoading(true)
+            // const data = filterLink(status='', start='', end='', type='', entity='')
+            const response = await Protected.get(`${BASE_URL}/api/transaction`)
+            // console.log(response.data.data.data)
+            setTransaction(response.data.data.data)
+            setLoading(false)
+            // console.log('processing')
+            console.log(data)
+            handleCloser()
+            handleClose21()
+            console.log({ status, type, entity, end, start })
+            // setEntity('')
+            // setEnd('')
+            // setStart('')
+            // setStatus('')
+            // setType('')
+
+        } catch (error) {
+            console.log(error.response)
+            setLoading(false)
+
+            console.log('error')
+        }
+    }
+
+    // const filterThrough = (value)=>{
+    //     value('')
+
+    // }
+
     useEffect(() => {
         fetchTransaction()
     }, [])
@@ -242,27 +308,14 @@ const Transactions = () => {
                     <div className='py-4 px-3 w-[90%] my-8 mx-auto'>
 
                         {payin ? (
-                            <TransactionTable handleClickOpen={handleClickOpen} handleCloser={handleCloser} opener={opener} setOpener={setOpener} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} />
+                            <TransactionTable handleClickOpen={handleClickOpen} handleCloser={handleCloser} opener={opener} setOpener={setOpener} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} meta={meta} setMeta={setMeta} setLoad={setLoad} setTransaction={setTransaction} BASE_URL={BASE_URL} Protected={Protected}/>
                         ) : <PayOutTable />}
-
                     </div>
                 </DashboardLayout>
             </div>
-
-
             {/* MOBILE SCREENS */}
-
-
             <div className='block lg:hidden'>
-                <div className='mb-16'>
-                    {/* <div className='py-6 flex justify-between items-center  w-[85%] mx-auto '>
-                        <div className=''> 
-                            <h2 className='text-xl title fourier font-bold'>Fourier<span>Pay</span></h2>
-                        </div>  
-                        <div className='py-2 px-3 rounded-full bg-[#1D3329]'>
-                            <Person3Icon className="text-white" />
-                        </div>     
-                    </div> */}
+                <div className='py-0'>
                     <div className='w-[90%] mx-auto'>
                         <div className='py-0'>
                             <div className='flex justify-between items-center py-6'>
@@ -279,14 +332,41 @@ const Transactions = () => {
                                         placeholder="Search"
                                         // className='w-2/5 mx-auto'
                                         inputProps={{ 'aria-label': 'search google maps' }}
+                                        onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)}
                                     />
-                                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleClickOpen21}>
                                         {/* <SearchIcon /> */}
                                         <TuneIcon />
                                     </IconButton>
                                 </Paper>
                             </div>
-                            <div className='py-3 mt-4 mb-4'>
+                            <div className='flex flex-col'>
+                                {start !== '' || end !== '' || entity !== '' || type !== '' || entity !== '' || status !== '' ? (
+                                    <div className='py-4'>
+                                        <h2 className='font-bold'>Filtering By</h2>
+                                    </div>
+
+                                ) : ''}
+                                <div className='flex items-center flex-wrap space-x-1 gap-4'>
+                                    {start !== '' && (
+                                        <small onClick={() => handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>StartDate <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' > x</span></small>
+                                    )}
+                                    {end !== '' && (
+                                        <small onClick={() => handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>EndDate <span className='text-white create-payment-dynamic-form-options-close cursor-pointer' > x</span></small>
+                                    )}
+                                    {status !== '' && (
+                                        <small onClick={() => handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>Status <span className='text-white create-payment-dynamic-form-options-close cursor-pointer'  > x</span></small>
+                                    )}
+                                    {type !== '' && (
+                                        <small onClick={() => handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>Type <span className='text-white create-payment-dynamic-form-options-close cursor-pointer'  > x</span></small>
+                                    )}
+                                    {entity !== '' && (
+                                        <small onClick={() => handleClickOpen21()} className={`create-payment-divider-options cursor-pointer`}>Entity <span className='text-white create-payment-dynamic-form-options-close cursor-pointer'  > x</span></small>
+                                    )}
+                                </div>
+
+                            </div>
+                            <div className='py-8 mb-4'>
                                 {transactions && !load ? transactions.map((each, index) => (
                                     <div className='flex justify-between mb-8 items-center' key={index} onClick={() => {
                                         // console.log(each)
@@ -296,13 +376,13 @@ const Transactions = () => {
                                         <div className='flex items-center space-x-3'>
                                             {each.in_entity !== 'Wallet' ?
                                                 (
-                                                <div className='p-2 c-icon-bg'>
-                                                    <img src='/images/payment-icon-in.svg' className='w-[20px]' alt="alt-img" />
-                                                </div>
+                                                    <div className='p-2 c-icon-bg'>
+                                                        <img src='/images/in-icon.svg' className='w-[28px]' alt="alt-img" />
+                                                    </div>
                                                 ) :
                                                 (
                                                     <div className='p-2 c-icon-bg-withdrawal'>
-                                                        <img src='/images/withdrawal-icon-out.svg' className='w-[20px]' alt="alt-img" />
+                                                        <img src='/images/out-icon.svg' className='w-[28px]' alt="alt-img" />
                                                     </div>
                                                 )
                                             }
@@ -312,14 +392,15 @@ const Transactions = () => {
                                                 <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
                                                 ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
                                                 <small className='block text-xs font-bold pt-1 text-gray-500'>
-                                                    { each.in_entity === 'Wallet' ? 'Wallet | ' : `${each.in_entity_id.unique_answer} | ` } {each.reference}
+                                                    {each.in_entity === 'Wallet' ? 'Wallet | ' : `${each.in_entity_id.unique_answer} | `} {each.reference}
                                                 </small>
 
                                             </div>
                                         </div>
                                         <div className='flex flex-col'>
                                             <h2 className='text-sm p-0 text-gray-500 font-bold lowercase self-end'>{each.in_entity !== 'Wallet' ? each.in_entity : 'Withdrawal'}</h2>
-                                            <small className={each.in_entity !== 'Wallet' ? 'pt-1 self-end flex-1 font-bold c-text-green' : 'pt-1 self-end flex-1 font-bold c-text-danger'}>{each.in_entity !== 'Wallet' ? '+' : '-'} ₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
+                                            <small className={each.in_entity !== 'Wallet' ? 'pt-1 self-end flex-1 font-bold text-[#01b133]' : 'pt-1 self-end flex-1 font-bold c-text-danger'}>{each.in_entity !== 'Wallet' ? '+' : '-'} ₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
+                                            <StatusBadge status={each.status} />
                                         </div>
                                     </div>
                                 )) : (
@@ -350,7 +431,10 @@ const Transactions = () => {
                             </div>
                         </div>
                     </div>
+
                 </div>
+                <FilterDialog open21={open21} setOpen21={setOpen21} handleClose21={handleClose21} handleClickOpen21={handleClickOpen21} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} formRef={formRef} statusRef={statusRef} startRef={startRef} endRef={endRef} typeRef={typeRef} entityRef={entityRef} filterLink={filterLink} clearData={clearData} />
+
                 <TransactionDialog open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact} />
                 <BottomNav />
             </div>

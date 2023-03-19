@@ -155,8 +155,8 @@ const PublicPayment = () => {
                                                     (result.data && result.data.paymentLink) ? result.data.paymentLink.unique_field : 'Identifier'
                                                 }
                                         </TableCell>
-                                        <TableCell style={{ fontWeight: '600' }}>DATE PAID | DATE UPLOADED</TableCell>
-                                        <TableCell style={{ fontWeight: '600' }}>TIME</TableCell>
+                                        <TableCell style={{ fontWeight: '600' }}>PAYMENT DATE</TableCell>
+                                        <TableCell style={{ fontWeight: '600' }}>PAYMENT TIME</TableCell>
                                         <TableCell style={{ fontWeight: '600' }}>AMOUNT</TableCell>
                                         <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
                                     </TableRow>
@@ -172,8 +172,8 @@ const PublicPayment = () => {
                                         <TableCell component="th" scope="row" style={{ fontWeight: '700' }} >
                                             <h2 className='font-bold'>{row.unique_answer}</h2>
                                         </TableCell>
-                                        <TableCell>{moment(row.payment_id ? row.payment_id.createdAt : row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
-                                        <TableCell>{moment(row.payment_id ? row.payment_id.createdAt : row.createdAt).format('hh:mm:ss A')}</TableCell>
+                                        <TableCell>{row.payment_id ? moment(row.payment_id.createdAt).format('dddd, DD MMMM YYYY') : 'N/A'}</TableCell>
+                                        <TableCell>{row.payment_id ? moment(row.payment_id.createdAt).format('hh:mm:ss A') : 'N/A'}</TableCell>
                                         <TableCell>
                                                 <p className='font-bold'>₦
                                                     {Intl.NumberFormat('en-US').format(
@@ -183,7 +183,7 @@ const PublicPayment = () => {
                                         </TableCell>
                                         <TableCell>
                                             <div className="text-left">
-                                            <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-base uppercase status-paid2' : 'py-2 px-2 rounded-lg text-base uppercase text-sm status-fail2'}>{row.status}</p>
+                                            <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-base uppercase status-paid2' : 'py-2 px-2 rounded-lg text-base uppercase text-sm status-fail2'}>{row.status === 'paid' ? 'paid' : 'not paid'}</p>
                                             </div>
                                         </TableCell>
                                         </TableRow>

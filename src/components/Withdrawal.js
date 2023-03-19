@@ -11,6 +11,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import moment from 'moment'
 import WithdrawalDialog from './WithdrawalDialog';
 import WithDraws from './Withdraws';
+import StatusBadge from './atom/web/StatusBadge';
 
 
 export default function WithdrawalTable({ load, handleKeyDown, withdrawals, opener, setOpener, handleClickOpen, handleCloser, start, setStart, setStatus, status, end, setEnd, filterData, loading, search, setSearch }) {
@@ -156,7 +157,7 @@ export default function WithdrawalTable({ load, handleKeyDown, withdrawals, open
                                     <TableCell align="left" >{row.paystack_reference}</TableCell>
                                     <TableCell align="left">
                                         <div className="text-left">
-                                            <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{row.status}</p>
+                                            <StatusBadge status={row?.status} />
                                         </div>
                                     </TableCell>
                                 </TableRow>
