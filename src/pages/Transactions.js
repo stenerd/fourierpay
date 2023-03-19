@@ -312,6 +312,7 @@ const Transactions = () => {
                     </div>
                 </DashboardLayout>
             </div>
+
             {/* MOBILE SCREENS */}
             <div className='block lg:hidden'>
                 <div className='py-6'>
@@ -323,18 +324,19 @@ const Transactions = () => {
                             </div>
                             <div className=''>
                                 <Paper
-                                    component="form"
+                                    // component="form"
                                     sx={{ p: '2px 4px', display: 'flex', alignItems: 'center' }}
                                 >
                                     <InputBase
                                         sx={{ ml: 1, flex: 1 }}
+                                        // style={{ backgroundColor: '#f8faf7' ,flex:1}}
                                         placeholder="Search"
+                                        // className='py-2 px-4 w-full outline-none c-text-input'
                                         // className='w-2/5 mx-auto'
                                         inputProps={{ 'aria-label': 'search google maps' }}
                                         onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)}
                                     />
                                     <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleClickOpen21}>
-                                        {/* <SearchIcon /> */}
                                         <TuneIcon />
                                     </IconButton>
                                 </Paper>
@@ -429,6 +431,7 @@ const Transactions = () => {
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <FilterDialog open21={open21} setOpen21={setOpen21} handleClose21={handleClose21} handleClickOpen21={handleClickOpen21} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} formRef={formRef} statusRef={statusRef} startRef={startRef} endRef={endRef} typeRef={typeRef} entityRef={entityRef} filterLink={filterLink} clearData={clearData} />
 
