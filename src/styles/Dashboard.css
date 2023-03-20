@@ -536,3 +536,63 @@
     text-overflow: ellipsis;
     max-width: 160px;
 }
+
+/* pagination */
+.pagination {
+    margin: 0;
+    padding: 0;
+    text-align: center
+}
+
+.pagination li {
+    display: inline
+}
+
+.pagination li a {
+    display: inline-block;
+    text-decoration: none;
+    padding: 5px 10px;
+    color: #000
+}
+
+/* Active and Hoverable Pagination */
+.pagination li a {
+    border-radius: 5px;
+    font-weight: 500;
+    color: #636363;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    margin-left: 0.2rem;
+    margin-right: 0.2rem;
+    -webkit-transition: background-color 0.3s;
+    transition: background-color 0.3s
+}
+
+.pagination li a.active {
+    /* background-color: #97f675;
+    border: 1px solid #5eee2f; */
+    background-color: #e6fbec;
+    color: #02b132;
+    border: 1px solid #5eee2f;
+}
+
+.pagination li a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+.pagination .elipses{
+    font-weight: bold;
+    letter-spacing: 3px;
+    display: inline-block;
+    position: absolute;
+    top: 7px;
+    left: 0;
+    transform: translateY(-5px);
+}
+.pagination .page-elipses{
+    display: inline-block;
+    position: relative;
+    min-width: 1.3rem;
+    height: 2rem;
+    position: relative;
+}
