@@ -11,15 +11,40 @@ import { Button, Skeleton, Stack } from '@mui/material'
 import TuneIcon from '@mui/icons-material/Tune';
 import moment from 'moment'
 import TransactionDialog from './TraansactionDialog';
-import Pagination from './Pagination';
+// import Pagination from './Pagination';
 import StatusBadge from './atom/web/StatusBadge';
+import Pagination from './molecule/web/Pagination';
 
 
-function createData(Description, Customer, Amount, Payment, Status) {
-  return { Description, Customer, Amount, Payment, Status };
-}
-
-export default function TransactionTable({ opener, setOpener, handleClickOpen, handleCloser, loading, transactions, handleKeyDown, setSearch, search, start, end, status, setStatus, setEnd, setStart, filterData, entity, setEntity, type, setType, load, meta ,setMeta,setLoad,setTransaction,Protected,BASE_URL}) {
+export default function TransactionTable({
+  opener,
+  setOpener,
+  handleClickOpen,
+  handleCloser,
+  loading,
+  setLoading,
+  transactions,
+  handleKeyDown,
+  setSearch,
+  search,
+  start,
+  end,
+  status,
+  setStatus,
+  setEnd,
+  setStart,
+  filterData,
+  entity,
+  setEntity,
+  type,
+  setType,
+  load,
+  meta,
+  setMeta,
+  setTransaction,
+  Protected,
+  BASE_URL
+}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -42,18 +67,20 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
   const currentPosts = transactions?.slice(indexOfFirstPost, indexOfLastPost);
 
   // const paginate = pageNumber => setCurrentPage(pageNumber);
-  const paginate = async (pageNumber) => {
-    setLoad(true)
+  
+  const onPageChange = async (pageNumber) => {
+    setLoading(true)
     try {
       const response = await Protected.get(`${BASE_URL}/api/transaction?page=${pageNumber}`)
       console.log(response.data.data)
       setTransaction(response?.data?.data.data)
+      setMeta(response?.data?.data.meta)
       // setTransaction(response?.data?.data.data)
       // setMeta(response?.data?.data?.meta)
       console.log('meta>>>>', response?.data?.data?.meta)
-      setLoad(false)
+      setLoading(false)
     } catch (error) {
-      setLoad(false)
+      setLoading(false)
       console.log(error.response)
     }
     console.log(pageNumber)
@@ -99,12 +126,8 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
 
         <div className='flex items-center space-x-4'>
           <div className='mr-5'>
-            <Pagination
-              postsPerPage={postsPerPage}
-              totalPosts={transactions?.length}
-              paginate={paginate}
-              meta={meta}
-            />
+
+            <Pagination currentPage={meta.page} lastPage={meta.lastPage} onPageChange={(page) => onPageChange(page)} />
 
           </div>
           <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />} onClick={() => setToggle(!toggle)}>
@@ -251,7 +274,7 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
                 >
                   <TableCell component="th" scope="row" style={{ fontWeight: '700', maxWidth: '15rem' }} >
                     <h2 className='font-bold uppercase'>{row.in_entity === 'Wallet' ? 'Withdrawal' : row.in_entity}</h2>
-                    <small className='text-gray-400'>{row.in_entity === 'Payment' ? row.in_entity_id.unique_answer : `${row.out_entity_id.name} | ${row.out_entity_id.account_number} | ${row.out_entity_id.bank_name}`}</small>
+                    <small className='text-gray-400'>{row.in_entity === 'Payment' ? `${row.payment_link_id.name} | ${row.in_entity_id.unique_answer}` : `${row.out_entity_id.name} | ${row.out_entity_id.account_number} | ${row.out_entity_id.bank_name}`}</small>
                   </TableCell>
                   <TableCell className='text-gray-400'>{row.reference}</TableCell>
                   <TableCell>{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
