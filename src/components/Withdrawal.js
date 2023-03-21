@@ -12,9 +12,29 @@ import moment from 'moment'
 import WithdrawalDialog from './WithdrawalDialog';
 import WithDraws from './Withdraws';
 import StatusBadge from './atom/web/StatusBadge';
+import Pagination from './molecule/web/Pagination';
 
 
-export default function WithdrawalTable({ load, handleKeyDown, withdrawals, opener, setOpener, handleClickOpen, handleCloser, start, setStart, setStatus, status, end, setEnd, filterData, loading, search, setSearch }) {
+export default function WithdrawalTable({
+    handleKeyDown,
+    withdrawals,
+    opener,
+    setOpener,
+    handleClickOpen,
+    handleCloser,
+    start,
+    setStart,
+    setStatus,
+    status,
+    end,
+    setEnd,
+    filterData,
+    loading,
+    search,
+    setSearch,
+    setMeta,
+    meta,
+}) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -35,6 +55,11 @@ export default function WithdrawalTable({ load, handleKeyDown, withdrawals, open
         }, 1000)
 
     }
+
+    const onPageChange = async (pageNumber) => {
+        setMeta({page: pageNumber, lastPage: 1})
+        filterData(pageNumber)
+    }
     const array = [1, 2, 3, 4, 5, 6, 7]
     // console.log({ start, end, status })
     return (
@@ -43,9 +68,17 @@ export default function WithdrawalTable({ load, handleKeyDown, withdrawals, open
                 <div className='w-[20%]'>
                     <input placeholder='Search' onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} style={{ backgroundColor: '#f8faf7' }} name='q' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
                 </div>
-                <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />} onClick={() => setToggle(!toggle)}>
-                    Filter
-                </Button>
+                 <div className='flex items-center space-x-4'>
+                    <div className='mr-5'>
+
+                        <Pagination currentPage={meta.page} lastPage={meta.lastPage} onPageChange={(page) => onPageChange(page)} />
+
+                    </div>
+                    <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />} onClick={() => setToggle(!toggle)}>
+                        Filter
+                    </Button>
+                </div>
+                
             </div>
             {toggle && (
                 <div className='w-full mt-2 py-4 rounded-md border-2 border-gray-300'>
@@ -129,7 +162,7 @@ export default function WithdrawalTable({ load, handleKeyDown, withdrawals, open
                         </TableRow>
                     </TableHead>
                     {/* {withdrawals } */}
-                    {withdrawals?.length && !load ? (
+                    {withdrawals?.length && !loading ? (
                         <TableBody>
                             {withdrawals.map((row, index) => (
                                 <TableRow
@@ -166,7 +199,7 @@ export default function WithdrawalTable({ load, handleKeyDown, withdrawals, open
                     ) : ""}
 
                     {
-                        load ? (
+                        loading ? (
                         <TableBody>
                             {[1, 2, 3, 4, 5, 6, 7].map((arr, index) => (
                                 <TableRow>
@@ -184,7 +217,7 @@ export default function WithdrawalTable({ load, handleKeyDown, withdrawals, open
                     ): ''
                     }
                   
-                    {withdrawals?.length===0  && !load&& (
+                    {withdrawals?.length===0  && !loading && (
                         <>
                             {/* <div className='relative'> */}
                             <div className='absolute top-[40%] left-[40%] z-20' >

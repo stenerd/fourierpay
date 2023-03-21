@@ -63,7 +63,7 @@ const Transactions = () => {
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(false)
     const [load, setLoad] = useState(false)
-    const [meta,setMeta] = useState({page: 1, lastPage: 1})
+    const [meta, setMeta] = useState({page: 1, lastPage: 1})
 
     const [opener, setOpener] = React.useState(false);
     const [value, setValue] = React.useState(0);
