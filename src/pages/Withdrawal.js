@@ -21,7 +21,8 @@ const Withdrawal = ({}) => {
     const [end, setEnd] = React.useState("")
     const [status, setStatus] = React.useState("")
     const [loading, setLoading] = useState(false)
-    const [search,setSearch] = useState("")
+    const [search, setSearch] = useState("")
+    const [meta,setMeta] = useState({page: 1, lastPage: 1})
 
 
     const [opener, setOpener] = React.useState(false);
@@ -33,13 +34,6 @@ const Withdrawal = ({}) => {
     const handleCloser = () => {
       setOpener(false);
     };
-    const [load,setLoad] = useState(false)
-
-
-
-
-    
-
 
     const filterLink = (status,start,end)=>{
         let link = `${BASE_URL}/api/withdrawal/view?q=${search}`
@@ -89,17 +83,16 @@ const Withdrawal = ({}) => {
                 console.log(error.response)
             }
         }
-
     };
 
-    const filterData =async()=>{
+    const filterData = async(page = '') => {
         setLoading(true)
         try {
             // console.log({status,start,end})
             setLoading(true)
             const data = filterLink(status,start,end)
             console.log(data)
-            const response = await Protected.get(data)
+            const response = await Protected.get(`${data}&page=${page || meta.page}`)
             console.log(response.data)
             setLoading(false)
             setWithdrawal(response?.data?.data?.data)
@@ -113,17 +106,15 @@ const Withdrawal = ({}) => {
         }
     }
 
-   
-
     const fetchWithdrawal = async () => {
-        setLoad(true)
+        setLoading(true)
         try {
             const response = await Protected.get(`${BASE_URL}/api/withdrawal/view?q=${search}`)
             console.log('fetchWithdrawal >> ', response?.data?.data)
             setWithdrawal(response?.data?.data.data)
-            setLoad(false)
+            setLoading(false)
         } catch (error) {
-            setLoad(false)
+            setLoading(false)
             console.log(error.response)
         }
     }
@@ -156,8 +147,27 @@ const Withdrawal = ({}) => {
 
                         </div>
                     </div>
-                    <WithdrawalTable load={load}  handleKeyDown={handleKeyDown} search={search} setSearch={setSearch} start={start} end={end} setStart={setStart} status={status} setEnd={setEnd} setStatus={setStatus}  withdrawals={withdrawals}  opener={opener} loading={loading} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} filterData={filterData}/>
-                    <WithdrawalDialog loading={loading} filterData={filterData} setStart={setStart} setEnd={setEnd} setStatus={setStatus} start={start} end={end} status={status} opener={opener} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser}/>
+                    <WithdrawalTable
+                        handleKeyDown={handleKeyDown}
+                        search={search}
+                        setSearch={setSearch}
+                        start={start} end={end}
+                        setStart={setStart}
+                        status={status}
+                        setEnd={setEnd}
+                        setStatus={setStatus}
+                        withdrawals={withdrawals}
+                        opener={opener}
+                        loading={loading}
+                        setOpener={setOpener}
+                        handleClickOpen={handleClickOpen}
+                        handleCloser={handleCloser}
+                        filterData={filterData}
+                        setMeta={setMeta}
+                        meta={meta}
+                    />
+                    <WithdrawalDialog loading={loading}
+                        filterData={filterData} setStart={setStart} setEnd={setEnd} setStatus={setStatus} start={start} end={end} status={status} opener={opener} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} />
                     <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} />
                     {/* <Withdrawls/> */}
                     

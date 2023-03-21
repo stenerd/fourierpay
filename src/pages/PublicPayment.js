@@ -52,26 +52,31 @@ const PublicPayment = () => {
         <>
              <div className='min-h-screen'>
                 <div className=''>
-                    <div className='pt-12 pb-4 flex justify-center c-pp-body'>
-                        <div className='font-bold text-lg'>
-                            {
-                                result.data ?
-                                    (
+                    <div className='pt-12 pb-4 c-pp-body'>
+                        <div className='w-[75%] mx-auto flex justify-between'>
+                            <div>
+                                <img onClick={() => navigate(`/`)} className='w-[8rem] cursor-pointer' src='/images/five.svg' alt="alt-img" />
+                            </div>
+                            <div className='font-bold text-lg'>
+                                {
+                                    result.data ?
                                         (
-                                            result.data &&
-                                            result.data.paymentLink &&
-                                            result.data.paymentLink.creator_id &&
-                                            result.data.paymentLink.creator_id.firstname
-                                        ) + ' ' +
-                                        (
-                                            result.data &&
-                                            result.data.paymentLink &&
-                                            result.data.paymentLink.creator_id &&
-                                            result.data.paymentLink.creator_id.lastname
-                                        ) +
-                                        ' - ' + (result.data && result.data.paymentLink && result.data.paymentLink.name)) :
-                                'Loading...'
-                            }
+                                            (
+                                                result.data &&
+                                                result.data.paymentLink &&
+                                                result.data.paymentLink.creator_id &&
+                                                result.data.paymentLink.creator_id.firstname
+                                            ) + ' ' +
+                                            (
+                                                result.data &&
+                                                result.data.paymentLink &&
+                                                result.data.paymentLink.creator_id &&
+                                                result.data.paymentLink.creator_id.lastname
+                                            ) +
+                                            ' - ' + (result.data && result.data.paymentLink && result.data.paymentLink.name)) :
+                                    'Loading...'
+                                }
+                            </div>
                         </div>
                     </div>
                     <div className='w-[75%] pt-8 mx-auto relative'>
