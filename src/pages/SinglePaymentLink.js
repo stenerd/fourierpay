@@ -35,6 +35,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddIcon from '@mui/icons-material/Add';
 import BottomNav from '../components/bottomNav';
 import StatusBadge from '../components/atom/web/StatusBadge';
+import SinglePayment from '../components/SinglePayment';
 
 
 
@@ -593,79 +594,50 @@ const SinglePaymentLink = () => {
                                 )}
                             </div>
                         </div>
-                        <div className='md:py-3 md:mt-3 md:space-y-3 space-y-3 md:mb-5'>
-                            {payments && (
-                                <>
-                                    {data ? data?.payments?.map((row, index) => (
-                                        <div className='flex space-x-2 items-center' key={index}>
-                                            {row.transaction_id.status === 'paid' ?
-                                                (
-                                                    <div className='p-2 c-icon-bg'>
-                                                        <img src='/images/payment-icon-in.svg' className='w-[20px]' alt="alt-img" />
-                                                    </div>
-                                                ) :
-                                                (
-                                                    <div className='p-2 c-icon-bg-withdrawal'>
-                                                        <img src='/images/withdrawal-icon-out.svg' className='w-[20px]' alt="alt-img" />
-                                                    </div>
-                                                )
-                                            }
-                                            <div className='flex flex-1 flex-col items-start'>
-
-                                                <h2 className='font-bold text-base text-[#2d2d2d] c-text-elipses'>{row?.unique_answer}</h2>
-                                                <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(row.createdAt
-                                                ).format('MMM DD, YYYY')} | {moment(row.createdAt).format('h:mma')}</small>
-                                                {/* <small className='block text-xs font-bold pt-1 text-gray-500'>
-                                                    {row.transaction_id.in_entity === 'Wallet' ? 'Wallet | ' : `${row.transaction_id.in_entity} | `} {row.transaction_id.reference}
-                                                </small> */}
-                                            </div>
-                                            <div className='flex flex-1 flex-col items-end space-y-2'>
-                                                <h2 className='self-end'>₦{Intl.NumberFormat('en-US').format(row.amount || 0)}</h2>
-                                                <StatusBadge status={row?.status} />
-                                            </div>
-                                        </div>
-                                    )) : (
-                                        <div>
-                                            <div>
-                                                <Stack spacing={3}>
-                                                    <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
-                                                    <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
-
-                                                </Stack>
-                                            </div>
-                                        </div>
-                                    )}
-                                    {data?.payments?.length === 0 && (
-                                        <div className='flex flex-col py-6 justify-center px-2'>
-                                            <img src="/images/nolinks.svg" alt="img" className='w-2/5 mx-auto' />
-                                            <p className='text-gray-500 text-center'>No Payments Yet!</p>
-                                        </div>
-                                    )}
-                                </>
+                        <div className='md:py-3 md:mt-3 md:space-y-3 space-y-4 md:mb-5'>
+                            {(payments && data) && (
+                                <SinglePayment
+                                    loading={loading}
+                                    opener={opener}
+                                    setOpener={setOpener}
+                                    handleClickOpen={handleClickOpen}
+                                    handleCloser={handleCloser}
+                                    onChange={onChange}
+                                    handleKeyDown={handleKeyDown}
+                                    start={start}
+                                    setSearch={setSearch}
+                                    end={end}
+                                    setStart={setStart}
+                                    setEnd={setEnd}
+                                    status={status}
+                                    setStatus={setStatus}
+                                    filterData={filterData}
+                                    data={data}
+                                />
                             )}
                             {pending && (
                                 <>
                                     {/* <div className='py-4'> */}
-                                        <div className='py-2'>
-                                            <PayersSheetTable
-                                                loading={loadPayersSheet}
-                                                opener={opener}
-                                                setOpener={setOpener}
-                                                handleClickOpen={handleClickOpen}
-                                                handleCloser={handleCloser}
-                                                data={data}
-                                                payersSheet={payersSheet}
-                                                onChange={onChange}
-                                                handleKeyDown={handleKeyDown}
-                                                start={start}
-                                                end={end}j
-                                                setStart={setStart}
-                                                setEnd={setEnd}
-                                                status={status}
-                                                setStatus={setStatus}
-                                                filterData={filterData}
-                                            />
-                                        </div>
+                                    <div className='py-2'>
+                                        <PayersSheetTable
+                                            loading={loadPayersSheet}
+                                            opener={opener}
+                                            setOpener={setOpener}
+                                            handleClickOpen={handleClickOpen}
+                                            handleCloser={handleCloser}
+                                            data={data}
+                                            payersSheet={payersSheet}
+                                            onChange={onChange}
+                                            handleKeyDown={handleKeyDown}
+                                            start={start}
+                                            end={end} j
+                                            setStart={setStart}
+                                            setEnd={setEnd}
+                                            status={status}
+                                            setStatus={setStatus}
+                                            filterData={filterData}
+                                        />
+                                    </div>
                                     {/* </div> */}
                                 </>
                             )}
