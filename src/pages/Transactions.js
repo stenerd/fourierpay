@@ -345,6 +345,7 @@ const Transactions = () => {
                     </div>
                 </DashboardLayout>
             </div>
+
             {/* MOBILE SCREENS */}
             <div className='block lg:hidden'>
                 <div className='py-0'>
@@ -356,18 +357,19 @@ const Transactions = () => {
                             </div>
                             <div className=''>
                                 <Paper
-                                    component="form"
+                                    // component="form"
                                     sx={{ p: '2px 4px', display: 'flex', alignItems: 'center' }}
                                 >
                                     <InputBase
                                         sx={{ ml: 1, flex: 1 }}
+                                        // style={{ backgroundColor: '#f8faf7' ,flex:1}}
                                         placeholder="Search"
+                                        // className='py-2 px-4 w-full outline-none c-text-input'
                                         // className='w-2/5 mx-auto'
                                         inputProps={{ 'aria-label': 'search google maps' }}
                                         onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)}
                                     />
                                     <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleClickOpen21}>
-                                        {/* <SearchIcon /> */}
                                         <TuneIcon />
                                     </IconButton>
                                 </Paper>
