@@ -23,7 +23,7 @@ export default function GenericAlertModal({ opened, handleClosed, width, childre
 
 
     return (
-        <div>
+        <div className='hidden md:block'>
             {/* <Button onClick={handleOpened}>Open modal</Button> */}
             <Modal
                 open={opened}
@@ -32,6 +32,7 @@ export default function GenericAlertModal({ opened, handleClosed, width, childre
                 disableAutoFocus={true}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                className='hidden md:block'
             >
                 <Box sx={style}>
                     <>
