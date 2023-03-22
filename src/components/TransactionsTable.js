@@ -18,7 +18,20 @@ function createData(Description, Customer, Amount, Payment, Status) {
   return { Description, Customer, Amount, Payment, Status };
 }
 
-export default function TransactionTable({ opener, setOpener, handleClickOpen, handleCloser, loading, transactions, handleKeyDown, setSearch, search, start, end, status, setStatus, setEnd, setStart, filterData, entity, setEntity, type, setType, load, meta ,setMeta,setLoad,setTransaction,Protected,BASE_URL}) {
+export default function TransactionTable(
+  { opener,
+    setOpener,
+    handleClickOpen,
+    handleCloser,
+    loading,
+    transactions,
+    handleKeyDown,
+    setSearch,
+    search,
+    start,
+    end,
+    status,
+    setStatus, setEnd, setStart, filterData, entity, setEntity, type, setType, load, meta, setMeta, setLoad, setTransaction, Protected, BASE_URL }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

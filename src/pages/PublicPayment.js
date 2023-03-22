@@ -41,14 +41,11 @@ const PublicPayment = () => {
             console.log(error)
         }
         setLoading(false)
-
     }
-
     React.useEffect(() => {
         // FetchPaymentLink()
         FetchData()
     }, [])
-
     const array = [1, 2, 3, 4, 5, 6, 7]
 
     return (
@@ -143,8 +140,6 @@ const PublicPayment = () => {
                                 }</span></p>
                             </div>
                         </div>
-
-
                     </div>
                     <div className='w-[75%] pt-32 mb-12 mx-auto relative'>
                         <div>

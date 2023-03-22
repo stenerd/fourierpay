@@ -678,10 +678,8 @@ const SinglePaymentLink = () => {
                                             copyText={copyText}
                                         />
                                     </div>
-
                                 </>
                             )}
-
                         </div>
                     </div>
                     <BottomNav />
