@@ -395,7 +395,6 @@ const Transactions = () => {
                                                 <small className='block text-xs font-bold pt-1 text-gray-500'>
                                                     {each.in_entity === 'Wallet' ? 'Wallet | ' : `${each.in_entity_id.unique_answer} | `} {each.reference}
                                                 </small>
-
                                             </div>
                                         </div>
                                         <div className='flex flex-col'>
@@ -434,7 +433,6 @@ const Transactions = () => {
 
                 </div>
                 <FilterDialog open21={open21} setOpen21={setOpen21} handleClose21={handleClose21} handleClickOpen21={handleClickOpen21} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} formRef={formRef} statusRef={statusRef} startRef={startRef} endRef={endRef} typeRef={typeRef} entityRef={entityRef} filterLink={filterLink} clearData={clearData} />
-
                 <TransactionDialog open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact} />
                 <BottomNav />
             </div>
