@@ -12,6 +12,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import moment from 'moment'
 import SinglePaymentModal from './SinglePaymentModal';
 import FilterDialog from './FilterDialog';
+import StatusBadge from './atom/web/StatusBadge';
 
 
 export default function PaymentTable({ data, onChange, handleKeyDown, start, end, status, setStatus, setEnd, setStart, filterData, opener, setOpener, handleClickOpen, handleCloser, loading }) {
@@ -165,7 +166,7 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
                   </TableCell>
                   <TableCell>
                     <div className="text-left">
-                      <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid2' : 'py-2 px-2 rounded-lg text-sm status-fail2'}>{row.status}</p>
+                      <StatusBadge status={row?.status} />
                     </div>
                   </TableCell>
                 </TableRow>
@@ -175,8 +176,8 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
             <>
             {/* <div className='relative'> */}
             <div className='absolute top-[40%] left-[40%] z-20' >
-              <img src="/images/cuate.svg" className='w-40' />
-              <h2 className='text-gray-300 text-xl text-center font-bold'>No Transactions Yet!</h2>
+              <img src="/images/cuate.svg" alt="img" className='w-40' />
+              <h2 className='text-gray-400 text-xl text-center font-bold'>No Payment Yet!</h2>
             </div>
 
             {array.map((arr) => (

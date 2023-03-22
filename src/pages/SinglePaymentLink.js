@@ -34,6 +34,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddIcon from '@mui/icons-material/Add';
 import BottomNav from '../components/bottomNav';
+import StatusBadge from '../components/atom/web/StatusBadge';
 
 
 
@@ -620,7 +621,7 @@ const SinglePaymentLink = () => {
                                             </div>
                                             <div className='flex flex-1 flex-col items-end space-y-2'>
                                                 <h2 className='self-end'>₦{Intl.NumberFormat('en-US').format(row.amount || 0)}</h2>
-                                                <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid2 self-end' : 'py-2 px-2 rounded-lg text-sm status-fail2 self-end'}>{row.status}</p>
+                                                <StatusBadge status={row?.status} />
                                             </div>
                                         </div>
                                     )) : (
@@ -636,7 +637,7 @@ const SinglePaymentLink = () => {
                                     )}
                                     {data?.payments?.length === 0 && (
                                         <div className='flex flex-col py-6 justify-center px-2'>
-                                            <img src="/images/nolinks.svg" className='w-2/5 mx-auto' />
+                                            <img src="/images/nolinks.svg" alt="img" className='w-2/5 mx-auto' />
                                             <p className='text-gray-500 text-center'>No Payments Yet!</p>
                                         </div>
                                     )}

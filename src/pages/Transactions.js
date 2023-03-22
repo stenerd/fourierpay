@@ -16,6 +16,8 @@ import { useSelector } from 'react-redux';
 import MenuDropDown from '../components/Menu';
 import BottomNav from '../components/bottomNav';
 import FilterDialog from '../components/FilterDialog';
+import StatusBadge from '../components/atom/mobile/StatusBadge';
+import Pagination from '../components/molecule/web/Pagination';
 // import FilterDialog from '../components/FilterDialog';
 const Transactions = () => {
     const [payin, setPayin] = useState(true)
@@ -61,10 +63,7 @@ const Transactions = () => {
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(false)
     const [load, setLoad] = useState(false)
-    const [meta,setMeta] = useState({})
-    const navigate = useNavigate()
-    const [page,setPage] = useState()
-    const [perPage,setPerPage] = useState()
+    const [meta, setMeta] = useState({page: 1, lastPage: 1})
 
     const [opener, setOpener] = React.useState(false);
     const [value, setValue] = React.useState(0);
@@ -206,21 +205,21 @@ const Transactions = () => {
     console.log(transactions)
 
     const fetchTransaction = async () => {
-        setLoad(true)
+        setLoading(true)
         try {
             const response = await Protected.get(`${BASE_URL}/api/transaction?q=${search}`)
             console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
             setMeta(response?.data?.data?.meta)
             console.log('meta>>>>', response?.data?.data?.meta)
-            setLoad(false)
+            setLoading(false)
         } catch (error) {
-            setLoad(false)
+            setLoading(false)
             console.log(error.response)
         }
     }
 
-    const filterData = async () => {
+    const filterData = async (page) => {
         // let link =`http://localhost:4000/api/transaction?status=${status}`
         // if (status=''>0&&)
         try {
@@ -229,9 +228,10 @@ const Transactions = () => {
             // const response = await Protected.get(link)
             setLoading(true)
             const data = filterLink(status, start, end, type, entity)
-            const response = await Protected.get(data)
+            const response = await Protected.get(`${data}&page=${page || 1}`)
             // console.log(response.data.data.data)
             setTransaction(response.data.data.data)
+            setMeta(response.data.data.meta)
             setLoading(false)
             // console.log('processing')
             console.log(data)
@@ -250,6 +250,11 @@ const Transactions = () => {
 
             console.log('error')
         }
+    }
+
+    const onPageChange = async (pageNumber) => {
+        console.log("pageNumber >> ", pageNumber)
+        await filterData(pageNumber)
     }
 
     const clearData = async () => {
@@ -307,7 +312,35 @@ const Transactions = () => {
                     <div className='py-4 px-3 w-[90%] my-8 mx-auto'>
 
                         {payin ? (
-                            <TransactionTable handleClickOpen={handleClickOpen} handleCloser={handleCloser} opener={opener} setOpener={setOpener} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} meta={meta} setMeta={setMeta} setLoad={setLoad} setTransaction={setTransaction} BASE_URL={BASE_URL} Protected={Protected}/>
+                            <TransactionTable
+                                handleClickOpen={handleClickOpen}
+                                handleCloser={handleCloser}
+                                opener={opener}
+                                setOpener={setOpener}
+                                transactions={transactions}
+                                handleKeyDown={handleKeyDown}
+                                load={load}
+                                setSearch={setSearch}
+                                start={start}
+                                end={end}
+                                setStart={setStart}
+                                setEnd={setEnd}
+                                status={status}
+                                entity={entity}
+                                type={type}
+                                setEntity={setEntity}
+                                setType={setType}
+                                loading={loading}
+                                setLoading={setLoading}
+                                setStatus={setStatus}
+                                filterData={filterData}
+                                meta={meta}
+                                setMeta={setMeta}
+                                setLoad={setLoad}
+                                setTransaction={setTransaction}
+                                BASE_URL={BASE_URL}
+                                Protected={Protected}
+                            />
                         ) : <PayOutTable />}
                     </div>
                 </DashboardLayout>
@@ -315,7 +348,7 @@ const Transactions = () => {
 
             {/* MOBILE SCREENS */}
             <div className='block lg:hidden'>
-                <div className='py-6'>
+                <div className='py-0'>
                     <div className='w-[90%] mx-auto'>
                         <div className='py-0'>
                             <div className='flex justify-between items-center py-6'>
@@ -367,46 +400,60 @@ const Transactions = () => {
                                 </div>
 
                             </div>
-                            <div className='py-2 mb-4'>
-                                {transactions && !load ? transactions.map((each, index) => (
-                                    <div className='flex justify-between mb-8 items-center' key={index} onClick={() => {
-                                        // console.log(each)
-                                        setTransact(each)
-                                        handleClickOpener()
-                                    }}>
-                                        <div className='flex items-center space-x-3'>
-                                            {each.in_entity !== 'Wallet' ?
-                                                (
-                                                    <div className='p-2 c-icon-bg'>
-                                                        <img src='/images/payment-icon-in.svg' className='w-[20px]' alt="alt-img" />
+                            <div className='py-8 mb-4'>
+                                {transactions && !loading ?
+                                    (
+                                        <>
+                                            {
+                                                transactions.map((each, index) => (
+                                                    <div className='flex justify-between mb-8 items-center' key={index} onClick={() => {
+                                                        // console.log(each)
+                                                        setTransact(each)
+                                                        handleClickOpener()
+                                                    }}>
+                                                        <div className='flex items-center space-x-3'>
+                                                            {each.in_entity !== 'Wallet' ?
+                                                                (
+                                                                    <div className='p-2 c-icon-bg'>
+                                                                        <img src='/images/in-icon.svg' className='w-[28px]' alt="alt-img" />
+                                                                    </div>
+                                                                ) :
+                                                                (
+                                                                    <div className='p-2 c-icon-bg-withdrawal'>
+                                                                        <img src='/images/out-icon.svg' className='w-[28px]' alt="alt-img" />
+                                                                    </div>
+                                                                )
+                                                            }
+
+                                                            <div className='flex flex-col'>
+                                                                <h2 className='font-bold text-base text-[#2d2d2d] c-text-elipses'>{each.in_entity === 'Wallet' ? each.out_entity_id.name : each.payment_link_id.name}</h2>
+                                                                <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
+                                                                ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
+                                                                <small className='block text-xs font-bold pt-1 text-gray-500'>
+                                                                    {each.in_entity === 'Wallet' ? 'Wallet | ' : `${each.in_entity_id.unique_answer} | `} {each.reference}
+                                                                </small>
+
+                                                            </div>
+                                                        </div>
+                                                        <div className='flex flex-col'>
+                                                            <h2 className='text-sm p-0 text-gray-500 font-bold lowercase self-end'>{each.in_entity !== 'Wallet' ? each.in_entity : 'Withdrawal'}</h2>
+                                                            <small className={each.in_entity !== 'Wallet' ? 'pt-1 self-end flex-1 font-bold text-[#01b133]' : 'pt-1 self-end flex-1 font-bold c-text-danger'}>{each.in_entity !== 'Wallet' ? '+' : '-'} ₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
+                                                            <StatusBadge status={each.status} />
+                                                        </div>
                                                     </div>
-                                                ) :
-                                                (
-                                                    <div className='p-2 c-icon-bg-withdrawal'>
-                                                        <img src='/images/withdrawal-icon-out.svg' className='w-[20px]' alt="alt-img" />
-                                                    </div>
-                                                )
+                                                ))
                                             }
-
-                                            <div className='flex flex-col'>
-                                                <h2 className='font-bold text-base text-[#2d2d2d] c-text-elipses'>{each.in_entity === 'Wallet' ? each.out_entity_id.name : each.payment_link_id.name}</h2>
-                                                <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
-                                                ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
-                                                <small className='block text-xs font-bold pt-1 text-gray-500'>
-                                                    {each.in_entity === 'Wallet' ? 'Wallet | ' : `${each.in_entity_id.unique_answer} | `} {each.reference}
-                                                </small>
-
+                                            <div className='mb-12 flex justify-center'>
+                                                <Pagination currentPage={meta.page} lastPage={meta.lastPage} onPageChange={(page) => onPageChange(page)} />
                                             </div>
-                                        </div>
-                                        <div className='flex flex-col'>
-                                            <h2 className='text-sm p-0 text-gray-500 font-bold lowercase self-end'>{each.in_entity !== 'Wallet' ? each.in_entity : 'Withdrawal'}</h2>
-                                            <small className={each.in_entity !== 'Wallet' ? 'pt-1 self-end flex-1 font-bold c-text-green' : 'pt-1 self-end flex-1 font-bold c-text-danger'}>{each.in_entity !== 'Wallet' ? '+' : '-'} ₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
-                                        </div>
-                                    </div>
-                                )) : (
+                                        </>
+                                    )
+                                    : (
                                     <div>
                                         <div>
                                             <Stack spacing={2}>
+                                                <Skeleton animation="wave" variant="rectangular" width={"100%"} height={40} />
+                                                <Skeleton animation="wave" variant="rounded" width={"100%"} height={40} />
                                                 <Skeleton animation="wave" variant="rectangular" width={"100%"} height={40} />
                                                 <Skeleton animation="wave" variant="rounded" width={"100%"} height={40} />
                                                 <Skeleton animation="wave" variant="rectangular" width={"100%"} height={40} />
@@ -418,7 +465,7 @@ const Transactions = () => {
                                     </div>
                                 )}
                                 {/* {} */}
-                                {transactions?.length === 0 && !load && (
+                                {transactions?.length === 0 && !loading && (
                                     // <div className='flex flex-col h-[60vh] justify-center py-2 px-2'>
                                     //     <img src="/images/payments.svg" className='w-2/5 mx-auto' />
                                     //     <p className='text-gray-500 text-center'>No Transactions Yet!</p>

@@ -96,12 +96,12 @@ const Sidebar = () => {
                                     <h2 className='font-bold text-[#f8faf7]'>Withdrawal</h2>
                                 </div>
                             </Link>
-                            <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
+                            {/* <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
                                 <IconButton>
                                     <VolunteerActivismIcon className="text-white" />
                                 </IconButton>
                                 <h2 className='font-bold text-[#f8faf7]'>Refunds</h2>
-                            </div>
+                            </div> */}
 
                         </div>
                         <div className="flex flex-1 items-center space-x-3 cursor-pointer rounded-md py-6 px-2 c-logout-button" onClick={() => Logout()}>

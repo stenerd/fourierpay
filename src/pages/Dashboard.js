@@ -43,27 +43,6 @@ import SendIcon from '@mui/icons-material/Send';
 import AddIcon from '@mui/icons-material/Add';
 // import BarChart from '../components/BarChart';
 import BarCharted from '../components/BarChart';
-import ContentPasteIcon from '@mui/icons-material/ContentPaste';
-// import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import Paper from '@mui/material/Paper';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-// import List from '@mui/material/List';
-// import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-// import ListItemText from '@mui/material/ListItemText';
-import Avatar from '@mui/material/Avatar';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import FolderIcon from '@mui/icons-material/Folder';
-// import RestoreIcon from '@mui/icons-material/Restore';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WithdrawDialog from '../components/WithdrawDialog';
 import PaymentDialog from '../components/PaymentsDialog';
@@ -71,6 +50,8 @@ import Menu from '../components/Menu';
 import MenuDropDown from '../components/Menu';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import BottomNav from '../components/bottomNav';
+import StatusBadge from '../components/atom/web/StatusBadge';
+import StatusBadgeMobile from '../components/atom/mobile/StatusBadge';
 // import DashboardChart from '../components/DashboardChart';
 
 const Dashboard = () => {
@@ -423,18 +404,19 @@ const Dashboard = () => {
                             <div className='flex w-full items-center mb-2' key={index} onClick={() => { console.log(each); handleClickOpen1(); setTransact(each) }}>
                                 <div className='mr-2'>
                                     <div className='p-2 c-icon-bg'>
-                                        <img src="/images/payment-icon-in.svg" alt="alt-img" className='w-[20px]'/>
+                                        <img src="/images/in-icon.svg" alt="alt-img" className='w-[28px]'/>
                                     </div>
                                 </div>
                                 <div className='flex justify-between w-full items-center'>
                                     <div className='flex flex-col'>
-                                        <h2 className='text-base pt-2 pb-1 font-bold'>{each.payment_link_id.name}</h2>
+                                        <h2 className='text-base pt-2 font-bold'>{each.payment_link_id.name}</h2>
+                                        <h2 className='text-sm text-gray-500 font-medium'>{each.unique_answer}</h2>
                                         <small className='text-xs pb-3 flex-1 font-medium text-gray-500'>{moment(each.createdAt
-                                        ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
+                                        ).format('MMMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
                                     </div>
                                     <div className='flex flex-col'>
-                                        <small className='text-sm pt-2 pb-1 self-end flex-1 font-bold c-text-green'>+ ₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</small>
-                                        <h2 className='text-sm pb-3 text-gray-500 text-right font-medium self-end'>{each.unique_answer}</h2>
+                                        <small className='text-sm pt-2 pb-1 self-end flex-1 font-bold text-[#01b133]'>+ ₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</small>
+                                        <StatusBadgeMobile status={each.status} />
                                     </div>
                                 </div>
                             </div>
@@ -723,7 +705,7 @@ const Dashboard = () => {
                                                                                                 <div className="text-right flex-col">
                                                                                                     <p className='py-2 px-2  rounded-lg text-sm font-bold'>{each.unique_answer.substring(0.12) || 'N/A'}</p>
                                                                                                     <div className="text-right">
-                                                                                                        <p className={each.status === 'paid' ? 'py-2 flex-1 px-2 rounded-lg text-sm status-paid' : 'py-2 flex-1 px-2 rounded-lg text-sm status-fail'}>{each.status}</p>
+                                                                                                        <StatusBadge status={each?.status} />
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </Grid>

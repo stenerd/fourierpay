@@ -146,7 +146,7 @@ export default function PayersSheetTable({
                   (<TableCell className='font-bold' style={{ fontWeight: '600' }}>{data.paymentLink.priority_1}</TableCell>) : ''
               }
               <TableCell style={{ fontWeight: '600' }}>Personal Link</TableCell>
-              <TableCell style={{ fontWeight: '600' }}>Date</TableCell>
+              <TableCell style={{ fontWeight: '600' }}>Date Uploaded</TableCell>
               <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
             </TableRow>
           </TableHead>
@@ -171,7 +171,7 @@ export default function PayersSheetTable({
                   <TableCell>{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
                   <TableCell>
                     <div className="text-left">
-                      <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-base uppercase status-paid2' : 'py-2 px-2 rounded-lg text-base uppercase status-fail2'}>{row.status}</p>
+                      <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-base uppercase status-paid2' : 'py-2 px-2 rounded-lg text-base uppercase status-fail2'}>{row.status === 'paid' ? 'paid' : 'not paid'}</p>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -260,7 +260,7 @@ export default function PayersSheetTable({
         </div>
       </div>
       {/* <TransactionModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} recentTransaction={recentTransaction}/> */}
-      <SinglePaymentModal open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} recentPayment={recentPayment} />
+      <SinglePaymentModal from={'payer sheet'} open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={handleClose} recentPayment={recentPayment} />
       <FilterDialog loading={loading} setOpener={setOpener} opener={opener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} start={start} end={end} setStart={setStart} status={status} setEnd={setEnd} setStatus={setStatus} filterData={filterData} />
     </>
   );

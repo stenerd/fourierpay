@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import moment from 'moment';
+import StatusBadge from './atom/web/StatusBadge';
 
 const style = {
     position: 'absolute',
@@ -18,7 +19,7 @@ const style = {
     borderRadius: 2
 };
 
-export default function SinglePaymentModal({ open, setOpen, handleOpen, handleClose, transactions, recentPayment }) {
+export default function SinglePaymentModal({ from, open, setOpen, handleOpen, handleClose, transactions, recentPayment }) {
     console.log(recentPayment)
 
     // let recentPayment = 'paid'
@@ -62,7 +63,16 @@ export default function SinglePaymentModal({ open, setOpen, handleOpen, handleCl
                             </div> */}
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Status</h2>
-                                <p className={recentPayment?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid2' : 'py-2 px-2 rounded-lg text-sm status-fail2'}>{recentPayment?.status}</p>
+                                {
+                                    (from == 'payer sheet') ?
+                                         (
+                                            <p className={recentPayment?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid2' : 'py-2 px-2 rounded-lg text-sm status-fail2'}>{recentPayment?.status === 'paid' ? 'PAID' : 'NOT PAID'}</p>
+                                        )
+                                   :
+                                        (
+                                            <StatusBadge status={recentPayment?.status} />
+                                        )
+                                }
                             </div>
                             {/* <h2>Amount :</h2> */}
                         </div>

@@ -35,6 +35,8 @@ import DeleteBenefiaryDialog from '../components/DeleteBeneficiaryDialog';
 import ProfileDialog from '../components/ProfileDialog';
 import MenuDropDown from '../components/Menu';
 import BottomNav from '../components/bottomNav';
+import StatusBadge from '../components/atom/web/StatusBadge';
+import StatusBadgeMobile from '../components/atom/mobile/StatusBadge';
 // import moment from 'moment';
 // import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Profile = () => {
@@ -388,12 +390,12 @@ const Profile = () => {
                                                         {each.in_entity !== 'Wallet' ?
                                                             (
                                                                 <div className='p-2 c-icon-bg'>
-                                                                    <img src='/images/payment-icon-in.svg' className='w-[20px]' alt="alt-img" />
+                                                                    <img src='/images/in-icon.svg' className='w-[28px]' alt="alt-img" />
                                                                 </div>
                                                             ) :
                                                             (
                                                                 <div className='p-2 c-icon-bg-withdrawal'>
-                                                                    <img src='/images/withdrawal-icon-out.svg' className='w-[20px]' alt="alt-img" />
+                                                                    <img src='/images/out-icon.svg' className='w-[28px]' alt="alt-img" />
                                                                 </div>
                                                             )
                                                         }
@@ -401,7 +403,7 @@ const Profile = () => {
                                                         <div className='flex flex-col'>
                                                             <h2 className='font-bold text-base c-text-elipses text-[#2d2d2d]'>{each.in_entity === 'Wallet' ? each.out_entity_id.name : each.payment_link_id.name}</h2>
                                                             <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
-                                                            ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
+                                                            ).format('MMMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
                                                             <small className='block text-xs font-bold pt-1 text-gray-500'>
                                                                 {each.in_entity === 'Wallet' ? 'Wallet | ' : `${each.in_entity_id.unique_answer} | `} {each.reference}
                                                             </small>
@@ -410,7 +412,9 @@ const Profile = () => {
                                                     </div>
                                                     <div className='flex flex-col'>
                                                         <h2 className='text-sm p-0 text-gray-500 font-bold lowercase self-end'>{each.in_entity !== 'Wallet' ? each.in_entity : 'Withdrawal'}</h2>
-                                                        <small className={each.in_entity !== 'Wallet' ? 'pt-1 self-end flex-1 font-bold c-text-green' : 'pt-1 self-end flex-1 font-bold c-text-danger'}>{each.in_entity !== 'Wallet' ? '+' : '-'} ₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
+                                                        <small className={each.in_entity !== 'Wallet' ? 'pt-1 self-end flex-1 font-bold text-[#01b133]' : 'pt-1 self-end flex-1 font-bold c-text-danger'}>{each.in_entity !== 'Wallet' ? '+' : '-'} ₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
+                                                        <StatusBadgeMobile status={each.status} />
+
                                                     </div>
                                                 </div>
                                             )) : <div>
@@ -446,17 +450,25 @@ const Profile = () => {
                                                 <div className='py-4 space-y-6'>
                                                     {withdrawals ? withdrawals?.map((each, index) => (
                                                         <div className='flex justify-between items-center' key={index}>
-                                                            <div className='flex flex-col items-start'>
-                                                                <h2 className='font-bold text-base c-text-elipses text-[#2d2d2d]'>{each.name}</h2>
-                                                                <span className='block text-xs font-bold pt-1 text-gray-500'>
-                                                                    {each.account_number} | {each.bank_name}
-                                                                </span>
+                                                            
+                                                            <div className='flex items-center space-x-3'>
+                                                                <div className='p-2 c-icon-bg-withdrawal'>
+                                                                    <img src='/images/out-icon.svg' className='w-[28px]' alt="alt-img" />
+                                                                </div>
+
+                                                                <div className='flex flex-col items-start'>
+                                                                    <h2 className='font-bold text-base c-text-elipses text-[#2d2d2d]'>{each.name}</h2>
+                                                                    <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
+                                                                    ).format('MMMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
+                                                                    <span className='block text-xs font-bold pt-1 text-gray-500'>
+                                                                        {each.account_number} | {each.bank_name}
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                             <div className='flex flex-col items-end'>
-                                                                <h2 className='text-sm p-0 text-gray-500 font-bold lowercase self-end'>
-                                                                    ₦ {Intl.NumberFormat('en-US').format(each.amount)}</h2>
-                                                                <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
-                                                                ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
+                                                                <h2 className='text-sm p-0 c-text-danger font-bold lowercase self-end'>
+                                                                    - ₦ {Intl.NumberFormat('en-US').format(each.amount)}</h2>
+                                                                <StatusBadgeMobile status={each.status} />
                                                             </div>
                                                         </div>
                                                     )) : (
@@ -624,7 +636,7 @@ const Profile = () => {
                                                                             </Grid>
                                                                             <Grid item xs={3}>
                                                                                 <div className="text-left">
-                                                                                    <p className={each.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{each.status}</p>
+                                                                                    <StatusBadge status={each?.status} />
                                                                                 </div>
                                                                             </Grid>
                                                                         </Grid>
@@ -677,7 +689,7 @@ const Profile = () => {
                                                                         </Grid>
                                                                         <Grid item xs={2}>
                                                                             <div className="text-left">
-                                                                                <p className={trnx.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{trnx.status}</p>
+                                                                                <StatusBadge status={trnx?.status} />
                                                                             </div>
                                                                         </Grid>
                                                                     </Grid>

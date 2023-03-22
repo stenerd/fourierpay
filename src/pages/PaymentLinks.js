@@ -196,7 +196,7 @@ const PaymentLinks = () => {
                                                 <div className=' flex justify-between items-center'>
                                                     <div className='pt-2'>
                                                         <p className='text-gray-500 font-medium'>Amount</p>
-                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
+                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
                                                     </div>
                                                     <button className='c-bg-primary-light-mobile'>
                                                         <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
@@ -219,7 +219,7 @@ const PaymentLinks = () => {
                                                 <div className=' flex justify-between items-center'>
                                                     <div className='pt-2'>
                                                         <p className='text-gray-500 font-medium'>Amount</p>
-                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
+                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
                                                     </div>
                                                     <button className='c-bg-primary-light-mobile'>
                                                         <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
@@ -242,7 +242,7 @@ const PaymentLinks = () => {
                                                 <div className=' flex justify-between items-center'>
                                                     <div className='pt-2'>
                                                         <p className='text-gray-500 font-medium'>Amount</p>
-                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
+                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
                                                     </div>
                                                     <button className='c-bg-primary-light-mobile'>
                                                         <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
