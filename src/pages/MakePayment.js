@@ -40,11 +40,11 @@ const MakePayment = () => {
     const [paymentLink, setPaymentLink] = React.useState({});
     const [result, setResult] = React.useState({});
     const paystackButtonRef = React.useRef(null);
-    const [delay,setDelay] = React.useState(false)
+    const [delay, setDelay] = React.useState(false)
 
-    const handleClosed = ()=>{
+    const handleClosed = () => {
         setDelay(false)
-    } 
+    }
     const FetchPaymentLink = async () => {
         try {
             const response = await axios.get(`${BASE_URL}/api/payment-link/${code}`)
@@ -249,6 +249,15 @@ const MakePayment = () => {
         </div> */}
             <div className='block md:hidden relative'>
                 <div className='cm-mobile-make-payment relative'>
+                    {delay && (
+                        <Backdrop
+                            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                            open={delay}
+                        // onClick={handleClosed}
+                        >
+                            <CircularProgress color="inherit" />
+                        </Backdrop>
+                    )}
                     <div className='relative px-6 pt-6 w-full'>
                         <img src='/images/logo-header.svg' className='absolute' alt="alt-img" />
                         <p className='text-center text-white text-2xl font-bold'>Pay</p>
@@ -259,7 +268,7 @@ const MakePayment = () => {
                                 <img src='/images/make-payment-icon.svg' alt="alt-img" />
                             </div>
                             <div className='pl-4 w-full'>
-                                <p className='font-bold text-white text-lg'>{ paymentLink.name }</p>
+                                <p className='font-bold text-white text-lg'>{paymentLink.name}</p>
                                 <p className='pt-3 flex justify-between w-full'>
                                     <p className='font-medium text-[#D3D4D4] text-base c-elipses'>By {paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
                                     <p className='font-bold text-[#97F675] text-lg'>₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
@@ -355,7 +364,7 @@ const MakePayment = () => {
                                             ) : ''
                                         }
                                     </div>
-                                    <button className='cm-buttom' onClick={(e) => makePaymentHandler(e)}>Pay ₦{Intl.NumberFormat('en-US').format(paymentLink.charges + paymentLink.amount || 0)}</button>
+                                    <button className='cm-buttom' onClick={(e) => makePaymentHandler(e)}> {delay ? `Loading....` : `Pay ₦ ${Intl.NumberFormat('en-US').format(paymentLink.charges + paymentLink.amount || 0)}`}</button>
                                 </div>
                             </div>
                         ) : ''
@@ -397,7 +406,7 @@ const MakePayment = () => {
                                                     <img src='/images/make-payment-icon.svg' alt="alt-img" />
                                                 </div>
                                                 <div className='pl-4 w-full'>
-                                                    <p className='font-bold text-[#222926] text-lg'>{ paymentLink.name }</p>
+                                                    <p className='font-bold text-[#222926] text-lg'>{paymentLink.name}</p>
                                                     <p className='pt-1 flex justify-between w-full'>
                                                         <p className='text-[#222926] text-sm'>{result.payment && moment(result.payment.createdAt).format('dddd MMMM DD, YYYY - hh:mm:A')}</p>
                                                     </p>
@@ -425,7 +434,7 @@ const MakePayment = () => {
                         <Backdrop
                             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                             open={delay}
-                            // onClick={handleClosed}
+                        // onClick={handleClosed}
                         >
                             <CircularProgress color="inherit" />
                         </Backdrop>
