@@ -46,7 +46,7 @@ const Hero = () => {
 
         t2.play();
 
-        gsap.from(typewriter.current, { text: "All in one platform for accepting payment and embedded fintech experience to fast track your payment", ease: "power1.in", duration: 2, repeat: 10, yoyo: true, repeatDelay: 0.4 })
+        gsap.from(typewriter.current, { text: "Our comprehensive fintech platform is designed to simplify transactions and elevate your financial experience with ease.", ease: "power1.in", duration: 2, repeat: 10, yoyo: true, repeatDelay: 0.4 })
 
         t3.fromTo(topClear.current, {
             height: '100%'
@@ -105,7 +105,7 @@ const Hero = () => {
 
                                                 onInit={(typewriter) => {
                                                     typewriter
-                                                        .typeString("All in one platform for accepting payment and embedded fintech experience to fast track your payment")
+                                                        .typeString("Our comprehensive fintech platform is designed to simplify transactions and elevate your financial experience with ease.")
                                                         // .pauseFor(1000)
                                                         // .deleteAll()
                                                         // .typeString("Welcomes You")
