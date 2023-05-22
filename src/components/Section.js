@@ -97,12 +97,12 @@ const Section = () => {
                     <div className="w-[90%] md:w-4/5 mx-auto flex-col md:flex-row flex justify-between items-center">
                         <div>
                             <h1 className='text-5xl font-semibold text-center'>250K</h1>
-                            <p className='text-center font-bold text-gray-500'>Registared Users</p>
+                            <p className='text-center font-bold text-gray-500'>Registered Users</p>
                         </div>
                         <div className='c-vertical-divider'></div>
                         <div>
                             <h1 className='text-5xl font-semibold  text-center'>250M+</h1>
-                            <p className='text-center font-bold text-gray-500'>Revenue Total</p>
+                            <p className='text-center font-bold text-gray-500'>Total Revenue</p>
                         </div>
                         <div className='c-vertical-divider'></div>
                         <div>
@@ -120,7 +120,7 @@ const Section = () => {
                     </div>
                     <div className='py-3 w-full md-w-[45%] space-y-8'>
                         {/* <h1 className='text-[40px] font-bold'>Financial experience built for tomorrow</h1> */}
-                        <h2 className='text-xl font-medium text-gray-700'>Fourier Pay was built from scratch to inspire embedded Financial experience. We Provide you products and tools you need to grow your revenue and collect payment instantly with just one link.</h2>
+                        <h2 className='text-xl font-medium text-gray-700'>Fourier Pay was built to inspire embedded Financial experience. We Provide you products and tools you need to grow your revenue and collect payment instantly with just one link.</h2>
                         <button className='bg-[#1f332b] font-medium text-white py-4 px-6 rounded-sm mb-24 md:mb-0'>Learn More</button>
                     </div>
                 </div>
