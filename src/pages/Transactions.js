@@ -71,9 +71,9 @@ const Transactions = () => {
         setValue(newValue);
     };
 
-    useEffect(() => {
-        setValue('transactions')
-    }, [])
+    // useEffect(() => {
+    //     setValue('transactions')
+    // }, [])
 
     const handleClickOpen = () => {
         setOpener(true);
@@ -299,6 +299,7 @@ const Transactions = () => {
     // }
 
     useEffect(() => {
+        setValue('transactions')
         fetchTransaction()
     }, [])
 
