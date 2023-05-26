@@ -323,7 +323,7 @@ const PaymentLinks = () => {
                                                                     {moment(link.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? (
                                                                         <small className='text-sm text-[#00bf00] status-pill'>{link.status} {link.expires_at && `- ${moment(link.expires_at).format('MMMM DD, YYYY')}`}</small>
                                                                     ) : (
-                                                                        <small className='text-sm text-red-500 italic font-bold'>expired</small>
+                                                                        <small className='text-sm text-red-500 italic font-bold'>expired - {moment(link.expires_at).format(('MMM DD, YYYY'))}</small>
                                                                     )}
                                                                 </div>
                                                                 {/* <button onClick={setCopied}>
