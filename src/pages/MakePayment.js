@@ -413,9 +413,6 @@ const MakePayment = () => {
                                                 </div>
                                             </div>
                                         </div>
-
-
-
                                     </div>
                                     <button className='cm-buttom' onClick={() => setTab(1)}>Done</button>
                                 </div>
