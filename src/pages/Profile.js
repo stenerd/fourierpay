@@ -46,6 +46,7 @@ const Profile = () => {
         bottom: false,
         right: false,
     });
+    const [withdraw,setWithdrawal] = useState()
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -80,7 +81,11 @@ const Profile = () => {
     const handleOpen3 = () => setOpen3(true);
     const handleClose3 = () => setOpen3(false);
     const [open4, setOpen4] = React.useState(false);
-    const handleOpen4 = () => setOpen4(true);
+    const handleOpen4 = (each) => {
+        setOpen4(true)
+        setWithdrawal(each)
+        // console.log(each)
+    };
     const handleClose4 = () => setOpen4(false);
 
     const [open7, setOpen7] = React.useState(false);
@@ -611,15 +616,13 @@ const Profile = () => {
                                             <Link to="/dashboard/withdrawal">
                                                 <p className='text-sm c-primary-color cursor-pointer font-bold'>View All</p>
                                             </Link>
-
                                         </div>
-
                                         <div className='py-2 dashboard-payment-link'>
                                             <List>
                                                 {
                                                     withdrawals && !isLoading ? (
                                                         withdrawals.map((each, index) => (
-                                                            <ListItem disablePadding alignItems="flex-center" onClick={() => handleOpen4()} key={index}>
+                                                            <ListItem disablePadding alignItems="flex-center" onClick={() => handleOpen4(each)} key={index}>
                                                                 <ListItemButton>
                                                                     <div className='py-1 w-full'>
                                                                         <Grid container spacing={3}>
@@ -722,7 +725,7 @@ const Profile = () => {
                 <ProfileModal open5={open5} setOpen5={setOpen5} handleOpen5={handleOpen5} handleClose5={handleClose5} profile={profile} setProfile={setProfile} fetchProfile={fetchProfile} />
                 <WithdrawalModal open2={open2} handleOpen2={handleOpen2} handleClose2={handleClose2} setOpen2={setOpen2} bankList={bankList} FetchBeneficiary={FetchBeneficiary} />
                 <BenificiaryModal open3={open3} setOpen3={setOpen3} handleOpen3={handleOpen3} handleClose3={handleClose3} data={data} beneficiaries={beneficiaries} setBeneficiaries={setBeneficiaries} />
-                <RecentWithDrawalModal open4={open4} setOpen4={setOpen4} handleOpen4={handleOpen4} handleClose4={handleClose4} />
+                <RecentWithDrawalModal open4={open4} setOpen4={setOpen4} handleOpen4={handleOpen4} handleClose4={handleClose4} withdraw={withdraw}/>
                 <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={withdrawPopUpHandleClose} />
                 <SingleTransactionModal open7={open7} setOpen7={setOpen7} handleOpen7={handleOpen7} handleClose7={handleClose7} singleTransaction={singleTransaction} />
             </div>

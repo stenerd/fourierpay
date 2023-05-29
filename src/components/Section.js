@@ -50,7 +50,7 @@ const Section = () => {
                     trigger: secondContainerRef.current,
                     start: 'center center',
                     scrub: true,
-                    pin: true
+                    // pin: true
                 }
 
 
@@ -63,30 +63,21 @@ const Section = () => {
                     trigger: thirdContainerRef.current,
                     start: 'center center',
                     scrub: true,
-                    pin: true
+                    // pin: true
                 }
-
-
             })
             thirdTween.fromTo(righttRef.current, { x: '-50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, scale: 1, duration: .8 }).to(shadow2.current, { opacity: 1 })
-
             const fourthTween = gsap.timeline({
                 ease: 'none',
                 scrollTrigger: {
                     trigger: containRef.current,
                     start: 'center center',
                     scrub: true,
-                    pin: true
+                    // pin: true
                 }
-
-
             })
             fourthTween.fromTo(dropDown.current, { y: '-50%', opacity: 0, scale: .5 }, { y: '0%', opacity: 1, scale: 1, duration: .8 })
-
-
         })
-
-
     }, [])
 
 
@@ -409,7 +400,6 @@ const Section = () => {
                                         </div>
                                     </div>
                                 </div>
-
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <div className="relative">
