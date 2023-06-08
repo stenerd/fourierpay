@@ -17,6 +17,7 @@ import SinglePaymentLink from "./pages/SinglePaymentLink";
 import PrivateRoutes from "./pages/Protected";
 import PaymentReciept from "./pages/PaymentReciept";
 import PublicPayment from "./pages/PublicPayment";
+import AdminLogin from './pages/Admin/Login'
 import ProtectedRoute from "./pages/ProtectedRoute";
 
 function App() {
@@ -29,10 +30,13 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
-          <Route path="/external-link/:code" element={<PublicPayment />} />
-          <Route path="/pay/:code" element={<MakePayment />} />
-          <Route path="/pay/:code/reciept/:reference" element={<PaymentReciept />} />
+
         </Route>
+        <Route path="/pay/:code" element={<MakePayment />} />
+        <Route path="/external-link/:code" element={<PublicPayment />} />
+
+        <Route path="/pay/:code/reciept/:reference" element={<PaymentReciept />} />
+        <Route path='/admin/login' element={<AdminLogin />} />
         <Route element={<PrivateRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/profile" element={<Profile />} />
