@@ -30,7 +30,6 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
-
         </Route>
         <Route path="/pay/:code" element={<MakePayment />} />
         <Route path="/external-link/:code" element={<PublicPayment />} />
