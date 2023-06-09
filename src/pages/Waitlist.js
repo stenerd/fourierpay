@@ -24,8 +24,8 @@ const Waitlist = () => {
           </div>
           <div className='md:w-4/5 w-full mx-auto'>
             <div className='mb-10'>
-              <h2 className='text-[30px] md:text-[50px] text-center leading-none font-bold text-white'>Join the waitlist for <br />
-                <span className='text-[#97F675]'>Fourierpay</span></h2>
+              <h2 className='text-[23px] md:text-[50px] text-center leading-none font-bold text-white'>Join our FourierPay waitlist <br />
+                <span className='text-[#97F675]'>for early launch update</span></h2>
             </div>
 
             <div className='md:w-4/5 w-full mx-auto py-6'>
