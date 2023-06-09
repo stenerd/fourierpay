@@ -34,7 +34,7 @@ const Waitlist = () => {
                   <PersonIcon className={fullName ? 'absolute top-4 left-2 text-white' : 'absolute top-4 left-2'} />
                   <input className='py-3 w-full px-10 bg-[#16141c]  outline-none  text-white' placeholder='Full name...' onChange={handleFullName} />
                 </div>
-                <div className='py-3 relative hover:text-white'>
+                <div className='py-3 relative hover:text-white'> 
                   <EmailIcon className={isEmail ? 'absolute top-6 left-2 text-white' : 'absolute top-6 left-2'} />
                   <input className='py-3 w-full px-10 bg-[#16141c] outline-none text-white ' placeholder='Address email..' onChange={handleEmail} />
                 </div>
