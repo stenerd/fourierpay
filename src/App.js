@@ -19,6 +19,7 @@ import PaymentReciept from "./pages/PaymentReciept";
 import PublicPayment from "./pages/PublicPayment";
 import AdminLogin from './pages/Admin/Login'
 import ProtectedRoute from "./pages/ProtectedRoute";
+import Waitlist from "./pages/Waitlist";
 
 function App() {
   return (
@@ -30,13 +31,13 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
-
         </Route>
         <Route path="/pay/:code" element={<MakePayment />} />
         <Route path="/external-link/:code" element={<PublicPayment />} />
 
         <Route path="/pay/:code/reciept/:reference" element={<PaymentReciept />} />
         <Route path='/admin/login' element={<AdminLogin />} />
+        <Route path='/waitlist' element={<Waitlist/>}/>
         <Route element={<PrivateRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/profile" element={<Profile />} />
