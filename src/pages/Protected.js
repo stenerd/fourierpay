@@ -6,4 +6,4 @@ const PrivateRoutes = () => {
         token ? <Outlet/> : <Navigate to="/login"/>
     )
 }
-export default PrivateRoutes;
+export default PrivateRoutes

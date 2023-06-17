@@ -20,12 +20,12 @@ root.render(
   <DashboardProvider>
     <ThemeProvider theme={theme}>
       <Router>
-        <Provider store={store}>
+        <Provider store={store}> 
           <PersistGate persistor={persistor}>
             <App />
           </PersistGate>
         </Provider>
-      </Router>
+      </Router> 
     </ThemeProvider>
   </DashboardProvider>
   // </React.StrictMode>
