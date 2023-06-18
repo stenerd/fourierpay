@@ -29,4 +29,4 @@ Protected.interceptors.request.use(
         return Promise.reject(error);
     }
 )
-export default Protected
+export default Protected;

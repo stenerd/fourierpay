@@ -19,7 +19,7 @@ const style = {
     borderRadius: 2
 };
 
-export default function WithDraws({ open, setOpen, handleOpen, handleClose, transactions, recentWithdraws:recentTransaction }) {
+export default function WithDraws({ open, setOpen, handleOpen, handleClose, transactions, recentWithdraws: recentTransaction }) {
     console.log(recentTransaction)
 
     let recentPayment = 'paid'
@@ -34,11 +34,15 @@ export default function WithDraws({ open, setOpen, handleOpen, handleClose, tran
             >
                 <Box sx={style}>
                     <>
-                    <div>
-                        <h2 className='text-center font-semibold text-xl'>Withdrawal</h2>
-                    </div>
+                        <div>
+                            <h2 className='text-center font-semibold text-xl'>Withdrawal</h2>
+                        </div>
                         <div className='py-3 divide-y-2'>
                             {/* <h1 className='text-center font-bold'>{recentPayment?.payment_link_id?.name}</h1> */}
+                            <div className='flex justify-between items-center py-3'>
+                                <h2 className='text-gray-400'>Status</h2>
+                                <StatusBadge status={recentTransaction?.status} />
+                            </div>
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Name</h2>
                                 <p className='font-bold text-sm'>{recentTransaction?.name}</p>
@@ -58,10 +62,6 @@ export default function WithDraws({ open, setOpen, handleOpen, handleClose, tran
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Amount</h2>
                                 <p className='font-bold text-sm'>{recentTransaction?.amount}</p>
-                            </div>
-                            <div className='flex justify-between items-center py-3'>
-                                <h2 className='text-gray-400'>Status</h2>
-                                <StatusBadge status={recentTransaction?.status} />
                             </div>
                             {/* <h2>Amount :</h2> */}
                         </div>
