@@ -342,9 +342,7 @@ const Section = () => {
                     </div>
                 </div>
             </div>
-
             <div className='md:py-28 py-8  bg-[#ebefe6] mx-auto relative' style={{ zIndex: -1 }}>
-
                 <div className='bg-[#ebefe6] w-[90%] md:w-4/5 mx-auto'>
                     <div className='py-6 w-[95%] md:w-[70%]'>
                         <p className='text-[46px] font-bold text-center md:text-left leading-none text-[#1f332b]'>Our Pricing</p>
@@ -353,10 +351,7 @@ const Section = () => {
                             link.it also helps you create payment links that can be accessed by whoever you want
                             payment from thereby enabling mass payments.
                         </p>
-
-
                     </div>
-
                     <div className='w-[95%] md:w-4/6  mx-auto my-16 hidden md:block'>
                         <Grid container spacing={8} justifyContent='space-between'>
                             <Grid item xs={12} md={6} >
@@ -470,7 +465,7 @@ const Section = () => {
 
                                     </div>
                                 </Grid>
-                                <Grid item xs={12} md={5} sx={{display:{sm:'none',md:'block'}}}>
+                                <Grid item xs={12} md={5} sx={{ display: { sm: 'none', md: 'block' } }}>
                                     <div className='py-3'>
                                         <img src="/images/ochuko.png" className='w-full h-[500px] object-cover c-home-section-image hidden md:block' />
                                     </div>
