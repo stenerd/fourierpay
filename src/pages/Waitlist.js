@@ -77,7 +77,9 @@ const Waitlist = () => {
                 </div>
                 <div className='flex-1 hidden md:block'>
                   <div className='w-full flex justify-center'>
-                    <img src='/images/createlink.png' className='object-cover w-[80%]' />
+                    {/* <img src='/images/createlink.png' className='object-cover w-[80%]' /> */}
+                    {/* <img src='/images/pay.png'  className='object-cover w-[80%]' /> */}
+                    <img src='/images/share.png' className='object-cover w-[80%]' />
                   </div>
                 </div>
               </div>
