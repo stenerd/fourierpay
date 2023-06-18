@@ -29,9 +29,11 @@ const Waitlist = () => {
     <div className='max-h-screen'>
       <div className='bg-black'>
         <div className='md:w-[82%] w-[90%] flex justify-between items-center py-4 mx-auto'>
-          <div className='w-[7rem]  md:w-[10rem]'>
-            <img src="/images/two.svg" />
-          </div>
+          <Link to='/'>
+            <div className='w-[7rem]  md:w-[10rem]'>
+              <img src="/images/two.svg" />
+            </div>
+          </Link>
           <div className='flex items-center space-x-3 md:space-x-6'>
             {/* <Link to='/login'>
               <span className='text-white cursor-pointer font-bold'>Login</span>
