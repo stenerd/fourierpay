@@ -51,7 +51,7 @@ const Waitlist = () => {
           </div> */}
               <div className='md:w-[90%]  flex justify-between items-center w-full mx-auto'>
                 <div className='mb-10 flex-1'>
-                  <h2 className='text-[23px] mb-6 md:mb-0 md:text-[50px] leading-none font-bold text-white'>Collect All Your Payment with one link with FourierPay <br />
+                  <h2 className='text-[23px] mb-6 md:mb-0 md:text-[50px] font-bold text-white'>Collect All Your Payment with one link with FourierPay <br />
                   </h2>
                   <div className='py-4 mt-0'>
                     <p className='text-white md:text-xl'>Our comprehensive fintech platform is designed to simplify transactions and elevate your financial experience with ease.</p>
