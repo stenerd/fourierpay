@@ -36,7 +36,7 @@ const Waitlist = () => {
             {/* <Link to='/login'>
               <span className='text-white cursor-pointer font-bold'>Login</span>
             </Link> */}
-            <Link to='signup'>
+            <Link to=''>
               <button className='bg-[#97f675] text-black font-bold rounded-md py-2 px-4 md:py-3 md:px-6'>Waitlist</button>
             </Link>
           </div>
