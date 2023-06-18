@@ -157,10 +157,26 @@ const Payment = () => {
         }
     }
 
+    const computeCharges = () => {
+
+        const { amount } = state
+
+        if (!amount) return 0
+
+        let charges = +state.amount >= 2000 ? +state.amount * 0.02 + 100 : +state.amount * 0.02;
+
+        if (charges > 3000) {
+            charges = 3000;
+        }
+
+        return (+charges + +amount)
+    }
+
+    const charges = React.useMemo(computeCharges);
+
 
     const createLink = async (e) => {
         if (e.keyCode === 13) {
-            console.log('heddd')
             return
         }
         e.preventDefault()
@@ -254,7 +270,7 @@ const Payment = () => {
                                     <div className='flex flex-col justify-center items-center'>
                                         <div className='w-full'>
                                             <form className='w-full space-y-4'>
-                                                <h3 className='text-gray-700 text-lg font-bold home'>New Payment Link</h3>
+                                                {/* <h3 className='text-gray-700 text-lg font-bold home'>New Payment Link</h3> */}
                                                 <div className='mb-8'>
                                                     {stateError && <small className='text-red-600'> {stateError}</small>}
                                                     <Grid container spacing={2}>
@@ -484,13 +500,13 @@ const Payment = () => {
                                                     <h2 className='text-lg font-bold mt-0'>{state.name || 'Nill'}</h2>
                                                 </div>
                                                 <div className='flex flex-col'>
-                                                    <small className='font-bold text-gray-500'>Amount</small>
-                                                    <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format(state.amount || 0)}</h2>
+                                                    <small className='font-bold text-gray-500'>Amount per payment (VAT Inclusive)</small>
+                                                    <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format(+charges || 0)}</h2>
                                                 </div>
-                                                <div className='flex flex-col'>
+                                                {/* <div className='flex flex-col'>
                                                     <small className='font-bold text-gray-500'>Charges</small>
                                                     <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format((+state.amount >= 2000 ? +state.amount * 0.02 + 100 : +state.amount * 0.02) || 0)}</h2>
-                                                </div>
+                                                </div> */}
                                                 {
                                                     state.expected_number_of_payment ? (
                                                         <>
@@ -499,7 +515,7 @@ const Payment = () => {
                                                                 <h2 className='text-lg font-bold mt-0'>{state.expected_number_of_payment || 'Nil'}</h2>
                                                             </div>
                                                             <div className='flex flex-col'>
-                                                                <small className='font-bold text-gray-500'>Expected Total</small>
+                                                                <small className='font-bold text-gray-500'>Expected Total Amount (VAT Excluded)</small>
                                                                 <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format((state.amount * state.expected_number_of_payment) || 0)}</h2>
                                                             </div>
                                                         </>
@@ -511,7 +527,7 @@ const Payment = () => {
                                                 </div>
                                                 <div className='flex flex-col'>
                                                     <small className='font-bold text-gray-500'>Description</small>
-                                                    <h2 className='text-lg font-bold mt-0'>{state.description || 'Nil'}</h2>
+                                                    <h2 className='text-lg font-bold mt-0'>{(state.description.length > 70 ? state.description.substring(0, 70) + "..." : state.description) || 'Nil'}</h2>
                                                 </div>
                                                 <p className='font-bold text-gray-700 text-lg'>Forms</p>
                                                 {
