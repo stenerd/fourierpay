@@ -41,6 +41,7 @@ const MakePayment = () => {
     const [result, setResult] = React.useState({});
     const paystackButtonRef = React.useRef(null);
     const [delay, setDelay] = React.useState(false)
+    const [details,setDetails] = React.useState([])
 
     const handleClosed = () => {
         setDelay(false)
@@ -121,11 +122,14 @@ const MakePayment = () => {
             })
             console.log('result >> ', result)
             if (tab === 2) {
-                setResult(result.data.data)
+                setResult(result.data)
+                console.log(result)
+                setDetails(result.data.data)
                 setTab(3)
             } else {
                 navigate(`/pay/${code}/reciept/${paymentData.reference}`)
             }
+            // response_description
         } catch (error) {
             console.log(error.response.data.message)
             toast.error(error.response.data.message)
@@ -140,7 +144,7 @@ const MakePayment = () => {
     // you can call this function anything
     const handleClose = (reference) => {
         // implementation for  whatever you want to do when the Paystack dialog closed.
-        console.log('closed >> ', paymentData, reference)
+        // console.log('closed >> ', paymentData, reference)
 
         try {
             axios.put(`${BASE_URL}/api/payment/abandon`, {
