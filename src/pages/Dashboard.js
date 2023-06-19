@@ -154,6 +154,7 @@ const Dashboard = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open20 = Boolean(anchorEl);
     const handleClick = (event) => {
+        event.stopPropagation()
         setAnchorEl(event.currentTarget);
     };
     const handleClose20 = () => {

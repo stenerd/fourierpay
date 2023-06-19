@@ -13,6 +13,8 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import Person3Icon from '@mui/icons-material/Person3';
+import { useState } from 'react';
+import GenericAlertDialog from './GenericAlertDialog';
 export default function MenuDropDown({ open20, handleClose20, handleClick, anchorEl, setAnchorEl, name }) {
     const navigate = useNavigate()
 
@@ -20,6 +22,17 @@ export default function MenuDropDown({ open20, handleClose20, handleClick, ancho
     //     window.localStorage.removeItem('bearer_token')
     //     navigate('/')
     // }
+
+    const [open21, setOpen21] = useState(false);
+    const handleClickOpen21 = () => {
+        setOpen21(true);
+    };
+
+    const handleClose21 = () => {
+        setOpen21(false);
+    };
+
+
 
     return (
         <React.Fragment>
@@ -82,23 +95,43 @@ export default function MenuDropDown({ open20, handleClose20, handleClick, ancho
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={()=>{
-                     navigate('/dashboard/profile')
-                }}>
+                <MenuItem
+                // onClick={() => {
+                //     navigate('/dashboard/profile')
+                // }}
+                >
                     <Avatar /> {name}
                 </MenuItem>
 
                 <Divider />
-                <MenuItem onClick={() => {
-                    window.localStorage.removeItem('bearer_token')
-                    navigate('/')
-                }}>
+                <MenuItem
+                    onClick={() => {
+                        window.localStorage.removeItem('bearer_token')
+                        navigate('/')
+                        // handleClickOpen21()
+                    }}
+                >
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
                     Logout
                 </MenuItem>
             </Menu>
+            {/* <GenericAlertDialog open21={open21} handleClickOpen21={handleClickOpen21} setOpen21={setOpen21} handleClose21={handleClose21}>
+                <div>
+                    <h4 className="text-xl font-bold text-center text-[#1d3329]">Are You Sure you wan to Logout?</h4>
+                    <p className="text-gray-700 py-4 text-center">Are You Sure you wan to Logout?
+
+                    </p>
+                    <div className="flex justify-center mt-6">
+                        <button className="c-secondary-button-sm mr-3" onClick={() => setOpen21(false)}>No</button>
+                        <button className="c-secondary-button-2" onClick={() => {
+                            window.localStorage.removeItem('bearer_token')
+                            navigate('/')
+                        }}>Yes</button>
+                    </div>
+                </div>
+            </GenericAlertDialog> */}
         </React.Fragment>
     );
 }
