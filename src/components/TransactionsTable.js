@@ -67,7 +67,7 @@ export default function TransactionTable({
   const currentPosts = transactions?.slice(indexOfFirstPost, indexOfLastPost);
 
   // const paginate = pageNumber => setCurrentPage(pageNumber);
-  
+
   const onPageChange = async (pageNumber) => {
     setLoading(true)
     try {
@@ -302,7 +302,6 @@ export default function TransactionTable({
               <TableBody>
                 {[1, 2, 3, 4, 5, 6, 7].map((arr, index) => (
                   <TableRow>
-
                     <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
                     <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
                     <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>

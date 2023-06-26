@@ -24,8 +24,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PaystackButton, PaystackConsumer } from 'react-paystack'
 import moment from 'moment'
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
-
-
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 
 
@@ -41,7 +41,7 @@ const MakePayment = () => {
     const [result, setResult] = React.useState({});
     const paystackButtonRef = React.useRef(null);
     const [delay, setDelay] = React.useState(false)
-    const [details,setDetails] = React.useState([])
+    const [details, setDetails] = React.useState([])
 
     const handleClosed = () => {
         setDelay(false)
@@ -228,6 +228,19 @@ const MakePayment = () => {
         }
     }
 
+    const printDocument = () => {
+        const input = document.getElementById('divToPrint');
+        html2canvas(input)
+            .then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF();
+                pdf.addImage(imgData, 'PNG', 10, 10, 180, 150);
+                // pdf.output('dataurlnewwindow');
+                pdf.save("payment-recipt.pdf");
+            })
+            ;
+    }
+
     const copyText = async (link) => {
         try {
             await navigator.clipboard.writeText(link)
@@ -251,8 +264,8 @@ const MakePayment = () => {
             {/* <div className='block lg:hidden'>
             
         </div> */}
-            <div className='block md:hidden relative'>
-                <div className='cm-mobile-make-payment relative'>
+            <div className='block md:hidden relative' id='divToPrint'>
+                <div className='cm-mobile-make-payment relative' >
                     {delay && (
                         <Backdrop
                             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -418,7 +431,11 @@ const MakePayment = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <button className='cm-buttom' onClick={() => setTab(1)}>Done</button>
+                                    <button className='cm-buttom' onClick={() => {
+                                        setTab(1)
+                                        printDocument()
+                                    }
+                                    }>Download Reciept</button>
                                 </div>
                             </div>
                         ) : ''
