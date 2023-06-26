@@ -36,6 +36,7 @@ import AddIcon from '@mui/icons-material/Add';
 import BottomNav from '../components/bottomNav';
 import StatusBadge from '../components/atom/web/StatusBadge';
 import SinglePayment from '../components/SinglePayment';
+import LinkStatusBadge from '../components/atom/web/LinkStatusBadge';
 
 
 
@@ -270,7 +271,7 @@ const SinglePaymentLink = () => {
 
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-        height: 15,
+        height: 10,
         borderRadius: 10,
         [`&.${linearProgressClasses.colorPrimary}`]: {
             backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
@@ -311,41 +312,56 @@ const SinglePaymentLink = () => {
                             {load ? <h2 className='text-xl'>{`Payment Links -`} <span><Skeleton variant="rectangular" width={210} height={40} /></span></h2> : <h2 className='text-xl'>{`Payment Links - ${data.paymentLink && data.paymentLink.name}`}</h2>}
 
 
-                            <p className='text-xl text-[#00bf00] status-pill capitalize'>{data.paymentLink && data.paymentLink.status} {data.paymentLink && data.paymentLink.expires_at && '- 24th March 2023'}</p>
+                            {/* <p className='text-xl text-[#00bf00] status-pill capitalize'>{data.paymentLink && data.paymentLink.status} {data.paymentLink && data.paymentLink.expires_at && '- 24th March 2023'}</p> */}
+                            <div className="text-left uppercase">
+                                <LinkStatusBadge status={data.paymentLink && data.paymentLink.status}
+                                    other={(data.paymentLink && data.paymentLink.status === 'active') && data.paymentLink && data.paymentLink.expires_at ? `  | UNTIL ${moment(data.paymentLink && data.paymentLink.expires_at).format(('MMM DD, YYYY'))}` :
+                                        ((data.paymentLink && data.paymentLink.status === 'expired') ? `  |  ON ${moment(data.paymentLink && data.paymentLink.expires_at).format(('MMM DD, YYYY'))}` : '')}
+                                />
+                            </div>
                         </Titlebar>
                         {
                             data.paymentLink ? (
                                 <div className='w-[90%] mx-auto py-6' >
                                     <Grid container spacing={2} className='mb-8'>
                                         <Grid item xs={12} md={5}>
-                                            <div className='min-h-full c-single-payment-description'>
-                                                <div className='pb-8'>
-                                                    <div className='font-bold'>Description:</div>
-                                                    <div className='italic text-gray-500'>{data.paymentLink.description}</div>
+                                            <div className='min-h-full c-single-payment-description relative'>
+                                                <div className='flex'>
+                                                    <div className='pb-8'>
+                                                        <div className='font-bold'>Description:</div>
+                                                        <div className='italic text-gray-500'>{data.paymentLink.description}</div>
+                                                    </div>
+                                                    <div>
+                                                        <img src={ data.paymentLink && data.paymentLink.qr_code } alt="qrcode" className='c-box-shadow-qr' />
+                                                    </div>
+                                                    
                                                 </div>
-                                                <div className='flex space-x-2 items-center mt-4'>
-                                                    {/* <IconButton>
-                                                    <ContentPasteIcon onClick={copyText} />
-                                                </IconButton> */}
-                                                    <ContentPasteIcon onClick={() => copyText(data.paymentLink.link)} className="cursor-pointer" />
-                                                    <h2 className='break-all text-[13px] text-[#1d3329] font-bold'>{data.paymentLink.link}</h2>
+                                                <div className='absolute w-[95%] bottom-4'>
+                                                    <div className='flex space-x-2 items-center mt-2'>
+                                                        {/* <IconButton>
+                                                        <ContentPasteIcon onClick={copyText} />
+                                                    </IconButton> */}
+                                                        <ContentPasteIcon onClick={() => copyText(data.paymentLink.link)} className="cursor-pointer c-fs-1" />
+                                                        <h2 className='break-all text-[13px] text-[#1d3329] font-bold'>{data.paymentLink.link}</h2>
+                                                    </div>
+                                                    <div className='mt-2'>
+                                                        {
+                                                            data.paymentLink.expected_number_of_payments ? (
+                                                                <div className='pb-0 w-[100%] rounded-lg'>
+                                                                    <BorderLinearProgress variant="determinate" value={((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100) > 100 ? 100 : ((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100)} />
+                                                                </div>
+                                                            ) : ''
+                                                        }
+                                                    </div>
                                                 </div>
-                                                <div className='mt-2'>
-                                                    {
-                                                        data.paymentLink.expected_number_of_payments ? (
-                                                            <div className='pb-2 w-[100%] rounded-lg'>
-                                                                <BorderLinearProgress variant="determinate" value={((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100) > 100 ? 100 : ((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100)} />
-                                                            </div>
-                                                        ) : ''
-                                                    }
-                                                </div>
+                                                
                                             </div>
                                         </Grid>
                                         <Grid item xs={12} md={7}>
                                             <div className='create-payment-details p-8'>
                                                 <Grid container spacing={3}>
                                                     <Grid item xs={3}>
-                                                        <div className='bg-white py-2 rounded-md dashboard-matrix'>
+                                                        <div className='bg-white py-2 min-h-full rounded-md dashboard-matrix'>
                                                             <div className='overlay'></div>
                                                             <div className="p-2 w-[90%] mx-auto">
                                                                 <div className='space-y-3 flex flex-col items-start justify-start'>
@@ -363,7 +379,7 @@ const SinglePaymentLink = () => {
                                                         </div>
                                                     </Grid>
                                                     <Grid item xs={3}>
-                                                        <div className='bg-white py-2 rounded-md dashboard-matrix'>
+                                                        <div className='bg-white py-2 min-h-full rounded-md dashboard-matrix'>
                                                             <div className='overlay'></div>
                                                             <div className="p-2 w-[90%] mx-auto relative">
                                                                 <div className='space-y-3 flex flex-col items-start justify-start'>
@@ -383,7 +399,7 @@ const SinglePaymentLink = () => {
                                                         </div>
                                                     </Grid>
                                                     <Grid item xs={3}>
-                                                        <div className='bg-white py-2 rounded-md dashboard-matrix'>
+                                                        <div className='bg-white py-2 min-h-full rounded-md dashboard-matrix'>
                                                             <div className='overlay'></div>
                                                             <div className="p-2 w-[90%] mx-auto">
                                                                 <div className='space-y-3 flex flex-col items-start justify-start'>
@@ -399,7 +415,7 @@ const SinglePaymentLink = () => {
                                                         </div>
                                                     </Grid>
                                                     <Grid item xs={3}>
-                                                        <div className='bg-white py-2 rounded-md dashboard-matrix'>
+                                                        <div className='bg-white py-2 min-h-full rounded-md dashboard-matrix'>
                                                             <div className='overlay'></div>
                                                             <div className="p-2 w-[90%] mx-auto">
                                                                 <div className='space-y-3 flex flex-col items-start justify-start'>

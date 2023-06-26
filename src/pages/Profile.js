@@ -401,7 +401,7 @@ const Profile = () => {
                                                         }
 
                                                         <div className='flex flex-col'>
-                                                            <h2 className='font-bold text-base c-text-elipses text-[#2d2d2d]'>{each.in_entity === 'Wallet' ? each.out_entity_id.name : each.payment_link_id.name}</h2>
+                                                            <h2 className='font-bold text-base c-text-elipses text-[#2d2d2d]'>{(each.in_entity === 'Wallet' || each.in_entity === 'Withdrawal') ? each.out_entity_id.name : each.payment_link_id.name}</h2>
                                                             <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
                                                             ).format('MMMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
                                                             <small className='block text-xs font-bold pt-1 text-gray-500'>
@@ -675,14 +675,20 @@ const Profile = () => {
                                                                 <ListItemButton>
 
                                                                     <Grid container spacing={3}>
-                                                                        <Grid item xs={3}>
-                                                                            <h2 className='text-sm font-bold uppercase'>{trnx.in_entity}</h2>
-                                                                            <small className='text-sm text-gray-400'>{trnx.reference}</small>
+                                                                        <Grid item xs={5}>
+                                                                            <h2 className={`text-sm font-bold uppercase ${trnx.is_charges && 'text-[#f10506]'}`}>
+                                                                                {trnx.in_entity === 'Wallet' ? 'Withdrawal' + (!trnx.is_charges ? '' : ' Charges') : trnx.in_entity}
+                                                                            </h2>
+                                                                            <small className='text-gray-400'>{
+                                                                                trnx.in_entity === 'Payment' ?
+                                                                                    `${trnx.payment_link_id.name} | ${trnx.in_entity_id.unique_answer}` :
+                                                                                    (trnx.is_charges ? '' : `${trnx.out_entity_id.name} | ${trnx.out_entity_id.account_number} | ${trnx.out_entity_id.bank_name}`)}</small>
+                                                                            {/* <small className='text-sm text-gray-400'>{trnx.reference}</small> */}
                                                                         </Grid>
-                                                                        <Grid item xs={4}>
-                                                                            <h2 className='text-sm font-bold text-center py-2 px-2'>₦ {Intl.NumberFormat('en-US').format(trnx.amount || 0)}</h2>
-                                                                        </Grid>
                                                                         <Grid item xs={3}>
+                                                                            <h2 className='text-sm font-bold text-center py-2 px-2'>{ trnx.type === 'debit' ? '-' : '+' } ₦ {Intl.NumberFormat('en-US').format(trnx.amount || 0)}</h2>
+                                                                        </Grid>
+                                                                        <Grid item xs={2}>
                                                                             <div className="text-left">
                                                                                 <p className={trnx.type === 'credit' ? 'py-2 px-2 rounded-lg text-sm text-[#00bf00] font-bold' : 'py-2 px-2 rounded-lg text-sm text-[#f10506] font-bold'}>{trnx.type}</p>
                                                                             </div>

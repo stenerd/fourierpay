@@ -129,6 +129,52 @@
     color: #ffb800;
 }
 
+.link-status-active {
+    display: inline-block;
+    padding: 0.05rem 1rem;
+    font-weight: bold;
+    border-radius: 0.8rem;
+    font-size: 70%;
+    color: #01b133;
+    background: #E6FBEC;
+    border: 1px solid #21b34526;
+}
+.link-status-inactive {
+    display: inline-block;
+    padding: 0.05rem 1rem;
+    font-weight: bold;
+    border-radius: 0.8rem;
+    font-size: 70%;
+    color: #b22af2;
+    background: #f6e1ff;
+    border: 1px solid #db8dff;
+}
+.link-status-paused {
+    display: inline-block;
+    padding: 0.05rem 1rem;
+    font-weight: bold;
+    border-radius: 0.8rem;
+    font-size: 70%;
+    color: #2a92f2;
+    background: #c9e5ff;
+    border: 1px solid #8ac7ff;
+}
+
+.c-box-shadow-qr{
+    box-shadow: 0 0 1rem #fff;
+}
+
+.link-status-expired {
+    display: inline-block;
+    padding: 0.05rem 1rem;
+    font-weight: bold;
+    border-radius: 0.8rem;
+    font-size: 70%;
+    color: #fc8139;
+    background: hsl(29.21deg 100% 93%);
+    border: 1px solid #ffc7a4;
+}
+
 .fourier.profile{
     line-height: 1.5rem;
 }
@@ -200,10 +246,13 @@
     color: #f30909;
     cursor: pointer;
 }
+.c-fs-1{
+    font-size: 1rem;
+}
 .c-single-payment-description{
     background: #97f67526;
     border: 1px solid #97f67536;
-    padding: 1.5rem;
+    padding: .8rem;
 }
 .create-payment-dynamic-form-options-close{
     display: inline-block;
