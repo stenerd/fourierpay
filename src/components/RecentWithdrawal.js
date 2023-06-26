@@ -16,7 +16,9 @@ const style = {
     borderRadius: 2
 };
 
-export default function RecentWithDrawalModal({ open4, setOpen4, handleOpen4, handleClose4 }) {
+export default function RecentWithDrawalModal({ open4, setOpen4, handleOpen4, handleClose4,withdraw }) {
+
+    console.log(withdraw)
 
     let recentPayment ='paid'
     return (
@@ -32,25 +34,24 @@ export default function RecentWithDrawalModal({ open4, setOpen4, handleOpen4, ha
                     <h2 className='text-xl text-center'>Recent Withdrawal</h2>
                     <div className='flex justify-between items-center py-3'>
                         <label className='text-sm font-bold block my-2 text-gray-700'>Reciepient</label>
-                        <h2 required name='Account Name' className='text-sm'>Peter Drury</h2>
+                        <h2 required name='Account Name' className='text-sm'>{withdraw?.name}</h2>
                     </div>
                     <div className='flex justify-between items-center py-3'>
                         <label className='text-sm font-bold block my-2 text-gray-700'>Amount</label>
-                        <h2 required name='Amount' className='text-sm'>4000</h2>
+                        <h2 required name='Amount' className='text-sm'>{withdraw?.amount}</h2>
                     </div>
                     <div className='flex justify-between items-center py-3'>
                         <label className='text-sm font-bold block my-2 text-gray-700'>Bank Name</label>
-                        <h2 required name='Account Name' className='text-sm'>Guaranty Trust Bank</h2>
+                        <h2 required name='Account Name' className='text-sm'>{withdraw?.bank_name}</h2>
                     </div>
                     <div className='flex justify-between items-center py-3'>
                         <label className='text-sm font-bold block my-2 text-gray-700'>Account Number</label>
-                        <h2 required name='Account Name' className='text-sm'>0430775470</h2>
+                        <h2 required name='Account Name' className='text-sm'>{withdraw?.account_number}</h2>
                     </div>
                     <div className='flex justify-between items-center py-3'>
                         <h2 className='text-sm font-bold block my-2 text-gray-700'>Status</h2>
-                        <p className={recentPayment?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{recentPayment}</p>
+                        <p className={withdraw?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{recentPayment}</p>
                     </div>
-
                 </Box>
             </Modal>
         </div>

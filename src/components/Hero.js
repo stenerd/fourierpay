@@ -164,8 +164,6 @@ const Hero = () => {
                                                                 <p className='text-gray-400 font-bold mt-0'>Department Lead</p>
                                                             </div>
                                                         </div>
-
-
                                                     </div>
                                                     {/* <h2>Emeke</h2> */}
                                                 </div>
