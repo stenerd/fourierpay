@@ -48,7 +48,6 @@ const PaymentReciept = () => {
         } catch (error) {
             console.log(error)
         }
-
     }
 
     const FetchPayment = async () => {

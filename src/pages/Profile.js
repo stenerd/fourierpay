@@ -717,7 +717,6 @@ const Profile = () => {
                                                     {profileTables?.recentTransaction?.length == 0 && (
                                                         <RecentTransacton />
                                                     )}
-
                                                 </List>
                                             </div>
                                         </div>

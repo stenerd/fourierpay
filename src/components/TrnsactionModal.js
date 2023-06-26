@@ -33,17 +33,21 @@ export default function TransactionModal({ open, setOpen, handleOpen, handleClos
             >
                 <Box sx={style}>
                     <>
-                    <div>
-                        <h2 className='text-center font-bold text-xl'>Transaction Receipt</h2>
-                    </div>
+                        <div>
+                            <h2 className='text-center font-bold text-xl'>Transaction Receipt</h2>
+                        </div>
                         <div className='py-3 divide-y-2'>
-                        
+
                             {/* <h1 className='text-center font-bold'>{recentPayment?.payment_link_id?.name}</h1> */}
+                            <div className='flex justify-between items-center py-3'>
+                                <h2 className='text-gray-400'>Status</h2>
+                                <StatusBadge status={recentTransaction?.status} />
+                            </div>
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Reference</h2>
                                 <p className='font-bold'>{recentTransaction?.reference}</p>
                             </div>
-                            {recentTransaction?.in_entity_id?.form?.map((tx,index) => (
+                            {recentTransaction?.in_entity_id?.form?.map((tx, index) => (
                                 <div className='flex justify-between items-center py-3'>
                                     <h2 className='text-gray-400 capitalize'>{tx?.field_name}</h2>
                                     <p className='font-bold text-sm'>{tx?.answer}</p>
@@ -61,10 +65,7 @@ export default function TransactionModal({ open, setOpen, handleOpen, handleClos
                                 <h2 className='text-gray-400'>Payment Method</h2>
                                 <p className='font-bold text-sm'>{recentTransaction?.type}</p>
                             </div>
-                            <div className='flex justify-between items-center py-3'>
-                                <h2 className='text-gray-400'>Status</h2>
-                                <StatusBadge status={recentTransaction?.status} />
-                            </div>
+
                             {/* <h2>Amount :</h2> */}
                         </div>
                     </>
