@@ -36,7 +36,7 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
     }, 1000)
 
   }
-  const array = [1, 2, 3, 4, 5, 6, 7]
+  const array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   // const [search,setSearch] = React.useState("")
 
 
@@ -177,7 +177,7 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
             {/* <div className='relative'> */}
             <div className='absolute top-[40%] left-[40%] z-20' >
               <img src="/images/cuate.svg" alt="img" className='w-40' />
-              <h2 className='text-gray-400 text-xl text-center font-bold'>No Payment Yet!</h2>
+              <h2 className='text-gray-600 text-xl text-center font-bold'>No Payment Yet!</h2>
             </div>
 
             {array.map((arr) => (
@@ -186,45 +186,45 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
                 <TableRow>
 
                   <TableCell> <div className='space-y-2 w-full'>
-                    <div className='bg-gray-200 h-4 w-[60%]'>
+                    <div className='bg-gray-100 h-6 w-[60%]'>
                     </div>
 
-                    {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                    {/* <div className='bg-gray-100 h-6 w-[40%]'>
                       </div> */}
 
                   </div></TableCell>
                   <TableCell> <div className='space-y-2 w-full'>
-                    <div className='bg-gray-200 h-4 w-[60%]'>
+                    <div className='bg-gray-100 h-6 w-[60%]'>
                     </div>
 
-                    {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                    {/* <div className='bg-gray-100 h-6 w-[40%]'>
                       </div> */}
 
                   </div></TableCell>
                   <TableCell> <div className='space-y-2 w-full'>
-                    <div className='bg-gray-200 h-4 w-[60%]'>
+                    <div className='bg-gray-100 h-6 w-[60%]'>
                     </div>
 
 
                   </div></TableCell>
                   <TableCell> <div className='space-y-2 w-full'>
-                    <div className='bg-gray-200 h-4 w-[60%]'>
+                    <div className='bg-gray-100 h-6 w-[60%]'>
                     </div>
 
 
 
                   </div></TableCell>
                   <TableCell> <div className='space-y-2 w-full'>
-                    <div className='bg-gray-200 h-4 w-[60%]'>
+                    <div className='bg-gray-100 h-6 w-[60%]'>
                     </div>
 
-                    {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                    {/* <div className='bg-gray-100 h-6 w-[40%]'>
                       </div> */}
                   </div></TableCell>
                   <TableCell> <div className='space-y-2 w-full'>
-                    <div className='bg-gray-200 h-4 w-[60%]'>
+                    <div className='bg-gray-100 h-6 w-[60%]'>
                     </div>
-                    {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                    {/* <div className='bg-gray-100 h-6 w-[40%]'>
                       </div> */}
                   </div></TableCell>
                 </TableRow>

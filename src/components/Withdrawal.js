@@ -60,7 +60,7 @@ export default function WithdrawalTable({
         setMeta({page: pageNumber, lastPage: 1})
         filterData(pageNumber)
     }
-    const array = [1, 2, 3, 4, 5, 6, 7]
+    const array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     // console.log({ start, end, status })
     return (
         <>
@@ -198,7 +198,7 @@ export default function WithdrawalTable({
                         </TableBody>
                     ) : ""}
 
-                    {
+                    {/* {
                         loading ? (
                         <TableBody>
                             {[1, 2, 3, 4, 5, 6, 7].map((arr, index) => (
@@ -215,15 +215,20 @@ export default function WithdrawalTable({
                             ))}
                         </TableBody>
                     ): ''
-                    }
+                    } */}
                   
-                    {withdrawals?.length===0  && !loading && (
+                    {((withdrawals?.length === 0)  || loading) && (
                         <>
                             {/* <div className='relative'> */}
-                            <div className='absolute top-[40%] left-[40%] z-20' >
-                                <img src="/images/wihdrawal.svg" alt="alt-img" className='w-40' />
-                                <h2 className='text-gray-600 text-xl text-center font-bold'>No Withdrawals Yet!</h2>
-                            </div>
+                            {
+                                !loading ? (
+                                    <div className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-20' >
+                                        <img src="/images/wihdrawal.svg" alt="alt-img" className='w-40 mx-auto' />
+                                        <h2 className='text-gray-600 text-xl text-center font-bold mt-4'>No Withdrawals Yet!</h2>
+                                    </div>
+                                ) : ''
+                            }
+                            
 
                             {array.map((arr) => (
                                 <TableBody className='relative'>
@@ -231,52 +236,52 @@ export default function WithdrawalTable({
                                     <TableRow>
 
                                         <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-100 h-4 w-[60%]'>
+                                            <div className='bg-gray-100 h-6 w-[80%]'>
                                             </div>
 
-                                            {/* <div className='bg-gray-100 h-4 w-[40%]'>
+                                            {/* <div className='bg-gray-100 h-6 w-[40%]'>
                               </div> */}
 
                                         </div></TableCell>
                                         <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-100 h-4 w-[60%]'>
+                                            <div className='bg-gray-100 h-6 w-[60%]'>
                                             </div>
 
-                                            {/* <div className='bg-gray-100 h-4 w-[40%]'>
+                                            {/* <div className='bg-gray-100 h-6 w-[40%]'>
                               </div> */}
 
                                         </div></TableCell>
                                         <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-100 h-4 w-[60%]'>
+                                            <div className='bg-gray-100 h-6 w-[80%]'>
                                             </div>
 
 
                                         </div></TableCell>
                                         <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-100 h-4 w-[60%]'>
+                                            <div className='bg-gray-100 h-6 w-[80%]'>
                                             </div>
 
 
 
                                         </div></TableCell>
                                         <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-100 h-4 w-[60%]'>
+                                            <div className='bg-gray-100 h-6 w-[80%]'>
                                             </div>
 
-                                            {/* <div className='bg-gray-100 h-4 w-[40%]'>
+                                            {/* <div className='bg-gray-100 h-6 w-[40%]'>
                               </div> */}
 
                                         </div></TableCell>
                                         <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-100 h-4 w-[60%]'>
+                                            <div className='bg-gray-100 h-6 w-[60%]'>
                                             </div>
 
-                                            {/* <div className='bg-gray-100 h-4 w-[40%]'>
+                                            {/* <div className='bg-gray-100 h-6 w-[40%]'>
                               </div> */}
 
                                         </div></TableCell>
                                         <TableCell> <div className='space-y-2 w-full'>
-                                            <div className='bg-gray-100 h-8 rounded-full w-[60%]'>
+                                            <div className='bg-gray-100 h-6 w-[80%]'>
                                             </div>
 
 

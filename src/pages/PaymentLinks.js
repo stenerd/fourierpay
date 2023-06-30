@@ -24,6 +24,8 @@ import MenuDropDown from '../components/Menu';
 import BottomNav from '../components/bottomNav';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RecentLinksSkeleton from '../components/RecentLinksSkeleton';
+import StatusBadge from '../components/atom/web/StatusBadge';
+import LinkStatusBadge from '../components/atom/web/LinkStatusBadge';
 
 
 const PaymentLinks = () => {
@@ -320,11 +322,17 @@ const PaymentLinks = () => {
                                                             <div className=''>
                                                                 <div className='flex justify-between'>
                                                                     <h2 className='fourier text-2xl text-[#1d3329] max-w-[60%] font-bold hover:text-blue-500 cursor-pointer' onClick={() => Payments(link)}>{link.name}</h2>
-                                                                    {moment(link.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? (
+                                                                    {/* {moment(link.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? (
                                                                         <small className='text-sm text-[#00bf00] status-pill'>{link.status} {link.expires_at && `- ${moment(link.expires_at).format('MMMM DD, YYYY')}`}</small>
                                                                     ) : (
-                                                                        <small className='text-sm text-red-500 italic font-bold'>expired - {moment(link.expires_at).format(('MMM DD, YYYY'))}</small>
-                                                                    )}
+                                                                        <small className='text-sm text-red-500 italic font-bold'>expired</small>
+                                                                    )} */}
+                                                                    <div className="text-left uppercase">
+                                                                        <LinkStatusBadge status={link.status}
+                                                                            other={(link.status === 'active') && link.expires_at ? `  | UNTIL ${moment(link.expires_at).format(('MMM DD, YYYY'))}` :
+                                                                                ((link.status === 'expired') ? `  |  ON ${moment(link.expires_at).format(('MMM DD, YYYY'))}` : '')}
+                                                                        />
+                                                                    </div>
                                                                 </div>
                                                                 {/* <button onClick={setCopied}>
                                                                 Was it copied? {isCopied ? "Yes! 👍" : "Nope! 👎"}
@@ -351,7 +359,7 @@ const PaymentLinks = () => {
                                                                     </div>
                                                                 </div>
                                                                 <div className="pt-3">
-                                                                    <div className='bg-gray-100 pt-2 px-2 c-border-gray'>
+                                                                    <div className='bg-gray-100 py-1 px-2 c-border-gray'>
                                                                         <div className='flex space-x-2 items-center'>
                                                                             <IconButton onClick={() => {
                                                                                 // setCopied()

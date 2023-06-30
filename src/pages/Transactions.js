@@ -34,8 +34,7 @@ const Transactions = () => {
         }
 
     }
-    console.log(transactions)
-    const [open, setOpen] = useState()
+    const [open, setOpen] = useState(false)
 
     const handleClickOpener = () => {
         setOpen(true);
@@ -62,7 +61,6 @@ const Transactions = () => {
     const [type, setType] = useState("")
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(false)
-    const [load, setLoad] = useState(false)
     const [meta, setMeta] = useState({page: 1, lastPage: 1})
 
     const [opener, setOpener] = React.useState(false);
@@ -93,7 +91,7 @@ const Transactions = () => {
         setPayin(false)
     }
     // const {profile} = useSelector((state)=>state.dashboard)
-    console.log(profile)
+    console.log("profile >> ", profile)
     const [transact, setTransact] = useState()
 
     const filterLink = (status, start, end, type, entity) => {
@@ -202,7 +200,7 @@ const Transactions = () => {
             setTransaction(response?.data?.data.data)
         }
     };
-    console.log(transactions)
+    console.log("transactions >> ", transactions)
 
     const fetchTransaction = async () => {
         setLoading(true)
@@ -215,34 +213,22 @@ const Transactions = () => {
             setLoading(false)
         } catch (error) {
             setLoading(false)
-            console.log(error.response)
+            console.log('dfvd >> ', error.response)
         }
     }
 
     const filterData = async (page) => {
-        // let link =`http://localhost:4000/api/transaction?status=${status}`
-        // if (status=''>0&&)
         try {
-            // const response = await Protected.get(`http://localhost:4000/api/transaction?status=${status}&startDate=${start}&endDate=${end}`)
-            // const response = await Protected.get(`http://localhost:4000/api/transaction?`+status==''?null:status=status+`&`+end==''?null:end=end+`&`+start==''?null:start=start)
-            // const response = await Protected.get(link)
             setLoading(true)
             const data = filterLink(status, start, end, type, entity)
             const response = await Protected.get(`${data}&page=${page || 1}`)
-            // console.log(response.data.data.data)
             setTransaction(response.data.data.data)
             setMeta(response.data.data.meta)
             setLoading(false)
-            // console.log('processing')
             console.log(data)
             handleCloser()
             handleClose21()
             console.log({ status, type, entity, end, start })
-            // setEntity('')
-            // setEnd('')
-            // setStart('')
-            // setStatus('')
-            // setType('')
 
         } catch (error) {
             console.log(error.response)
@@ -265,25 +251,14 @@ const Transactions = () => {
         setType("")
         setEntity("")
         try {
-            // const response = await Protected.get(`http://localhost:4000/api/transaction?status=${status}&startDate=${start}&endDate=${end}`)
-            // const response = await Protected.get(`http://localhost:4000/api/transaction?`+status==''?null:status=status+`&`+end==''?null:end=end+`&`+start==''?null:start=start)
-            // const response = await Protected.get(link)
             setLoading(true)
-            // const data = filterLink(status='', start='', end='', type='', entity='')
             const response = await Protected.get(`${BASE_URL}/api/transaction`)
-            // console.log(response.data.data.data)
             setTransaction(response.data.data.data)
             setLoading(false)
-            // console.log('processing')
             console.log(data)
             handleCloser()
             handleClose21()
             console.log({ status, type, entity, end, start })
-            // setEntity('')
-            // setEnd('')
-            // setStart('')
-            // setStatus('')
-            // setType('')
 
         } catch (error) {
             console.log(error.response)
@@ -320,7 +295,6 @@ const Transactions = () => {
                                 setOpener={setOpener}
                                 transactions={transactions}
                                 handleKeyDown={handleKeyDown}
-                                load={load}
                                 setSearch={setSearch}
                                 start={start}
                                 end={end}
@@ -337,7 +311,6 @@ const Transactions = () => {
                                 filterData={filterData}
                                 meta={meta}
                                 setMeta={setMeta}
-                                setLoad={setLoad}
                                 setTransaction={setTransaction}
                                 BASE_URL={BASE_URL}
                                 Protected={Protected}
@@ -363,10 +336,7 @@ const Transactions = () => {
                                 >
                                     <InputBase
                                         sx={{ ml: 1, flex: 1 }}
-                                        // style={{ backgroundColor: '#f8faf7' ,flex:1}}
                                         placeholder="Search"
-                                        // className='py-2 px-4 w-full outline-none c-text-input'
-                                        // className='w-2/5 mx-auto'
                                         inputProps={{ 'aria-label': 'search google maps' }}
                                         onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)}
                                     />
@@ -427,7 +397,7 @@ const Transactions = () => {
                                                             }
 
                                                             <div className='flex flex-col'>
-                                                                <h2 className='font-bold text-base text-[#2d2d2d] c-text-elipses'>{each.in_entity === 'Wallet' ? each.out_entity_id.name : each.payment_link_id.name}</h2>
+                                                                <h2 className='font-bold text-base text-[#2d2d2d] c-text-elipses'>{(each.in_entity === 'Wallet' || each.in_entity === 'Withdrawal') ? each.out_entity_id.name : each.payment_link_id.name}</h2>
                                                                 <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
                                                                 ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
                                                                 <small className='block text-xs font-bold pt-1 text-gray-500'>
@@ -481,8 +451,43 @@ const Transactions = () => {
                     </div>
 
                 </div>
-                <FilterDialog open21={open21} setOpen21={setOpen21} handleClose21={handleClose21} handleClickOpen21={handleClickOpen21} transactions={transactions} handleKeyDown={handleKeyDown} load={load} setSearch={setSearch} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} entity={entity} type={type} setEntity={setEntity} setType={setType} loading={loading} setStatus={setStatus} filterData={filterData} formRef={formRef} statusRef={statusRef} startRef={startRef} endRef={endRef} typeRef={typeRef} entityRef={entityRef} filterLink={filterLink} clearData={clearData} />
-                <TransactionDialog open={open} setOpen={setOpen} handleCloseer={handleCloseer} handleClickOpener={handleClickOpener} transact={transact} />
+                <FilterDialog
+                    open21={open21}
+                    setOpen21={setOpen21}
+                    handleClose21={handleClose21}
+                    handleClickOpen21={handleClickOpen21}
+                    transactions={transactions}
+                    handleKeyDown={handleKeyDown}
+                    load={false}
+                    setSearch={setSearch}
+                    start={start}
+                    end={end}
+                    setStart={setStart}
+                    setEnd={setEnd}
+                    status={status}
+                    entity={entity}
+                    type={type}
+                    setEntity={setEntity}
+                    setType={setType}
+                    loading={loading}
+                    setStatus={setStatus}
+                    filterData={filterData}
+                    formRef={formRef}
+                    statusRef={statusRef}
+                    startRef={startRef}
+                    endRef={endRef}
+                    typeRef={typeRef}
+                    entityRef={entityRef}
+                    filterLink={filterLink}
+                    clearData={clearData}
+                />
+                <TransactionDialog
+                    open={open}
+                    setOpen={setOpen}
+                    handleCloseer={handleCloseer}
+                    handleClickOpener={handleClickOpener}
+                    transact={transact}
+                />
                 <BottomNav />
             </div>
         </>

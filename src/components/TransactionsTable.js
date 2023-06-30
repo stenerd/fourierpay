@@ -38,7 +38,6 @@ export default function TransactionTable({
   setEntity,
   type,
   setType,
-  load,
   meta,
   setMeta,
   setTransaction,
@@ -67,7 +66,7 @@ export default function TransactionTable({
   const currentPosts = transactions?.slice(indexOfFirstPost, indexOfLastPost);
 
   // const paginate = pageNumber => setCurrentPage(pageNumber);
-  
+
   const onPageChange = async (pageNumber) => {
     setLoading(true)
     try {
@@ -75,9 +74,6 @@ export default function TransactionTable({
       console.log(response.data.data)
       setTransaction(response?.data?.data.data)
       setMeta(response?.data?.data.meta)
-      // setTransaction(response?.data?.data.data)
-      // setMeta(response?.data?.data?.meta)
-      console.log('meta>>>>', response?.data?.data?.meta)
       setLoading(false)
     } catch (error) {
       setLoading(false)
@@ -115,8 +111,6 @@ export default function TransactionTable({
   //   (transaction.in_entity === 'Payment') ? transaction?.in_entity_id?.unique_answer?.toLowerCase().includes(search.toLowerCase()) : true
   // );
 
-  const array = [1, 2, 3, 4, 5, 6, 7]
-
   return (
     <>
       <div className='flex justify-between mb-4'>
@@ -124,16 +118,21 @@ export default function TransactionTable({
           <input placeholder='Search' style={{ backgroundColor: '#f8faf7' }} onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} type="text" className='py-2 px-4 w-full outline-none c-text-input' />
         </div>
 
-        <div className='flex items-center space-x-4'>
-          <div className='mr-5'>
+        {
+          transactions?.length ? (
+            <div className='flex items-center space-x-4'>
+              <div className='mr-5'>
 
-            <Pagination currentPage={meta.page} lastPage={meta.lastPage} onPageChange={(page) => onPageChange(page)} />
+                <Pagination currentPage={meta.page} lastPage={meta.lastPage} onPageChange={(page) => onPageChange(page)} />
 
-          </div>
-          <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />} onClick={() => setToggle(!toggle)}>
-            Filter
-          </Button>
-        </div>
+              </div>
+              <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />} onClick={() => setToggle(!toggle)}>
+                Filter
+              </Button>
+            </div>
+          ) : ''
+        }
+        
 
       </div>
       {toggle && (
@@ -266,21 +265,22 @@ export default function TransactionTable({
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   className="hover:bg-gray-100 cursor-pointer"
                   onClick={() => {
-                    console.log(row)
                     setRecentTransaction(row)
-                    console.log(row)
                     handleOpen()
                   }}
                 >
                   <TableCell component="th" scope="row" style={{ fontWeight: '700', maxWidth: '15rem' }} >
-                    <h2 className='font-bold uppercase'>{row.in_entity === 'Wallet' ? 'Withdrawal' : row.in_entity}</h2>
-                    <small className='text-gray-400'>{row.in_entity === 'Payment' ? `${row.payment_link_id.name} | ${row.in_entity_id.unique_answer}` : `${row.out_entity_id.name} | ${row.out_entity_id.account_number} | ${row.out_entity_id.bank_name}`}</small>
+                    <h2 className={`font-bold uppercase ${row.is_charges && 'text-[#f10506]'}`}>{row.in_entity === 'Wallet' ? 'Withdrawal' + (!row.is_charges ? '' : ' Charges') : row.in_entity}</h2>
+                    <small className='text-gray-400'>{
+                      row.in_entity === 'Payment' ?
+                        `${row.payment_link_id.name} | ${row.in_entity_id.unique_answer}` :
+                        (row.is_charges ? '' : `${row.out_entity_id.name} | ${row.out_entity_id.account_number} | ${row.out_entity_id.bank_name}`)}</small>
                   </TableCell>
                   <TableCell className='text-gray-400'>{row.reference}</TableCell>
                   <TableCell>{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
                   <TableCell>{moment(row.createdAt).format('hh:mm:ss A')}</TableCell>
                   <TableCell>
-                    <p className='font-bold'>₦ {Intl.NumberFormat('en-US').format(row.amount || 0)}</p>
+                    <p className='font-bold'>{ row.type === 'debit' ? '-' : '+' } ₦ {Intl.NumberFormat('en-US').format(row.amount || 0)}</p>
                   </TableCell>
                   <TableCell>
                     <div className="text-left">
@@ -296,13 +296,12 @@ export default function TransactionTable({
               ))}
             </TableBody>
           ) : ''}
-          {
-            (loading || load) ? (
+          {/* {
+            (loading) ? (
 
               <TableBody>
-                {[1, 2, 3, 4, 5, 6, 7].map((arr, index) => (
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((arr, index) => (
                   <TableRow>
-
                     <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
                     <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
                     <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
@@ -314,67 +313,71 @@ export default function TransactionTable({
                 ))}
               </TableBody>
             ) : ''
-          }
-          {transactions?.length === 0 && !load && (
+          } */}
+          {((transactions?.length === 0) || loading) && (
             <>
-              {/* <div className='relative'> */}
-              <div className='absolute top-[40%] left-[40%] z-20' >
-                <img src="/images/cuate.svg" alt="alt-img" className='w-40' />
-                <h2 className='text-gray-600 text-xl text-center font-bold'>No Transactions Yet!</h2>
-              </div>
+              {
+                (!loading) ? (
+                  <div className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-20' >
+                    <img src="/images/cuate.svg" alt="alt-img" className='w-60 mx-auto' />
+                    <h2 className='text-gray-600 text-xl text-center font-bold mt-4'>No Transactions Yet!</h2>
+                  </div>
+                ) : ''
+              }
+              
 
-              {array.map((arr) => (
+              {[1,2,3,4,5,6,7,8,9].map((arr) => (
                 <TableBody className='relative'>
 
                   <TableRow>
 
-                    <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-100 h-4 w-[60%]'>
+                    <TableCell> <div className='space-y-4 w-full'>
+                      <div className='bg-gray-100 h-6 w-[90%]'>
                       </div>
 
-                      {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                      {/* <div className='bg-gray-200 h-6 w-[40%]'>
                           </div> */}
 
                     </div></TableCell>
-                    <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-100 h-4 w-[60%]'>
+                    <TableCell> <div className='space-y-4 w-full'>
+                      <div className='bg-gray-100 h-6 w-[90%]'>
                       </div>
 
-                      {/* <div className='bg-gray-100 h-4 w-[40%]'>
+                      {/* <div className='bg-gray-100 h-6 w-[40%]'>
                           </div> */}
 
                     </div></TableCell>
-                    <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-100 h-4 w-[60%]'>
+                    <TableCell> <div className='space-y-4 w-full'>
+                      <div className='bg-gray-100 h-6 w-[80%]'>
                       </div>
 
 
                     </div></TableCell>
-                    <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-100 h-4 w-[60%]'>
+                    <TableCell> <div className='space-y-4 w-full'>
+                      <div className='bg-gray-100 h-6 w-[80%]'>
                       </div>
 
 
 
                     </div></TableCell>
-                    <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-100 h-4 w-[60%]'>
+                    <TableCell> <div className='space-y-4 w-full'>
+                      <div className='bg-gray-100 h-6 w-[80%]'>
                       </div>
 
-                      {/* <div className='bg-gray-100 h-4 w-[40%]'>
+                      {/* <div className='bg-gray-100 h-6 w-[40%]'>
                           </div> */}
 
                     </div></TableCell>
-                    <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-100 h-4 w-[60%]'>
+                    <TableCell> <div className='space-y-4 w-full'>
+                      <div className='bg-gray-100 h-6 w-[80%]'>
                       </div>
 
-                      {/* <div className='bg-gray-100 h-4 w-[40%]'>
+                      {/* <div className='bg-gray-100 h-6 w-[40%]'>
                           </div> */}
 
                     </div></TableCell>
-                    <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-100 h-8 rounded-full w-[60%]'>
+                    <TableCell> <div className='space-y-4 w-full'>
+                      <div className='bg-gray-100 h-6 w-[100%]'>
                       </div>
 
 
