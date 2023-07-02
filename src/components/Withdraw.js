@@ -43,7 +43,7 @@ export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleCl
     // console.log(token)
 
 
-    // console.log(bankList)
+    // console.log(bankList) 
     const { state, dispatch } = React.useContext(DashBoardContext)
 
     const [loading, setLoading] = React.useState(false)
