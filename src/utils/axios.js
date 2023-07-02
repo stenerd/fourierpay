@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 const Protected = axios.create()
 
 // export const BASE_URL = `https://fourierpay.hostless.app`
-// export const BASE_URL = `http://localhost:9000`
+// export const BASE_URL = `http://localhost:4000`
+
 export const BASE_URL = `https://fourierpayapi.herokuapp.com`
 
 
@@ -29,4 +30,4 @@ Protected.interceptors.request.use(
         return Promise.reject(error);
     }
 )
-export default Protected
+export default Protected;

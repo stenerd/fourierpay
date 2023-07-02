@@ -50,9 +50,9 @@ const Hero = () => {
 
         t3.fromTo(topClear.current, {
             height: '100%'
-        }, { height: '50%', duration: 1.5}).fromTo(bottomRef.current, {
+        }, { height: '50%', duration: 1.5 }).fromTo(bottomRef.current, {
             height: '100%'
-        }, { height: '50%', duration: 1.5 }).to(bigCircle.current,{backgroundColor:'#f3f4f3',duration:.9}).to(smallCircle.current,{backgroundColor:'#f3f4f3',duration:.9})
+        }, { height: '50%', duration: 1.5 }).to(bigCircle.current, { backgroundColor: '#f3f4f3', duration: .9 }).to(smallCircle.current, { backgroundColor: '#f3f4f3', duration: .9 })
 
         t1.from(
             [firstRef.current, secondRef.current, thirdRef.current],
@@ -113,8 +113,6 @@ const Hero = () => {
                                                 }}
                                             />
                                         </h4>
-
-
                                     </div>
                                     <div className='py-5 mt-8 w-[90%] md:w-4/5 flex justify-center md:block md:mx-0 mx-auto'>
                                         <Link to='signup'>

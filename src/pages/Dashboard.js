@@ -158,6 +158,7 @@ const Dashboard = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open20 = Boolean(anchorEl);
     const handleClick = (event) => {
+        event.stopPropagation()
         setAnchorEl(event.currentTarget);
     };
     const handleClose20 = () => {
@@ -380,13 +381,13 @@ const Dashboard = () => {
                 <div className='py-4 w-[90%] flex justify-between gap-3 items-center mx-auto '>
                     <div className='flex items-center justify-center p-3 space-x-1 flex-1 bg-[#FADB8B] rounded-[10px] w-[50%]' onClick={() => handleClickOpen()}>
                         {/* <SendIcon /> */}
-                         <img src="/images/arrow-pointer.svg" alt="alt-img" className='w-[20px]'/>
+                        <img src="/images/arrow-pointer.svg" alt="alt-img" className='w-[20px]' />
                         <h1 className='font-bold text-[#856100]'>Withdraw</h1>
                     </div>
                     <Link to='/dashboard/payment' className='w-[50%]'>
                         <div className='flex justify-center items-center p-3 flex-1  bg-[#97F675] rounded-[10px]'>
                             {/* <AddIcon /> */}
-                            <img src="/images/plus.svg" alt="alt-img" className='w-[15px]'/>
+                            <img src="/images/plus.svg" alt="alt-img" className='w-[15px]' />
                             <h1 className='font-bold pl-1 text-center text-[#008950]'>Create Link</h1>
                         </div>
                     </Link>
@@ -408,7 +409,7 @@ const Dashboard = () => {
                             <div className='flex w-full items-center mb-2' key={index} onClick={() => { console.log(each); handleClickOpen1(); setTransact(each) }}>
                                 <div className='mr-2'>
                                     <div className='p-2 c-icon-bg'>
-                                        <img src="/images/in-icon.svg" alt="alt-img" className='w-[28px]'/>
+                                        <img src="/images/in-icon.svg" alt="alt-img" className='w-[28px]' />
                                     </div>
                                 </div>
                                 <div className='flex justify-between w-full items-center'>
@@ -444,51 +445,7 @@ const Dashboard = () => {
                         )}
                     </div>
                 </div>
-                {/* <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
-                    <BottomNavigation sx={{ width: '100%' }} value={value} onChange={handleChange}>
-                        <BottomNavigationAction
-                            label="Dashboard"
-                            value="dashboard"
-                            icon={<DashboardIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="Transactions"
-                            value="transactions"
-                            onClick={() => navigate('/dashboard/transaction')}
-                            icon={<ReceiptIcon />}
-                        />
-                          <BottomNavigationAction
-                            label="Create"
-                            value="create"
-                            icon={<AddIcon className='c-primary-link-color '/>}
-                            onClick={() => navigate('/dashboard/payment')}
-                        />
-                        <BottomNavigationAction
-                            label="Links"
-                            value="links"
-                            icon={<InsertLinkIcon />}
-                            onClick={() => navigate('/dashboard/paymentlinks')}
-                        />
-                        <BottomNavigationAction
-                            label="Profile"
-                            value="profile"
-                            icon={<AccountCircleIcon />}
-                            onClick={() => navigate('/dashboard/profile')}
-                        />
-                      
-                        <BottomNavigationAction
-                            label="Favorites"
-                            value="favorites"
-                            icon={<FavoriteIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="Nearby"
-                            value="nearby"
-                            icon={<LocationOnIcon />}
-                        />
-                        <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
-                    </BottomNavigation>
-                </Paper> */}
+
 
                 <BottomNav />
 
@@ -518,7 +475,7 @@ const Dashboard = () => {
                                                         <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
                                                     </div>
                                                     <button className='c-bg-primary-light-mobile'>
-                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px' }} />
                                                         Share
                                                     </button>
                                                 </div>
@@ -541,7 +498,7 @@ const Dashboard = () => {
                                                         <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
                                                     </div>
                                                     <button className='c-bg-primary-light-mobile'>
-                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px' }} />
                                                         Share
                                                     </button>
                                                 </div>
@@ -564,7 +521,7 @@ const Dashboard = () => {
                                                         <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
                                                     </div>
                                                     <button className='c-bg-primary-light-mobile'>
-                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px' }} />
                                                         Share</button>
                                                 </div>
                                             </div>

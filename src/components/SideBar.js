@@ -16,10 +16,16 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 // import LogoutIcon from '@mui/icons-material/Logout';
 import { Logout } from '@mui/icons-material';
+import LogoutModal from './Logout';
+import GenericAlertModal from './GenericAlertModal';
 // import axios from 'axios';
 const Sidebar = () => {
     const navigate = useNavigate()
     const token = JSON.parse(localStorage.getItem('token'))
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const Logout = async () => {
         window.localStorage.removeItem('bearer_token')
@@ -37,7 +43,7 @@ const Sidebar = () => {
                                     <img src="/images/two.svg" />
                                 </div>
                             </div>
-                            
+
                         </Link>
                     </div>
                     <div className='w-5/6 mx-auto flex flex-co1'>
@@ -73,7 +79,6 @@ const Sidebar = () => {
                                     <h2 className='font-bold text-[#f8faf7]'>Profile</h2>
                                 </div>
                             </Link>
-
                             <Link to="/dashboard/paymentlinks">
                                 <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
                                     <IconButton>
@@ -82,8 +87,6 @@ const Sidebar = () => {
                                     <h2 className='font-bold text-[#f8faf7]'>Payment Links</h2>
                                 </div>
                             </Link>
-
-
                             <Link to="/dashboard/transaction">
                                 <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
                                     <IconButton>
@@ -108,18 +111,27 @@ const Sidebar = () => {
                             </div> */}
 
                         </div>
-                        <div className="flex flex-1 items-center space-x-3 cursor-pointer rounded-md py-6 px-2 c-logout-button" onClick={() => Logout()}>
+                        <div className="flex flex-1 items-center space-x-3 cursor-pointer rounded-md py-6 px-2 c-logout-button" onClick={() => handleOpen()}>
                             <IconButton>
                                 <LogoutIcon className="text-white" />
                             </IconButton>
                             <h2 className='font-bold text-[#f8faf7]'>Logout</h2>
                         </div>
-
-
-
                     </div>
                 </div>
             </div>
+            {/* <LogoutModal open={open} handleOpen={handleOpen} handleClose={handleClose} setOpen={setOpen} /> */}
+            <GenericAlertModal opened={open} handleOpened={handleOpen} handleClosed={handleClose} setOpen={setOpen} >
+                <div>
+                    <h4 className="text-xl font-bold text-[#1d3329]">Are you sure you want to Logout?</h4>
+                    <p className="text-gray-700">Are you sure you want to Logout?          
+                    </p>
+                    <div className="flex justify-end mt-6">
+                        <button className="c-secondary-button-sm mr-3" onClick={() => handleClose()}>No</button>
+                        <button className="c-secondary-button-2" onClick={() => Logout()}>Yes</button>
+                    </div>
+                </div>
+            </GenericAlertModal>
         </>
     )
 }

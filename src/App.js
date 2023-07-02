@@ -38,7 +38,7 @@ function App() {
 
         <Route path="/pay/:code/reciept/:reference" element={<PaymentReciept />} />
         <Route path='/admin/login' element={<AdminLogin />} />
-        <Route path='/waitlist' element={<Waitlist/>}/>
+        <Route path='/waitlist' element={<Waitlist />} />
         <Route element={<PrivateRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/profile" element={<Profile />} />
