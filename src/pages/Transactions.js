@@ -61,7 +61,7 @@ const Transactions = () => {
     const [type, setType] = useState("")
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(false)
-    const [meta, setMeta] = useState({page: 1, lastPage: 1})
+    const [meta, setMeta] = useState({ page: 1, lastPage: 1 })
 
     const [opener, setOpener] = React.useState(false);
     const [value, setValue] = React.useState(0);
@@ -420,21 +420,21 @@ const Transactions = () => {
                                         </>
                                     )
                                     : (
-                                    <div>
                                         <div>
-                                            <Stack spacing={2}>
-                                                <Skeleton animation="wave" variant="rectangular" width={"100%"} height={40} />
-                                                <Skeleton animation="wave" variant="rounded" width={"100%"} height={40} />
-                                                <Skeleton animation="wave" variant="rectangular" width={"100%"} height={40} />
-                                                <Skeleton animation="wave" variant="rounded" width={"100%"} height={40} />
-                                                <Skeleton animation="wave" variant="rectangular" width={"100%"} height={40} />
-                                                <Skeleton animation="wave" variant="rounded" width={"100%"} height={40} />
-                                                <Skeleton animation="wave" variant="rectangular" width={"100%"} height={40} />
-                                                <Skeleton animation="wave" variant="rounded" width={"100%"} height={40} />
-                                            </Stack>
+                                            <div>
+                                                <Stack spacing={2}>
+                                                    <Skeleton animation="wave" variant="rectangular" width={"100%"} height={40} />
+                                                    <Skeleton animation="wave" variant="rounded" width={"100%"} height={40} />
+                                                    <Skeleton animation="wave" variant="rectangular" width={"100%"} height={40} />
+                                                    <Skeleton animation="wave" variant="rounded" width={"100%"} height={40} />
+                                                    <Skeleton animation="wave" variant="rectangular" width={"100%"} height={40} />
+                                                    <Skeleton animation="wave" variant="rounded" width={"100%"} height={40} />
+                                                    <Skeleton animation="wave" variant="rectangular" width={"100%"} height={40} />
+                                                    <Skeleton animation="wave" variant="rounded" width={"100%"} height={40} />
+                                                </Stack>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
                                 {/* {} */}
                                 {transactions?.length === 0 && !loading && (
                                     // <div className='flex flex-col h-[60vh] justify-center py-2 px-2'>
