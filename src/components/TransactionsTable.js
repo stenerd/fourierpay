@@ -132,8 +132,6 @@ export default function TransactionTable({
             </div>
           ) : ''
         }
-        
-
       </div>
       {toggle && (
         <div className='w-full mt-2 py-4 rounded-md border-2 border-gray-300'>
