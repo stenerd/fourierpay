@@ -1,4 +1,4 @@
-import { Grid, IconButton, Skeleton, Stack } from '@mui/material'
+import { Grid, IconButton, Skeleton, Stack, Tooltip } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
@@ -40,8 +40,6 @@ import LinkStatusBadge from '../components/atom/web/LinkStatusBadge';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-
-
 
 
 
@@ -330,15 +328,22 @@ const SinglePaymentLink = () => {
                                     <Grid container spacing={2} className='mb-8'>
                                         <Grid item xs={12} md={5}>
                                             <div className='min-h-full c-single-payment-description relative'>
-                                                <div className='flex'>
+                                                <div className='flex justify-between'>
                                                     <div className='pb-8'>
                                                         <div className='font-bold'>Description:</div>
                                                         <div className='italic text-gray-500'>{data.paymentLink.description}</div>
                                                     </div>
-                                                    <div>
-                                                        <img src={ data.paymentLink && data.paymentLink.qr_code } alt="qrcode" className='c-box-shadow-qr' />
+                                                    <div className='cursor-pointer relative'>
+                                                        <Tooltip title='Click to download QRCode as an Image'>
+                                                            <a href={data.paymentLink && data.paymentLink.qr_code} download={`${data?.paymentLink?.name}`}>
+                                                                <img src={data.paymentLink && data.paymentLink.qr_code} alt="qrcode" className='c-box-shadow-qr' />
+                                                            </a>
+                                                        </Tooltip>
+                                                        {/* <IconButton className='top-2 right-3 absolute'>
+                                                            <KeyboardArrowDownIcon/>
+                                                        </IconButton> */}
                                                     </div>
-                                                    
+
                                                 </div>
                                                 <div className='absolute w-[95%] bottom-4'>
                                                     <div className='flex space-x-2 items-center mt-2'>
@@ -358,7 +363,6 @@ const SinglePaymentLink = () => {
                                                         }
                                                     </div>
                                                 </div>
-                                                
                                             </div>
                                         </Grid>
                                         <Grid item xs={12} md={7}>
