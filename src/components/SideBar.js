@@ -10,6 +10,10 @@ import HomeIcon from '@mui/icons-material/Home';
 import LinkIcon from '@mui/icons-material/Link';
 import { Icon, IconButton } from '@mui/material';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+
+
 // import LogoutIcon from '@mui/icons-material/Logout';
 import { Logout } from '@mui/icons-material';
 // import axios from 'axios';
@@ -73,7 +77,7 @@ const Sidebar = () => {
                             <Link to="/dashboard/paymentlinks">
                                 <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
                                     <IconButton>
-                                        <LinkIcon className="text-white" />
+                                        <DatasetLinkedIcon className="text-white" />
                                     </IconButton>
                                     <h2 className='font-bold text-[#f8faf7]'>Payment Links</h2>
                                 </div>
@@ -83,7 +87,7 @@ const Sidebar = () => {
                             <Link to="/dashboard/transaction">
                                 <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
                                     <IconButton>
-                                        <AccountBalanceWalletIcon className="text-white" />
+                                        <AccountBalanceIcon className="text-white" />
                                     </IconButton>
                                     <h2 className='font-bold text-[#f8faf7]'>Transactions</h2>
                                 </div>

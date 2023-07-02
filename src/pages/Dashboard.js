@@ -53,6 +53,9 @@ import BottomNav from '../components/bottomNav';
 import StatusBadge from '../components/atom/web/StatusBadge';
 import StatusBadgeMobile from '../components/atom/mobile/StatusBadge';
 import LinkStatusBadge from '../components/atom/web/LinkStatusBadge';
+import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 // import DashboardChart from '../components/DashboardChart';
 
 const Dashboard = () => {
@@ -659,13 +662,19 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
                                         </div> */}
-                                        <div className='bg-[#f8faf7] shadow-md rounded-md dashboard-spending-limit'>
-                                            <div className=" mx-auto flex justify-between items-center">
-                                                
-                                                <img className='w-full' alt='qrcode' src={tables.recentPaymentLinks && tables.recentPaymentLinks[0] && tables.recentPaymentLinks[0].qr_code} />
-                                                {/* <img className='w-full' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAYAAAAZtYVBAAAAAklEQVR4AewaftIAAAY3SURBVO3BQY4kyRHAQDLQ//8yNUc/JZSo6tnQys3sD9a6xGGtixzWushhrYsc1rrIYa2LHNa6yGGtixzWushhrYsc1rrIYa2LHNa6yGGtixzWushhrYv88CGVv6niicobFW+oPKl4Q2WqmFTeqJhU/qaKTxzWushhrYsc1rrID19W8U0qb1S8oTJVfJPKVDFVPKl4ovJGxTepfNNhrYsc1rrIYa2L/PDLVN6oeENlqphUPqEyVUwqTyomlTcqfpPKGxW/6bDWRQ5rXeSw1kV++JdReaPiScWkMlU8UZkqnqhMKlPFVPFvcljrIoe1LnJY6yI//MtUTCqfUHmiMlVMFU9UnlT8PzmsdZHDWhc5rHWRH35ZxT+pYlKZVKaKqeITKk8qJpW/qeImh7UucljrIoe1LvLDl6ncRGWqmFSeqEwVk8pU8aRiUpkqJpWpYlKZKp6o3Oyw1kUOa13ksNZFfvhQxfrvqTxRmSomlTcq/pcc1rrIYa2LHNa6iP3BB1SmiknlmyreUPlExTepTBVvqEwVT1S+qeI3Hda6yGGtixzWuoj9wRepPKl4ojJVTCpvVEwqU8Wk8psqJpUnFZPKJyqeqEwVf9NhrYsc1rrIYa2L/PBlFW+oTBWTylTxROVJxd9U8aTijYpJZap4Q+UNlanimw5rXeSw1kUOa13E/uADKk8qJpWpYlKZKiaVqeKJyicqJpWpYlJ5UvFEZap4ovJGxaTyRsVvOqx1kcNaFzmsdZEfvqziExWTyicqPqHyRGWqeKLypOITFZ+o+Ccd1rrIYa2LHNa6yA8fqphUpoo3VKaKSWVSmSomlaliUnlSMalMFZPKk4o3VJ5UTCpvVEwqU8UTlaniE4e1LnJY6yKHtS7yw4dUnqg8UZkqJpU3VN6omFTeUJkq3lCZKp5UTCpTxROVT6hMFd90WOsih7UucljrIj98WcUTlaniScUTlScVk8qTijcqPlExqbxRMak8qXhDZar4TYe1LnJY6yKHtS7yw4cqJpWp4onKVDGpfFPFpPJE5YnKk4o3KiaVT1RMKk8qJpVJ5UnFJw5rXeSw1kUOa13E/uCLVN6oeENlqphU3qiYVJ5UTCpTxaQyVUwqf1PFGypvVHzisNZFDmtd5LDWRX74soonKpPKVDGpTBWTypOKSeVJxaQyqfyTKp6oTBWTylQxqUwVk8pU8U2HtS5yWOsih7UuYn/wRSpTxd+k8kbFE5Wp4hMqb1RMKm9UTCq/qeITh7UucljrIoe1LvLDL1O5ScWkMlU8UZkqnqg8qZhUJpWp4onKJyr+SYe1LnJY6yKHtS5if/ABlScVk8obFZ9QmSqeqEwVk8qTijdUnlS8ofKk4ptUpopPHNa6yGGtixzWusgPX1YxqUwVT1QmlaliUnlSMalMFW9UPFF5o2JSeUPlScWkMlVMKm9UfNNhrYsc1rrIYa2L/PCXqbxRMalMFd9UMalMFZPKVDGpPFF5Q+VJxZOKJxWTyt90WOsih7UucljrIj/8sopJZap4ojJVTCpTxaQyVUwqTyqeVEwqU8WkMlU8UZkqJpVJ5Zsq/qbDWhc5rHWRw1oXsT/4H6bypOINlb+pYlKZKiaVJxVvqEwVk8pU8ZsOa13ksNZFDmtd5IcPqfxNFVPFE5VPVEwqU8WkMlU8UZkqvkllqnii8kRlqvimw1oXOax1kcNaF/nhyyq+SeWJylTxpGJS+U0qU8VUMak8qZhUnlR8U8VvOqx1kcNaFzmsdZEffpnKGxWfUJkqJpWp4hMqU8UTlaliqphU3lD5RMUTlanimw5rXeSw1kUOa13kh3+ZikllqniiMlU8qZhUnlQ8UZkqnlS8ofJNKlPFJw5rXeSw1kUOa13kh38ZlScqb6g8UfmEyjepPKl4ovKk4jcd1rrIYa2LHNa6yA+/rOI3VTxReaNiUnlS8YbKVDGpTCpPKqaKSWVSmSqmiknlbzqsdZHDWhc5rHWRH75M5W9SeaPiicpUMalMKk8qnqhMFZPKVDGpTBVTxROVJxWTylTxTYe1LnJY6yKHtS5if7DWJQ5rXeSw1kUOa13ksNZFDmtd5LDWRQ5rXeSw1kUOa13ksNZFDmtd5LDWRQ5rXeSw1kUOa13kP847DW7p2d3GAAAAAElFTkSuQmCC" /> */}
-                                            </div>
-                                        </div>
+                                        {
+                                            (tables.recentPaymentLinks && tables.recentPaymentLinks[0]) ? 
+                                                (
+                                                <div className='bg-[#f8faf7] shadow-md rounded-md dashboard-spending-limit'>
+                                                    <div className=" mx-auto flex justify-between items-center">
+                                                        
+                                                        <img className='w-full' alt='qrcode' src={tables.recentPaymentLinks && tables.recentPaymentLinks[0] && tables.recentPaymentLinks[0].qr_code} />
+                                                        {/* <img className='w-full' src="data:image/png;base64,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" /> */}
+                                                    </div>
+                                                </div>
+                                                ) : ''
+                                        }
+                                        
 
 
                                         <div className='bg-[#f8faf7] shadow-md rounded-md dashboard-spending-limit pb-4'>
@@ -772,7 +781,7 @@ const Dashboard = () => {
                                                         <div className='space-y-3 flex flex-col items-start justify-start'>
                                                             {/* <IconButton> */}
                                                             <div className='content'>
-                                                                <AttachMoneyIcon className='text-[#1d3329]' />
+                                                                <AccountBalanceIcon className='text-[#1d3329]' />
                                                             </div>
                                                             {/* </IconButton> */}
                                                             <div className='pt-8'>
@@ -789,7 +798,7 @@ const Dashboard = () => {
                                                     <div className="p-2 w-[90%] mx-auto">
                                                         <div className='space-y-3 flex flex-col items-start justify-start'>
                                                             <div className='content'>
-                                                                <LinkIcon className='text-[#1d3329]' />
+                                                                <DatasetLinkedIcon className='text-[#1d3329]' />
                                                             </div>
                                                             <div className='pt-8'>
                                                                 <h2 className='text-sm text-gray-400 font-bold'>Payment Links</h2>
@@ -805,7 +814,7 @@ const Dashboard = () => {
                                                     <div className="p-2 w-[90%] mx-auto">
                                                         <div className='space-y-3 flex flex-col items-start justify-start'>
                                                             <div className='content'>
-                                                                <PaidIcon className='text-[#1d3329]' />
+                                                                <PaymentsIcon className='text-[#1d3329]' />
                                                             </div>
                                                             <div className='pt-8'>
                                                                 <h2 className='text-sm text-gray-400 font-bold'>Payments</h2>
@@ -821,7 +830,7 @@ const Dashboard = () => {
                                                     <div className="p-2 w-[90%] mx-auto">
                                                         <div className='space-y-3 flex flex-col items-start justify-start'>
                                                             <div className='content'>
-                                                                <PaymentsIcon className='text-[#1d3329]' />
+                                                                <AccountBalanceWalletIcon className='text-[#1d3329]' />
                                                             </div>
                                                             <div className='pt-8'>
                                                                 <h2 className='text-sm text-gray-400 font-bold'>Withdrawal</h2>
