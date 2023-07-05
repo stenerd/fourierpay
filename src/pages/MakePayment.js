@@ -44,7 +44,8 @@ const MakePayment = () => {
     const [result, setResult] = React.useState({});
     const paystackButtonRef = React.useRef(null);
     const [delay, setDelay] = React.useState(false)
-    const [details, setDetails] = React.useState([])
+    const [removeDownloadButton, setRemoveDownloadButton] = React.useState(false)
+    // const [details, setDetails] = React.useState([])
 
     const handleClosed = () => {
         setDelay(false)
@@ -62,6 +63,23 @@ const MakePayment = () => {
     React.useEffect(() => {
         FetchPaymentLink()
     }, [])
+
+    const downloadMobile = () => {
+        setRemoveDownloadButton(true)
+        printDocument()
+        setRemoveDownloadButton(false)
+        setTab(1)
+        toast.success('Transactions Receipt Downloading 🚀🚀', {
+            position: "top-right",
+            autoClose: 8000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    }
 
     const handleFieldChanges = (e, index) => {
         e.preventDefault();
@@ -127,9 +145,9 @@ const MakePayment = () => {
             setDelay(true)
             console.log('result >> ', result)
             if (tab === 2) {
-                setResult(result.data)
+                setResult(result.data.data)
                 console.log(result)
-                setDetails(result.data.data)
+                // setDetails(result.data.data)
                 setTab(3)
                 setDelay(false)
             } else {
@@ -242,7 +260,7 @@ const MakePayment = () => {
             .then((canvas) => {
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF();
-                pdf.addImage(imgData, 'PNG', 10, 10, 180, 150);
+                pdf.addImage(imgData, 'PNG', 10, 10, 180, 280);
                 // pdf.output('dataurlnewwindow');
                 pdf.save("payment-recipt.pdf");
             })
@@ -289,7 +307,7 @@ const MakePayment = () => {
             {/* <div className='block lg:hidden'>
             
         </div> */}
-            <div className='block md:hidden relative' id='divToPrint'>
+            <div className='block md:hidden relative'>
                 <div className='cm-mobile-make-payment relative' >
                     {delay && (
                         <Backdrop
@@ -420,7 +438,7 @@ const MakePayment = () => {
                                 <div className='pt-3 flex justify-center'>
                                     {/* <span className='controller'></span> */}
                                 </div>
-                                <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
+                                <div className='p-6 flex flex-col items-between justify-between' id='divToPrint' style={{ minHeight: '90%' }}>
                                     <div className='pt-0'>
                                         <div className='flex justify-center'>
                                             <img src='/images/payment-successful.svg' alt="alt-img" />
@@ -451,6 +469,7 @@ const MakePayment = () => {
                                                     <img src='/images/make-payment-icon.svg' alt="alt-img" />
                                                 </div>
                                                 <div className='pl-4 w-full'>
+                                                    <p className='font-bold text-[#0067ffe3] text-sm uppercase'>{result.payment && result.payment.unique_answer}</p>
                                                     <p className='font-bold text-[#222926] text-lg'>{paymentLink.name}</p>
                                                     <p className='pt-1 flex justify-between w-full'>
                                                         <p className='text-[#222926] text-sm'>{result.payment && moment(result.payment.createdAt).format('dddd MMMM DD, YYYY - hh:mm:A')}</p>
@@ -459,9 +478,16 @@ const MakePayment = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <button className='cm-buttom'
-                                        onClick={()=>handleDownload}
-                                    >Download Reciept</button>
+                                    {
+                                        (!removeDownloadButton) ?
+                                            (
+                                                <button className='cm-buttom' onClick={() => {
+                                                    downloadMobile()
+                                                }
+                                                }>Download Reciept</button>
+                                            ) : ''
+                                    }
+
                                 </div>
                             </div>
                         ) : ''

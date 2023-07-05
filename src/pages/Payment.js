@@ -163,7 +163,7 @@ const Payment = () => {
 
         if (!amount) return 0
 
-        let charges = +state.amount >= 2000 ? +state.amount * 0.02 + 100 : +state.amount * 0.02;
+        let charges = +state.amount >= 2000 ? +state.amount * 0.025 + 100 : +state.amount * 0.03;
 
         if (charges > 3000) {
             charges = 3000;

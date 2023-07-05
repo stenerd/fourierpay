@@ -37,7 +37,9 @@ import BottomNav from '../components/bottomNav';
 import StatusBadge from '../components/atom/web/StatusBadge';
 import SinglePayment from '../components/SinglePayment';
 import LinkStatusBadge from '../components/atom/web/LinkStatusBadge';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
 
 
@@ -373,7 +375,7 @@ const SinglePaymentLink = () => {
                                                                 <div className='space-y-3 flex flex-col items-start justify-start'>
                                                                     {/* <IconButton> */}
                                                                     <div className='content'>
-                                                                        <AttachMoneyIcon className='text-[#1d3329]' />
+                                                                        <AccountBalanceIcon className='text-[#1d3329]' />
                                                                     </div>
                                                                     {/* </IconButton> */}
                                                                     <div className='pt-8'>
@@ -394,7 +396,7 @@ const SinglePaymentLink = () => {
                                                                         <small className='italic text-right font-medium  text-gray-600'>VAT</small>
                                                                     </div>
                                                                     <div className='content' style={{ marginTop: '0' }}>
-                                                                        <LinkIcon className='text-[#1d3329]' />
+                                                                        <DatasetLinkedIcon className='text-[#1d3329]' />
                                                                     </div>
                                                                     <div className='pt-8'>
                                                                         <h2 className='text-sm text-gray-400 font-bold'>Amount Per Payment</h2>
@@ -410,7 +412,7 @@ const SinglePaymentLink = () => {
                                                             <div className="p-2 w-[90%] mx-auto">
                                                                 <div className='space-y-3 flex flex-col items-start justify-start'>
                                                                     <div className='content'>
-                                                                        <PaidIcon className='text-[#1d3329]' />
+                                                                        <PaymentsIcon className='text-[#1d3329]' />
                                                                     </div>
                                                                     <div className='pt-8'>
                                                                         <h2 className='text-sm text-gray-400 font-bold'>Recieved Payment</h2>
@@ -426,7 +428,7 @@ const SinglePaymentLink = () => {
                                                             <div className="p-2 w-[90%] mx-auto">
                                                                 <div className='space-y-3 flex flex-col items-start justify-start'>
                                                                     <div className='content'>
-                                                                        <PaymentsIcon className='text-[#1d3329]' />
+                                                                        <ConfirmationNumberIcon className='text-[#1d3329]' />
                                                                     </div>
                                                                     <div className='pt-8'>
                                                                         <h2 className='text-sm text-gray-400 font-bold'>Number Of Recipient</h2>
