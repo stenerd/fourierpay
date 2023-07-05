@@ -531,7 +531,7 @@ const SinglePaymentLink = () => {
                                         <div className='bg-gray-200 px-2 py-1 rounded-md flex items-center space-x-1'>
                                             <IconButton onClick={() => {
                                                 // setCopied()
-                                                copyText()
+                                                copyText(data?.paymentLink?.link)
                                                 // console.log(link, index)
                                             }}>
                                                 <ContentPasteIcon fontSize='small' />
