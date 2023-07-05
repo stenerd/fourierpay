@@ -23,9 +23,12 @@ import Protected, { BASE_URL } from '../utils/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { PaystackButton, PaystackConsumer } from 'react-paystack'
 import moment from 'moment'
+// import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+
 
 
 
@@ -114,18 +117,21 @@ const MakePayment = () => {
 
     // you can call this function anything
     const handleSuccess = async (reference) => {
+        setDelay(true)
         // Implementation for whatever you want to do with reference and after success call.
         console.log(reference);
         try {
             const result = await axios.post(`${BASE_URL}/api/payment/verify`, {
                 reference: paymentData.reference
             })
+            setDelay(true)
             console.log('result >> ', result)
             if (tab === 2) {
                 setResult(result.data)
                 console.log(result)
                 setDetails(result.data.data)
                 setTab(3)
+                setDelay(false)
             } else {
                 navigate(`/pay/${code}/reciept/${paymentData.reference}`)
             }
@@ -167,7 +173,9 @@ const MakePayment = () => {
 
 
     const openPaystack = async (e, initializePayment) => {
+
         e.preventDefault()
+
         e.stopPropagation()
 
         console.log("paymentData >> ", paymentData)
@@ -239,6 +247,7 @@ const MakePayment = () => {
                 pdf.save("payment-recipt.pdf");
             })
             ;
+        console.log('printed')
     }
 
     const copyText = async (link) => {
@@ -258,6 +267,22 @@ const MakePayment = () => {
             console.log(error.response)
         }
     }
+    const handleDownload = () => {
+        console.log('updated as payment')
+        setTab(1)
+        printDocument()
+        console.log('analyzing data....')
+        toast.success('Transactions Receipt Downloading 🚀🚀', {
+            position: "top-right",
+            autoClose: 8000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    }
 
     return (
         <>
@@ -276,8 +301,11 @@ const MakePayment = () => {
                         </Backdrop>
                     )}
                     <div className='relative px-6 pt-6 w-full'>
-                        <img src='/images/logo-header.svg' className='absolute' alt="alt-img" />
-                        <p className='text-center text-white text-2xl font-bold'>Pay</p>
+                        <Link to='/'>
+                            <img src='/images/logo-header.svg' className='absolute' alt="alt-img" />
+                            <p className='text-center text-white text-2xl font-bold'>Pay</p>
+                        </Link>
+
                     </div>
                     <div className='relative px-6 pt-6 w-full'>
                         <div className='w-full p-4 flex cm-mobile-make-payment-topic'>
@@ -351,7 +379,7 @@ const MakePayment = () => {
                                                         {
                                                             paymentLink.form.map((link, index) => (
                                                                 <Grid item xs={12} key={index}>
-                                                                    <div className='flex flex-col space-y-3 mb-2'>
+                                                                    <div className='flex flex-col space-y-3 mb-4'>
                                                                         <label for={'for' + index + 1} className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
                                                                         {
                                                                             link.field_type === 'text' ? (
@@ -431,19 +459,25 @@ const MakePayment = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <button className='cm-buttom' onClick={() => {
-                                        setTab(1)
-                                        printDocument()
-                                    }
-                                    }>Download Reciept</button>
+                                    <button className='cm-buttom'
+                                        onClick={()=>handleDownload}
+                                    >Download Reciept</button>
                                 </div>
                             </div>
                         ) : ''
                     }
-
-
-
-
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                    />
                 </div>
             </div>
             <div className='hidden md:block'>
