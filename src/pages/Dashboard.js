@@ -406,7 +406,7 @@ const Dashboard = () => {
                     </div>
                     <div className='py-2 '>
                         {tables.recentPayments ? tables.recentPayments.map((each, index) => (
-                            <div className='flex w-full items-center mb-2' key={index} onClick={() => { console.log(each); handleClickOpen1(); setTransact(each) }}>
+                            <div className='flex w-full items-center mb-2 cursor-pointer' key={index} onClick={() => { console.log(each); handleClickOpen1(); setTransact(each) }}>
                                 <div className='mr-2'>
                                     <div className='p-2 c-icon-bg'>
                                         <img src="/images/in-icon.svg" alt="alt-img" className='w-[28px]' />
@@ -445,10 +445,7 @@ const Dashboard = () => {
                         )}
                     </div>
                 </div>
-
-
                 <BottomNav />
-
                 <div className='py-4 mb-14 w-[90%] mx-auto'>
                     <div className='flex items-center justify-between'>
                         <h2 className='font-bold text-xl fourier'>Recent Links</h2>
@@ -461,7 +458,7 @@ const Dashboard = () => {
                             {tables.recentPaymentLinks ? tables.recentPaymentLinks.map((each, index) => {
                                 if (index % 3 === 0) {
                                     return (
-                                        <div className='border border-1 overflow-hidden rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
+                                        <div className='border border-1 overflow-hidden rounded-[10px] cursor-pointer' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
                                             <div className='flex justify-center items-center odd_numbers'>
                                                 <img src='/images/target1.svg' alt='alt-img' />
                                             </div>

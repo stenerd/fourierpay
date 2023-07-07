@@ -106,10 +106,11 @@ const Hero = () => {
                                                 onInit={(typewriter) => {
                                                     typewriter
                                                         .typeString("Our comprehensive fintech platform is designed to simplify transactions and elevate your financial experience with ease.")
-                                                        // .pauseFor(1000)
+                                                        .pauseFor(1000)
                                                         // .deleteAll()
                                                         // .typeString("Welcomes You")
-                                                        .start();
+                                                        .start()
+                                                        
                                                 }}
                                             />
                                         </h4>
