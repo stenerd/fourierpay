@@ -23,62 +23,62 @@ const Section = () => {
     let dropDown = useRef()
     let containRef = useRef()
 
-    useEffect(() => {
-        // ScrollTrigger.matchMedia()
+    // useEffect(() => {
+      
 
-        let mm = gsap.matchMedia()
+    //     let mm = gsap.matchMedia()
 
-        mm.add("(min-width:850px)", () => {
+    //     mm.add("(min-width:850px)", () => {
 
-            const scaleDownTween = gsap.timeline({
-                ease: "none",
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: "center center",
-                    scrub: true,
-                    pin: true
-                },
+    //         const scaleDownTween = gsap.timeline({
+    //             ease: "none",
+    //             scrollTrigger: {
+    //                 trigger: containerRef.current,
+    //                 start: "center center",
+    //                 scrub: true,
+    //                 pin: true
+    //             },
 
-            });
-
-
-            scaleDownTween.fromTo(firstGrid.current, { x: '-50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, duration: .8, scale: 1 }).to(overlayRef.current, { opacity: 1 })
-
-            const secondTween = gsap.timeline({
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: secondContainerRef.current,
-                    start: 'center center',
-                    scrub: true,
-                    // pin: true
-                }
+    //         });
 
 
-            })
-            secondTween.fromTo(leftRef.current, { x: '50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, scale: 1, duration: .8 }).to(shadowRef.current, { opacity: 1 })
+    //         scaleDownTween.fromTo(firstGrid.current, { x: '-50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, duration: .8, scale: 1 }).to(overlayRef.current, { opacity: 1 })
 
-            const thirdTween = gsap.timeline({
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: thirdContainerRef.current,
-                    start: 'center center',
-                    scrub: true,
-                    // pin: true
-                }
-            })
-            thirdTween.fromTo(righttRef.current, { x: '-50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, scale: 1, duration: .8 }).to(shadow2.current, { opacity: 1 })
-            const fourthTween = gsap.timeline({
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: containRef.current,
-                    start: 'center center',
-                    scrub: true,
-                    // pin: true
-                }
-            })
-            fourthTween.fromTo(dropDown.current, { y: '-50%', opacity: 0, scale: .5 }, { y: '0%', opacity: 1, scale: 1, duration: .8 })
-        })
-    }, [])
+    //         const secondTween = gsap.timeline({
+    //             ease: 'none',
+    //             scrollTrigger: {
+    //                 trigger: secondContainerRef.current,
+    //                 start: 'center center',
+    //                 scrub: true,
+    //                 // pin: true
+    //             }
+
+
+    //         })
+    //         secondTween.fromTo(leftRef.current, { x: '50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, scale: 1, duration: .8 }).to(shadowRef.current, { opacity: 1 })
+
+    //         const thirdTween = gsap.timeline({
+    //             ease: 'none',
+    //             scrollTrigger: {
+    //                 trigger: thirdContainerRef.current,
+    //                 start: 'center center',
+    //                 scrub: true,
+    //                 pin: true
+    //             }
+    //         })
+    //         thirdTween.fromTo(righttRef.current, { x: '-50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, scale: 1, duration: .8 }).to(shadow2.current, { opacity: 1 })
+    //         const fourthTween = gsap.timeline({
+    //             ease: 'none',
+    //             scrollTrigger: {
+    //                 trigger: containRef.current,
+    //                 start: 'center center',
+    //                 scrub: true,
+    //                 pin: true
+    //             }
+    //         })
+    //         fourthTween.fromTo(dropDown.current, { y: '-50%', opacity: 0, scale: .5 }, { y: '0%', opacity: 1, scale: 1, duration: .8 })
+    //     })
+    // }, [])
 
 
     return (
@@ -359,7 +359,6 @@ const Section = () => {
                                     <div className='absolute c-pricing-background'></div>
                                     <div className='absolute c-pricing-background-right'></div>
                                     <div className='relative c-pricinig-pre-background' style={{ zIndex: 1 }}>
-
                                         <div className='bg-white px-8 py-6' style={{ borderRadius: '0.5rem', boxShadow: '0 0 1rem 0 #ccc' }}>
                                             <div className=''>
                                                 <p className='text-center font-medium text-gray-600 text-xl'>BASIC</p>
@@ -369,8 +368,6 @@ const Section = () => {
                                                     <img src="/images/basic-plan.svg" style={{ width: '12rem' }} alt='our basic package' />
                                                 </p>
                                             </div>
-                                            {/* <p>Free</p> */}
-
                                             <p className='flex justify-center' style={{ marginTop: '4.75rem' }}>
                                                 <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
@@ -402,7 +399,6 @@ const Section = () => {
                                     <div className='absolute c-pricing-background-right'></div>
                                     <div className='relative c-pricinig-pre-background' style={{ zIndex: 1 }}>
                                         <div className='absolute c-premium-package'>popular</div>
-
                                         <div className='bg-white px-8 py-6' style={{ borderRadius: '0.5rem', boxShadow: '0 0 1rem 0 #ccc' }}>
                                             <div className=''>
                                                 <p className='text-center font-medium text-gray-600 text-xl'>PREMIUM</p>
@@ -412,8 +408,6 @@ const Section = () => {
                                                     <img src="/images/premium-plan.svg" style={{ width: '12rem' }} alt='our premium package' />
                                                 </p>
                                             </div>
-                                            {/* <p>Free</p> */}
-
                                             <p className='mt-12 flex justify-center'>
                                                 <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
@@ -443,7 +437,6 @@ const Section = () => {
                     </div>
                 </div>
             </div>
-
             <div className='py-8 bg-[#1f332b]'>
                 <div className=''>
                     <div className='py-20 flex justify-center items-center'>
