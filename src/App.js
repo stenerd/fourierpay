@@ -20,6 +20,7 @@ import PublicPayment from "./pages/PublicPayment";
 import AdminLogin from './pages/Admin/Login'
 import ProtectedRoute from "./pages/ProtectedRoute";
 import Waitlist from "./pages/Waitlist";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/about" element={<About/>}/>
           <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Route>
         <Route path="/pay/:code" element={<MakePayment />} />
