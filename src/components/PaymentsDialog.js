@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import CancelIcon from '@mui/icons-material/Cancel';
 import moment from 'moment'
 import { IconButton } from '@mui/material';
+import BottomNav from './bottomNav';
 export default function PaymentDialog({ open1, setOpen1, handleClose1, handleClickOpen1, transact: recentTransaction }) {
   const [value, setValue] = React.useState(0);
   const theme = useTheme();
@@ -91,7 +92,7 @@ export default function PaymentDialog({ open1, setOpen1, handleClose1, handleCli
             </div>
           </div>
         </div>
-        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
+        {/* <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
           <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
             <BottomNavigationAction
               label="Dashboard"
@@ -116,19 +117,10 @@ export default function PaymentDialog({ open1, setOpen1, handleClose1, handleCli
               icon={<AccountCircleIcon />}
               onClick={() => navigate('/dashboard/profile')}
             />
-            {/* <BottomNavigationAction
-                            label="Favorites"
-                            value="favorites"
-                            icon={<FavoriteIcon />}
-                        /> */}
-            {/* <BottomNavigationAction
-                            label="Nearby"
-                            value="nearby"
-                            icon={<LocationOnIcon />}
-                        /> */}
             <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
           </BottomNavigation>
-        </Paper>
+        </Paper> */}
+        <BottomNav/>
       </Dialog>
     </div>
   );
