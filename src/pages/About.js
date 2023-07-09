@@ -219,7 +219,7 @@ const About = () => {
                                 <div className='py-10 w-4/5 mx-auto'>
                                     <h1 className='text-[65px] text-white font-bold'>Ready to Automate your Payment?</h1>
                                     <div className='py-8'>
-                                        <p className='text-2xl leading-2 text-white'>Create an account and instantly start accepting payments, selling your beautiful products online and building financial tools.</p>
+                                        <p className='text-2xl leading-2 text-white'>Create an account and instantly start accepting payments,automating payments , and seamlessly track transactions .</p>
                                     </div>
                                     <div className='py-5'>
                                         <Link to='/signup'>
