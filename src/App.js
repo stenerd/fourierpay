@@ -28,8 +28,8 @@ function App() {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route exact path="/" element={<Home />} />
-          <Route path="/signup" element={<Navigate to="/login" />} />
-          {/* <Route path="/signup" element={<Signup />} /> */}
+          {/* <Route path="/signup" element={<Navigate to="/login" />} /> */}
+          <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/about" element={<About/>}/>
