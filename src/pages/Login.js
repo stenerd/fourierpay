@@ -107,12 +107,12 @@ const Login = () => {
                                         </div>
                                     </form>
                                     <div className=''>
-                                        {/* <p className="text-gray-700 font-bold">Do not have an account?
+                                        <p className="text-gray-700 font-bold">Do not have an account?
                                             <Link to="/signup">
                                                 <span className='cursor-pointer c-primary-link-color'> Register</span>
                                             </Link>
                                         </p>
-                                        <p className="text-gray-700 font-bold">Can't remember your password?
+                                        {/* <p className="text-gray-700 font-bold">Can't remember your password?
                                             <Link to="/forgot-password">
                                                 <span className='cursor-pointer c-primary-link-color'> Click here</span>
                                             </Link>
