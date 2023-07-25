@@ -78,7 +78,7 @@ const Hero = () => {
                         <div className='flex justify-between items-center'>
                             {/* <h2 className='text-2xl hero font-bold text-white'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}
                             <div className='w-[7rem]  md:w-[10rem]'>
-                                <img src="/images/two.svg" />
+                                <img src="/images/two.svg"/>
                             </div>
                             <div className='flex items-center space-x-3 md:space-x-6'>
                                 <Link to='/about'>
@@ -87,7 +87,7 @@ const Hero = () => {
                                 <Link to='/login'>
                                     <span className='text-white cursor-pointer font-bold'>Login</span>
                                 </Link>
-                                <Link to='signup'>
+                                <Link to='/signup'>
                                     <button className='bg-[#354740] text-white font-bold rounded-sm py-2 px-4 md:py-3 md:px-6'>Register</button>
                                 </Link>
                             </div>
@@ -113,7 +113,6 @@ const Hero = () => {
                                                         // .deleteAll()
                                                         // .typeString("Welcomes You")
                                                         .start()
-                                                        
                                                 }}
                                             />
                                         </h4>

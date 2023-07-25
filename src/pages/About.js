@@ -30,8 +30,6 @@ const About = () => {
                                 </div>
                             </Link>
                             <div className='flex items-center space-x-3 md:space-x-6'>
-                                
-
                                 <Link to='/login'>
                                     <span className='text-white cursor-pointer font-bold'>Login</span>
                                 </Link>
@@ -43,16 +41,16 @@ const About = () => {
                     </div>
                 </div>
                 <div className='py-32 flex justify-center flex-col items-center'>
-                    <h2 className='text-center text-[65px] text-white font-bold leading-[5rem]'>Why you should use <br /><span className='text-[#97f675]'>Fourier Pay?</span></h2>
-                    <div className='pt-8 w-[50%] mx-auto'>
+                    <h2 className='text-center text-[40px] md:text-[65px] px-4 text-white font-bold md:leading-[5rem]'>Why you should use <br /><span className='text-[#97f675]'>Fourier Pay?</span></h2>
+                    <div className='pt-8 md:w-[50%] w-[85%] mx-auto'>
                         <p className='text-white text-center text-xl tracking-[1px]'>
                             Fourierpay enables businesses to automate payment-related tasks, such as generating invoices,
                             sending payment links/QR codes, and setting up recurring payments. This automation helps
                             save time and reduces manual effort in managing payment processes.</p>
                     </div>
-                    <Container className='pt-20 pb-5' ref={containerRef}>
+                    <Container className='pt-20 pb-5 hidden md:block' ref={containerRef}>
                         <div className='flex space-x-6'>
-                            <div className='py-4 px-12 cursor-pointer bg-[#fff6eb] rounded-[2.5rem] shadow-md'>
+                            <div className='py-4 px-12 w-full cursor-pointer bg-[#fff6eb] rounded-[2.5rem] shadow-md'>
                                 <div className=''>
                                     {/* <IconButton>
                                     <ManageHistoryIcon className='' />
@@ -94,7 +92,7 @@ const About = () => {
                             </div>
                         </div>
                     </Container>
-                    <SecondContainer>
+                    <SecondContainer className='hidden md:block'>
                         <div className='flex space-x-6'>
                             <div className='py-4 px-16 cursor-pointer bg-[#fff6eb] rounded-[2.5rem] shadow-md'>
                                 <div className=''>
@@ -142,15 +140,15 @@ const About = () => {
 
             </div>
             <div className='py-32'>
-                <div className='w-[90%] mx-auto md:w-4/5 mx-auto'>
+                <div className='w-[90%] mx-auto md:w-4/5'>
                     <div className='py-2'>
-                        <h1 className='text-[65px] text-[#1f332b] font-bold capitalize leading-[5rem]'>FourierPay was built for <br /> <span className='text-[#97f675]'>Businesses like yours</span> </h1>
+                        <h1 className='md:text-[65px] text-[45px] text-[#1f332b] font-bold capitalize md:leading-[5rem]'>FourierPay was built for <br /> <span className='text-[#97f675]'>Businesses like yours</span> </h1>
                         <p className='mt-5 mb-12 text-[#1c1c1c] text-2xl'>Efficiently manage your payments, simplify your financial processes, and enhance your overall financial management. Here are some of the tools that FourierPay offers to support you:</p>
                     </div>
                     <div className='py-2'>
-                        <div className='grid grid-cols-2 gap-16'>
-                            <div className='h-[32rem] background_pink rounded-xl cursor-pointer'>
-                                <div className='p-12'>
+                        <div className='grid md:grid-cols-2 gap-16 grid-cols-1'>
+                            <div className=' background_pink rounded-xl cursor-pointer'>
+                                <div className='md:p-12 p-5'>
                                     <img src='/images/money.webp' className='w-[10rem]' alt='img' />
                                     <div className='pb-4 pt-8'>
                                         <h2 className='text-3xl font-bold capitalize'>Automate Collection of Payment</h2>
@@ -160,8 +158,8 @@ const About = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='h-[32rem] rounded-xl cursor-pointer c-about-overlay'>
-                                <div className='p-12'>
+                            <div className='rounded-xl cursor-pointer c-about-overlay'>
+                                <div className='md:p-12 p-5'>
                                     <img src='/images/efficient.webp' className='w-[10rem]' alt='img' />
                                     <div className='pb-4 pt-8'>
                                         <h2 className='text-3xl font-bold capitalize'>Reporting and Analytics</h2>
@@ -172,8 +170,8 @@ const About = () => {
 
                                 </div>
                             </div>
-                            <div className='h-[32rem] rounded-xl cursor-pointer'>
-                                <div className='p-12'>
+                            <div className=' rounded-xl cursor-pointer'>
+                                <div className='md:p-12 p-5'>
                                     <img src='/images/visible.webp' className='w-[10rem]' alt='img' />
                                     <div className='pb-4 pt-8'>
                                         <h2 className='text-3xl font-bold capitalize'>Improve Transparency</h2>
@@ -183,8 +181,8 @@ const About = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='h-[32rem] background_pink rounded-xl cursor-pointer'>
-                                    <div className='p-12'>
+                            <div className=' background_pink rounded-xl cursor-pointer'>
+                                    <div className='md:p-12 p-5'>
                                         <img src='/images/standout.webp' className='w-[10rem]' alt='img' />
                                         <div className='pb-4 pt-8'>
                                             <h2 className='text-3xl font-bold capitalize'>Payment Management Dashboard</h2>
@@ -205,9 +203,9 @@ const About = () => {
                             </div>
                         </div> */}
                         <div className='py-4 mt-12'>
-                            <div className='bg-[#1f332b] rounded-3xl py-10'>
-                                <div className='py-10 w-4/5 mx-auto'>
-                                    <h1 className='text-[65px] text-white font-bold'>Ready to Automate your Payment?</h1>
+                            <div className='bg-[#1f332b] rounded-3xl md:py-10 py-5'>
+                                <div className='md:py-10 py-5 md:w-4/5 w-[90%] mx-auto'>
+                                    <h1 className='md:text-[65px] text-[40px] text-white font-bold'>Ready to Automate your Payment?</h1>
                                     <div className='pb-12 pt-2'>
                                         <p className='text-2xl leading-2 text-white'>Create an account and instantly start accepting payments,automating payments , and seamlessly track transactions .</p>
                                     </div>
@@ -229,7 +227,7 @@ const About = () => {
 }
 
 const Container = styled.div`
-    width: 103%;
+    /* width: 103%;
     animation: animate 30s linear infinite;
 
     @keyframes animate {
@@ -240,11 +238,11 @@ const Container = styled.div`
         transform: translateX(100%)
       }
       
-    }
+    } */
 `
 const SecondContainer = styled.div`
     width: 103%;
-    animation: animated 30s linear infinite;
+    /* animation: animated 30s linear infinite;
 
     @keyframes animated {
       0% {
@@ -254,8 +252,7 @@ const SecondContainer = styled.div`
         transform: translateX(-100%)
       }
       
-    }
+    } */
 `
 
 export default About;
-
