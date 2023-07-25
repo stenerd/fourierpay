@@ -30,8 +30,6 @@ const About = () => {
                                 </div>
                             </Link>
                             <div className='flex items-center space-x-3 md:space-x-6'>
-                                
-
                                 <Link to='/login'>
                                     <span className='text-white cursor-pointer font-bold'>Login</span>
                                 </Link>
@@ -50,9 +48,9 @@ const About = () => {
                             sending payment links/QR codes, and setting up recurring payments. This automation helps
                             save time and reduces manual effort in managing payment processes.</p>
                     </div>
-                    <Container className='pt-20 pb-5' ref={containerRef}>
+                    <Container className='pt-20 pb-5 hidden md:block' ref={containerRef}>
                         <div className='flex space-x-6'>
-                            <div className='py-4 px-12 cursor-pointer bg-[#fff6eb] rounded-[2.5rem] shadow-md'>
+                            <div className='py-4 px-12 w-full cursor-pointer bg-[#fff6eb] rounded-[2.5rem] shadow-md'>
                                 <div className=''>
                                     {/* <IconButton>
                                     <ManageHistoryIcon className='' />
@@ -94,7 +92,7 @@ const About = () => {
                             </div>
                         </div>
                     </Container>
-                    <SecondContainer>
+                    <SecondContainer className='hidden md:block'>
                         <div className='flex space-x-6'>
                             <div className='py-4 px-16 cursor-pointer bg-[#fff6eb] rounded-[2.5rem] shadow-md'>
                                 <div className=''>
@@ -229,7 +227,7 @@ const About = () => {
 }
 
 const Container = styled.div`
-    width: 103%;
+    /* width: 103%;
     animation: animate 30s linear infinite;
 
     @keyframes animate {
@@ -240,11 +238,11 @@ const Container = styled.div`
         transform: translateX(100%)
       }
       
-    }
+    } */
 `
 const SecondContainer = styled.div`
     width: 103%;
-    animation: animated 30s linear infinite;
+    /* animation: animated 30s linear infinite;
 
     @keyframes animated {
       0% {
@@ -254,7 +252,7 @@ const SecondContainer = styled.div`
         transform: translateX(-100%)
       }
       
-    }
+    } */
 `
 
 export default About;
