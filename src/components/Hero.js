@@ -81,6 +81,9 @@ const Hero = () => {
                                 <img src="/images/two.svg"/>
                             </div>
                             <div className='flex items-center space-x-3 md:space-x-6'>
+                                <Link to='/about'>
+                                    <span className='text-white cursor-pointer font-bold'>About</span>
+                                </Link>
                                 <Link to='/login'>
                                     <span className='text-white cursor-pointer font-bold'>Login</span>
                                 </Link>
