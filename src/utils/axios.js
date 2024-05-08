@@ -10,9 +10,9 @@ const Protected = axios.create()
 
 // export const BASE_URL = `https://fourierpay.hostless.app`
 // export const BASE_URL = `http://localhost:9000`
-// export const BASE_URL =`https:fourierpayapi.onrender.com`
+export const BASE_URL =`https:fourierpayapi.onrender.com`
 
-export const BASE_URL = `https://fourierpayapi.herokuapp.com`
+// export const BASE_URL = `https://fourierpayapi.herokuapp.com`
 
 
 Protected.interceptors.request.use(
