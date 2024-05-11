@@ -91,11 +91,11 @@
 }
 
 .c-primary-button {
-    padding: 1rem 3rem;
+    padding: .5rem 3rem;
     color: white;
     font-weight: bold;
     border-radius: 0.2rem;
-    background: #234244;
+    background: #065143;
 }
 
 .c-login-emoji {
