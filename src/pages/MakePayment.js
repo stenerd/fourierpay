@@ -45,6 +45,8 @@ const MakePayment = () => {
     const paystackButtonRef = React.useRef(null);
     const [delay, setDelay] = React.useState(false)
     const [removeDownloadButton, setRemoveDownloadButton] = React.useState(false)
+
+    
     // const [details, setDetails] = React.useState([])
 
     const handleClosed = () => {
@@ -499,7 +501,7 @@ const MakePayment = () => {
                                     {
                                         (!removeDownloadButton) ?
                                             (
-                                                <button className='cm-buttom' onClick={() => {
+                                                <button className='cm-buttom' style={{ display: removeDownloadButton ? 'none' : 'block' }} onClick={() => {
                                                     downloadMobile()
                                                 }
                                                 }>Download Receipt</button>
