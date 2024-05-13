@@ -536,11 +536,12 @@
     min-width: 100vw;
     min-height: 100vh;
     max-width: 100vw;
+    background-size: cover;
 }
 .cm-mobile-make-payment-topic{
     border: 1px solid #909492;
     border-radius: 4px;
-    background: rgba(186, 249, 163, 0.1);
+    background: rgb(197 255 176 / 6%);
 }
 .cm-mobile-make-payment-topic-success{
     border-radius: 4px;
