@@ -69,7 +69,7 @@ const MakePayment = () => {
         printDocument()
         setRemoveDownloadButton(false)
         setTab(1)
-        toast.success('Transactions Receipt Downloading 🚀🚀', {
+        toast.success('Transaction Receipt Downloading 🚀', {
             position: "top-right",
             autoClose: 8000,
             hideProgressBar: false,
@@ -290,7 +290,7 @@ const MakePayment = () => {
         setTab(1)
         printDocument()
         console.log('analyzing data....')
-        toast.success('Transactions Receipt Downloading 🚀🚀', {
+        toast.success('Transaction Receipt Downloading 🚀', {
             position: "top-right",
             autoClose: 8000,
             hideProgressBar: false,
