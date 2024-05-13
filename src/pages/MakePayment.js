@@ -459,15 +459,15 @@ const MakePayment = () => {
                                 <div className='p-6 flex flex-col items-between justify-between' id='divToPrint' style={{ minHeight: '90%' }}>
                                     <div className='pt-0'>
                                         <div className='flex justify-center'>
-                                            <img src='/images/payment-successful.svg' alt="alt-img" />
+                                            <img src='/images/payment-successful.svg' width="110" alt="alt-img" />
                                         </div>
                                         <div className='flex justify-center mt-4'>
-                                            <p className='font-bold text-base text-[#222926]'>Transfer Successful</p>
+                                            <p className='font-bold text-base text-[#222926]'>Payment Successful</p>
                                         </div>
-                                        <div className='flex justify-center mt-0'>
-                                            <p className='text-gray-400 text-sm font-medium'>Your money was successfully sent</p>
+                                        <div className='flex justify-center mt-2'>
+                                            <p className='text-gray-400 text-sm font-medium'>Transaction Reference</p>
                                         </div>
-                                        <div className='flex justify-center mt-3'>
+                                        <div className='flex justify-center mt-2'>
                                             <p className='text-[#15C01A] pr-2 text-base font-medium cursor-pointer' onClick={() => copyText(result.transaction && result.transaction.reference)}>{result.transaction && result.transaction.reference}</p>
                                             <img src='/images/copy.svg' alt="alt-img" />
                                         </div>
@@ -478,7 +478,7 @@ const MakePayment = () => {
                                             </p>
                                         </div>
                                         <div className='mt-6'>
-                                            <p className='font-medium text-sm text-gray-500'>Recepient</p>
+                                            <p className='font-medium text-sm text-gray-500'>RECIPIENT</p>
                                         </div>
 
                                         <div className='relative px-0 pt-1 w-full pb-12'>
@@ -490,7 +490,7 @@ const MakePayment = () => {
                                                     <p className='font-bold text-[#0067ffe3] text-sm uppercase'>{result.payment && result.payment.unique_answer}</p>
                                                     <p className='font-bold text-[#222926] text-lg'>{paymentLink.name}</p>
                                                     <p className='pt-1 flex justify-between w-full'>
-                                                        <p className='text-[#222926] text-sm'>{result.payment && moment(result.payment.createdAt).format('dddd MMMM DD, YYYY - hh:mm:A')}</p>
+                                                        <p className='text-[#222926] text-sm'>{result.payment && moment(result.payment.createdAt).format('MMMM DD, YYYY, hh:mm A')}</p>
                                                     </p>
                                                 </div>
                                             </div>
@@ -502,7 +502,7 @@ const MakePayment = () => {
                                                 <button className='cm-buttom' onClick={() => {
                                                     downloadMobile()
                                                 }
-                                                }>Download Reciept</button>
+                                                }>Download Receipt</button>
                                             ) : ''
                                     }
 
