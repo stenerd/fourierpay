@@ -318,11 +318,13 @@ const MakePayment = () => {
                             <CircularProgress color="inherit" />
                         </Backdrop>
                     )}
-                    <div className='relative px-6 pt-6 w-full'>
+                    <div className='relative px-6 py-6 w-full'>
                         <Link to='/'>
-                            <img src='/images/logo-header.svg' className='absolute' alt="alt-img" />
-                            <p className='text-center text-white text-2xl font-bold'>Pay</p>
+                            {/* <img src='/images/logo-header.svg' className='absolute' alt="alt-img" /> */}
+                            <img src='/images/image-two.svg' width="110" className='absolute' alt="alt-img" />
+                           
                         </Link>
+                         {/* <p className='text-center text-white text-2xl font-bold'>Pay</p> */}
 
                     </div>
                     <div className='relative px-6 pt-6 w-full'>
@@ -332,35 +334,51 @@ const MakePayment = () => {
                             </div>
                             <div className='pl-4 w-full'>
                                 <p className='font-bold text-white text-lg'>{paymentLink.name}</p>
-                                <p className='pt-3 flex justify-between w-full'>
-                                    <p className='font-medium text-[#D3D4D4] text-base c-elipses'>By {paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
-                                    <p className='font-bold text-[#97F675] text-lg'>₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
+                                <p className='pt-0 flex justify-between w-full'>
+                                    <p className='font-medium text-[#D3D4D4] text-sm c-elipses'>By {paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
+                                    <p className='font-bold text-[#97F675] text-sm'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.amount || 0)}</p>
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <div className='relative px-6 pt-6 w-full'>
-                        <p className='text-[#D3D4D4] font-medium italic'>Description</p>
-                        <p className='text-white pt-2 font-medium'>
+                    <div className='relative px-6 pt-8 w-full'>
+                        <p className='text-[#D3D4D4] font-medium text-sm uppercase'>Description</p>
+                        <p className='text-white pt-0 font-medium'>
                             {paymentLink.description}
                         </p>
                     </div>
+
+                    <div className='flex'>
+                        <div className='relative px-6 pt-6 w-full flex-1'>
+                            <p className='text-[#D3D4D4] font-medium text-sm uppercase'>Status</p>
+                            <p className='text-white pt-0 font-medium capitalize'>
+                                {paymentLink.status}
+                            </p>
+                        </div>
+
+                        <div className='relative px-6 pt-6 w-full flex-1'>
+                            <p className='text-[#D3D4D4] font-medium text-sm uppercase'>VAT</p>
+                            <p className='text-white font-medium pb-0'>
+                                ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges || 0)}
+                            </p>
+                        </div>
+                    </div>
+
+                    
+
                     <div className='relative px-6 pt-6 w-full'>
-                        <p className='text-[#D3D4D4] font-medium capitalize italic'>{paymentLink.expires_at && 'Expiry Date - '}<span>{paymentLink.status}</span></p>
-                        <p className='text-white pt-2 font-medium'>
+                        <p className='text-[#D3D4D4] font-medium text-sm uppercase'>{paymentLink.expires_at && 'Expiry Date'}</p>
+                        <p className='text-white pb-4 font-medium cm-mobile-make-payment-divider'>
                             {paymentLink.expires_at && moment(paymentLink.expires_at).format('dddd, DD MMMM YYYY')}
                         </p>
                     </div>
-                    <div className='relative px-6 pt-2 w-full'>
-                        <p className='text-white font-medium cm-mobile-make-payment-divider pb-6'>
-                            ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)} VAT
-                        </p>
-                    </div>
+                    
+                    
 
                     <div className='relative px-6 pt-6 w-full'>
                         <p className='text-center pb-2'>
                             <span className='text-white font-medium text-lg'>₦ &nbsp;</span>
-                            <span className='text-[#97F675] font-bold text-3xl'>{Intl.NumberFormat('en-US').format(paymentLink.charges + paymentLink.amount || 0)}</span>
+                            <span className='text-[#97F675] font-bold text-3xl'>{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}</span>
                         </p>
                     </div>
 
@@ -371,8 +389,8 @@ const MakePayment = () => {
                                     <span className='controller'></span>
                                 </div>
                                 <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
-                                    <div className='pt-4 mb-12 top-section' onClick={() => setTab(2)}></div>
-                                    <button className='cm-buttom' onClick={() => setTab(2)}>Pay ₦{Intl.NumberFormat('en-US').format(paymentLink.charges + paymentLink.amount || 0)}</button>
+                                    <div className='pt-4 mb-12 top-section' onClick={() => setTab(2)}> CLICK HERE TO PAY</div>
+                                    <button className='cm-buttom hidden' onClick={() => setTab(2)}>Pay ₦{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}</button>
                                 </div>
                             </div>
                         ) : ''
@@ -427,7 +445,7 @@ const MakePayment = () => {
                                             ) : ''
                                         }
                                     </div>
-                                    <button className='cm-buttom' onClick={(e) => makePaymentHandler(e)}> {delay ? `Loading....` : `Pay ₦ ${Intl.NumberFormat('en-US').format(paymentLink.charges + paymentLink.amount || 0)}`}</button>
+                                    <button className='cm-buttom' onClick={(e) => makePaymentHandler(e)}> {delay ? `Loading....` : `Pay ₦ ${Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}`}</button>
                                 </div>
                             </div>
                         ) : ''
@@ -456,7 +474,7 @@ const MakePayment = () => {
                                         <div className='flex justify-center mt-4'>
                                             <p className='font-bold text-base text-[#222926]'>
                                                 <span className='text-gray-400 font-medium text-lg'>₦ &nbsp;</span>
-                                                <span className='font-bold text-3xl'>{Intl.NumberFormat('en-US').format(paymentLink.charges + paymentLink.amount || 0)}</span>
+                                                <span className='font-bold text-3xl'>{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}</span>
                                             </p>
                                         </div>
                                         <div className='mt-6'>
@@ -534,9 +552,9 @@ const MakePayment = () => {
                                             <p className='font-bold text-gray-700 text-lg'>{paymentLink.name}</p>
                                             <span className='font-bold text-gray-500 inline-block w-full'>{paymentLink.description}</span>
                                             <Divider className='creat-payment-divider' />
-                                            <p className='font-bold text-gray-700 text-lg mt-8'>Amount: ₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
-                                            <p className='font-bold text-gray-700 text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)}</p>
-                                            <p className='font-bold text-[#39c531] text-xl mt-4'>Total: ₦ {Intl.NumberFormat('en-US').format((paymentLink.amount + paymentLink.charges) || 0)}</p>
+                                            <p className='font-bold text-gray-700 text-lg mt-8'>Amount: ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.amount || 0)}</p>
+                                            <p className='font-bold text-gray-700 text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges || 0)}</p>
+                                            <p className='font-bold text-[#39c531] text-xl mt-4'>Total: ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format((paymentLink.amount + paymentLink.charges) || 0)}</p>
                                             <Divider className='creat-payment-divider' />
                                             {
                                                 paymentLink.form && paymentLink.form.length ? (

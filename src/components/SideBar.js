@@ -40,7 +40,7 @@ const Sidebar = () => {
                             {/* <h2 className='text-2xl fourier w-5/6 px-2 mx-auto text-white font-semibold pt-4'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}
                             <div className='w-5/6 px-2 mx-auto pt-4'>
                                 <div className='w-[8rem]'>
-                                    <img src="/images/image-two.svg" />
+                                    <img src="/images/image-two.svg" alt='logo' />
                                 </div>
                             </div>
 

@@ -498,3 +498,9 @@ input[type="radio"]:checked+label {
         padding: 1rem 1rem;
     }
 }
+
+.c-text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
