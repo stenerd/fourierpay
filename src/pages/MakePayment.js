@@ -623,7 +623,7 @@ const MakePayment = () => {
                         <div className="w-[20%]  hidden md:block">
                             {/* <Sidebar /> */}
                             <div className="min-h-screen bg-[#1d3329] w-[20%] shadow-lg  fixed">
-                                <div className="p-4 flex flex-col min-h-screen">
+                                <div className="p-2 flex flex-col min-h-screen">
                                     <div className='py-4'>
                                         <Link to="/">
                                             {/* <h2 className='text-2xl fourier w-5/6 px-2 mx-auto text-white font-semibold pt-4'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}
@@ -637,7 +637,7 @@ const MakePayment = () => {
                                     <div className='px-8'>
                                         <div className='bg-[#39c531] rounded-lg py-7 px-3 flex space-x-3 items-center'>
                                             <img src="/images/Frame 734.png" />
-                                            <p className='font-bold text-white text-xl uppercase '>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname}` : 'Nill'}</p>
+                                            <p className='font-bold break-all text-white text-xl uppercase '>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname}` : 'Nill'}</p>
                                         </div>
                                         <div className='py-12'>
                                             <div className='space-y-6'>
@@ -713,10 +713,10 @@ const MakePayment = () => {
                                             {/* <p className='font-bold text-gray-700 text-lg mt-8'>Amount: ₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
                                             <p className='font-bold text-gray-700 text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)}</p>
                                             <p className='font-bold text-[#39c531] text-xl mt-4'>Total: ₦ {Intl.NumberFormat('en-US').format((paymentLink.amount + paymentLink.charges) || 0)}</p> */}
-                                            <div className='space-y-2 py-20 mt-15'>
+                                            <div className='space-y-2 py-10 mt-15'>
                                                 <h2 className='font-bold text-xl'>Description</h2>
                                                 <span className='font-semibold text-gray-500 text-sm inline-block w-full'>{paymentLink.description}</span>
-                                                <div className='py-4'>
+                                                <div className='py-2'>
                                                     {
                                                         paymentLink.form && paymentLink.form.length ? (
                                                             <div className='mt-8 mb-8'>
@@ -753,7 +753,7 @@ const MakePayment = () => {
                                                             </div>
                                                         ) : ''
                                                     }
-                                                    <div className="py-4">
+                                                    <div className="py-2">
                                                         <div className='bg-[#FEF8E8] py-6 px-3 rounded-md'>
                                                             <div className="px-4 flex items-start space-x-1">
                                                                 <img src="/images/warnings.svg" />
