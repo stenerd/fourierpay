@@ -84,7 +84,7 @@ const PaymentReciept = () => {
 
     return (
         <>
-             <div className='min-h-screen'>
+             {/* <div className='min-h-screen'>
                 <div className='px-4 lg:px-16 py-8 lg:py-16 mx-auto'>
                     <div className='flex mx-auto min-h-[85vh]'>
 
@@ -205,9 +205,9 @@ const PaymentReciept = () => {
                 </div>
 
 
-            </div>
+            </div> */}
 
-            {/* <div className='min-h-screen bg-[#EAFDE3] c-reciept'>
+            <div className='min-h-screen bg-[#EAFDE3] c-reciept'>
                 <div className='px-24 py-12'>
                     <div className=''>
                         <div className='w-[8rem]'>
@@ -216,10 +216,20 @@ const PaymentReciept = () => {
                     </div>
 
                     <div className='flex pt-20 px-4'>
-                        <div className='w-3/6 pr-16'>
+                        <div className='w-3/6 pr-16 flex flex-col justify-center reciept-header'>
                             <div>
                                 <h1>Transaction Lookup</h1>
-                                <p>Enter your transaction reference to check  transaction details  and download your receipt.</p>
+                                <p className='sub-text w-[80%] pt-2'>Enter your transaction reference to check  transaction details  and download your receipt.</p>
+                                <div className='pr-12 py-6'>
+                                    <input required className="pb-2 px-4 w-full outline-none c-text-input" placeholder='Payment Reference' />
+                                </div>
+
+                                 <div className='pt-0'>
+                                    <button className='bg-[#97f675] font-bold rounded-md py-4 px-12 text-[#234244]'>
+                                        <span className='pl-2'>Search</span>
+                                    </button>
+                                </div>
+                                
                             </div>
                         </div>
                         <div className='w-3/6'>
@@ -239,40 +249,47 @@ const PaymentReciept = () => {
                                 </div>
 
                                 <div className=' py-4'>
-                                    <div className='flex justify-between'>
+                                    <div className='flex justify-between py-2'>
                                         <p>Payer</p>
                                         <p>johndoe@gmail.com</p>
                                     </div>
 
-                                    <div className='flex justify-between'>
+                                    <div className='flex justify-between py-2'>
                                         <p>Transaction Reference</p>
                                         <p>000085752257</p>
                                     </div>
 
-                                    <div className='flex justify-between'>
+                                    <div className='flex justify-between py-2'>
                                         <p>Status</p>
                                         <p>Successful</p>
                                     </div>
 
-                                    <div className='flex justify-between'>
+                                    <div className='flex justify-between py-2'>
                                         <p>Date</p>
                                         <p>Mar 22, 2023</p>
                                     </div>
 
-                                    <div className='flex justify-between'>
+                                    <div className='flex justify-between py-2'>
                                         <p>Time</p>
                                         <p>07:80 AM</p>
                                     </div>
 
-                                    <div className='flex justify-between'>
+                                    <div className='flex justify-between pt-2 pb-4'>
                                         <p>Payment Method</p>
                                         <p>Credit Card</p>
                                     </div>
+
+                                    <div className='pt-8'>
+                                        <div className=''>
+                                            <button className='bg-white w-full rounded-md py-2 px-12 font-bold text-xl text-[#464E4D] ' onClick={() => printDocument()}>
+                                                <CloudDownloadIcon className='mb-1'/>
+                                                <span className='pl-2 text-sm'>Download PDF Receipt</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div className=' py-4'>
-                                    
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -280,7 +297,7 @@ const PaymentReciept = () => {
                 
                 
 
-            </div> */}
+            </div>
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
