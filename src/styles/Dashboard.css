@@ -533,7 +533,7 @@
 
 .cm-mobile-make-payments{
     background-image: url('../../public//images/background.svg');
-    /* min-height: 100vh; */
+    min-height: 100vh;
 }
 
 .cm-mobile-make-payment{
