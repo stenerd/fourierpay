@@ -826,8 +826,9 @@ const MakePayment = () => {
                                                             <div className="flex items-start space-x-1">
                                                                 <img src="/images/warnings.svg" alt='warnings' />
                                                                 <div>
-                                                                    <h2 className='text-[#D29A09] font-bold'>Note that all transactions are non-refundable</h2>
-                                                                    <p className='text-[#889C92] warning-sub-text'>At Fourierpay Once payments for transactions have been processed via the link with the control shifts away from our influence</p>
+                                                                    <h2 className='text-[#D29A09] font-bold'>Important Notice: Non-Refundable Transactions</h2>
+                                                                    <p className='text-[#889C92] warning-sub-text'>All transactions are non-refundable.  Once payments are processed via the link, our payment providers handle the rest.</p>
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
