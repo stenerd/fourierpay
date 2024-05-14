@@ -150,9 +150,8 @@ const PaymentReciept = () => {
                                 <div className='w-full'>
                                     <form className='w-full'>
                                         <div className='flex justify-between mb-12'>
-                                            {/* <h3 className='text-2xl font-bold text-[#234244]'>Fourier<span className='text-[#97f675]'>Pay</span></h3> */}
                                             <div className='w-[8rem]'>
-                                                <img src="/images/five.svg" />
+                                                <img src="/images/five.svg" alt='alt' />
                                             </div>
                                             <div className='flex flex-col items-end justify-end'>
                                                 <span className='text-gray-500 font-semibold'>{moment(new Date()).format('ddd MMM DD, YYYY -  hh:mm:ss A')}</span>
@@ -169,8 +168,6 @@ const PaymentReciept = () => {
                                             <Divider className='creat-payment-divider' />
                                         </div>
                                         <span className='font-bold text-gray-500 inline-block w-full text-sm italic'>{paymentLink.description}</span>
-                                        {/* <p className='font-bold text-gray-700 text-lg mt-4'>₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p> */}
-
                                         <div className='relative mt-12 mb-8'>
                                             <h1 className='text-gray-700 text-lg font-bold home absolute divider-title bg-[#f8faf7]'>Personal Information</h1>
                                             <Divider className='creat-payment-divider' />
@@ -190,12 +187,6 @@ const PaymentReciept = () => {
                                                 </div>
                                             ) : ''
                                         }
-
-                                        {/* <div className='pb-0 pt-1 px-2 c-reciept-alert mt-8'>
-                                            <p className='text-gray-700 text-xs italic'>
-                                                <NotificationsIcon className='pb-[0.4rem]' />
-                                                <span className='font-semibold pl-1'>Note: </span>Don't panic, It may take few moment for your transaction to be successful</p>
-                                        </div> */}
                                         
                                         
                                     </form>
@@ -215,6 +206,81 @@ const PaymentReciept = () => {
 
 
             </div>
+
+            {/* <div className='min-h-screen bg-[#EAFDE3] c-reciept'>
+                <div className='px-24 py-12'>
+                    <div className=''>
+                        <div className='w-[8rem]'>
+                            <img src="/images/image-three.svg" alt='logo' />
+                        </div>
+                    </div>
+
+                    <div className='flex pt-20 px-4'>
+                        <div className='w-3/6 pr-16'>
+                            <div>
+                                <h1>Transaction Lookup</h1>
+                                <p>Enter your transaction reference to check  transaction details  and download your receipt.</p>
+                            </div>
+                        </div>
+                        <div className='w-3/6'>
+                            <div className='bg-white card py-6 px-8'>
+                                <div className='flex justify-between pb-4'>
+                                    <div className='flex flex-col justify-center'>
+                                        <div className=''>
+                                            <p className='font-semibold pb-8 c-fs-13'>Transaction Details</p>
+                                            <p className=''>Class Dues 2023/24</p>
+                                            <p className=''>Mechanical Engineering Department</p>
+                                        </div>
+                                        
+                                    </div>
+                                    <div className='qr-code'>
+                                        <img src="/images/qrcode.png" alt='logo' />
+                                    </div>
+                                </div>
+
+                                <div className=' py-4'>
+                                    <div className='flex justify-between'>
+                                        <p>Payer</p>
+                                        <p>johndoe@gmail.com</p>
+                                    </div>
+
+                                    <div className='flex justify-between'>
+                                        <p>Transaction Reference</p>
+                                        <p>000085752257</p>
+                                    </div>
+
+                                    <div className='flex justify-between'>
+                                        <p>Status</p>
+                                        <p>Successful</p>
+                                    </div>
+
+                                    <div className='flex justify-between'>
+                                        <p>Date</p>
+                                        <p>Mar 22, 2023</p>
+                                    </div>
+
+                                    <div className='flex justify-between'>
+                                        <p>Time</p>
+                                        <p>07:80 AM</p>
+                                    </div>
+
+                                    <div className='flex justify-between'>
+                                        <p>Payment Method</p>
+                                        <p>Credit Card</p>
+                                    </div>
+                                </div>
+
+                                <div className=' py-4'>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+
+            </div> */}
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
