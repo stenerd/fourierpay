@@ -622,7 +622,7 @@ const MakePayment = () => {
                     <div className='w-[100vw] flex gap-10'>
                         <div className="w-[20%]  hidden md:block">
                             {/* <Sidebar /> */}
-                            <div className="min-h-screen bg-[#1d3329] w-[20%] shadow-lg  fixed">
+                            <div className="min-h-screen bg-[#1d3329] cm-mobile-make-payments w-[20%] shadow-lg  fixed">
                                 <div className="p-2 flex flex-col min-h-screen">
                                     <div className='py-4'>
                                         <Link to="/">
@@ -635,12 +635,12 @@ const MakePayment = () => {
                                         </Link>
                                     </div>
                                     <div className='px-8'>
-                                        <div className='bg-[#39c531] rounded-lg py-7 px-3 flex space-x-3 items-center'>
+                                        <div className='bg-[#39c531] rounded-lg py-7 px-3 cursor-pointer flex space-x-3 items-center'>
                                             <img src="/images/Frame 734.png" />
                                             <p className='font-bold break-all text-white text-xl uppercase '>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname}` : 'Nill'}</p>
                                         </div>
                                         <div className='py-12'>
-                                            <div className='space-y-6'>
+                                            <div className='space-y-4'>
                                                 <div className='text-center py-4'>
                                                     <p className='text-white'>VAT</p>
                                                     <p className='font-bold text-white text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)}</p>
