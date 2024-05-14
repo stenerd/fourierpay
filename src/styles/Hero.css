@@ -92,10 +92,10 @@
 
 .c-primary-button {
     padding: 1rem 3rem;
-    color: white;
+    color: #1C2634;
     font-weight: bold;
     border-radius: 0.2rem;
-    background: #234244;
+    background: #97F675;
 }
 
 .c-login-emoji {

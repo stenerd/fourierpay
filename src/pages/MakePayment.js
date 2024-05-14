@@ -28,9 +28,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-
-
-
+import Sidebar from '../components/SideBar';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import { IconButton } from '@mui/material'
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TwitterIcon from '@mui/icons-material/Twitter';
+// import XIcon from '@mui/icons-material/X';
 
 const MakePayment = () => {
     let { code } = useParams();
@@ -517,7 +521,7 @@ const MakePayment = () => {
                             <CircularProgress color="inherit" />
                         </Backdrop>
                     )}
-                    <div className='px-4 lg:px-16 py-8 lg:py-16 mx-auto'>
+                    {/* <div className='px-4 lg:px-16 py-8 lg:py-16 mx-auto'>
                         <div className='flex mx-auto min-h-[85vh]'>
                             <div className='w-[90%] lg:w-[55%] mx-auto c-make-payment p-[1.5rem] lg:p-[4rem]'>
                                 <div className='flex flex-col justify-center items-center'>
@@ -573,18 +577,7 @@ const MakePayment = () => {
                                                         </Grid>
                                                     </div>
                                                 ) : ''
-                                            }
-
-
-
-
-
-
-
-                                            {/* {fields}
-                                            <div className='flex flex-col space-y-3'>
-                                                <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
-                                            </div> */}
+                                            } 
                                             <div className='py-4'>
                                                 <button disabled={loading || delay ? true : false} className='c-primary-button' onClick={(e) => makePaymentHandler(e)}>
                                                     {loading ? 'Processing.....' : 'Make Payment'}
@@ -605,6 +598,180 @@ const MakePayment = () => {
                                 </div>
                             </div>
                         </div>
+                    </div> */}
+                    <div className='w-[100vw] flex gap-10'>
+                        <div className="w-[20%]  hidden md:block">
+                            {/* <Sidebar /> */}
+                            <div className="min-h-screen bg-[#1d3329] w-[20%] shadow-lg  fixed">
+                                <div className="p-4">
+                                    <div className='py-4'>
+                                        <Link to="/">
+                                            {/* <h2 className='text-2xl fourier w-5/6 px-2 mx-auto text-white font-semibold pt-4'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}
+                                            <div className='w-5/6 px-2 mx-auto pt-4'>
+                                                <div className='w-[8rem]'>
+                                                    <img src="/images/two.svg" />
+                                                </div>
+                                            </div>
+
+                                        </Link>
+                                    </div>
+                                    <div className='px-8'>
+                                        <div className='bg-[#39c531] rounded-lg py-7 px-3 flex space-x-3 items-center'>
+                                            <img src="/images/Frame 734.png" />
+                                            <p className='font-bold text-white text-xl uppercase '>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname}` : 'Nill'}</p>
+                                        </div>
+                                        <div className='py-8'>
+                                            <div className='space-y-3'>
+                                                <div className='text-center'>
+                                                    <p className='text-white'>VAT</p>
+                                                    <p className='font-bold text-white text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)}</p>
+                                                </div>
+
+                                                <div className='py-3 text-center'>
+                                                    <h3 className='text-white'>Total</h3>
+                                                    <h2 className='font-bold text-[#39c531] text-xl mt-4 text-center text-[40px]'><span className='text-white font-bold text-lg'>₦</span>  {Intl.NumberFormat('en-US').format((paymentLink.amount + paymentLink.charges) || 0)}</h2>
+                                                </div>
+                                                <div className='py-4'>
+                                                    <Divider className='creat-payment-divider' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="py-10 mt-20 px-6">
+                                        <div>
+                                            <h2 className='text-white font-bold'>Share link to your cirle</h2>
+                                            <div className="py-4 flex space-x-2">
+                                                {/* <div className="flex flex-col space-y-1">
+                                                    <IconButton>
+                                                        <WhatsAppIcon className="text-green-400" />
+                                                    </IconButton>
+                                                    <p className="text-white text-[8px]">Whatsapp</p>
+                                                </div> */}
+                                                <div className='flex flex-col space-y-1'>
+                                                    <IconButton>
+                                                        <FacebookIcon className="text-blue-400" />
+                                                    </IconButton>
+                                                    <p className="text-white text-[8px]">facebook</p>
+                                                </div>
+                                                <div className='flex flex-col space-y-1'>
+                                                    <IconButton>
+                                                        <InstagramIcon className="text-red-400" />
+                                                    </IconButton>
+                                                    <p className="text-white text-[8px]">Instagram</p>
+                                                </div>
+                                                <div className='flex flex-col space-y-1'>
+                                                    <IconButton>
+                                                        {/* <XIcon className="text-blue-400"/> */}
+                                                        <TwitterIcon className='text-blue-400' />
+                                                    </IconButton>
+                                                    <p className="text-white text-[8px]">Twitter</p>
+                                                </div>
+                                                <div className="flex flex-col space-y-1">
+                                                    <IconButton>
+                                                        <WhatsAppIcon className="text-green-400" />
+                                                    </IconButton>
+                                                    <p className="text-white text-[8px]">Whatsapp</p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {/* 065143 , 065143 */}
+                        <main className="md:w-[80%] mx-auto">
+                            <div className='py-10 w-[85%] mx-auto'>
+                                <div className='flex flex-col justify-center items-center'>
+                                    <div className='w-full'>
+                                        <form className='w-full'>
+                                            <div className='flex justify-end items-end'>
+                                                {/* <h3 className='text-xl mb-16 font-bold home c-auth-title'>Pay</h3> */}
+                                                <div>
+                                                    <small className='text-sm text-[#2A86F2] status-pill c-status-border-pill capitalize'>{paymentLink.status} {paymentLink.expires_at && ' - ' + moment(paymentLink.expires_at).format('dddd, DD MMMM YYYY')}</small>
+                                                </div>
+                                            </div>
+                                            {/* <p className='font-bold text-[#234244] text-xl uppercase c-make-payment-owner'>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
+                                            // <p className='font-bold text-gray-700 text-lg'>{paymentLink.name}</p> */}
+                                            {/* <span className='font-bold text-gray-500 inline-block w-full'>{paymentLink.description}</span> */}
+                                            <Divider className='creat-payment-divider' />
+                                            {/* <p className='font-bold text-gray-700 text-lg mt-8'>Amount: ₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
+                                            <p className='font-bold text-gray-700 text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)}</p>
+                                            <p className='font-bold text-[#39c531] text-xl mt-4'>Total: ₦ {Intl.NumberFormat('en-US').format((paymentLink.amount + paymentLink.charges) || 0)}</p> */}
+                                            <div className='space-y-2 py-20 mt-15'>
+                                                <h2 className='font-bold text-xl'>Description</h2>
+                                                <span className='font-semibold text-gray-500 text-sm inline-block w-full'>{paymentLink.description}</span>
+                                                <div className='py-4'>
+                                                    {
+                                                        paymentLink.form && paymentLink.form.length ? (
+                                                            <div className='mt-8 mb-8'>
+                                                                <Grid container spacing={2}>
+                                                                    {
+                                                                        paymentLink.form.map((link, index) => (
+                                                                            <Grid item xs={12} md={6} key={index}>
+                                                                                <div className='flex flex-col space-y-3 mb-8'>
+                                                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
+                                                                                    {
+                                                                                        link.field_type === 'text' ? (
+                                                                                            <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                                        ) : (
+                                                                                            <select placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                                                                <option value={''}>Select {link.field_name} </option>
+                                                                                                {
+                                                                                                    link.options.map((option, i) => (
+                                                                                                        <option key={option + i} value={option}>{option} </option>
+                                                                                                    ))
+                                                                                                }
+                                                                                            </select>
+                                                                                        )
+                                                                                    }
+                                                                                    {
+                                                                                        link.error ? (
+                                                                                            <small className='c-pay-error'>{link.error}</small>
+                                                                                        ) : ''
+                                                                                    }
+                                                                                </div>
+                                                                            </Grid>
+                                                                        ))
+                                                                    }
+                                                                </Grid>
+                                                            </div>
+                                                        ) : ''
+                                                    }
+                                                    <div className="py-4">
+                                                        <div className='bg-[#FEF8E8] py-6 px-3 rounded-md'>
+                                                            <div className="px-4 flex items-start space-x-1">
+                                                                <img src="/images/warnings.svg"/>
+                                                                <div>
+                                                                    <h2 className='text-[#D29A09] font-bold'>Note that all transactions are non-refundable</h2>
+                                                                    <p className='text-[#889C92]'>At Fourierpay Once payments for transactions have been processed via the link with the control shifts away from our influence</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className='py-2'>
+                                                        <button disabled={loading || delay ? true : false} className='c-primary-button' onClick={(e) => makePaymentHandler(e)}>
+                                                            {loading ? 'Processing.....' : 'Make Payment'}
+                                                        </button>
+                                                        <PaystackConsumer
+                                                            className='hidden'
+                                                            onSuccess={(reference) => handleSuccess(reference)}
+                                                            onClose={(reference) => handleClose(reference)}
+                                                            {...paymentData}
+                                                        >
+                                                            {({ initializePayment }) => <button className='hidden' disabled={loading ? true : false} ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
+                                                                {loading ? 'Paying...' : 'Make Payment'}
+                                                            </button>}
+                                                        </PaystackConsumer>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {/* <Divider className='creat-payment-divider' /> */}
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
                     </div>
                 </div>
             </div>
@@ -625,5 +792,10 @@ const MakePayment = () => {
         </>
     )
 }
+
+{/* {fields}
+                                            <div className='flex flex-col space-y-3'>
+                                                <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
+                                            </div> */}
 
 export default MakePayment;

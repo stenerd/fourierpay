@@ -207,6 +207,7 @@
 .creat-payment-divider{
     position: relative;
     top: 1rem;
+    background-color:  white;
 }
 
 .create-payment-divider-title{
@@ -528,6 +529,11 @@
 }
 .c-pp-header-card.color4{
     background: #B22AF2;
+}
+
+.cm-mobile-make-payments{
+    background-image: url('../../public//images/background.svg');
+    /* min-height: 100vh; */
 }
 
 .cm-mobile-make-payment{

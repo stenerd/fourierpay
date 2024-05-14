@@ -27,7 +27,8 @@ function App() {
     <div className="App overflow-hidden">
       <Routes>
         <Route element={<ProtectedRoute />}>
-          <Route exact path="/" element={<Home />} />
+          {/* <Route exact path="/" element={<Home />} /> */}
+          <Route exact path="/" element={<Login/>} />
           {/* <Route path="/signup" element={<Navigate to="/login" />} /> */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
