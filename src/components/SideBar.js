@@ -33,14 +33,14 @@ const Sidebar = () => {
     }
     return (
         <>
-            <div className="min-h-screen  bg-[#1d3329] w-[20%] shadow-lg  fixed">
+            <div className="min-h-screen  bg-[#065143] w-[20%] shadow-lg  fixed">
                 <div className='p-4'>
                     <div className='py-4'>
                         <Link to="/">
                             {/* <h2 className='text-2xl fourier w-5/6 px-2 mx-auto text-white font-semibold pt-4'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}
                             <div className='w-5/6 px-2 mx-auto pt-4'>
                                 <div className='w-[8rem]'>
-                                    <img src="/images/two.svg" />
+                                    <img src="/images/image-two.svg" alt='logo' />
                                 </div>
                             </div>
 
@@ -55,7 +55,7 @@ const Sidebar = () => {
                         </div> */}
                         <div className='py-10 space-y-2 flex-1'>
                             {/* <Link to="/">
-                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
+                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#ffffff26] py-2 px-2 rounded-md mb-4">
                                     <IconButton>
                                         <HomeIcon className="text-white" />
                                     </IconButton>
@@ -63,7 +63,7 @@ const Sidebar = () => {
                                 </div>
                             </Link> */}
                             <Link to="/dashboard">
-                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
+                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#ffffff26] py-2 px-2 rounded-md mb-4">
                                     <IconButton>
                                         <DashboardIcon className="text-white" />
                                     </IconButton>
@@ -72,7 +72,7 @@ const Sidebar = () => {
                             </Link>
 
                             <Link to="/dashboard/profile">
-                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
+                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#ffffff26] py-2 px-2 rounded-md mb-4">
                                     <IconButton>
                                         <Person2Icon className="text-white" />
                                     </IconButton>
@@ -80,7 +80,7 @@ const Sidebar = () => {
                                 </div>
                             </Link>
                             <Link to="/dashboard/paymentlinks">
-                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
+                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#ffffff26] py-2 px-2 rounded-md mb-4">
                                     <IconButton>
                                         <DatasetLinkedIcon className="text-white" />
                                     </IconButton>
@@ -88,7 +88,7 @@ const Sidebar = () => {
                                 </div>
                             </Link>
                             <Link to="/dashboard/transaction">
-                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
+                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#ffffff26] py-2 px-2 rounded-md mb-4">
                                     <IconButton>
                                         <AccountBalanceIcon className="text-white" />
                                     </IconButton>
@@ -96,14 +96,14 @@ const Sidebar = () => {
                                 </div>
                             </Link>
                             <Link to="/dashboard/withdrawal">
-                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
+                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#ffffff26] py-2 px-2 rounded-md mb-4">
                                     <IconButton>
                                         <AccountBalanceWalletIcon className="text-white" />
                                     </IconButton>
                                     <h2 className='font-bold text-[#f8faf7]'>Withdrawal</h2>
                                 </div>
                             </Link>
-                            {/* <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#3E554C] py-2 px-2 rounded-md mb-4">
+                            {/* <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#ffffff26] py-2 px-2 rounded-md mb-4">
                                 <IconButton>
                                     <VolunteerActivismIcon className="text-white" />
                                 </IconButton>

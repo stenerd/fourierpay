@@ -49,6 +49,8 @@ const MakePayment = () => {
     const paystackButtonRef = React.useRef(null);
     const [delay, setDelay] = React.useState(false)
     const [removeDownloadButton, setRemoveDownloadButton] = React.useState(false)
+
+
     // const [details, setDetails] = React.useState([])
 
     const handleClosed = () => {
@@ -73,7 +75,7 @@ const MakePayment = () => {
         printDocument()
         setRemoveDownloadButton(false)
         setTab(1)
-        toast.success('Transactions Receipt Downloading 🚀🚀', {
+        toast.success('Transaction Receipt Downloading 🚀', {
             position: "top-right",
             autoClose: 8000,
             hideProgressBar: false,
@@ -294,7 +296,7 @@ const MakePayment = () => {
         setTab(1)
         printDocument()
         console.log('analyzing data....')
-        toast.success('Transactions Receipt Downloading 🚀🚀', {
+        toast.success('Transaction Receipt Downloading 🚀', {
             position: "top-right",
             autoClose: 8000,
             hideProgressBar: false,
@@ -322,11 +324,13 @@ const MakePayment = () => {
                             <CircularProgress color="inherit" />
                         </Backdrop>
                     )}
-                    <div className='relative px-6 pt-6 w-full'>
+                    <div className='relative px-6 py-6 w-full'>
                         <Link to='/'>
-                            <img src='/images/logo-header.svg' className='absolute' alt="alt-img" />
-                            <p className='text-center text-white text-2xl font-bold'>Pay</p>
+                            {/* <img src='/images/logo-header.svg' className='absolute' alt="alt-img" /> */}
+                            <img src='/images/image-two.svg' width="110" className='absolute' alt="alt-img" />
+
                         </Link>
+                        {/* <p className='text-center text-white text-2xl font-bold'>Pay</p> */}
 
                     </div>
                     <div className='relative px-6 pt-6 w-full'>
@@ -336,35 +340,51 @@ const MakePayment = () => {
                             </div>
                             <div className='pl-4 w-full'>
                                 <p className='font-bold text-white text-lg'>{paymentLink.name}</p>
-                                <p className='pt-3 flex justify-between w-full'>
-                                    <p className='font-medium text-[#D3D4D4] text-base c-elipses'>By {paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
-                                    <p className='font-bold text-[#97F675] text-lg'>₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
+                                <p className='pt-0 flex justify-between w-full'>
+                                    <p className='font-medium text-[#D3D4D4] text-sm c-elipses'>By {paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
+                                    <p className='font-bold text-[#97F675] text-sm'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.amount || 0)}</p>
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <div className='relative px-6 pt-6 w-full'>
-                        <p className='text-[#D3D4D4] font-medium italic'>Description</p>
-                        <p className='text-white pt-2 font-medium'>
+                    <div className='relative px-6 pt-8 w-full'>
+                        <p className='text-[#D3D4D4] font-medium text-sm uppercase'>Description</p>
+                        <p className='text-white pt-0 font-medium'>
                             {paymentLink.description}
                         </p>
                     </div>
+
+                    <div className='flex'>
+                        <div className='relative px-6 pt-6 w-full flex-1'>
+                            <p className='text-[#D3D4D4] font-medium text-sm uppercase'>Status</p>
+                            <p className='text-white pt-0 font-medium capitalize'>
+                                {paymentLink.status}
+                            </p>
+                        </div>
+
+                        <div className='relative px-6 pt-6 w-full flex-1'>
+                            <p className='text-[#D3D4D4] font-medium text-sm uppercase'>VAT</p>
+                            <p className='text-white font-medium pb-0'>
+                                ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges || 0)}
+                            </p>
+                        </div>
+                    </div>
+
+
+
                     <div className='relative px-6 pt-6 w-full'>
-                        <p className='text-[#D3D4D4] font-medium capitalize italic'>{paymentLink.expires_at && 'Expiry Date - '}<span>{paymentLink.status}</span></p>
-                        <p className='text-white pt-2 font-medium'>
+                        <p className='text-[#D3D4D4] font-medium text-sm uppercase'>{paymentLink.expires_at && 'Expiry Date'}</p>
+                        <p className='text-white pb-4 font-medium cm-mobile-make-payment-divider'>
                             {paymentLink.expires_at && moment(paymentLink.expires_at).format('dddd, DD MMMM YYYY')}
                         </p>
                     </div>
-                    <div className='relative px-6 pt-2 w-full'>
-                        <p className='text-white font-medium cm-mobile-make-payment-divider pb-6'>
-                            ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)} VAT
-                        </p>
-                    </div>
+
+
 
                     <div className='relative px-6 pt-6 w-full'>
                         <p className='text-center pb-2'>
                             <span className='text-white font-medium text-lg'>₦ &nbsp;</span>
-                            <span className='text-[#97F675] font-bold text-3xl'>{Intl.NumberFormat('en-US').format(paymentLink.charges + paymentLink.amount || 0)}</span>
+                            <span className='text-[#97F675] font-bold text-3xl'>{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}</span>
                         </p>
                     </div>
 
@@ -375,8 +395,8 @@ const MakePayment = () => {
                                     <span className='controller'></span>
                                 </div>
                                 <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
-                                    <div className='pt-4 mb-12 top-section' onClick={() => setTab(2)}></div>
-                                    <button className='cm-buttom' onClick={() => setTab(2)}>Pay ₦{Intl.NumberFormat('en-US').format(paymentLink.charges + paymentLink.amount || 0)}</button>
+                                    <div className='pt-4 mb-12 top-section' onClick={() => setTab(2)}> CLICK HERE TO PAY</div>
+                                    <button className='cm-buttom hidden' onClick={() => setTab(2)}>Pay ₦{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}</button>
                                 </div>
                             </div>
                         ) : ''
@@ -431,7 +451,7 @@ const MakePayment = () => {
                                             ) : ''
                                         }
                                     </div>
-                                    <button className='cm-buttom' onClick={(e) => makePaymentHandler(e)}> {delay ? `Loading....` : `Pay ₦ ${Intl.NumberFormat('en-US').format(paymentLink.charges + paymentLink.amount || 0)}`}</button>
+                                    <button className='cm-buttom' onClick={(e) => makePaymentHandler(e)}> {delay ? `Loading....` : `Pay ₦ ${Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}`}</button>
                                 </div>
                             </div>
                         ) : ''
@@ -445,26 +465,26 @@ const MakePayment = () => {
                                 <div className='p-6 flex flex-col items-between justify-between' id='divToPrint' style={{ minHeight: '90%' }}>
                                     <div className='pt-0'>
                                         <div className='flex justify-center'>
-                                            <img src='/images/payment-successful.svg' alt="alt-img" />
+                                            <img src='/images/payment-successful.svg' width="110" alt="alt-img" />
                                         </div>
                                         <div className='flex justify-center mt-4'>
-                                            <p className='font-bold text-base text-[#222926]'>Transfer Successful</p>
+                                            <p className='font-bold text-base text-[#222926]'>Payment Successful</p>
                                         </div>
-                                        <div className='flex justify-center mt-0'>
-                                            <p className='text-gray-400 text-sm font-medium'>Your money was successfully sent</p>
+                                        <div className='flex justify-center mt-2'>
+                                            <p className='text-gray-400 text-sm font-medium'>Transaction Reference</p>
                                         </div>
-                                        <div className='flex justify-center mt-3'>
+                                        <div className='flex justify-center mt-2'>
                                             <p className='text-[#15C01A] pr-2 text-base font-medium cursor-pointer' onClick={() => copyText(result.transaction && result.transaction.reference)}>{result.transaction && result.transaction.reference}</p>
                                             <img src='/images/copy.svg' alt="alt-img" />
                                         </div>
                                         <div className='flex justify-center mt-4'>
                                             <p className='font-bold text-base text-[#222926]'>
                                                 <span className='text-gray-400 font-medium text-lg'>₦ &nbsp;</span>
-                                                <span className='font-bold text-3xl'>{Intl.NumberFormat('en-US').format(paymentLink.charges + paymentLink.amount || 0)}</span>
+                                                <span className='font-bold text-3xl'>{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}</span>
                                             </p>
                                         </div>
                                         <div className='mt-6'>
-                                            <p className='font-medium text-sm text-gray-500'>Recepient</p>
+                                            <p className='font-medium text-sm text-gray-500'>RECIPIENT</p>
                                         </div>
 
                                         <div className='relative px-0 pt-1 w-full pb-12'>
@@ -476,7 +496,7 @@ const MakePayment = () => {
                                                     <p className='font-bold text-[#0067ffe3] text-sm uppercase'>{result.payment && result.payment.unique_answer}</p>
                                                     <p className='font-bold text-[#222926] text-lg'>{paymentLink.name}</p>
                                                     <p className='pt-1 flex justify-between w-full'>
-                                                        <p className='text-[#222926] text-sm'>{result.payment && moment(result.payment.createdAt).format('dddd MMMM DD, YYYY - hh:mm:A')}</p>
+                                                        <p className='text-[#222926] text-sm'>{result.payment && moment(result.payment.createdAt).format('MMMM DD, YYYY, hh:mm A')}</p>
                                                     </p>
                                                 </div>
                                             </div>
@@ -485,10 +505,10 @@ const MakePayment = () => {
                                     {
                                         (!removeDownloadButton) ?
                                             (
-                                                <button className='cm-buttom' onClick={() => {
+                                                <button className='cm-buttom' style={{ display: removeDownloadButton ? 'none' : 'block' }} onClick={() => {
                                                     downloadMobile()
                                                 }
-                                                }>Download Reciept</button>
+                                                }>Download Receipt</button>
                                             ) : ''
                                     }
 
@@ -538,9 +558,9 @@ const MakePayment = () => {
                                             <p className='font-bold text-gray-700 text-lg'>{paymentLink.name}</p>
                                             <span className='font-bold text-gray-500 inline-block w-full'>{paymentLink.description}</span>
                                             <Divider className='creat-payment-divider' />
-                                            <p className='font-bold text-gray-700 text-lg mt-8'>Amount: ₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
-                                            <p className='font-bold text-gray-700 text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)}</p>
-                                            <p className='font-bold text-[#39c531] text-xl mt-4'>Total: ₦ {Intl.NumberFormat('en-US').format((paymentLink.amount + paymentLink.charges) || 0)}</p>
+                                            <p className='font-bold text-gray-700 text-lg mt-8'>Amount: ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.amount || 0)}</p>
+                                            <p className='font-bold text-gray-700 text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges || 0)}</p>
+                                            <p className='font-bold text-[#39c531] text-xl mt-4'>Total: ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format((paymentLink.amount + paymentLink.charges) || 0)}</p>
                                             <Divider className='creat-payment-divider' />
                                             {
                                                 paymentLink.form && paymentLink.form.length ? (
@@ -603,16 +623,15 @@ const MakePayment = () => {
                         <div className="w-[20%]  hidden md:block">
                             {/* <Sidebar /> */}
                             <div className="min-h-screen bg-[#1d3329] w-[20%] shadow-lg  fixed">
-                                <div className="p-4">
+                                <div className="p-4 flex flex-col min-h-screen">
                                     <div className='py-4'>
                                         <Link to="/">
                                             {/* <h2 className='text-2xl fourier w-5/6 px-2 mx-auto text-white font-semibold pt-4'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}
                                             <div className='w-5/6 px-2 mx-auto pt-4'>
                                                 <div className='w-[8rem]'>
-                                                    <img src="/images/two.svg" />
+                                                    <img src="/images/image-two.svg" alt='logo' />
                                                 </div>
                                             </div>
-
                                         </Link>
                                     </div>
                                     <div className='px-8'>
@@ -620,33 +639,30 @@ const MakePayment = () => {
                                             <img src="/images/Frame 734.png" />
                                             <p className='font-bold text-white text-xl uppercase '>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname}` : 'Nill'}</p>
                                         </div>
-                                        <div className='py-8'>
-                                            <div className='space-y-3'>
-                                                <div className='text-center'>
+                                        <div className='py-12'>
+                                            <div className='space-y-6'>
+                                                <div className='text-center py-4'>
                                                     <p className='text-white'>VAT</p>
                                                     <p className='font-bold text-white text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)}</p>
-                                                </div>
-
-                                                <div className='py-3 text-center'>
-                                                    <h3 className='text-white'>Total</h3>
-                                                    <h2 className='font-bold text-[#39c531] text-xl mt-4 text-center text-[40px]'><span className='text-white font-bold text-lg'>₦</span>  {Intl.NumberFormat('en-US').format((paymentLink.amount + paymentLink.charges) || 0)}</h2>
                                                 </div>
                                                 <div className='py-4'>
                                                     <Divider className='creat-payment-divider' />
                                                 </div>
+                                                <div className='py-4 text-center'>
+                                                    <h3 className='text-white'>Total</h3>
+                                                    <h2 className='font-bold text-[#39c531] text-xl mt-4 text-center text-[40px]'><span className='text-white font-bold text-lg'>₦</span>  {Intl.NumberFormat('en-US').format((paymentLink.amount + paymentLink.charges) || 0)}</h2>
+                                                </div>
+                                                {/* <div className='py-4'>
+                                                    <Divider className='creat-payment-divider' />
+                                                </div> */}
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="py-10 mt-20 px-6">
+                                    {/* <div className="py-8 mt-10 px-6 flex-1">
                                         <div>
                                             <h2 className='text-white font-bold'>Share link to your cirle</h2>
-                                            <div className="py-4 flex space-x-2">
-                                                {/* <div className="flex flex-col space-y-1">
-                                                    <IconButton>
-                                                        <WhatsAppIcon className="text-green-400" />
-                                                    </IconButton>
-                                                    <p className="text-white text-[8px]">Whatsapp</p>
-                                                </div> */}
+                                            <div className="py-4 flex space-x-2 justify-between">
+                                               
                                                 <div className='flex flex-col space-y-1'>
                                                     <IconButton>
                                                         <FacebookIcon className="text-blue-400" />
@@ -661,7 +677,6 @@ const MakePayment = () => {
                                                 </div>
                                                 <div className='flex flex-col space-y-1'>
                                                     <IconButton>
-                                                        {/* <XIcon className="text-blue-400"/> */}
                                                         <TwitterIcon className='text-blue-400' />
                                                     </IconButton>
                                                     <p className="text-white text-[8px]">Twitter</p>
@@ -675,7 +690,7 @@ const MakePayment = () => {
                                             </div>
 
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -741,7 +756,7 @@ const MakePayment = () => {
                                                     <div className="py-4">
                                                         <div className='bg-[#FEF8E8] py-6 px-3 rounded-md'>
                                                             <div className="px-4 flex items-start space-x-1">
-                                                                <img src="/images/warnings.svg"/>
+                                                                <img src="/images/warnings.svg" />
                                                                 <div>
                                                                     <h2 className='text-[#D29A09] font-bold'>Note that all transactions are non-refundable</h2>
                                                                     <p className='text-[#889C92]'>At Fourierpay Once payments for transactions have been processed via the link with the control shifts away from our influence</p>
@@ -750,7 +765,7 @@ const MakePayment = () => {
                                                         </div>
                                                     </div>
                                                     <div className='py-2'>
-                                                        <button disabled={loading || delay ? true : false} className='c-primary-button' onClick={(e) => makePaymentHandler(e)}>
+                                                        <button disabled={loading || delay ? true : false} className='c-bg-primary-light' onClick={(e) => makePaymentHandler(e)}>
                                                             {loading ? 'Processing.....' : 'Make Payment'}
                                                         </button>
                                                         <PaystackConsumer

@@ -337,9 +337,9 @@ export default function PaymentLinkSettings({ recallServerData, initialOpenState
                                             showPublicLink ? (
                                                 <div className="mt-8 flex">
                                                     <div className="pl-4 pr-20 py-3 c-link-public-url">
-                                                        http://www.fourierpay.com/payment/{paymentLink && paymentLink.code}
+                                                        http://app.fourierpay.com/payment/{paymentLink && paymentLink.code}
                                                     </div>
-                                                    <div className="c-link-public-url-button" onClick={() => copyText(`http://www.fourierpay.com/payment/${paymentLink && paymentLink.code}`)}>
+                                                    <div className="c-link-public-url-button" onClick={() => copyText(`http://app.fourierpay.com/payment/${paymentLink && paymentLink.code}`)}>
                                                         <span>copy</span>
                                                     </div>
                                                 </div>

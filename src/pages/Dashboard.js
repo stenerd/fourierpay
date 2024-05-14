@@ -173,7 +173,7 @@ const Dashboard = () => {
         },
         [`& .${linearProgressClasses.bar}`]: {
             borderRadius: 5,
-            backgroundColor: theme.palette.mode === 'light' ? '#1d3329' : '#1d3329',
+            backgroundColor: theme.palette.mode === 'light' ? '#065143' : '#065143',
         },
     }));
     const recentPay = (each) => {
@@ -364,8 +364,8 @@ const Dashboard = () => {
                         {/* <img src="/images/two.svg" className='h-24'/> */}
                         <h2 className='text-xl title fourier font-bold'>Fourier<span>Pay</span></h2>
                     </div>
-                    {/* <IconButton className='bg-[#1D3329]'> */}
-                    {/* <div className='py-2 px-3 rounded-full bg-[#1D3329]'
+                    {/* <IconButton className='bg-[#065143]'> */}
+                    {/* <div className='py-2 px-3 rounded-full bg-[#065143]'
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                         onClick={handleClick}
@@ -564,7 +564,7 @@ const Dashboard = () => {
                     <div className='px-16 py-8'>
                         {/* <div className='flex justify-between items-center w-[90%] mx-auto'>
                         <h2 className='fourier text-xl font-bold'>DashBoard</h2>
-                        <button onClick={()=>navigate("/dashboard/payment")} className='px-4 py-2 rounded-md text-white bg-[#1d3329]'>Create Payment</button>
+                        <button onClick={()=>navigate("/dashboard/payment")} className='px-4 py-2 rounded-md text-white bg-[#065143]'>Create Payment</button>
                     </div> */}
                         <div className='py-4'>
                             <Grid container spacing={4} alignItems="">
@@ -591,7 +591,7 @@ const Dashboard = () => {
                                                             <h3 className="text-gray-400 font-bold">Total Balance</h3>
                                                         </div>
                                                         <IconButton onClick={() => handleOpen()}>
-                                                            <NearMeIcon className='text-[#1d3329]' />
+                                                            <NearMeIcon className='text-[#065143]' />
                                                         </IconButton>
                                                     </div>
                                                 </div>
@@ -610,7 +610,7 @@ const Dashboard = () => {
                                                     <p className='text-sm font-bold'>
                                                         <span className='text-[#f10707]'>₦ 199</span>
                                                         <span className='text-[#9aa3ae]'> spent out of </span>
-                                                        <span className='text-[#1d3329]'>₦ 2,4000</span>
+                                                        <span className='text-[#065143]'>₦ 2,4000</span>
                                                     </p>
                                                     <p className='text-sm font-bold'>10%</p>
                                                 </div>
@@ -637,7 +637,7 @@ const Dashboard = () => {
                                             </div>
                                             <div className="w-[90%] mx-auto flex justify-between items-center">
                                                 <div className='flex items-center space-x-3'>
-                                                    <div className='h-4 w-4 rounded-full bg-[#1f332b]'></div>
+                                                    <div className='h-4 w-4 rounded-full bg-[#065143]'></div>
                                                     <h2>Available Links</h2>
                                                 </div>
                                                 <div className='flex items-center space-x-3'>
@@ -718,7 +718,7 @@ const Dashboard = () => {
                                                     <BorderLinearProgress variant="determinate" value={50} />
                                                 </div>
                                                 <div className='flex justify-between items-center font-bold'>
-                                                    <p className='text-[#1d3329] text-sm'>Withdrawals</p>
+                                                    <p className='text-[#065143] text-sm'>Withdrawals</p>
                                                     <p className='text-sm font-bold'>20</p>
                                                 </div> */}
                                             {/* </div> */}
@@ -735,7 +735,7 @@ const Dashboard = () => {
                                                         <div className='space-y-3 flex flex-col items-start justify-start'>
                                                             {/* <IconButton> */}
                                                             <div className='content'>
-                                                                <AccountBalanceIcon className='text-[#1d3329]' />
+                                                                <AccountBalanceIcon className='text-[#065143]' />
                                                             </div>
                                                             {/* </IconButton> */}
                                                             <div className='pt-8'>
@@ -752,7 +752,7 @@ const Dashboard = () => {
                                                     <div className="p-2 w-[90%] mx-auto">
                                                         <div className='space-y-3 flex flex-col items-start justify-start'>
                                                             <div className='content'>
-                                                                <DatasetLinkedIcon className='text-[#1d3329]' />
+                                                                <DatasetLinkedIcon className='text-[#065143]' />
                                                             </div>
                                                             <div className='pt-8'>
                                                                 <h2 className='text-sm text-gray-400 font-bold'>Payment Links</h2>
@@ -768,7 +768,7 @@ const Dashboard = () => {
                                                     <div className="p-2 w-[90%] mx-auto">
                                                         <div className='space-y-3 flex flex-col items-start justify-start'>
                                                             <div className='content'>
-                                                                <PaymentsIcon className='text-[#1d3329]' />
+                                                                <PaymentsIcon className='text-[#065143]' />
                                                             </div>
                                                             <div className='pt-8'>
                                                                 <h2 className='text-sm text-gray-400 font-bold'>Payments</h2>
@@ -784,7 +784,7 @@ const Dashboard = () => {
                                                     <div className="p-2 w-[90%] mx-auto">
                                                         <div className='space-y-3 flex flex-col items-start justify-start'>
                                                             <div className='content'>
-                                                                <AccountBalanceWalletIcon className='text-[#1d3329]' />
+                                                                <AccountBalanceWalletIcon className='text-[#065143]' />
                                                             </div>
                                                             <div className='pt-8'>
                                                                 <h2 className='text-sm text-gray-400 font-bold'>Withdrawal</h2>

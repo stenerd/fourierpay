@@ -91,12 +91,24 @@
 }
 
 .c-primary-button {
-    padding: 1rem 3rem;
-    color: #1C2634;
+    padding: .5rem 3rem;
+    color: white;
     font-weight: bold;
     border-radius: 0.2rem;
-    background: #97F675;
+    background: #065143;
 }
+
+/* padding: .5rem 3rem;
+color: white;
+font-weight: bold;
+border-radius: 0.2rem;
+background: #065143; */
+
+/* padding: 1rem 3rem;
+color: #1C2634;
+font-weight: bold;
+border-radius: 0.2rem;
+background: #97F675; */
 
 .c-login-emoji {
     font-size: 150%;
@@ -498,3 +510,9 @@ input[type="radio"]:checked+label {
         padding: 1rem 1rem;
     }
 }
+
+.c-text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
