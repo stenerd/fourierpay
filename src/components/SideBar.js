@@ -33,7 +33,7 @@ const Sidebar = () => {
     }
     return (
         <>
-            <div className="min-h-screen  bg-[#065143] w-[20%] shadow-lg  fixed">
+            <div className="min-h-screen  cm-mobile-make-payments w-[20%] shadow-lg  fixed">
                 <div className='p-4'>
                     <div className='py-4'>
                         <Link to="/">

@@ -203,7 +203,7 @@ const PaymentReciept = () => {
 
                                 <div className='absolute bottom-[3rem]'>
                                     <Link to={`/pay/${code}`}>
-                                        <small className='text-[#0574e2] underline'>localhost:4000/pay/{code}</small>
+                                        <small className='text-[#0574e2] underline'>app.fourierpay.com/pay/{code}</small>
                                     </Link>
                                 </div>
 

@@ -620,42 +620,110 @@ const MakePayment = () => {
                         </div>
                     </div> */}
                     <div className='w-[100vw] flex gap-10'>
-                        <div className="w-[20%]  hidden md:block">
+                        <div className="w-[32%]">
                             {/* <Sidebar /> */}
-                            <div className="min-h-screen bg-[#1d3329] w-[20%] shadow-lg  fixed">
-                                <div className="p-2 flex flex-col min-h-screen">
-                                    <div className='py-4'>
+                            <div className="min-h-screen w-[32%] shadow-lg cm-mobile-make-payments fixed">
+                                <div className="py-8 px-12 flex flex-col min-h-screen relative">
+                                    <div className='absolute pb-16 text-white payment-socials'>
+                                        <p className='pb-4'>
+                                            Share link to your circle
+                                        </p>
+                                        <div className='flex gap-7'>
+                                            <div className='mx-auto'>
+                                                <img src="/images/share.svg" width="43" className='cursor-pointer' alt='share' />
+                                            </div>
+                                            
+                                            <div className='mx-auto'>
+                                                <img src="/images/twitter.svg" width="48" className='cursor-pointer img' alt='share' />
+                                            </div>
+
+                                            
+                                            <div className='mx-auto'>
+                                                <img src="/images/instagram.svg" width="48" className='cursor-pointer' alt='share' />
+                                            </div>
+
+                                            <div className='mx-auto'>
+                                                <img src="/images/facebook.svg" width="48" className='cursor-pointer' alt='share' />
+                                            </div>
+
+                                            <div className='mx-auto'>
+                                                <img src="/images/whatsapp.svg" width="48" className='cursor-pointer' alt='share' />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className=''>
                                         <Link to="/">
                                             {/* <h2 className='text-2xl fourier w-5/6 px-2 mx-auto text-white font-semibold pt-4'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}
-                                            <div className='w-5/6 px-2 mx-auto pt-4'>
+                                            <div className='mx-auto'>
                                                 <div className='w-[8rem]'>
                                                     <img src="/images/image-two.svg" alt='logo' />
                                                 </div>
                                             </div>
                                         </Link>
                                     </div>
-                                    <div className='px-8'>
-                                        <div className='bg-[#39c531] mt-5 rounded-lg py-7 px-3 cursor-pointer flex space-x-3 items-center'>
-                                            <img src="/images/Frame 734.png" />
+                                    <div className='pt-12'>
+                                        {/* <div className='bg-[#39c531] mt-5 rounded-lg py-7 px-3 cursor-pointer flex space-x-3 items-center'>
+                                            <img src="/images/Frame 734.png" alt="img" />
                                             <p className='font-bold break-all text-white text-xl uppercase '>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname}` : 'Nill'}</p>
-                                        </div>
-                                        <div className='py-12'>
-                                            <div className='space-y-4'>
-                                                <div className='text-center py-4'>
-                                                    <p className='text-white'>VAT</p>
-                                                    <p className='font-bold text-white text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)}</p>
-                                                </div>
-                                                <div className='py-4'>
-                                                    <Divider className='creat-payment-divider' />
-                                                </div>
-                                                <div className='py-4 text-center'>
-                                                    <h3 className='text-white'>Total</h3>
-                                                    <h2 className='font-bold text-[#39c531] text-xl mt-4 text-center text-[40px]'><span className='text-white font-bold text-lg'>₦</span>  {Intl.NumberFormat('en-US').format((paymentLink.amount + paymentLink.charges) || 0)}</h2>
-                                                </div>
-                                                {/* <div className='py-4'>
-                                                    <Divider className='creat-payment-divider' />
-                                                </div> */}
+                                        </div> */}
+
+                                        
+
+                                        <div className='w-full p-4 flex cm-mobile-make-payment-topic'>
+                                            <div className='flex items-center justify-center'>
+                                                <img src='/images/make-payment-icon.svg' alt="alt-img" />
                                             </div>
+                                            <div className='pl-4 w-full'>
+                                                <p className='font-bold text-white text-lg'>{paymentLink.name}</p>
+                                                <p className='pt-0 flex justify-between w-full'>
+                                                    <p className='font-medium text-[#D3D4D4] text-sm c-elipses'>By {paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
+                                                    <p className='font-bold text-[#97F675] text-sm'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.amount || 0)}</p>
+                                                </p>
+                                            </div>
+                                        </div>
+                        
+                                        <div className=''>
+
+                                            <div className='relative pt-8 w-full'>
+                                                <p className='text-[#D3D4D4] font-medium text-sm uppercase'>Description</p>
+                                                <p className='text-white pt-0 font-medium'>
+                                                    {paymentLink.description}
+                                                </p>
+                                            </div>
+
+                                            <div className='flex'>
+                                                <div className='relative pt-6 w-full flex-1'>
+                                                    <p className='text-[#D3D4D4] font-medium text-sm uppercase'>Status</p>
+                                                    <p className='text-white pt-0 font-medium capitalize'>
+                                                        {paymentLink.status}
+                                                    </p>
+                                                </div>
+
+                                                <div className='relative pt-6 w-full flex-1'>
+                                                    <p className='text-[#D3D4D4] font-medium text-sm uppercase'>VAT</p>
+                                                    <p className='text-white font-medium pb-0'>
+                                                        ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges || 0)}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div className='relative pt-6 pb-4 w-full'>
+                                                <p className='text-[#D3D4D4] font-medium text-sm uppercase'>{paymentLink.expires_at && 'Expiry Date'}</p>
+                                                <p className='text-white pb-4 font-medium cm-mobile-make-payment-divider'>
+                                                    {paymentLink.expires_at && moment(paymentLink.expires_at).format('dddd, DD MMMM YYYY')}
+                                                </p>
+                                            </div>
+
+                                            <div className='relative px-6 pt-6 w-full'>
+                                                <p className='text-center pb-2'>
+                                                    <span className='text-white font-medium text-lg'>₦ &nbsp;</span>
+                                                    <span className='text-[#97F675] font-bold text-3xl'>{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}</span>
+                                                </p>
+                                            </div>
+                                            
+
                                         </div>
                                     </div>
                                     {/* <div className="py-8 mt-10 px-6 flex-1">
@@ -695,7 +763,7 @@ const MakePayment = () => {
                             </div>
                         </div>
                         {/* 065143 , 065143 */}
-                        <main className="md:w-[80%] mx-auto">
+                        <main className="w-[68%] mx-auto">
                             <div className='py-10 w-[85%] mx-auto'>
                                 <div className='flex flex-col justify-center items-center'>
                                     <div className='w-full'>
@@ -714,8 +782,8 @@ const MakePayment = () => {
                                             <p className='font-bold text-gray-700 text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)}</p>
                                             <p className='font-bold text-[#39c531] text-xl mt-4'>Total: ₦ {Intl.NumberFormat('en-US').format((paymentLink.amount + paymentLink.charges) || 0)}</p> */}
                                             <div className='space-y-2 py-10 mt-15'>
-                                                <h2 className='font-bold text-xl'>Description</h2>
-                                                <span className='font-semibold text-gray-500 text-sm inline-block w-full'>{paymentLink.description}</span>
+                                                <h2 className='font-bold text-xl'>Payment Details</h2>
+                                                {/* <span className='font-semibold text-gray-500 text-sm inline-block w-full'>{paymentLink.description}</span> */}
                                                 <div className='py-2'>
                                                     {
                                                         paymentLink.form && paymentLink.form.length ? (
@@ -754,17 +822,17 @@ const MakePayment = () => {
                                                         ) : ''
                                                     }
                                                     <div className="py-2">
-                                                        <div className='bg-[#FEF8E8] py-6 px-3 rounded-md'>
-                                                            <div className="px-4 flex items-start space-x-1">
-                                                                <img src="/images/warnings.svg" />
+                                                        <div className='bg-[#FEF8E8] py-4 px-4 rounded-md warning-border'>
+                                                            <div className="flex items-start space-x-1">
+                                                                <img src="/images/warnings.svg" alt='warnings' />
                                                                 <div>
                                                                     <h2 className='text-[#D29A09] font-bold'>Note that all transactions are non-refundable</h2>
-                                                                    <p className='text-[#889C92]'>At Fourierpay Once payments for transactions have been processed via the link with the control shifts away from our influence</p>
+                                                                    <p className='text-[#889C92] warning-sub-text'>At Fourierpay Once payments for transactions have been processed via the link with the control shifts away from our influence</p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className='py-2'>
+                                                    <div className='py-4'>
                                                         <button disabled={loading || delay ? true : false} className='c-bg-primary-light' onClick={(e) => makePaymentHandler(e)}>
                                                             {loading ? 'Processing.....' : 'Make Payment'}
                                                         </button>
