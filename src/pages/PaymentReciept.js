@@ -35,6 +35,7 @@ import { HISTORY, TRANSACTION_HISTORY } from '../redux/DashboardSlice';
 import GenericAlertModal from '../components/GenericAlertModal';
 import StatusBadge from '../components/atom/web/StatusBadge';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import TransactionSkeleton from '../components/TransactionSkeletonn';
 
 
 
@@ -46,7 +47,7 @@ const PaymentReciept = () => {
     const [payment, setPayment] = React.useState({});
     const [ref, setRef] = React.useState(reference ? reference : "")
     const [loading, setLoading] = React.useState(false)
-    const {transactions} = useSelector((state)=>state.dashboard)
+    const { transactions } = useSelector((state) => state.dashboard)
 
     console.log(transactions)
 
@@ -67,6 +68,7 @@ const PaymentReciept = () => {
             setLoading(false)
         } catch (error) {
             setLoading(false)
+            dispatch(TRANSACTION_HISTORY())
             console.log(error)
             toast.error(error.response.data.message)
         }
@@ -81,16 +83,16 @@ const PaymentReciept = () => {
     }
 
 
-    const FetchPaymentLink = async () => {
-        try {
-            const response = await axios.get(`${BASE_URL}/api/payment-link/${code}`)
-            console.log('ppp >> ', response.data.data)
-            setPaymentLink(response.data.data)
-            dispatch(HISTORY(response.data.data))
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const FetchPaymentLink = async () => {
+    //     try {
+    //         const response = await axios.get(`${BASE_URL}/api/payment-link/${code}`)
+    //         console.log('ppp >> ', response.data.data)
+    //         setPaymentLink(response.data.data)
+    //         dispatch(HISTORY(response.data.data))
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     const FetchPayment = async () => {
         try {
@@ -105,7 +107,7 @@ const PaymentReciept = () => {
     }
 
     React.useEffect(() => {
-        FetchPaymentLink()
+        // FetchPaymentLink()
         FetchPayment()
     }, [])
 
@@ -276,108 +278,115 @@ const PaymentReciept = () => {
 
                             </div>
                         </div>
-                        <div className='w-3/6'>
-                            <div className='bg-white card py-6 px-8'>
-                                <div className='flex justify-between pb-4'>
-                                    <div className='flex flex-col justify-center'>
-                                        <div className=''>
-                                            <p className='font-semibold pb-8 c-fs-13'>Transaction Details</p>
-                                            <p className=''>{transactions?.payment_link?.name}</p>
-                                            <p className='text-sm'>{transactions?.payment_link.description}</p>
+                        {transactions ? (
+                            <div className='w-3/6'>
+                                <div className='bg-white card py-6 px-8'>
+                                    <div className='flex justify-between pb-4'>
+                                        <div className='flex flex-col justify-center'>
+                                            <div className=''>
+                                                <p className='font-semibold pb-8 c-fs-13'>Transaction Details</p>
+                                                <p className=''>{transactions?.payment_link?.name}</p>
+                                                <p className='text-sm'>{transactions?.payment_link.description}</p>
+                                            </div>
+                                        </div>
+                                        <div className='qr-code'>
+                                            <img src="/images/qrcode.png" alt='logo' />
                                         </div>
                                     </div>
-                                    <div className='qr-code'>
-                                        <img src="/images/qrcode.png" alt='logo' />
-                                    </div>
-                                </div>
 
-                                <div className=' py-4'>
-                                    <div className='flex justify-between py-2'>
-                                        <p>{transactions?.transaction?.in_entity_id?.unique_field}</p>
-                                        <p>{transactions?.transaction?.in_entity_id?.unique_answer}</p>
-                                    </div>
+                                    <div className=' py-4'>
+                                        <div className='flex justify-between py-2'>
+                                            <p>{transactions?.transaction?.in_entity_id?.unique_field}</p>
+                                            <p>{transactions?.transaction?.in_entity_id?.unique_answer}</p>
+                                        </div>
 
-                                    <div className='flex justify-between py-2'>
-                                        <p>Transaction Reference</p>
-                                        <p>{transactions?.transaction?.reference}</p>
-                                    </div>
+                                        <div className='flex justify-between py-2'>
+                                            <p>Transaction Reference</p>
+                                            <p>{transactions?.transaction?.reference}</p>
+                                        </div>
 
-                                    <div className='flex justify-between py-2'>
-                                        <p>Status</p>
-                                        <p>{transactions?.transaction?.status}</p>
-                                    </div>
+                                        <div className='flex justify-between py-2'>
+                                            <p>Status</p>
+                                            <p>{transactions?.transaction?.status}</p>
+                                        </div>
 
-                                    <div className='flex justify-between py-2'>
-                                        <p>Date</p>
-                                        <p>{moment(transactions?.transaction?.createdAt).format('dddd, DD MMMM YYYY')}</p>
-                                    </div>
+                                        <div className='flex justify-between py-2'>
+                                            <p>Date</p>
+                                            <p>{moment(transactions?.transaction?.createdAt).format('dddd, DD MMMM YYYY')}</p>
+                                        </div>
 
-                                    <div className='flex justify-between py-2'>
-                                        <p>Time</p>
-                                        <p>{moment(transactions?.transaction?.createdAt).format('hh:mm:ss A')}</p>
-                                    </div>
-                                    <div className='flex justify-between py-2'>
-                                        <p>Amount</p>
-                                        <p>{transactions?.transaction?.amount}</p>
-                                    </div>
-                                    <div className='flex justify-between py-2 w-full' onClick={() => setOpen(true)}>
-                                        {/* <p>Amount</p> */}
-                                        <p className='text-blue-400 self-end underline cursor-pointer text-right'>See more</p>
-                                    </div>
+                                        <div className='flex justify-between py-2'>
+                                            <p>Time</p>
+                                            <p>{moment(transactions?.transaction?.createdAt).format('hh:mm:ss A')}</p>
+                                        </div>
+                                        <div className='flex justify-between py-2'>
+                                            <p>Amount</p>
+                                            <p>{transactions?.transaction?.amount}</p>
+                                        </div>
+                                        <div className='flex justify-between py-2 w-full' onClick={() => setOpen(true)}>
+                                            {/* <p>Amount</p> */}
+                                            <p className='text-blue-400 self-end underline cursor-pointer text-right'>See more</p>
+                                        </div>
 
-                                    {/* <div className='flex justify-between pt-2 pb-4'>
+                                        {/* <div className='flex justify-between pt-2 pb-4'>
                                         <p>Payment Method</p>
                                         <p>Credit Card</p>
                                     </div> */}
-                                    <GenericAlertModal opened={open} handleOpened={handleOpen} handleClosed={handleClose} setOpen={setOpen}>
-                                        <div>
-                                            <h2 className='text-center font-bold text-xl'>Transaction Details</h2>
-                                        </div>
-                                        <div className='py-3 divide-y-2'>
-                                            {/* <h1 className='text-center font-bold'>{recentPayment?.payment_link_id?.name}</h1> */}
-                                            <div className='flex justify-between items-center py-3'>
-                                                <h2 className='text-gray-400'>Status</h2>
-                                                <StatusBadge status={payment?.transaction?.status} />
+                                        <GenericAlertModal opened={open} handleOpened={handleOpen} handleClosed={handleClose} setOpen={setOpen}>
+                                            <div>
+                                                <h2 className='text-center font-bold text-xl'>Transaction Details</h2>
                                             </div>
-                                            <div className='flex justify-between items-center py-3'>
-                                                <h2 className='text-gray-400'>Reference</h2>
-                                                <p className='font-bold'>{reference}</p>
-                                            </div>
-                                            {payment?.transaction?.in_entity_id?.form.map((tx, index) => (
-                                                <div className='flex justify-between items-center py-3' key={index}>
-                                                    <h2 className='text-gray-400 capitalize'>{tx?.field_name}</h2>
-                                                    <p className='font-bold text-sm'>{tx?.answer}</p>
+                                            <div className='py-3 divide-y-2'>
+                                                {/* <h1 className='text-center font-bold'>{recentPayment?.payment_link_id?.name}</h1> */}
+                                                <div className='flex justify-between items-center py-3'>
+                                                    <h2 className='text-gray-400'>Status</h2>
+                                                    <StatusBadge status={payment?.transaction?.status} />
                                                 </div>
-                                            ))}
-                                            <div className='flex justify-between items-center py-3'>
-                                                <h2 className='text-gray-400'>Date</h2>
-                                                <p className='font-bold text-sm'>{moment(payment?.createdAt).format('dddd, DD MMMM YYYY')}</p>
-                                            </div>
-                                            <div className='flex justify-between items-center py-3'>
-                                                <h2 className='text-gray-400'>Amount</h2>
-                                                <p className='font-bold text-sm'>{paymentLink?.amount}</p>
-                                            </div>
-                                            {/* <div className='flex justify-between items-center py-3'>
+                                                <div className='flex justify-between items-center py-3'>
+                                                    <h2 className='text-gray-400'>Reference</h2>
+                                                    <p className='font-bold'>{reference}</p>
+                                                </div>
+                                                {payment?.transaction?.in_entity_id?.form.map((tx, index) => (
+                                                    <div className='flex justify-between items-center py-3' key={index}>
+                                                        <h2 className='text-gray-400 capitalize'>{tx?.field_name}</h2>
+                                                        <p className='font-bold text-sm'>{tx?.answer}</p>
+                                                    </div>
+                                                ))}
+                                                <div className='flex justify-between items-center py-3'>
+                                                    <h2 className='text-gray-400'>Date</h2>
+                                                    <p className='font-bold text-sm'>{moment(payment?.createdAt).format('dddd, DD MMMM YYYY')}</p>
+                                                </div>
+                                                <div className='flex justify-between items-center py-3'>
+                                                    <h2 className='text-gray-400'>Amount</h2>
+                                                    <p className='font-bold text-sm'>{transactions?.payment_link?.amount}</p>
+                                                </div>
+                                                {/* <div className='flex justify-between items-center py-3'>
                                                 <h2 className='text-gray-400'>Payment Method</h2>
                                                 <p className='font-bold text-sm'>{recentTransaction?.type}</p>
                                             </div> */}
 
-                                            {/* <h2>Amount :</h2> */}
-                                        </div>
-                                    </GenericAlertModal>
+                                                {/* <h2>Amount :</h2> */}
+                                            </div>
+                                        </GenericAlertModal>
 
-                                    <div className='pt-8'>
-                                        <div className=''>
-                                            {/* <button className='bg-white w-full rounded-md py-2 px-12 font-bold text-xl text-[#464E4D] ' onClick={() => downloadFunc}>
+                                        <div className='pt-8'>
+                                            <div className=''>
+                                                {/* <button className='bg-white w-full rounded-md py-2 px-12 font-bold text-xl text-[#464E4D] ' onClick={() => downloadFunc}>
                                                 <CloudDownloadIcon className='mb-1' />
                                                 <span className='pl-2 text-sm'>Download PDF Receipt</span>
                                             </button> */}
-                                            <PDFGenerator downloadRef={downloadRef} />
+                                                <PDFGenerator downloadRef={downloadRef} />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        ) : (
+                            <div className='w-3/6'>
+                                <TransactionSkeleton />
+                            </div>
+                        )}
+
                     </div>
                 </div>
             </div>
@@ -408,7 +417,7 @@ const PaymentReciept = () => {
 
                                     <div className='flex justify-between py-2'>
                                         <p className='text-gray-400'>Amount</p>
-                                        <p className='font-bold'>{paymentLink?.amount}</p>
+                                        <p className='font-bold'>{transactions?.payment_link?.amount}</p>
                                     </div>
 
                                     <div className='flex justify-between py-2'>
