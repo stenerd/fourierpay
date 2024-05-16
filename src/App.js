@@ -39,7 +39,7 @@ function App() {
         <Route path="/pay/:code" element={<MakePayment />} />
         <Route path="/external-link/:code" element={<PublicPayment />} />
 
-        <Route path="/pay/:code/reciept/:reference" element={<PaymentReciept />} />
+        <Route path="/reciept/:reference" element={<PaymentReciept />} />
         <Route path='/admin/login' element={<AdminLogin />} />
         <Route path='/waitlist' element={<Waitlist />} />
         <Route element={<PrivateRoutes />}>
