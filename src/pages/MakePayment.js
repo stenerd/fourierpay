@@ -157,7 +157,7 @@ const MakePayment = () => {
                 setTab(3)
                 setDelay(false)
             } else {
-                navigate(`/pay/${code}/reciept/${paymentData.reference}`)
+                navigate(`/reciept/${paymentData.reference}`)
             }
             // response_description
         } catch (error) {
@@ -506,9 +506,9 @@ const MakePayment = () => {
                                         (!removeDownloadButton) ?
                                             (
                                                 <button className='cm-buttom' style={{ display: removeDownloadButton ? 'none' : 'block' }} onClick={() => {
-                                                    downloadMobile()
+                                                    navigate(`/reciept/${result.transaction.reference}`)
                                                 }
-                                                }>Download Receipt</button>
+                                                }>Next</button>
                                             ) : ''
                                     }
 
