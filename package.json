@@ -9,6 +9,7 @@
     "@mui/material": "^5.11.1",
     "@mui/x-date-pickers": "^5.0.11",
     "@mui/x-date-pickers-pro": "^5.0.15",
+    "@react-pdf/renderer": "^3.4.4",
     "@reduxjs/toolkit": "^1.9.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
