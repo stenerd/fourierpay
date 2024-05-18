@@ -48,7 +48,7 @@ const SinglePaymentLink = () => {
     let { code } = useParams();
     const [start, setStart] = React.useState("")
     const [end, setEnd] = React.useState("")
-    const [status, setStatus] = React.useState("")
+    const [status, setStatus] = React.useState("paid")
     const [data, setData] = useState({})
     const [payersSheet, setPayersSheet] = useState({})
 
@@ -237,7 +237,7 @@ const SinglePaymentLink = () => {
         // setLoading(true)
         setLoad(true)
         try {
-            const response = await Protected.get(`${BASE_URL}/api/payment/${code}`)
+            const response = await Protected.get(`${BASE_URL}/api/payment/${code}?status=${status}`)
             // const res = await Protected.get(`${BASE_URL}/api/payment/${code}?q=${search}`)
             // console.log(res.data.data.data)
             console.log(response.data.data.data)
