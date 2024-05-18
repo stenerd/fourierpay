@@ -80,7 +80,7 @@ const Dashboard = () => {
 
     const [matrics, setMatrics] = React.useState({});
     const [selectedFilters, setSelectedFilters] = React.useState({
-        year: '2023',
+        year: '2024',
         type: 'week',
         week: Math.ceil(days / 7)
     });
@@ -542,7 +542,7 @@ const Dashboard = () => {
 
                             {tables?.recentPaymentLinks?.length === 0 && (
                                 <div className='flex flex-col justify-center py-2 px-2'>
-                                    <img src="/images/payments.svg" className='w-2/5 mx-auto' />
+                                    <img src="/images/payments.svg" className='w-2/5 mx-auto' alt='alt' />
                                     <p className='text-gray-500 text-center'>No Links Yet!</p>
                                 </div>
                             )}
@@ -631,7 +631,7 @@ const Dashboard = () => {
                                         
 
 
-                                        <div className='bg-[#f8faf7] shadow-md rounded-md dashboard-spending-limit pb-4'>
+                                        {/* <div className='bg-[#f8faf7] shadow-md rounded-md dashboard-spending-limit pb-4'>
                                             <div className='w-[90%] mx-auto pt-4 pb-6'>
                                                 <h2 className='font-bold'>Payment Links</h2>
                                             </div>
@@ -650,12 +650,12 @@ const Dashboard = () => {
                                                     <Piechart data={pieChartData} />
                                                 ) : ''
                                             }
-                                        </div>
+                                        </div> */}
                                         <div className='bg-[#f8faf7] shadow-md rounded-md dashboard-spending-limit'>
                                             <div className=''>
                                                 <div className='spacing-y-3 mb-0'>
                                                     <div className='w-[90%] mx-auto pt-4'>
-                                                        <h2 className='font-bold'>Payment Payments</h2>
+                                                        <h2 className='font-bold'>Recent Payments</h2>
                                                     </div>
                                                     {/* <h1 className='fourier font-bold'>Recent Payments</h1> */}
                                                     <div className='pt-2'>
@@ -803,6 +803,7 @@ const Dashboard = () => {
                                                     <option value='2022'>2022 </option>
                                                     <option value='2023'>2023 </option>
                                                     <option value='2024'>2024 </option>
+                                                    <option value='2025'>2025 </option>
                                                 </select>
                                                 <select placeholder='Type' name='type' value={selectedFilters.type} onChange={(e) => handleFilterChanges(e)} className="py-2 px-4 w-full outline-none c-text-input" style={{ backgroundColor: '#f8faf7' }}>
                                                     <option value='week'>Week </option>
