@@ -106,11 +106,11 @@ const MyDocument = ({ transactions }) => {
                         </View>
                     </View>
                     <View style={styles.container}>
-                        <Text style={styles.small}>Amount</Text>
-                        <Text style={styles.amount}>#{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(transactions?.payment_link?.amount || 0)}</Text>
+                        <Text style={styles.small}>AMOUNT</Text>
+                        <Text style={styles.amount}>#{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(transactions?.payment_link?.amount  + { minimumFractionDigits: 2 }).format(transactions?.payment_link?.charges || 0)}(Charges Included)</Text>
                     </View>
                     <View style={styles.general}>
-                        <Text style={styles.small}>Transaction Reference</Text>
+                        <Text style={styles.small}>TRANSACTION REFERENCE</Text>
                         <Text style={styles.big}>{transactions?.transaction?.reference}</Text>
                     </View>
                     <View style={styles.general}>
@@ -136,12 +136,12 @@ const MyDocument = ({ transactions }) => {
                             </View>
                         )
                     })}
-                    <View style={{ display: "flex", justifyContent: "space-between", alignContent: "flex-start", alignItems: "flex-start", flexDirection: 'row',gap:20,marginTop:15}}>
-                        <Text style={{ fontSize: 30, paddingTop: 10, flex: 1,textAlign:'left' }}><Text style={{fontWeight:'bold',color:'green'}}>SCAN QR CODE</Text> TO CHECK YOUR TRANSACTION STATUS</Text>
+                    {/* <View style={{ display: "flex", justifyContent: "space-between", alignContent: "flex-start", alignItems: "flex-start", flexDirection: 'row',gap:20,marginTop:15}}>
+                        <Text style={{ fontSize: 30, paddingTop: 10, flex: 1,textAlign:'left' }}><Text style={{fontWeight:'bold',color:'green'}}>Scan QR CODE</Text> to check your transaction status. </Text>
                         <View>
                             <Image style={{ width: 150 }} src="/images/qrcode.png" alt="" />
                         </View>
-                    </View>
+                    </View> */}
                 </View>
             </Page>
         </Document>

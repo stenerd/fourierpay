@@ -624,7 +624,7 @@ const MakePayment = () => {
                             {/* <Sidebar /> */}
                             <div className="min-h-screen w-[32%] shadow-lg cm-mobile-make-payments fixed">
                                 <div className="py-8 px-12 flex flex-col min-h-screen relative">
-                                    <div className='absolute pb-16 text-white payment-socials'>
+                                    {/* <div className='absolute pb-16 text-white payment-socials'>
                                         <p className='pb-4'>
                                             Share link to your circle
                                         </p>
@@ -650,7 +650,7 @@ const MakePayment = () => {
                                                 <img src="/images/whatsapp.svg" width="48" className='cursor-pointer' alt='share' />
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     <div className=''>
                                         <Link to="/">
                                             {/* <h2 className='text-2xl fourier w-5/6 px-2 mx-auto text-white font-semibold pt-4'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}

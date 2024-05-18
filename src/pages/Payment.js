@@ -271,6 +271,7 @@ const Payment = () => {
                                         <div className='w-full'>
                                             <form className='w-full space-y-4'>
                                                 {/* <h3 className='text-gray-700 text-lg font-bold home'>New Payment Link</h3> */}
+                                                <p className='text-sm font-extralight'>Fields marked with asterisk <span className='text-red-500 text-base font-bold'>*</span> are required</p>
                                                 <div className='mb-8'>
                                                     {stateError && <small className='text-red-600'> {stateError}</small>}
                                                     <Grid container spacing={2}>
@@ -279,7 +280,7 @@ const Payment = () => {
                                                                 <div className='flex items-center space-x-3'>
 
                                                                     <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Name</label>
-                                                                    <span className='text-red-500 text-2xl font-bold'>*</span>
+                                                                    <span className='text-red-500 text-xl font-bold'>*</span>
 
                                                                 </div>
                                                                 <Tooltip title='Name of Payment'>
@@ -294,7 +295,7 @@ const Payment = () => {
                                                                 <div className='flex items-center space-x-3'>
 
                                                                     <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Amount</label>
-                                                                    <span className='text-red-500 text-2xl font-bold'>*</span>
+                                                                    <span className='text-red-500 text-xl font-bold'>*</span>
 
                                                                 </div>
                                                                 <Tooltip title='Amount for Payment'>
@@ -317,7 +318,6 @@ const Payment = () => {
                                                                 <Tooltip title='Make your payment link expire at a particulat date'>
                                                                     <input placeholder='Expiry Date' name='expires_at' onChange={handleChanges} type="date" className="py-2 px-4 w-full outline-none c-text-input" />
                                                                 </Tooltip>
-
                                                             </div>
                                                         </Grid>
                                                     </Grid>
@@ -327,26 +327,23 @@ const Payment = () => {
                                                                 <div className='flex items-center space-x-3'>
 
                                                                     <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Description</label>
-                                                                    <span className='text-red-500 text-2xl font-bold'>*</span>
+                                                                    <span className='text-red-500 text-xl font-bold'>*</span>
 
                                                                 </div>
                                                                 <Tooltip title='Payment Description'>
                                                                     <textarea placeholder='Description' name='description' onChange={handleChanges} className="py-2 px-4 w-full outline-none c-text-input"></textarea>
                                                                 </Tooltip>
-
                                                             </div>
                                                         </Grid>
                                                     </Grid>
                                                 </div>
 
-
                                                 <div className='relative my-8'>
+                                                   <p className='text-sm font-extralight'> Users fill this form before making payments  </p>
                                                     <Tooltip title='Generate a form that users can fill before making payment'>
                                                         <h1 className='text-gray-700 text-lg font-bold home absolute create-payment-divider-title'>Generate Form</h1>
-
                                                     </Tooltip>
                                                     <Divider className='creat-payment-divider' />
-
                                                 </div>
 
                                                 <div className='mt-4 pt-8 relative'>
@@ -363,7 +360,7 @@ const Payment = () => {
                                                             <div className='flex flex-col space-y-3 mb-4'>
                                                                 <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field Type</label>
                                                                 <select placeholder='Field Type' name='field_type' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input">
-                                                                    <option value={''}>Select One </option>
+                                                                    <option value={''}>Select Payment Type </option>
                                                                     <option value={'text'}>Text Field </option>
                                                                     <option value={'select'}>Select Field </option>
                                                                 </select>
@@ -371,7 +368,8 @@ const Payment = () => {
                                                         </Grid>
                                                         <Grid item xs={6}>
                                                             <div className='flex flex-col space-y-3 mb-0'>
-                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Required</label>
+                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Is it Required  <span className='text-sm font-extralight'> (Is field compulsory before payment ? ) </span>
+</label>
                                                                 <select placeholder='Required' name='required' onChange={(e) => handleFieldChanges(e, 0)} className="py-2 px-4 w-full outline-none c-text-input">
                                                                     <option value={''}>Select One </option>
                                                                     <option value={true}>True </option>
@@ -416,7 +414,7 @@ const Payment = () => {
                                                             <Grid item xs={6} className='mb-0'>
                                                                 <div className='flex flex-col space-y-3 mb-4'>
                                                                     <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Field name</label>
-                                                                    <input placeholder='Field Name' name={'field_name' + (i + 1)} onChange={(e) => handleFieldChanges(e, i + 1)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                    <input placeholder=' Name' name={'field_name' + (i + 1)} onChange={(e) => handleFieldChanges(e, i + 1)} className="py-2 px-4 w-full outline-none c-text-input" />
                                                                 </div>
                                                             </Grid>
                                                             <Grid item xs={6} className='mb-0'>
@@ -466,10 +464,8 @@ const Payment = () => {
 
 
                                                 <div className='c-mt-0'>
-                                                    <small className='cursor-pointer c-primary-link-color font-bold underline' onClick={generateField}>Add More</small>
+                                                    <small className='cursor-pointer c-primary-link-color font-bold underline' onClick={generateField}>Add New Form Entry</small>
                                                 </div>
-
-
 
 
                                                 {/* {fields}
@@ -494,14 +490,14 @@ const Payment = () => {
                                                 <div className='py-4'>
                                                     <h3 className='text-gray-700 text-lg font-bold home'>Payment Link Details</h3>
                                                 </div>
-
+                                                
                                                 <div className='flex flex-col'>
                                                     <small className='font-bold text-gray-500'>Name</small>
-                                                    <h2 className='text-lg font-bold mt-0'>{state.name || 'Nill'}</h2>
+                                                    <h2 className='text-lg font-bold mt-0'>{state.name || 'N/A'}</h2>
                                                 </div>
                                                 <div className='flex flex-col'>
                                                     <small className='font-bold text-gray-500'>Amount per payment (VAT Inclusive)</small>
-                                                    <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format(+charges || 0)}</h2>
+                                                    <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(+charges || 0)}</h2>
                                                 </div>
                                                 {/* <div className='flex flex-col'>
                                                     <small className='font-bold text-gray-500'>Charges</small>
@@ -511,25 +507,27 @@ const Payment = () => {
                                                     state.expected_number_of_payment ? (
                                                         <>
                                                             <div className='flex flex-col'>
-                                                                <small className='font-bold text-gray-500'>Expected Number OF Payments</small>
-                                                                <h2 className='text-lg font-bold mt-0'>{state.expected_number_of_payment || 'Nil'}</h2>
+                                                                <small className='font-bold text-gray-500'>Expected Number Of Payments</small>
+                                                                <h2 className='text-lg font-bold mt-0'>{state.expected_number_of_payment || 'N/A'}</h2>
                                                             </div>
                                                             <div className='flex flex-col'>
                                                                 <small className='font-bold text-gray-500'>Expected Total Amount (VAT Excluded)</small>
-                                                                <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format((state.amount * state.expected_number_of_payment) || 0)}</h2>
+                                                                <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format((state.amount * state.expected_number_of_payment) || 0)}</h2>
                                                             </div>
                                                         </>
                                                     ) : ''
                                                 }
                                                 <div className='flex flex-col'>
                                                     <small className='font-bold text-gray-500'>Expiry Date</small>
-                                                    <h2 className='text-lg font-bold mt-0'>{state.expires_at || 'Nil'}</h2>
+                                                    <h2 className='text-lg font-bold mt-0'>{state.expires_at || 'N/A'}</h2>
                                                 </div>
                                                 <div className='flex flex-col'>
                                                     <small className='font-bold text-gray-500'>Description</small>
-                                                    <h2 className='text-lg font-bold mt-0'>{(state.description.length > 70 ? state.description.substring(0, 70) + "..." : state.description) || 'Nil'}</h2>
+                                                    <h2 className='text-lg font-bold mt-0'>{(state.description.length > 70 ? state.description.substring(0, 70) + "..." : state.description) || 'N/A'}</h2>
                                                 </div>
-                                                <p className='font-bold text-gray-700 text-lg'>Forms</p>
+                                                <p className='font-bold text-gray-700 text-lg'>Payment Form Preview</p>
+                                                 <p className='text-sm font-extralight'> Unique field is used to identify each payer eg Numbers, Names e.t.c </p>
+
                                                 {
                                                     selectedFields.map((each, index) => (
                                                         <div className='mt-4 mb-4' key={index}>
@@ -546,21 +544,21 @@ const Payment = () => {
                                                                     <div className='relative'>
                                                                         <div className='mb-4'>
                                                                             <small className='font-bold text-gray-500'>Field Name: </small>
-                                                                            <small className='text-md font-bold mt-0'>{each.field_name || 'Nill'}</small>
+                                                                            <small className='text-md font-bold mt-0'>{each.field_name || 'N/A'}</small>
                                                                         </div>
                                                                         <div className='mb-4'>
                                                                             <small className='font-bold text-gray-500'>Field Type: </small>
-                                                                            <small className='text-md font-bold mt-0'>{each.field_type || 'Nill'}</small>
+                                                                            <small className='text-md font-bold mt-0'>{each.field_type || 'N/A'}</small>
                                                                         </div>
                                                                         <div className='mb-4'>
                                                                             <small className='font-bold text-gray-500'>Required: </small>
-                                                                            <small className='text-md font-bold mt-0'>{each.required || 'Nil'}</small>
+                                                                            <small className='text-md capitalize font-bold mt-0'>{each.required || 'N/A'}</small>
                                                                         </div>
                                                                         <div className='mb-4'>
                                                                             <small className='font-bold text-gray-500'>Options: </small>
                                                                             <small className='text-md font-bold mt-0'>{each.options.length ? each.options.map((e, i) => (
                                                                                 <span key={i}>{e} &nbsp;</span>
-                                                                            )) : 'Nil'}</small>
+                                                                            )) : 'N/A'}</small>
                                                                         </div>
                                                                         {
                                                                             (((priority.length < 3) && (uniqueSelection !== index)) || (priority.indexOf(index) >= 0)) ? (
@@ -699,7 +697,6 @@ const Payment = () => {
                                     <div className='relative my-8'>
                                         <Tooltip title='Generate a form that users can fill before making payment'>
                                             <h1 className='text-gray-700 text-lg font-bold home absolute create-payment-divider-title'>Generate Form</h1>
-
                                         </Tooltip>
                                         <Divider className='creat-payment-divider' />
 
