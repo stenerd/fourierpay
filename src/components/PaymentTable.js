@@ -114,8 +114,8 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
                     <option value={""}>Select One</option>
                     <option value={"pending"}>pending</option>
                     <option value={"paid"}>paid</option>
-                    <option value={"declined"}>declined</option>
-                    <option value={"abandoned"}>abandoned</option>
+                    {/* <option value={"declined"}>declined</option>
+                    <option value={"abandoned"}>abandoned</option> */}
                   </select>
                 </div>
               </div>
