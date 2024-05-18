@@ -339,7 +339,7 @@ const Payment = () => {
                                                 </div>
 
                                                 <div className='relative my-8'>
-                                                   <p className='text-sm font-extralight'> Users fill this form before making payments  </p>
+                                                   <p className='text-sm font-extralight'>Create a form for Users to fill before making payments  </p>
                                                     <Tooltip title='Generate a form that users can fill before making payment'>
                                                         <h1 className='text-gray-700 text-lg font-bold home absolute create-payment-divider-title'>Generate Form</h1>
                                                     </Tooltip>
