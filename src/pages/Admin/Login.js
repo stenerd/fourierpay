@@ -6,7 +6,7 @@ const AdminLogin = () => {
       <div className='min-h-screen flex justify-center items-center'>
         <div className='py-4 md:w-[30%] w-4/5 mx-auto'>
           <div className='mt-6'>
-            <img src='/favicon.svg' className='w-[100%] h-20' />
+            <img src='/favicon.svg' className='w-[100%] h-20' alt='alt' />
           </div>
           <div className='py-4'>
             <p className='md:text-2xl text-xl font-bold text-center'>ADMIN LOGIN</p>
