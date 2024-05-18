@@ -22,25 +22,21 @@ const MyDocument = ({ transactions }) => {
             gap: 10
         },
         reciept: {
-            fontSize: 30,
+            fontSize: 15,
             paddingTop: 10,
         },
         top: {
             gap: 10,
             paddingTop: 20,
-            flex: 1
+            flex: 1,
+            textAlign: 'right'
         },
         dateText: {
             fontSize: 10
         },
-        image: {
-            // width: 90,
-            // height: 180,
-            // flex:1
-        },
         amount: {
-            fontSize: 20,
-            fontWeight: 'bold',
+            fontSize: 23,
+            fontWeight: 700,
             color: 'green',
             paddingTop: 3
         },
@@ -58,7 +54,6 @@ const MyDocument = ({ transactions }) => {
             color: "black",
             fontSize: 17,
             paddingTop: 8,
-            // marginTop:12
         },
         link: {
             paddingTop: 8,
@@ -68,9 +63,6 @@ const MyDocument = ({ transactions }) => {
             paddingTop: 10,
             display: "flex",
             justifyContent: "space-between",
-            // flexDirection:'row',
-            // alignContent:"center",
-            // alignItems:"center"
         },
         green: {
             color: 'green'
@@ -89,85 +81,71 @@ const MyDocument = ({ transactions }) => {
             lineHeight: 30,
         },
         logo: {
-            width: 50,
-            // height: 160,
+            // width: "100%",
+            // height: 35,
+            width: "2rem",
             flex: 1,
-            // objectFit:'con'
+            objectFit: "contain"
         },
         container: {
             marginTop: 10,
             paddingTop: 10
         }
     });
-
-    // console.log("button2", transactions)
     return (
         <Document>
             <Page style={styles.page}>
                 <View style={styles.section}>
                     <View style={styles.header}>
+                        <View style={styles.logo}>
+                            <Image style={{ width: 120 }} src="/images/logoo.png" alt='logo' />
+                        </View>
                         <View style={styles.top}>
-                            <Text style={styles.reciept}>Receipt</Text>
+                            <Text style={styles.reciept}>Transaction Receipt</Text>
                             <Text style={styles.dateText}>{moment(transactions?.transaction?.createdAt).format('dddd, DD MMMM YYYY')}</Text>
                         </View>
-                        <Image style={styles.logo} src="/images/fourierlogo.png" alt="" />
                     </View>
                     <View style={styles.container}>
                         <Text style={styles.small}>Amount</Text>
-                        <Text style={styles.amount}>{transactions?.payment_link?.amount}</Text>
+                        <Text style={styles.amount}>#{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(transactions?.payment_link?.amount || 0)}</Text>
                     </View>
                     <View style={styles.general}>
                         <Text style={styles.small}>Transaction Reference</Text>
                         <Text style={styles.big}>{transactions?.transaction?.reference}</Text>
                     </View>
                     <View style={styles.general}>
-                        <Text style={styles.small}>Status</Text>
-                        <Text style={styles.big}>{transactions?.transaction?.status}</Text>
+                        <Text style={styles.small}>STATUS</Text>
+                        <Text style={styles.big}>{transactions?.transaction?.status.toUpperCase()}</Text>
                     </View>
                     <View style={styles.general}>
 
-                        <Text style={styles.small}>Payment Name</Text>
-                        <Text style={styles.big}>{transactions?.payment_link?.name}</Text>
+                        <Text style={styles.small}>PAYMENT NAME</Text>
+                        <Text style={styles.big}>{transactions?.payment_link?.name.toUpperCase()}</Text>
                     </View>
-
                     <View style={styles.general}>
-                        <Text style={styles.small}>Payment Link</Text>
+                        <Text style={styles.small}>PAYMENT LINK</Text>
                         <Link style={styles.link} src={transactions?.payment_link?.link}>
                             {transactions?.payment_link?.link}
                         </Link>
                     </View>
-                    {/* <View style={styles.general}>
-                        <Text style={styles.small}>VAT</Text>
-                        <Text style={styles.big}>{transactions?.in_entity_id?.charges}</Text>
-                    </View>   */}
                     {transactions?.transaction?.in_entity_id?.form.map((form, index) => {
                         return (
                             <View style={styles.general} key={index}>
-                                <Text style={styles.small}>{form?.field_name}</Text>
-                                <Text style={styles.big}>{form?.answer}</Text>
+                                <Text style={styles.small}>{form?.field_name.toUpperCase()}</Text>
+                                <Text style={styles.big}>{form?.answer.toUpperCase()}</Text>
                             </View>
                         )
                     })}
-                    {/* <View style={styles.container}>
-                        <Text style={styles.bigger}><Text style={styles.green}> SCAN QR CODE</Text> TO CHECK YOUR TRANSACTION STATUS</Text>
-                        <Image src="/images/qrcode.png" alt="" />
-                    </View> */}
-                    <View>
-                        <Text style={{ fontSize: 25, color: "green", paddingTop: 10, paddingBottom: 10 }}>SCAN QR CODE BELOW TO CHECK YOUR TRANSACTION STATUS</Text>
-                        <Image src="/images/qrcode.png" alt="" />
+                    <View style={{ display: "flex", justifyContent: "space-between", alignContent: "flex-start", alignItems: "flex-start", flexDirection: 'row',gap:20,marginTop:15}}>
+                        <Text style={{ fontSize: 30, paddingTop: 10, flex: 1,textAlign:'left' }}><Text style={{fontWeight:'bold',color:'green'}}>SCAN QR CODE</Text> TO CHECK YOUR TRANSACTION STATUS</Text>
+                        <View>
+                            <Image style={{ width: 150 }} src="/images/qrcode.png" alt="" />
+                        </View>
                     </View>
                 </View>
             </Page>
         </Document>
-        //     <Document>
-        //     <Page>
-        //       <Text>Hello, World!</Text>
-        //     </Page>
-        //   </Document>
-
     )
-
-    // Create a component to render the PDF
 }
 
 export default MyDocument;

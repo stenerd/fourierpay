@@ -27,7 +27,7 @@ const DownloadButton = ({ loading }) => (
 // Create a React component that wraps the PDFDownloadLink
 const PDFGenerator = ({ downloadRef }) => {
   const { transactions, history } = useSelector((state) => state?.dashboard)
-  // console.log("button", transactions, history)
+  console.log("button", transactions)
   return (
     <div className="w-full">
       {/* <PDFDownloadLink document={<MyDocument transactions={transactions} transact={history} />} fileName={`${history?.name}.pdf`}>
@@ -37,7 +37,7 @@ const PDFGenerator = ({ downloadRef }) => {
         }
 
       </PDFDownloadLink> */}
-      <PDFDownloadLink ref={downloadRef} document={<MyDocument transactions={transactions} transact={history} />} fileName={`${history?.name} - ${transactions?.transaction?.in_entity_id?.unique_answer}.pdf`}>
+      <PDFDownloadLink onClick={()=>console.log("clicking")} ref={downloadRef} document={<MyDocument transactions={transactions} transact={history} />} fileName={`${transactions?.payment_link?.name} - ${transactions?.transaction?.in_entity_id?.unique_answer}.pdf`}>
         {({ blob, url, loading, error }) =>
           loading ? (
             <button className='bg-white  border border-gray-300 w-full rounded-md py-2 px-12 font-bold text-xl text-[#464E4D] ' >

@@ -49,7 +49,7 @@ const PaymentReciept = () => {
     const [loading, setLoading] = React.useState(false)
     const { transactions } = useSelector((state) => state.dashboard)
 
-    console.log(transactions)
+    // console.log(transactions)
 
     const downloadRef = React.useRef(null)
 
@@ -122,6 +122,10 @@ const PaymentReciept = () => {
                 pdf.save("payment-recipt.pdf");
             })
             ;
+    }
+
+    const RedirectUser = () => {
+        window.location.replace("https://www.fourierpay.com")
     }
 
 
@@ -321,7 +325,7 @@ const PaymentReciept = () => {
                                         </div>
                                         <div className='flex justify-between py-2'>
                                             <p>Amount</p>
-                                            <p>{transactions?.transaction?.amount}</p>
+                                            <p className='font-bold text-sm'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(transactions?.payment_link?.amount || 0)} </p>
                                         </div>
                                         <div className='flex justify-between py-2 w-full' onClick={() => setOpen(true)}>
                                             {/* <p>Amount</p> */}
@@ -358,7 +362,8 @@ const PaymentReciept = () => {
                                                 </div>
                                                 <div className='flex justify-between items-center py-3'>
                                                     <h2 className='text-gray-400'>Amount</h2>
-                                                    <p className='font-bold text-sm'>{transactions?.payment_link?.amount}</p>
+                                                    {/* <Text style={styles.amount}> N {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(transactions?.payment_link?.amount || 0)}</Text> */}
+                                                    <p className='font-bold text-sm'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(transactions?.payment_link?.amount || 0)} </p>
                                                 </div>
                                                 {/* <div className='flex justify-between items-center py-3'>
                                                 <h2 className='text-gray-400'>Payment Method</h2>
@@ -417,7 +422,7 @@ const PaymentReciept = () => {
 
                                     <div className='flex justify-between py-2'>
                                         <p className='text-gray-400'>Amount</p>
-                                        <p className='font-bold'>{transactions?.payment_link?.amount}</p>
+                                        <p className='font-bold text-sm'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(transactions?.payment_link?.amount || 0)} </p>
                                     </div>
 
                                     <div className='flex justify-between py-2'>
@@ -452,14 +457,14 @@ const PaymentReciept = () => {
                         </div>
                     </div>
                     <div className='py-5 mt-2 w-full'>
-                        <Link to="/">
-                            <button className='bg-[#97F675] w-full py-4 px-4 rounded-md italic'>
-                                <div className='space-x-6 flex justify-center  items-center'>
-                                    <ArrowBackIcon />
-                                    Back to Home
-                                </div>
-                            </button>
-                        </Link>
+                        {/* <Link to="/"> */}
+                        <button className='bg-[#97F675] w-full py-4 px-4 rounded-md italic' onClick={RedirectUser}>
+                            <div className='space-x-6 flex justify-center  items-center'>
+                                <ArrowBackIcon />
+                                Back to Home
+                            </div>
+                        </button>
+                        {/* </Link> */}
                     </div>
                 </div>
             </div>
