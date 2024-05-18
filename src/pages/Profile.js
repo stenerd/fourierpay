@@ -314,7 +314,7 @@ const Profile = () => {
                                     <MenuDropDown open20={open20} handleClose20={handleClose20} handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl} name={`${details.firstname} ${details.lastname}`} />
                                 </div>
                                 <div className='pb-2 0'>
-                                    <div className='w-full rounded-[15px] py-6 px-6 bg-[#1D3329]'>
+                                    <div className='w-full rounded-[15px] py-6 px-6 c-p-background'>
                                         <div className='flex items-start gap-4 w-full'>
                                             <div className='space-y-6 w-full'>
                                                 <div className='flex items-start justify-between'>
@@ -491,7 +491,7 @@ const Profile = () => {
                                                         //     <img src="/images/payments.svg" className='w-2/5 mx-auto' />
                                                         //     <p className='text-gray-500 text-center'>No Transactions Yet!</p>
                                                         // </div>
-                                                        <RecentLinksSkeleton />
+                                                        <RecentLinksSkeleton title = {"No Withdrawals Yet!"} />
 
                                                     )}
 
@@ -658,7 +658,7 @@ const Profile = () => {
                                                 }
                                             </List>
                                             {withdrawals?.length === 0 && !isLoading && (
-                                                <RecentLinksSkeleton />
+                                                <RecentLinksSkeleton title = {"No Withdrawals Yet!"} />
                                             )}
                                         </div>
                                     </div>

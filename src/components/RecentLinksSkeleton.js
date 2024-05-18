@@ -1,6 +1,6 @@
 import React from 'react'
 
-const RecentLinksSkeleton = () => {
+const RecentLinksSkeleton = ({title}) => {
     return (
         <>
             <div className='space-y-3 relative'>
@@ -9,7 +9,7 @@ const RecentLinksSkeleton = () => {
                         <img src="/images/nolinks.svg" alt="alt-img" />
                     </div>
                     <div className='py-2'>
-                       <p className='text-center font-bold text-gray-600'>No Links Yet!</p>
+                        <p className='text-center font-bold text-gray-600'>{  title || 'No Links Yet!' }</p>
                     </div>
                 </div>
                 <div className='py-2 border border-gray-200 opacity-40'>
