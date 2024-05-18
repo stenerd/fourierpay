@@ -193,12 +193,12 @@ const PaymentLinks = () => {
                                             </div>
                                             <div className='p-5'>
                                                 <div>
-                                                    <h2 className='text-xl font-bold'>{each.name}</h2>
+                                                    <h2 className='text-xl font-bold'>{each.name} </h2>
                                                 </div>
                                                 <div className=' flex justify-between items-center'>
                                                     <div className='pt-2'>
                                                         <p className='text-gray-500 font-medium'>Amount</p>
-                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
+                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(each.amount || 0)}</h2>
                                                     </div>
                                                     <button className='c-bg-primary-light-mobile'>
                                                         <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
@@ -221,7 +221,7 @@ const PaymentLinks = () => {
                                                 <div className=' flex justify-between items-center'>
                                                     <div className='pt-2'>
                                                         <p className='text-gray-500 font-medium'>Amount</p>
-                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
+                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(each.amount || 0)}</h2>
                                                     </div>
                                                     <button className='c-bg-primary-light-mobile'>
                                                         <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
@@ -244,7 +244,7 @@ const PaymentLinks = () => {
                                                 <div className=' flex justify-between items-center'>
                                                     <div className='pt-2'>
                                                         <p className='text-gray-500 font-medium'>Amount</p>
-                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
+                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(each.amount || 0)}</h2>
                                                     </div>
                                                     <button className='c-bg-primary-light-mobile'>
                                                         <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
@@ -317,11 +317,11 @@ const PaymentLinks = () => {
                                         {
                                             paymentLinks.map((link, index) => (
                                                 <Grid item xs={12} md={6} key={index}>
-                                                    <div className='bg-[#f8faf7] h-full border-dotted border-2 rounded-lg py-3 px-3'>
+                                                    <div className='bg-[#f8faf7] h-full  border-2 rounded-lg py-3 px-3 hover:border-gray-400 transition ease-in-out delay-100' onClick={() => Payments(link)}>
                                                         <div className='p-4'>
                                                             <div className=''>
                                                                 <div className='flex justify-between'>
-                                                                    <h2 className='fourier text-2xl text-[#1d3329] max-w-[60%] font-bold hover:text-blue-500 cursor-pointer' onClick={() => Payments(link)}>{link.name}</h2>
+                                                                    <h2 className='fourier text-2xl text-[#1d3329] max-w-[60%] font-bold hover:text-blue-500 cursor-pointer'>{link.name}</h2>
                                                                     {/* {moment(link.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? (
                                                                         <small className='text-sm text-[#00bf00] status-pill'>{link.status} {link.expires_at && `- ${moment(link.expires_at).format('MMMM DD, YYYY')}`}</small>
                                                                     ) : (
@@ -342,23 +342,22 @@ const PaymentLinks = () => {
                                                                         {link.expected_number_of_payments ?
                                                                             (
                                                                                 <div>
-                                                                                    <h2 className='text-sm text-gray-400 font-bold'>Expected</h2>
-                                                                                    <h1 className='text-2xl font-bold '>₦ {Intl.NumberFormat('en-US').format(link.amount * link.expected_number_of_payments || 0)}</h1>
+                                                                                    <h2 className='text-sm text-gray-400 font-bold '>Total Expected Amount</h2>
+                                                                                    <h1 className='text-xl font-bold '>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(link.amount * link.expected_number_of_payments || 0)}</h1>
                                                                                 </div>
                                                                             )
                                                                             : ''
                                                                         }
-                                                                        {/* <div>
-                                                                        <h2 className='text-sm text-gray-400 font-bold'>Total Balance</h2>
-                                                                        <h1 className='text-2xl font-bold'>$90000</h1>
-                                                                    </div> */}
-                                                                        <div>
-                                                                            <h2 className='text-sm text-gray-400 font-bold'>Amount</h2>
-                                                                            <h1 className='text-2xl font-bold'>₦ {Intl.NumberFormat('en-US').format(link.amount || 0)}</h1>
-                                                                        </div>
+                                                                    
                                                                     </div>
+                                                                    <div>
+                                                                        <h2 className='text-sm text-gray-400 font-bold'>Amount Recieved </h2>
+                                                                        <h1 className='text-xl font-bold'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(link.amount || 0)}</h1>
+                                                                    </div>
+
                                                                 </div>
-                                                                <div className="pt-3">
+                                                                <div className="mt-2">
+                                                                    <h2 className='text-base text-gray-400 '>Payment Link  </h2>
                                                                     <div className='bg-gray-100 py-1 px-2 c-border-gray'>
                                                                         <div className='flex space-x-2 items-center'>
                                                                             <IconButton onClick={() => {
