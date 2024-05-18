@@ -750,3 +750,8 @@
     color: #065143;
     font-weight: 400;
 }
+
+.c-p-background {
+    background-image: url('../../public//images/background.svg');
+    /* background-size: cover; */
+}
