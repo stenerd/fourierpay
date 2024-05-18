@@ -27,10 +27,10 @@ const Transactions = () => {
     const SearchTransaction = async () => {
         try {
             const res = await Protected.get(`${BASE_URL}/api/transaction?q=${search}`)
-            console.log(res?.data?.data?.data)
+            // console.log(res?.data?.data?.data)
             setTransaction(res?.data?.data?.data)
         } catch (error) {
-            console.log(error.response)
+            // console.log(error.response)
         }
 
     }
@@ -56,7 +56,7 @@ const Transactions = () => {
 
     const [start, setStart] = React.useState("")
     const [end, setEnd] = React.useState("")
-    const [status, setStatus] = React.useState("")
+    const [status, setStatus] = React.useState("paid")
     const [entity, setEntity] = useState("")
     const [type, setType] = useState("")
     const [data, setData] = useState({})
@@ -91,7 +91,7 @@ const Transactions = () => {
         setPayin(false)
     }
     // const {profile} = useSelector((state)=>state.dashboard)
-    console.log("profile >> ", profile)
+    // console.log("profile >> ", profile)
     const [transact, setTransact] = useState()
 
     const filterLink = (status, start, end, type, entity) => {
@@ -196,24 +196,24 @@ const Transactions = () => {
             // SearchTransaction()
             const data = filterLink(status, start, end, type, entity)
             const response = await Protected.get(data)
-            console.log('fetchTransaction >> ', response?.data?.data)
+            // console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
         }
     };
-    console.log("transactions >> ", transactions)
+    // console.log("transactions >> ", transactions)
 
     const fetchTransaction = async () => {
         setLoading(true)
         try {
-            const response = await Protected.get(`${BASE_URL}/api/transaction?q=${search}`)
-            console.log('fetchTransaction >> ', response?.data?.data)
+            const response = await Protected.get(`${BASE_URL}/api/transaction?q=${search}&status=${status}`)
+            // console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
             setMeta(response?.data?.data?.meta)
-            console.log('meta>>>>', response?.data?.data?.meta)
+            // console.log('meta>>>>', response?.data?.data?.meta)
             setLoading(false)
         } catch (error) {
             setLoading(false)
-            console.log('dfvd >> ', error.response)
+            // console.log('dfvd >> ', error.response)
         }
     }
 
@@ -225,21 +225,21 @@ const Transactions = () => {
             setTransaction(response.data.data.data)
             setMeta(response.data.data.meta)
             setLoading(false)
-            console.log(data)
+            // console.log(data)
             handleCloser()
             handleClose21()
-            console.log({ status, type, entity, end, start })
+            // console.log({ status, type, entity, end, start })
 
         } catch (error) {
-            console.log(error.response)
+            // console.log(error.response)
             setLoading(false)
 
-            console.log('error')
+            // console.log('error')
         }
     }
 
     const onPageChange = async (pageNumber) => {
-        console.log("pageNumber >> ", pageNumber)
+        // console.log("pageNumber >> ", pageNumber)
         await filterData(pageNumber)
     }
 
@@ -255,16 +255,16 @@ const Transactions = () => {
             const response = await Protected.get(`${BASE_URL}/api/transaction`)
             setTransaction(response.data.data.data)
             setLoading(false)
-            console.log(data)
+            // console.log(data)
             handleCloser()
             handleClose21()
-            console.log({ status, type, entity, end, start })
+            // console.log({ status, type, entity, end, start })
 
         } catch (error) {
-            console.log(error.response)
+            // console.log(error.response)
             setLoading(false)
 
-            console.log('error')
+            // console.log('error')
         }
     }
 
@@ -378,7 +378,6 @@ const Transactions = () => {
                                             {
                                                 transactions.map((each, index) => (
                                                     <div className='flex justify-between mb-8 items-center' key={index} onClick={() => {
-                                                        // console.log(each)
                                                         setTransact(each)
                                                         handleClickOpener()
                                                     }}>

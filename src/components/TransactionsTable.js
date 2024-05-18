@@ -197,8 +197,8 @@ export default function TransactionTable({
                     <option value={""}>Select One</option>
                     <option value={"pending"}>pending</option>
                     <option value={"paid"}>paid</option>
-                    <option value={"declined"}>declined</option>
-                    <option value={"abandoned"}>abandoned</option>
+                    {/* <option value={"declined"}>declined</option>
+                    <option value={"abandoned"}>abandoned</option> */}
                   </select>
                 </div>
                 {/* <Grid item xs={12} md={6}> */}
