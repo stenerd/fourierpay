@@ -15,8 +15,20 @@ import { useNavigate } from 'react-router-dom';
 import Person3Icon from '@mui/icons-material/Person3';
 import { useState } from 'react';
 import GenericAlertDialog from './GenericAlertDialog';
+import ResetPassword from './ResetPassword';
 export default function MenuDropDown({ open20, handleClose20, handleClick, anchorEl, setAnchorEl, name }) {
     const navigate = useNavigate()
+
+
+    const [open8, setOpen8] = useState(false)
+
+    const handleOpen8 = () => {
+        setOpen8(true)
+    }
+
+    const handleClose8 = () => {
+        setOpen8(false)
+    }
 
     // const Logout = async () => {
     //     window.localStorage.removeItem('bearer_token')
@@ -105,6 +117,14 @@ export default function MenuDropDown({ open20, handleClose20, handleClick, ancho
 
                 <Divider />
                 <MenuItem
+                   onClick={handleOpen8}
+                >
+                    <ListItemIcon>
+                        <Logout fontSize="small" />
+                    </ListItemIcon>
+                    Change password
+                </MenuItem>
+                <MenuItem
                     onClick={() => {
                         window.localStorage.removeItem('bearer_token')
                         navigate('/')
@@ -132,6 +152,7 @@ export default function MenuDropDown({ open20, handleClose20, handleClick, ancho
                     </div>
                 </div>
             </GenericAlertDialog> */}
+            <ResetPassword open8={open8} setOpen8={setOpen8} handleOpen8={handleOpen8} handleClose8={handleClose8} />
         </React.Fragment>
     );
 }

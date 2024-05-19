@@ -37,6 +37,10 @@ import MenuDropDown from '../components/Menu';
 import BottomNav from '../components/bottomNav';
 import StatusBadge from '../components/atom/web/StatusBadge';
 import StatusBadgeMobile from '../components/atom/mobile/StatusBadge';
+import GenericAlertModal from '../components/GenericAlertModal';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
 // import moment from 'moment';
 // import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Profile = () => {
@@ -46,7 +50,24 @@ const Profile = () => {
         bottom: false,
         right: false,
     });
-    const [withdraw,setWithdrawal] = useState()
+    const [withdraw, setWithdrawal] = useState()
+
+    const [old, setOld] = useState(false)
+
+    const toggleOld = () => setOld(!old)
+
+    const [news, setNews] = useState(false)
+
+    const toggleNew = () => setNews(!news)
+
+    const [conf, setConf] = useState(false)
+
+    const toggleConf = () => setConf(!conf)
+
+    // const toggleOld = () => setOld(!old)
+
+
+
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -111,6 +132,13 @@ const Profile = () => {
     const [singleLink, setSingleLink] = useState("")
 
     const [open10, setOpen10] = React.useState(false);
+
+    const [currentPassword, setCurrentPassword] = React.useState("")
+
+    const [newPassword, setNewPassword] = React.useState("")
+    const [confirm, setConfirm] = React.useState("")
+
+    const [load, setLoad] = React.useState(false)
 
     const handleClickOpen10 = () => {
         setOpen10(true);
@@ -257,6 +285,16 @@ const Profile = () => {
         setOpen8(false);
     };
 
+    const [popup, setPopup] = useState(false)
+
+    const handleOpened = () => {
+        setPopup(true)
+    }
+
+    const handleClosed = () => {
+        setPopup(false)
+    }
+
     const findLink = async (link, index) => {
         // setSingleLink(link.link)
         try {
@@ -281,6 +319,48 @@ const Profile = () => {
 
 
         console.log({ link, singleLink: link.link })
+    }
+
+    const Resetpassword = async (e) => {
+        e.preventDefault()
+        setLoad(true)
+        if (newPassword !== confirm) {
+            toast.error('Confirm Password does not match', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            setLoad(false)
+            return;
+        }
+        try {
+            const response = await Protected.post(`${BASE_URL}/api/user/reset_password`, { currentPassword, newPassword })
+            console.log(response.data)
+            toast.success('Password Successfully changed', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            setLoad(false)
+            setTimeout(() => {
+                handleClosed()
+            }, 1200)
+            // window.location.reload()
+        } catch (error) {
+            setLoad(false)
+            toast.error(error.response.data.message)
+            console.log(error.response)
+        }
     }
 
 
@@ -455,7 +535,7 @@ const Profile = () => {
                                                 <div className='py-4 space-y-6'>
                                                     {withdrawals ? withdrawals?.map((each, index) => (
                                                         <div className='flex justify-between items-center' key={index}>
-                                                            
+
                                                             <div className='flex items-center space-x-3'>
                                                                 <div className='p-2 c-icon-bg-withdrawal'>
                                                                     <img src='/images/out-icon.svg' className='w-[28px]' alt="alt-img" />
@@ -491,7 +571,7 @@ const Profile = () => {
                                                         //     <img src="/images/payments.svg" className='w-2/5 mx-auto' />
                                                         //     <p className='text-gray-500 text-center'>No Transactions Yet!</p>
                                                         // </div>
-                                                        <RecentLinksSkeleton title = {"No Withdrawals Yet!"} />
+                                                        <RecentLinksSkeleton title={"No Withdrawals Yet!"} />
 
                                                     )}
 
@@ -514,7 +594,8 @@ const Profile = () => {
             <div className='hidden lg:block'>
                 <DashboardLayout>
                     <Titlebar>
-                        <div className=''>
+                        {/* <div className='flex justify-between items-center'> */}
+                        <div className="flex-1">
                             {loading ? <Skeleton variant="text" sx={{ fontSize: '1rem' }} /> : (
                                 <div className='flex items-center space-x-5'>
                                     <h2 className='fourier profile font-bold'>{profile?.firstname} {profile?.lastname}
@@ -526,6 +607,8 @@ const Profile = () => {
                             )}
                             {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<small className='font-bold text-gray-500'>{profile?.email} {profile?.phonenumber}</small>)}
                         </div>
+                        <button className='c-bg-primary-light' onClick={handleOpened}>Change Password</button>
+                        {/* </div> */}
                     </Titlebar>
                     <div className='px-16 py-8'>
                         <div className='py-4'>
@@ -658,7 +741,7 @@ const Profile = () => {
                                                 }
                                             </List>
                                             {withdrawals?.length === 0 && !isLoading && (
-                                                <RecentLinksSkeleton title = {"No Withdrawals Yet!"} />
+                                                <RecentLinksSkeleton title={"No Withdrawals Yet!"} />
                                             )}
                                         </div>
                                     </div>
@@ -689,7 +772,7 @@ const Profile = () => {
                                                                             {/* <small className='text-sm text-gray-400'>{trnx.reference}</small> */}
                                                                         </Grid>
                                                                         <Grid item xs={3}>
-                                                                            <h2 className='text-sm font-bold text-center py-2 px-2'>{ trnx.type === 'debit' ? '-' : '+' } ₦ {Intl.NumberFormat('en-US').format(trnx.amount || 0)}</h2>
+                                                                            <h2 className='text-sm font-bold text-center py-2 px-2'>{trnx.type === 'debit' ? '-' : '+'} ₦ {Intl.NumberFormat('en-US').format(trnx.amount || 0)}</h2>
                                                                         </Grid>
                                                                         <Grid item xs={2}>
                                                                             <div className="text-left">
@@ -725,14 +808,49 @@ const Profile = () => {
                             </Grid>
                         </div>
                     </div>
+                    <GenericAlertModal opened={popup} handleOpened={handleOpened} handleClosed={handleClosed} setOpen={setPopup}>
+                        <div className='py-4'>
+                            <h2 className='text-xl text-center'>Password reset</h2>
+                            <form onSubmit={Resetpassword}>
+                                <div className='relative'>
+                                    <label className='text-sm font-bold block my-2 text-gray-700'>Current Password</label>
+                                    <input required name='Current Password' onChange={(e) => setCurrentPassword(e.target.value)} type={old ? "text" : "password"} className='py-2 px-4 w-full outline-none c-text-input' />
+                                    <IconButton className="absolute left-[88%] bottom-10" onClick={toggleOld}>
+                                        {old ? (<VisibilityOffIcon />) : (<VisibilityIcon />)}
+                                    </IconButton>
+                                </div>
+                                <div className='relative'>
+                                    <label className='text-sm font-bold block my-2 text-gray-700'>New Password</label>
+                                    <input required name='New Password' onChange={(e) => setNewPassword(e.target.value)} type={news ? "text" : "password"} className='py-2 px-4 w-full outline-none c-text-input' />
+                                    <IconButton className="absolute left-[88%] bottom-10" onClick={toggleNew}>
+                                        {news ? (<VisibilityOffIcon />) : (<VisibilityIcon />)}
+                                    </IconButton>
+                                </div>
+                                <div className='relative'>
+                                    <label className='text-sm font-bold block my-2 text-gray-700'>Confirm New Password</label>
+                                    <input name='New Password' type={conf ? "text" : "password"} onChange={(e) => setConfirm(e.target.value)} className='py-2 px-4 w-full outline-none c-text-input' />
+                                    <IconButton className="absolute left-[88%] bottom-10" onClick={toggleConf}>
+                                        {conf ? (<VisibilityOffIcon />) : (<VisibilityIcon />)}
+                                    </IconButton>
+                                </div>
+                                <div className='py-4'>
+                                    <button className='c-primary-button'>
+                                        {load ? 'Loading....' : 'Submit'}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </GenericAlertModal>
                 </DashboardLayout>
                 <PaymentDrawer state={state} setState={setState} toggleDrawer={toggleDrawer} />
                 <ProfileModal open5={open5} setOpen5={setOpen5} handleOpen5={handleOpen5} handleClose5={handleClose5} profile={profile} setProfile={setProfile} fetchProfile={fetchProfile} />
                 <WithdrawalModal open2={open2} handleOpen2={handleOpen2} handleClose2={handleClose2} setOpen2={setOpen2} bankList={bankList} FetchBeneficiary={FetchBeneficiary} />
                 <BenificiaryModal open3={open3} setOpen3={setOpen3} handleOpen3={handleOpen3} handleClose3={handleClose3} data={data} beneficiaries={beneficiaries} setBeneficiaries={setBeneficiaries} />
-                <RecentWithDrawalModal open4={open4} setOpen4={setOpen4} handleOpen4={handleOpen4} handleClose4={handleClose4} withdraw={withdraw}/>
+                <RecentWithDrawalModal open4={open4} setOpen4={setOpen4} handleOpen4={handleOpen4} handleClose4={handleClose4} withdraw={withdraw} />
                 <WithdrawalPopup open={open} setOpen={setOpen} handleOpen={handleOpen} handleClose={withdrawPopUpHandleClose} />
                 <SingleTransactionModal open7={open7} setOpen7={setOpen7} handleOpen7={handleOpen7} handleClose7={handleClose7} singleTransaction={singleTransaction} />
+
+
             </div>
         </>
     )

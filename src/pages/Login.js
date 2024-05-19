@@ -6,7 +6,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../utils/axios';
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { IconButton } from "@mui/material"
 const Login = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
@@ -14,6 +16,10 @@ const Login = () => {
         email: '',
         password: ''
     })
+
+    const [text, setText] = useState(false)
+
+    const togglePassword = () => setText(!text)
 
     const handleChange = (e) => {
         setState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -92,15 +98,20 @@ const Login = () => {
                                             </Grid>
                                             <Grid item xs={12} md={12}>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Password</label>
-                                                <input placeholder='Password' name='password' onChange={handleChange} required type="password" className='py-2 px-4 w-full outline-none c-text-input' />
+                                                <div className="relative">
+                                                    <input placeholder='Password' name='password' onChange={handleChange} required type={text ? "text" : "password"} className='py-2 px-4 w-full outline-none c-text-input' />
+                                                    <IconButton className="absolute left-[92%] bottom-10" onClick={togglePassword}>
+                                                        {text ? (<VisibilityOffIcon />) : (<VisibilityIcon />)}
+                                                    </IconButton>
+                                                </div>
                                             </Grid>
                                         </Grid>
-                                        <div className='mt-12 mb-6 hidden md:block'>
+                                        <div className='mt-2 mb-6 hidden md:block'>
                                             <button disabled={loading ? true : false} className='c-primary-button'>
                                                 {loading ? 'loading....' : 'Login'}
                                             </button>
                                         </div>
-                                        <div className='mt-12 mb-6 block md:hidden'>
+                                        <div className='mt-4 mb-6 block md:hidden'>
                                             <button disabled={loading ? true : false} className='c-primary-button w-full'>
                                                 {loading ? 'loading....' : 'Login'}
                                             </button>

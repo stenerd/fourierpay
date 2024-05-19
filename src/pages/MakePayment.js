@@ -232,8 +232,6 @@ const MakePayment = () => {
 
             setDelay(true)
 
-
-
             setTimeout(() => {
                 paystackButtonRef.current.click()
                 setDelay(false)
@@ -369,25 +367,18 @@ const MakePayment = () => {
                             </p>
                         </div>
                     </div>
-
-
-
                     <div className='relative px-6 pt-6 w-full'>
                         <p className='text-[#D3D4D4] font-medium text-sm uppercase'>{paymentLink.expires_at && 'Expiry Date'}</p>
                         <p className='text-white pb-4 font-medium cm-mobile-make-payment-divider'>
                             {paymentLink.expires_at && moment(paymentLink.expires_at).format('dddd, DD MMMM YYYY')}
                         </p>
                     </div>
-
-
-
                     <div className='relative px-6 pt-6 w-full'>
                         <p className='text-center pb-2'>
                             <span className='text-white font-medium text-lg'>₦ &nbsp;</span>
                             <span className='text-[#97F675] font-bold text-3xl'>{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}</span>
                         </p>
                     </div>
-
                     {
                         (tab === 1) ? (
                             <div className='absolute cm-mobile-make-payment-panel'>
