@@ -35,7 +35,8 @@ import { HISTORY, TRANSACTION_HISTORY } from '../redux/DashboardSlice';
 import GenericAlertModal from '../components/GenericAlertModal';
 import StatusBadge from '../components/atom/web/StatusBadge';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import TransactionSkeleton from '../components/TransactionSkeletonn';
+// import TransactionSkeleton from '../components/TransactionSkeletonn';
+import SingleTransactionSkeleton from '../components/SingleTransactionSkeleton';
 
 
 
@@ -70,7 +71,7 @@ const PaymentReciept = () => {
             setLoading(false)
             dispatch(TRANSACTION_HISTORY())
             console.log(error)
-            toast.error(error.response.data.message)
+            // toast.error(error.response.data.message)
         }
     }
 
@@ -388,7 +389,7 @@ const PaymentReciept = () => {
                             </div>
                         ) : (
                             <div className='w-3/6'>
-                                <TransactionSkeleton />
+                                <SingleTransactionSkeleton />
                             </div>
                         )}
 
