@@ -406,7 +406,7 @@ const MakePayment = () => {
                                 </div>
                                 <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
                                     <div className='c-bg-primary-light pt-4 mb-3 text-center bounce ' onClick={() => setTab(2)}> Make New Payment </div>
-                                    <div className='pt-4 mb-12 top-section' onClick={() => setTab(2)}> Verify Existing Payment </div>
+                                    <div className='pt-4 mb-12 top-section' onClick={() => setTab(3)}> Verify Existing Payment </div>
                                     <button className='cm-buttom hidden' onClick={() => setTab(2)}>Pay ₦{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}</button>
                                 </div>
                             </div>
@@ -468,61 +468,56 @@ const MakePayment = () => {
                         ) : ''
                     }
                     {
-                        (tab === 3) ? (
+                            (tab === 3) ? (
                             <div className='absolute cm-mobile-make-payment-panel info'>
                                 <div className='pt-3 flex justify-center'>
-                                    {/* <span className='controller'></span> */}
+                                    <span className='controller'></span>
                                 </div>
-                                <div className='p-6 flex flex-col items-between justify-between' id='divToPrint' style={{ minHeight: '90%' }}>
-                                    <div className='pt-0'>
-                                        <div className='flex justify-center'>
-                                            <img src='/images/payment-successful.svg' width="110" alt="alt-img" />
-                                        </div>
-                                        <div className='flex justify-center mt-4'>
-                                            <p className='font-bold text-base text-[#222926]'>Payment Successful</p>
-                                        </div>
-                                        <div className='flex justify-center mt-2'>
-                                            <p className='text-gray-400 text-sm font-medium'>Transaction Reference</p>
-                                        </div>
-                                        <div className='flex justify-center mt-2'>
-                                            <p className='text-[#15C01A] pr-2 text-base font-medium cursor-pointer' onClick={() => copyText(result.transaction && result.transaction.reference)}>{result.transaction && result.transaction.reference}</p>
-                                            <img src='/images/copy.svg' alt="alt-img" />
-                                        </div>
-                                        <div className='flex justify-center mt-4'>
-                                            <p className='font-bold text-base text-[#222926]'>
-                                                <span className='text-gray-400 font-medium text-lg'>₦ &nbsp;</span>
-                                                <span className='font-bold text-3xl'>{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}</span>
-                                            </p>
-                                        </div>
-                                        <div className='mt-6'>
-                                            <p className='font-medium text-sm text-gray-500'>RECIPIENT</p>
-                                        </div>
+                                <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
+                                    <div className='pt-0 overflow-y-scroll'>
+                                        <span className='cursor-pointer' onClick={() => setTab(1)}>
+                                            <KeyboardBackspaceOutlinedIcon style={{ color: '#0067ffe3' }} />
+                                            <span className='pl-1 text-[#0067ffe3] font-bold'>Back</span>
+                                        </span>
 
-                                        <div className='relative px-0 pt-1 w-full pb-12'>
-                                            <div className='w-full p-4 flex cm-mobile-make-payment-topic-success'>
-                                                <div className='flex items-center justify-center'>
-                                                    <img src='/images/make-payment-icon.svg' alt="alt-img" />
+                                        {
+                                            paymentLink.form && paymentLink.form.length ? (
+                                                <div className='mt-4 mb-8'>
+                                                    <Grid container spacing={2}>
+                                                        {
+                                                            paymentLink.form.map((link, index) => (
+                                                                <Grid item xs={12} key={index}>
+                                                                    <div className='flex flex-col space-y-3 mb-4'>
+                                                                        <label for={'for' + index + 1} className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Enter your {link.field_name}</label>
+                                                                        {
+                                                                            link.field_type === 'text' ? (
+                                                                                <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="pb-2 px-4 w-full outline-none c-text-input" />
+                                                                            ) : (
+                                                                                <select id={'for' + index + 1} placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="pb-2 px-4 w-full outline-none c-text-input">
+                                                                                    <option value={''}>Select {link.field_name} </option>
+                                                                                    {
+                                                                                        link.options.map((option, i) => (
+                                                                                            <option key={option + i} value={option}>{option} </option>
+                                                                                        ))
+                                                                                    }
+                                                                                </select>
+                                                                            )
+                                                                        }
+                                                                        {
+                                                                            link.error ? (
+                                                                                <small className='c-pay-error'>{link.error}</small>
+                                                                            ) : ''
+                                                                        }
+                                                                    </div>
+                                                                </Grid>
+                                                            ))
+                                                        }
+                                                    </Grid>
                                                 </div>
-                                                <div className='pl-4 w-full'>
-                                                    <p className='font-bold text-[#0067ffe3] text-sm uppercase'>{result.payment && result.payment.unique_answer}</p>
-                                                    <p className='font-bold text-[#222926] text-lg'>{paymentLink.name}</p>
-                                                    <p className='pt-1 flex justify-between w-full'>
-                                                        <p className='text-[#222926] text-sm'>{result.payment && moment(result.payment.createdAt).format('MMMM DD, YYYY, hh:mm A')}</p>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {
-                                        (!removeDownloadButton) ?
-                                            (
-                                                <button className='cm-buttom' style={{ display: removeDownloadButton ? 'none' : 'block' }} onClick={() => {
-                                                    navigate(`/reciept/${result.transaction.reference}`)
-                                                }
-                                                }>Next</button>
                                             ) : ''
-                                    }
-
+                                        }
+                                    </div>
+                                    <button className='cm-buttom' onClick={(e) => makePaymentHandler(e)}> {delay ? `Loading....` : `Find My Payment`}</button>
                                 </div>
                             </div>
                         ) : ''
