@@ -73,8 +73,12 @@ const MakePayment = () => {
             console.log(error)
         }
     }
+
+ 
+
     React.useEffect(() => {
         FetchPaymentLink()
+        handleOpenModal();
     }, [])
 
     const downloadMobile = () => {
