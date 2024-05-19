@@ -620,7 +620,11 @@
     color: #276e3a;
     border-radius: .5rem;
     border: 1px solid #276e3a;
-    animation: bounce 1s infinite;
+
+}
+
+.bounce{
+        animation: bounce 1s infinite;
 }
 .cm-buttom{
     background: #97F675;

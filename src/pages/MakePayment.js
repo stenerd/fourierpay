@@ -405,7 +405,8 @@ const MakePayment = () => {
                                     <span className='controller'></span>
                                 </div>
                                 <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
-                                    <div className='pt-4 mb-12 top-section' onClick={() => setTab(2)}> CLICK HERE TO PAY</div>
+                                    <div className='c-bg-primary-light pt-4 mb-3 text-center bounce ' onClick={() => setTab(2)}> Make New Payment </div>
+                                    <div className='pt-4 mb-12 top-section' onClick={() => setTab(2)}> Verify Existing Payment </div>
                                     <button className='cm-buttom hidden' onClick={() => setTab(2)}>Pay ₦{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}</button>
                                 </div>
                             </div>
