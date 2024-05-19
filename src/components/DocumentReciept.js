@@ -118,7 +118,6 @@ const MyDocument = ({ transactions }) => {
                         <Text style={styles.big}>{transactions?.transaction?.status.toUpperCase()}</Text>
                     </View>
                     <View style={styles.general}>
-
                         <Text style={styles.small}>PAYMENT NAME</Text>
                         <Text style={styles.big}>{transactions?.payment_link?.name.toUpperCase()}</Text>
                     </View>
@@ -126,6 +125,12 @@ const MyDocument = ({ transactions }) => {
                         <Text style={styles.small}>PAYMENT LINK</Text>
                         <Link style={styles.link} src={transactions?.payment_link?.link}>
                             {transactions?.payment_link?.link}
+                        </Link>
+                    </View>
+                    <View style={styles.general}>
+                        <Text style={styles.small}>TRANSACTION LOOKUP</Text>
+                        <Link style={styles.link} src={`https://app.fourierpay.com/reciept/${transactions?.transaction?.reference}`}>
+                            {`https://app.fourierpay.com/reciept/${transactions?.transaction?.reference}`}
                         </Link>
                     </View>
                     {transactions?.transaction?.in_entity_id?.form.map((form, index) => {
@@ -136,8 +141,8 @@ const MyDocument = ({ transactions }) => {
                             </View>
                         )
                     })}
-                    <View style={{ display: "flex", justifyContent: "space-between", alignContent: "flex-start", alignItems: "flex-start", flexDirection: 'row',gap:20,marginTop:15}}>
-                        <Text style={{ fontSize: 30, paddingTop: 10, flex: 1,textAlign:'left' }}><Text style={{fontWeight:'bold',color:'green'}}>SCAN QR CODE</Text> TO CHECK YOUR TRANSACTION STATUS</Text>
+                    <View style={{ display: "flex", justifyContent: "space-between", alignContent: "flex-start", alignItems: "flex-start", flexDirection: 'row', gap: 20, marginTop: 15 }}>
+                        <Text style={{ fontSize: 30, paddingTop: 10, flex: 1, textAlign: 'left' }}><Text style={{ fontWeight: 'bold', color: 'green' }}>SCAN QR CODE</Text> TO CHECK YOUR TRANSACTION STATUS</Text>
                         <View>
                             <Image style={{ width: 150 }} src="/images/qrcode.png" alt="" />
                         </View>
