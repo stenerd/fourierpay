@@ -6,7 +6,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../utils/axios';
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { IconButton } from "@mui/material"
 const Signup = () => {
     const [loading, setLoading] = useState(false)
     const [state, setState] = useState({
@@ -19,10 +21,14 @@ const Signup = () => {
     })
     const navigate = useNavigate()
 
+    const [text, setText] = useState(false)
+
     const handleChange = (e) => {
         setState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
 
     }
+
+    const togglePassword = () => setText(!text)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -114,15 +120,27 @@ const Signup = () => {
                                             </Grid>
                                             <Grid item lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Password</label>
-                                                <input placeholder='Password' onChange={handleChange} name='password' required type="password" className='py-2 px-4 w-full outline-none c-text-input' />
+                                                <div className="relative">
+                                                    <input placeholder='Password' name='password' onChange={handleChange} required type={text ? "text" : "password"} className='py-2 px-4 w-full outline-none c-text-input' />
+                                                    <IconButton className="absolute left-[92%] bottom-10" onClick={togglePassword}>
+                                                        {text ? (<VisibilityOffIcon />) : (<VisibilityIcon />)}
+                                                    </IconButton>
+                                                </div>
+
                                             </Grid>
                                             <Grid item lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Confirm Password</label>
-                                                <input placeholder='Confirm Password' onChange={handleChange} name='confirm_password' required type="password" className='py-2 px-4 w-full outline-none c-text-input' />
+                                                <div>
+                                                    <input placeholder='Password' name='password' onChange={handleChange} required type={text ? "text" : "password"} className='py-2 px-4 w-full outline-none c-text-input' />
+                                                    <IconButton className="absolute left-[92%] bottom-10" onClick={togglePassword}>
+                                                        {text ? (<VisibilityOffIcon />) : (<VisibilityIcon />)}
+                                                    </IconButton>
+                                                </div>
+
                                             </Grid>
                                         </Grid>
 
-                                        <div className='mt-12 mb-6'>
+                                        <div className='mt-6 mb-6'>
                                             <p className='text-sm font-bold text-gray-500'>👍 Signing into Fourier
                                                 <span className='c-primary-color'>pay</span> account means you agree to the
                                                 <span className='c-primary-link-color'> Terms</span> and
