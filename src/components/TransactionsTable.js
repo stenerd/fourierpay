@@ -39,6 +39,7 @@ export default function TransactionTable({
   type,
   setType,
   meta,
+  onPageChange,
   setMeta,
   setTransaction,
   Protected,
@@ -67,26 +68,10 @@ export default function TransactionTable({
 
   // const paginate = pageNumber => setCurrentPage(pageNumber);
 
-  const onPageChange = async (pageNumber) => {
-    setLoading(true)
-    try {
-      const response = await Protected.get(`${BASE_URL}/api/transaction?page=${pageNumber}`)
-      console.log(response.data.data)
-      setTransaction(response?.data?.data.data)
-      setMeta(response?.data?.data.meta)
-      setLoading(false)
-    } catch (error) {
-      setLoading(false)
-      console.log(error.response)
-    }
-    console.log(pageNumber)
-
-  }
-
   const clearAll = () => {
     setEnd("")
     setStart("")
-    setStatus("")
+    setStatus("paid")
     setType("")
     setEntity("")
 

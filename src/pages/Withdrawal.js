@@ -4,7 +4,7 @@ import DashboardLayout from '../components/DashboardLayout'
 import Titlebar from '../components/TitleBar'
 import TuneIcon from '@mui/icons-material/Tune';
 import { Button } from '@mui/material';
-import TransactionTable from '../components/TransactionsTable';
+// import TransactionTable from '../components/TransactionsTable';
 import WithdrawalTable from '../components/Withdrawal';
 import WithdrawalPopup from '../components/WIthdrawalPopup';
 import { DashBoardContext } from '../context/Dashboard';

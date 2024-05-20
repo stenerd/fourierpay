@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -13,9 +13,10 @@ import moment from 'moment'
 import SinglePaymentModal from './SinglePaymentModal';
 import FilterDialog from './FilterDialog';
 import StatusBadge from './atom/web/StatusBadge';
+import Pagination from './molecule/web/Pagination';
 
 
-export default function PaymentTable({ data, onChange, handleKeyDown, start, end, status, setStatus, setEnd, setStart, filterData, opener, setOpener, handleClickOpen, handleCloser, loading }) {
+export default function PaymentTable({ data, onChange, handleKeyDown, start, end, status, setStatus, setEnd, setStart, filterData, opener, setOpener, handleClickOpen, handleCloser, loading, meta, setMeta }) {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -25,6 +26,8 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
   const startRef = React.useRef()
   const endRef = React.useRef()
   const statusRef = React.useRef()
+
+
   const clearAll = () => {
     setEnd("")
     setStart("")
@@ -32,10 +35,16 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
 
     formRef.current.reset()
     setTimeout(() => {
-      filterData()
+      filterData(1)
     }, 1000)
 
   }
+
+  const onPageChange = async (pageNumber) => {
+      setMeta({page: pageNumber, lastPage: meta.lastPage})
+      filterData(pageNumber)
+  }
+
   const array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   // const [search,setSearch] = React.useState("")
 
@@ -58,9 +67,15 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
         <div className='w-[20%]'>
           <input placeholder='Search' onChange={onChange} onKeyDown={handleKeyDown} style={{ backgroundColor: '#f8faf7' }} name='q' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
         </div>
-        <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />} onClick={() => setToggle(!toggle)}>
-          Filter
-        </Button>
+        <div className='flex items-center space-x-4'>
+          <div className='mr-5'>
+            <Pagination currentPage={meta.page} lastPage={meta.lastPage} onPageChange={(page) => onPageChange(page)} />
+          </div>
+          <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />} onClick={() => setToggle(!toggle)}>
+            Filter
+          </Button>
+        </div>
+        
       </div>
       {toggle && (
         <div className='w-full mt-2 py-4 rounded-md border-2 border-gray-300'>
@@ -124,7 +139,7 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
 
             <div className='flex justify-end items-end'>
               <button className='c-primary-button rounded-md' onClick={() => filterData()}>
-                {loading ? 'Loading....' : 'Fliter'}
+                {loading ? 'Loading....' : 'Filter'}
               </button>
             </div>
           </div>

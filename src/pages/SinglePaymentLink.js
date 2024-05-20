@@ -65,6 +65,8 @@ const SinglePaymentLink = () => {
     const [pending, setPending] = useState(false)
     const [settings, setSettings] = useState(false)
 
+      const [meta, setMeta] = useState({ page: 1, lastPage: 1 })
+
     const [tabList, setTabList] = useState([
         {
             key: 'payments',
@@ -191,15 +193,17 @@ const SinglePaymentLink = () => {
         }
     }
 
-    const filterData = async () => {
+    const filterData = async (page) => {
         setLoading(true)
         try {
             setLoading(true)
             const data = filterLink(status, start, end)
-            const response = await Protected.get(data)
+            const response = await Protected.get(`${data}&page=${page || 1}`)
+            // const response = await Protected.get(data)
             console.log(response.data.data.data)
             setLoading(false)
             setData(response.data.data.data)
+            setMeta(response.data.data.meta)
             checkPayerSheetUpdate(response.data.data.data)
             console.log(data)
             // setEnd('')
@@ -453,7 +457,24 @@ const SinglePaymentLink = () => {
                                                         </div>
                                                     </>) :
                                                     (<div className='py-6'>
-                                                        <PaymentTable loading={loading} opener={opener} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} data={data} onChange={onChange} handleKeyDown={handleKeyDown} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} setStatus={setStatus} filterData={filterData} />
+                                                        <PaymentTable
+                                                            loading={loading}
+                                                            opener={opener}
+                                                            setOpener={setOpener}
+                                                            handleClickOpen={handleClickOpen}
+                                                            handleCloser={handleCloser}
+                                                            data={data}
+                                                            onChange={onChange}
+                                                            handleKeyDown={handleKeyDown}
+                                                            start={start}
+                                                            end={end}
+                                                            setStart={setStart}
+                                                            setEnd={setEnd}
+                                                            status={status}
+                                                            setStatus={setStatus}
+                                                            filterData={filterData}
+                                                            meta={meta}
+                                                            setMeta={setMeta} />
                                                     </div>)
 
                                             ) : ''

@@ -274,11 +274,15 @@ const PaymentReciept = () => {
                                 </div>
 
                                 <div className='pt-0'>
-                                    <button className='bg-[#97f675] font-bold rounded-md py-4 px-12 text-[#234244]' onClick={() => fetchSingleTransaction()}>
-                                        <span className='pl-2'>{loading ? (
-                                            <CircularProgress color="success" />
-                                        ) : "Search"}</span>
-                                    </button>
+                                    {
+                                        loading ?
+                                            <button className='bg-[#97f675] text-[#234244] rounded-md py-4 px-16' onClick={() => fetchSingleTransaction()}>
+                                                <CircularProgress color="success" size="1.23rem" />
+                                            </button> :
+                                            <button className='bg-[#97f675] font-bold rounded-md py-4 px-12 text-[#234244]' onClick={() => fetchSingleTransaction()}>
+                                                <span className='pl-2'>Search</span>
+                                            </button>
+                                    }
                                 </div>
 
                             </div>
