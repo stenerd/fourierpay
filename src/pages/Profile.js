@@ -607,7 +607,10 @@ const Profile = () => {
                             )}
                             {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<small className='font-bold text-gray-500'>{profile?.email} {profile?.phonenumber}</small>)}
                         </div>
-                        <button className='c-bg-primary-light' onClick={handleOpened}>Change Password</button>
+                        <div>
+                            <button className='c-bg-primary-light' onClick={handleOpened}>Change Password</button>
+                        </div>
+                        
                         {/* </div> */}
                     </Titlebar>
                     <div className='px-16 py-8'>

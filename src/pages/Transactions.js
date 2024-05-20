@@ -81,15 +81,6 @@ const Transactions = () => {
         setOpener(false);
     };
 
-
-    const handlePayin = () => {
-        setPayin(true)
-        setPayout(false)
-    }
-    const handlePayOut = () => {
-        setPayout(true)
-        setPayin(false)
-    }
     // const {profile} = useSelector((state)=>state.dashboard)
     // console.log("profile >> ", profile)
     const [transact, setTransact] = useState()
@@ -190,30 +181,22 @@ const Transactions = () => {
 
 
     const handleKeyDown = async (event) => {
-        // event.preventDefault()
         if (event.key === 'Enter') {
-            // 👇 Get input value
-            // SearchTransaction()
             const data = filterLink(status, start, end, type, entity)
             const response = await Protected.get(data)
-            // console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
         }
     };
-    // console.log("transactions >> ", transactions)
 
     const fetchTransaction = async () => {
         setLoading(true)
         try {
             const response = await Protected.get(`${BASE_URL}/api/transaction?q=${search}&status=${status}`)
-            // console.log('fetchTransaction >> ', response?.data?.data)
             setTransaction(response?.data?.data.data)
             setMeta(response?.data?.data?.meta)
-            // console.log('meta>>>>', response?.data?.data?.meta)
             setLoading(false)
         } catch (error) {
             setLoading(false)
-            // console.log('dfvd >> ', error.response)
         }
     }
 
@@ -239,7 +222,6 @@ const Transactions = () => {
     }
 
     const onPageChange = async (pageNumber) => {
-        // console.log("pageNumber >> ", pageNumber)
         await filterData(pageNumber)
     }
 
@@ -261,17 +243,9 @@ const Transactions = () => {
             // console.log({ status, type, entity, end, start })
 
         } catch (error) {
-            // console.log(error.response)
             setLoading(false)
-
-            // console.log('error')
         }
     }
-
-    // const filterThrough = (value)=>{
-    //     value('')
-
-    // }
 
     useEffect(() => {
         setValue('transactions')
@@ -314,6 +288,7 @@ const Transactions = () => {
                                 setTransaction={setTransaction}
                                 BASE_URL={BASE_URL}
                                 Protected={Protected}
+                                onPageChange={(page) => onPageChange(page)}
                             />
                         ) : <PayOutTable />}
                     </div>
