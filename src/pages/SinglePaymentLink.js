@@ -246,6 +246,7 @@ const SinglePaymentLink = () => {
             // console.log(res.data.data.data)
             console.log(response.data.data.data)
             setData(response.data.data.data)
+            setMeta(response.data.data.meta)
             checkPayerSheetUpdate(response.data.data.data)
             if (response.data.data.data.paymentLink.state === 'private') {
                 FetchPayersSheet()
@@ -658,6 +659,8 @@ const SinglePaymentLink = () => {
                                     setStatus={setStatus}
                                     filterData={filterData}
                                     data={data}
+                                    meta={meta}
+                                    setMeta={setMeta}
                                 />
                             )}
                             {pending && (

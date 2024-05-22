@@ -4,12 +4,38 @@ import moment from 'moment'
 import TuneIcon from '@mui/icons-material/Tune';
 import React from 'react'
 import FilterDialog from './FilterDialog';
+import Pagination from './molecule/web/Pagination';
 
-const SinglePayment = ({ data, onChange, handleKeyDown, start, end, status, setStatus, setEnd, setStart, filterData, opener, setOpener, handleClickOpen, handleCloser, loading ,setSearch}) => {
+const SinglePayment = ({
+    data,
+    onChange,
+    handleKeyDown,
+    start,
+    end,
+    status,
+    setStatus,
+    setEnd,
+    setStart,
+    filterData,
+    opener,
+    setOpener,
+    handleClickOpen,
+    handleCloser,
+    loading,
+    setSearch,
+    meta,
+    setMeta
+}) => {
+
     const [open21, setOpen21] = React.useState(false);
     const handleClickOpen21 = () => {
         setOpen21(true);
     };
+
+    const onPageChange = async (pageNumber) => {
+        setMeta({page: pageNumber, lastPage: meta.lastPage})
+        filterData(pageNumber)
+    }
 
     const handleClose21 = () => {
         setOpen21(false);
@@ -76,10 +102,18 @@ const SinglePayment = ({ data, onChange, handleKeyDown, start, end, status, setS
                     )}
                     {data?.payments?.length === 0 && (
                         <div className='flex flex-col py-6 justify-center px-2'>
-                            <img src="/images/nolinks.svg" className='w-2/5 mx-auto' />
+                            <img src="/images/nolinks.svg" className='w-2/5 mx-auto' alt='img' />
                             <p className='text-gray-500 text-center'>No Payments Yet!</p>
                         </div>
                     )}
+
+                    {data?.payments?.length !== 0 && (
+                        <div className='pb-12 flex justify-center'>
+                            <Pagination currentPage={meta.page} lastPage={meta.lastPage} onPageChange={(page) => onPageChange(page)} />
+                        </div>
+                        )
+
+                    }
                 </div>
             </div>
             <FilterDialog loading={loading} open21={open21} setOpen21={setOpener} handleClickOpen21={handleClickOpen21} handleClose21={handleClose21} data={data} onChange={onChange} handleKeyDown={handleKeyDown} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} setStatus={setStatus} filterData={filterData}/>
