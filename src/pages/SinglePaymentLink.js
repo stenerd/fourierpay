@@ -84,7 +84,7 @@ const SinglePaymentLink = () => {
             </>
         },
     ])
-    const [tab, setTab] = useState(tabList[tabList.length - 1])
+    const [tab, setTab] = useState(tabList[0])
 
     const checkPayerSheetUpdate = (data) => {
         if (data.paymentLink.state === 'private') {
@@ -447,7 +447,7 @@ const SinglePaymentLink = () => {
                                             </div>
                                         </Grid>
                                     </Grid>
-                                    <Tabs tabList={tabList} currentTab={tabList[tabList.length - 1]} switcher={(tab) => setTab(tab)} />
+                                    <Tabs tabList={tabList} currentTab={tabList[0]} switcher={(tab) => setTab(tab)} />
                                     {
                                         (tab.key === 'payments') ?
                                             (
