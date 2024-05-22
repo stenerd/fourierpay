@@ -84,7 +84,7 @@ const SinglePaymentLink = () => {
             </>
         },
     ])
-    const [tab, setTab] = useState(tabList[tabList.length - 1])
+    const [tab, setTab] = useState(tabList[0])
 
     const checkPayerSheetUpdate = (data) => {
         if (data.paymentLink.state === 'private') {
@@ -247,6 +247,7 @@ const SinglePaymentLink = () => {
             console.log(response.data.data.data)
             setData(response.data.data.data)
             setMeta(response.data.data.meta)
+            // console.log(response.data.data.data)
             checkPayerSheetUpdate(response.data.data.data)
             if (response.data.data.data.paymentLink.state === 'private') {
                 FetchPayersSheet()
@@ -447,7 +448,7 @@ const SinglePaymentLink = () => {
                                             </div>
                                         </Grid>
                                     </Grid>
-                                    <Tabs tabList={tabList} currentTab={tabList[tabList.length - 1]} switcher={(tab) => setTab(tab)} />
+                                    <Tabs tabList={tabList} currentTab={tabList[0]} switcher={(tab) => setTab(tab)} />
                                     {
                                         (tab.key === 'payments') ?
                                             (
