@@ -4,8 +4,10 @@ import moment from 'moment'
 import TuneIcon from '@mui/icons-material/Tune';
 import React from 'react'
 import FilterDialog from './FilterDialog';
+import Pagination from './molecule/web/Pagination';
+import PaymentDialog from './PaymentsDialog';
 
-const SinglePayment = ({ data, onChange, handleKeyDown, start, end, status, setStatus, setEnd, setStart, filterData, opener, setOpener, handleClickOpen, handleCloser, loading ,setSearch}) => {
+const SinglePayment = ({ data, onChange, handleKeyDown, start, end, status, setStatus, setEnd, setStart, filterData, opener, setOpener, handleClickOpen, handleCloser, loading, setSearch, meta, setMeta }) => {
     const [open21, setOpen21] = React.useState(false);
     const handleClickOpen21 = () => {
         setOpen21(true);
@@ -14,10 +16,29 @@ const SinglePayment = ({ data, onChange, handleKeyDown, start, end, status, setS
     const handleClose21 = () => {
         setOpen21(false);
     };
+
+    const onPageChange = async (pageNumber) => {
+        setMeta({ page: pageNumber, lastPage: meta.lastPage })
+        filterData(pageNumber)
+    }
+
+
+    const [transact, setTransact] = React.useState()
+
+    const [open1, setOpen1] = React.useState(false);
+
+    const handleClickOpen1 = () => {
+        setOpen1(true);
+    };
+    const handleClose1 = () => {
+        setOpen1(false);
+    };
+
     console.log(data)
     return (
         <>
             <div className='space-y-3 py-4'>
+
                 <div className=''>
                     <Paper
                         // component="form"
@@ -36,7 +57,7 @@ const SinglePayment = ({ data, onChange, handleKeyDown, start, end, status, setS
                 </div>
                 <div className='space-y-6 mb-10'>
                     {data ? data?.payments?.map((row, index) => (
-                        <div className='flex space-x-2 items-center' key={index}>
+                        <div className='flex space-x-2 items-center' key={index} onClick={() => { console.log(row); handleClickOpen1(); setTransact(row) }}>
                             {row.transaction_id.status === 'paid' ?
                                 (
                                     <div className='p-2 c-icon-bg'>
@@ -69,7 +90,6 @@ const SinglePayment = ({ data, onChange, handleKeyDown, start, end, status, setS
                                 <Stack spacing={3}>
                                     <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
                                     <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
-
                                 </Stack>
                             </div>
                         </div>
@@ -80,9 +100,13 @@ const SinglePayment = ({ data, onChange, handleKeyDown, start, end, status, setS
                             <p className='text-gray-500 text-center'>No Payments Yet!</p>
                         </div>
                     )}
+                    <div className='mb-14 flex justify-center'>
+                        <Pagination currentPage={meta.page} lastPage={meta.lastPage} onPageChange={(page) => onPageChange(page)} />
+                    </div>
                 </div>
             </div>
-            <FilterDialog loading={loading} open21={open21} setOpen21={setOpener} handleClickOpen21={handleClickOpen21} handleClose21={handleClose21} data={data} onChange={onChange} handleKeyDown={handleKeyDown} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} setStatus={setStatus} filterData={filterData}/>
+            <FilterDialog loading={loading} open21={open21} setOpen21={setOpener} handleClickOpen21={handleClickOpen21} handleClose21={handleClose21} data={data} onChange={onChange} handleKeyDown={handleKeyDown} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} setStatus={setStatus} filterData={filterData} />
+            <PaymentDialog open1={open1} transact={transact} setOpen1={setOpen1} handleClickOpen1={handleClickOpen1} handleClose1={handleClose1} />
         </>
     )
 }

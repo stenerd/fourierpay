@@ -193,6 +193,7 @@ const Transactions = () => {
         try {
             const response = await Protected.get(`${BASE_URL}/api/transaction?q=${search}&status=${status}`)
             setTransaction(response?.data?.data.data)
+            console.log(response?.data?.data.data);
             setMeta(response?.data?.data?.meta)
             setLoading(false)
         } catch (error) {
