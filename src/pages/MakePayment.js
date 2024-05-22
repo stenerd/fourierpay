@@ -1,15 +1,8 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import dayjs from 'dayjs';
-import { FormControl, Grid, InputLabel, MenuItem, Select, TextField, Divider, Backdrop, CircularProgress } from '@mui/material';
+import { FormControl, Grid, Divider, Backdrop, Dialog, DialogActions ,IconButton,DialogTitle,  DialogContent,Button, CircularProgress } from '@mui/material';
+
+
 import DashboardLayout from '../components/DashboardLayout';
 import Titlebar from '../components/TitleBar';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -31,7 +24,6 @@ import jsPDF from 'jspdf';
 import Sidebar from '../components/SideBar';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import { IconButton } from '@mui/material'
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 // import XIcon from '@mui/icons-material/X';
@@ -43,6 +35,7 @@ const MakePayment = () => {
     const [loading, setLoading] = React.useState(false);
     const [value, setValue] = React.useState(0);
     const [tab, setTab] = React.useState(1);
+    const [tab_lg, setTabLg] = React.useState(1);
     const [paymentData, setPaymentData] = React.useState({});
     const [paymentLink, setPaymentLink] = React.useState({});
     const [result, setResult] = React.useState({});
@@ -51,8 +44,22 @@ const MakePayment = () => {
     const [removeDownloadButton, setRemoveDownloadButton] = React.useState(false)
 
 
-    // const [details, setDetails] = React.useState([])
+    // Modal Code
+    const [openModal, setOpenModal] = React.useState(false);
 
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
+    
+    const navigateToPageOne = () => {
+            navigate('/page-one');
+            handleCloseModal();
+        };
+
+    const navigateToPageTwo = () => {
+        navigate('/page-two');
+        handleCloseModal();
+    };
+            
     const handleClosed = () => {
         setDelay(false)
     }
@@ -66,8 +73,12 @@ const MakePayment = () => {
             console.log(error)
         }
     }
+
+ 
+
     React.useEffect(() => {
         FetchPaymentLink()
+        handleOpenModal();
     }, [])
 
     const downloadMobile = () => {
@@ -258,6 +269,10 @@ const MakePayment = () => {
         }
     }
 
+    const openVerifyPayment = async () => {
+        return
+    }
+
     const printDocument = () => {
         const input = document.getElementById('divToPrint');
         html2canvas(input)
@@ -367,12 +382,14 @@ const MakePayment = () => {
                             </p>
                         </div>
                     </div>
+
                     <div className='relative px-6 pt-6 w-full'>
                         <p className='text-[#D3D4D4] font-medium text-sm uppercase'>{paymentLink.expires_at && 'Expiry Date'}</p>
                         <p className='text-white pb-4 font-medium cm-mobile-make-payment-divider'>
                             {paymentLink.expires_at && moment(paymentLink.expires_at).format('dddd, DD MMMM YYYY')}
                         </p>
                     </div>
+
                     <div className='relative px-6 pt-6 w-full'>
                         <p className='text-center pb-2'>
                             <span className='text-white font-medium text-lg'>₦ &nbsp;</span>
@@ -386,7 +403,8 @@ const MakePayment = () => {
                                     <span className='controller'></span>
                                 </div>
                                 <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
-                                    <div className='pt-4 mb-12 top-section' onClick={() => setTab(2)}> CLICK HERE TO PAY</div>
+                                    <div className='c-bg-primary-light pt-4 mb-3 text-center bounce ' onClick={() => setTab(2)}> Make New Payment </div>
+                                    <div className='pt-4 mb-12 top-section' onClick={() => setTab(3)}> Verify Existing Payment </div>
                                     <button className='cm-buttom hidden' onClick={() => setTab(2)}>Pay ₦{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}</button>
                                 </div>
                             </div>
@@ -448,61 +466,56 @@ const MakePayment = () => {
                         ) : ''
                     }
                     {
-                        (tab === 3) ? (
+                            (tab === 3) ? (
                             <div className='absolute cm-mobile-make-payment-panel info'>
                                 <div className='pt-3 flex justify-center'>
-                                    {/* <span className='controller'></span> */}
+                                    <span className='controller'></span>
                                 </div>
-                                <div className='p-6 flex flex-col items-between justify-between' id='divToPrint' style={{ minHeight: '90%' }}>
-                                    <div className='pt-0'>
-                                        <div className='flex justify-center'>
-                                            <img src='/images/payment-successful.svg' width="110" alt="alt-img" />
-                                        </div>
-                                        <div className='flex justify-center mt-4'>
-                                            <p className='font-bold text-base text-[#222926]'>Payment Successful</p>
-                                        </div>
-                                        <div className='flex justify-center mt-2'>
-                                            <p className='text-gray-400 text-sm font-medium'>Transaction Reference</p>
-                                        </div>
-                                        <div className='flex justify-center mt-2'>
-                                            <p className='text-[#15C01A] pr-2 text-base font-medium cursor-pointer' onClick={() => copyText(result.transaction && result.transaction.reference)}>{result.transaction && result.transaction.reference}</p>
-                                            <img src='/images/copy.svg' alt="alt-img" />
-                                        </div>
-                                        <div className='flex justify-center mt-4'>
-                                            <p className='font-bold text-base text-[#222926]'>
-                                                <span className='text-gray-400 font-medium text-lg'>₦ &nbsp;</span>
-                                                <span className='font-bold text-3xl'>{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}</span>
-                                            </p>
-                                        </div>
-                                        <div className='mt-6'>
-                                            <p className='font-medium text-sm text-gray-500'>RECIPIENT</p>
-                                        </div>
+                                <div className='p-6 flex flex-col items-between justify-between' style={{ minHeight: '90%' }}>
+                                    <div className='pt-0 overflow-y-scroll'>
+                                        <span className='cursor-pointer' onClick={() => setTab(1)}>
+                                            <KeyboardBackspaceOutlinedIcon style={{ color: '#0067ffe3' }} />
+                                            <span className='pl-1 text-[#0067ffe3] font-bold'>Back</span>
+                                        </span>
 
-                                        <div className='relative px-0 pt-1 w-full pb-12'>
-                                            <div className='w-full p-4 flex cm-mobile-make-payment-topic-success'>
-                                                <div className='flex items-center justify-center'>
-                                                    <img src='/images/make-payment-icon.svg' alt="alt-img" />
+                                        {
+                                            paymentLink.form && paymentLink.form.length ? (
+                                                <div className='mt-4 mb-8'>
+                                                    <Grid container spacing={2}>
+                                                        {
+                                                            paymentLink.form.map((link, index) => (
+                                                                <Grid item xs={12} key={index}>
+                                                                    <div className='flex flex-col space-y-3 mb-4'>
+                                                                        <label for={'for' + index + 1} className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Enter {link.field_name}</label>
+                                                                        {
+                                                                            link.field_type === 'text' ? (
+                                                                                <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="pb-2 px-4 w-full outline-none c-text-input" />
+                                                                            ) : (
+                                                                                <select id={'for' + index + 1} placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="pb-2 px-4 w-full outline-none c-text-input">
+                                                                                    <option value={''}>Select {link.field_name} </option>
+                                                                                    {
+                                                                                        link.options.map((option, i) => (
+                                                                                            <option key={option + i} value={option}>{option} </option>
+                                                                                        ))
+                                                                                    }
+                                                                                </select>
+                                                                            )
+                                                                        }
+                                                                        {
+                                                                            link.error ? (
+                                                                                <small className='c-pay-error'>{link.error}</small>
+                                                                            ) : ''
+                                                                        }
+                                                                    </div>
+                                                                </Grid>
+                                                            ))
+                                                        }
+                                                    </Grid>
                                                 </div>
-                                                <div className='pl-4 w-full'>
-                                                    <p className='font-bold text-[#0067ffe3] text-sm uppercase'>{result.payment && result.payment.unique_answer}</p>
-                                                    <p className='font-bold text-[#222926] text-lg'>{paymentLink.name}</p>
-                                                    <p className='pt-1 flex justify-between w-full'>
-                                                        <p className='text-[#222926] text-sm'>{result.payment && moment(result.payment.createdAt).format('MMMM DD, YYYY, hh:mm A')}</p>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {
-                                        (!removeDownloadButton) ?
-                                            (
-                                                <button className='cm-buttom' style={{ display: removeDownloadButton ? 'none' : 'block' }} onClick={() => {
-                                                    navigate(`/reciept/${result.transaction.reference}`)
-                                                }
-                                                }>Next</button>
                                             ) : ''
-                                    }
-
+                                        }
+                                    </div>
+                                    <button className='cm-buttom' onClick={(e) => makePaymentHandler(e)}> {delay ? `Loading....` : `Find My Payment`}</button>
                                 </div>
                             </div>
                         ) : ''
@@ -532,116 +545,13 @@ const MakePayment = () => {
                             <CircularProgress color="inherit" />
                         </Backdrop>
                     )}
-                    {/* <div className='px-4 lg:px-16 py-8 lg:py-16 mx-auto'>
-                        <div className='flex mx-auto min-h-[85vh]'>
-                            <div className='w-[90%] lg:w-[55%] mx-auto c-make-payment p-[1.5rem] lg:p-[4rem]'>
-                                <div className='flex flex-col justify-center items-center'>
-                                    <div className='w-full'>
-                                        <form className='w-full'>
-                                            <div className='flex justify-between'>
-                                                <h3 className='text-xl mb-16 font-bold home c-auth-title'>Pay</h3>
-                                                <div>
-                                                    <small className='text-sm text-[#00bf00] status-pill c-status-border-pill capitalize'>{paymentLink.status} {paymentLink.expires_at && ' - ' + moment(paymentLink.expires_at).format('dddd, DD MMMM YYYY')}</small>
-                                                </div>
-                                            </div>
-
-                                            <p className='font-bold text-[#234244] text-xl uppercase c-make-payment-owner'>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname} ${paymentLink.creator_id.lastname}` : 'Nill'}</p>
-                                            <p className='font-bold text-gray-700 text-lg'>{paymentLink.name}</p>
-                                            <span className='font-bold text-gray-500 inline-block w-full'>{paymentLink.description}</span>
-                                            <Divider className='creat-payment-divider' />
-                                            <p className='font-bold text-gray-700 text-lg mt-8'>Amount: ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.amount || 0)}</p>
-                                            <p className='font-bold text-gray-700 text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges || 0)}</p>
-                                            <p className='font-bold text-[#39c531] text-xl mt-4'>Total: ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format((paymentLink.amount + paymentLink.charges) || 0)}</p>
-                                            <Divider className='creat-payment-divider' />
-                                            {
-                                                paymentLink.form && paymentLink.form.length ? (
-                                                    <div className='mt-8 mb-8'>
-                                                        <Grid container spacing={2}>
-                                                            {
-                                                                paymentLink.form.map((link, index) => (
-                                                                    <Grid item xs={12} md={6} key={index}>
-                                                                        <div className='flex flex-col space-y-3 mb-8'>
-                                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
-                                                                            {
-                                                                                link.field_type === 'text' ? (
-                                                                                    <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input" />
-                                                                                ) : (
-                                                                                    <select placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input">
-                                                                                        <option value={''}>Select {link.field_name} </option>
-                                                                                        {
-                                                                                            link.options.map((option, i) => (
-                                                                                                <option key={option + i} value={option}>{option} </option>
-                                                                                            ))
-                                                                                        }
-                                                                                    </select>
-                                                                                )
-                                                                            }
-                                                                            {
-                                                                                link.error ? (
-                                                                                    <small className='c-pay-error'>{link.error}</small>
-                                                                                ) : ''
-                                                                            }
-                                                                        </div>
-                                                                    </Grid>
-                                                                ))
-                                                            }
-                                                        </Grid>
-                                                    </div>
-                                                ) : ''
-                                            } 
-                                            <div className='py-4'>
-                                                <button disabled={loading || delay ? true : false} className='c-primary-button' onClick={(e) => makePaymentHandler(e)}>
-                                                    {loading ? 'Processing.....' : 'Make Payment'}
-                                                </button>
-                                                <PaystackConsumer
-                                                    className='hidden'
-                                                    onSuccess={(reference) => handleSuccess(reference)}
-                                                    onClose={(reference) => handleClose(reference)}
-                                                    {...paymentData}
-                                                >
-                                                    {({ initializePayment }) => <button className='hidden' disabled={loading ? true : false} ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
-                                                        {loading ? 'Paying...' : 'Make Payment'}
-                                                    </button>}
-                                                </PaystackConsumer>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
+                    {/* Mobile view  */}
                     <div className='w-[100vw] flex gap-10'>
                         <div className="w-[32%]">
                             {/* <Sidebar /> */}
                             <div className="min-h-screen w-[32%] shadow-lg cm-mobile-make-payments fixed">
                                 <div className="py-8 px-12 flex flex-col min-h-screen relative">
-                                    <div className='absolute pb-16 text-white payment-socials'>
-                                        <p className='pb-4'>
-                                            Share link to your circle
-                                        </p>
-                                        <div className='flex gap-7'>
-                                            <div className='mx-auto'>
-                                                <img src="/images/share.svg" width="43" className='cursor-pointer' alt='share' />
-                                            </div>
-                                            
-                                            <div className='mx-auto'>
-                                                <img src="/images/twitter.svg" width="48" className='cursor-pointer img' alt='share' />
-                                            </div>
-
-                                            
-                                            <div className='mx-auto'>
-                                                <img src="/images/instagram.svg" width="48" className='cursor-pointer' alt='share' />
-                                            </div>
-
-                                            <div className='mx-auto'>
-                                                <img src="/images/facebook.svg" width="48" className='cursor-pointer' alt='share' />
-                                            </div>
-
-                                            <div className='mx-auto'>
-                                                <img src="/images/whatsapp.svg" width="48" className='cursor-pointer' alt='share' />
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {}
                                     <div className=''>
                                         <Link to="/">
                                             {/* <h2 className='text-2xl fourier w-5/6 px-2 mx-auto text-white font-semibold pt-4'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}
@@ -772,75 +682,157 @@ const MakePayment = () => {
                                             {/* <p className='font-bold text-gray-700 text-lg mt-8'>Amount: ₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
                                             <p className='font-bold text-gray-700 text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)}</p>
                                             <p className='font-bold text-[#39c531] text-xl mt-4'>Total: ₦ {Intl.NumberFormat('en-US').format((paymentLink.amount + paymentLink.charges) || 0)}</p> */}
-                                            <div className='space-y-2 py-10 mt-15'>
-                                                <h2 className='font-bold text-xl'>Payment Details</h2>
-                                                {/* <span className='font-semibold text-gray-500 text-sm inline-block w-full'>{paymentLink.description}</span> */}
-                                                <div className='py-2'>
-                                                    {
-                                                        paymentLink.form && paymentLink.form.length ? (
-                                                            <div className='mt-8 mb-8'>
-                                                                <Grid container spacing={2}>
-                                                                    {
-                                                                        paymentLink.form.map((link, index) => (
-                                                                            <Grid item xs={12} md={6} key={index}>
-                                                                                <div className='flex flex-col space-y-3 mb-8'>
-                                                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
-                                                                                    {
-                                                                                        link.field_type === 'text' ? (
-                                                                                            <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input" />
-                                                                                        ) : (
-                                                                                            <select placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input">
-                                                                                                <option value={''}>Select {link.field_name} </option>
-                                                                                                {
-                                                                                                    link.options.map((option, i) => (
-                                                                                                        <option key={option + i} value={option}>{option} </option>
-                                                                                                    ))
-                                                                                                }
-                                                                                            </select>
-                                                                                        )
-                                                                                    }
-                                                                                    {
-                                                                                        link.error ? (
-                                                                                            <small className='c-pay-error'>{link.error}</small>
-                                                                                        ) : ''
-                                                                                    }
-                                                                                </div>
-                                                                            </Grid>
-                                                                        ))
-                                                                    }
-                                                                </Grid>
-                                                            </div>
-                                                        ) : ''
-                                                    }
-                                                    <div className="py-2">
-                                                        <div className='bg-[#FEF8E8] py-4 px-4 rounded-md warning-border'>
-                                                            <div className="flex items-start space-x-1">
-                                                                <img src="/images/warnings.svg" alt='warnings' />
-                                                                <div>
-                                                                    <h2 className='text-[#D29A09] font-bold'>Important Notice: Non-Refundable Transactions</h2>
-                                                                    <p className='text-[#889C92] warning-sub-text'>All transactions are non-refundable.  Once payments are processed via the link, our payment providers handle the rest.</p>
-                                                                    
+
+                                            {
+                                                (tab_lg === 1) ? (
+                                                    
+                                                <div className='space-y-2 py-10 mt-15'>
+                                                    <h2 className='font-bold text-xl'>Payment Details</h2>
+                                                    {/* <span className='font-semibold text-gray-500 text-sm inline-block w-full'>{paymentLink.description}</span> */}
+                                                    <div className='py-2'>
+                                                        {
+                                                            paymentLink.form && paymentLink.form.length ? (
+                                                                <div className='mt-8 mb-8'>
+                                                                    <Grid container spacing={2}>
+                                                                        {
+                                                                            paymentLink.form.map((link, index) => (
+                                                                                <Grid item xs={12} md={6} key={index}>
+                                                                                    <div className='flex flex-col space-y-3 mb-8'>
+                                                                                        <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
+                                                                                        {
+                                                                                            link.field_type === 'text' ? (
+                                                                                                <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                                            ) : (
+                                                                                                <select placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                                                                    <option value={''}>Select {link.field_name} </option>
+                                                                                                    {
+                                                                                                        link.options.map((option, i) => (
+                                                                                                            <option key={option + i} value={option}>{option} </option>
+                                                                                                        ))
+                                                                                                    }
+                                                                                                </select>
+                                                                                            )
+                                                                                        }
+                                                                                        {
+                                                                                            link.error ? (
+                                                                                                <small className='c-pay-error'>{link.error}</small>
+                                                                                            ) : ''
+                                                                                        }
+                                                                                    </div>
+                                                                                </Grid>
+                                                                            ))
+                                                                        }
+                                                                    </Grid>
+                                                                </div>
+                                                            ) : ''
+                                                        }
+                                                        <div className="py-2">
+                                                            <div className='bg-[#FEF8E8] py-4 px-4 rounded-md warning-border'>
+                                                                <div className="flex items-start space-x-1">
+                                                                    <img src="/images/warnings.svg" alt='warnings' />
+                                                                    <div>
+                                                                        <h2 className='text-[#D29A09] font-bold'>Important Notice: Non-Refundable Transactions</h2>
+                                                                        <p className='text-[#889C92] warning-sub-text'>All transactions are non-refundable.  Once payments are processed via the link, our payment providers handle the rest.</p>
+                                                                        
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div className='py-4'>
-                                                        <button disabled={loading || delay ? true : false} className='c-bg-primary-light' onClick={(e) => makePaymentHandler(e)}>
-                                                            {loading ? 'Processing.....' : 'Make Payment'}
-                                                        </button>
-                                                        <PaystackConsumer
-                                                            className='hidden'
-                                                            onSuccess={(reference) => handleSuccess(reference)}
-                                                            onClose={(reference) => handleClose(reference)}
-                                                            {...paymentData}
-                                                        >
-                                                            {({ initializePayment }) => <button className='hidden' disabled={loading ? true : false} ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
-                                                                {loading ? 'Paying...' : 'Make Payment'}
-                                                            </button>}
-                                                        </PaystackConsumer>
+                                                        <div className='py-4'>
+                                                            <button disabled={loading || delay ? true : false} className='c-bg-primary-light' onClick={(e) => makePaymentHandler(e)}>
+                                                                {loading ? 'Processing.....' : 'Make Payment'}
+                                                            </button> 
+                                                            <span className=" pl-4 text-sm "> I have paid already,
+                                                                <span className='text-underline  cursor-pointer text-green-700 hover:text-green-900 font-bold '
+                                                                    onClick={(e) => handleOpenModal()} >  Verify Payment </span>
+                                                            </span>
+
+                                                            <PaystackConsumer
+                                                                className='hidden'
+                                                                onSuccess={(reference) => handleSuccess(reference)}
+                                                                onClose={(reference) => handleClose(reference)}
+                                                                {...paymentData}
+                                                            >
+                                                                {({ initializePayment }) => <button className='hidden' disabled={loading ? true : false} ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
+                                                                    {loading ? 'Paying...' : 'Make Payment'}
+                                                                </button>}
+                                                            </PaystackConsumer>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                                ) : ''
+                                            }
+                                            {
+                                                (tab_lg === 2) ? (
+                                                    <div className='space-y-2 py-10 mt-15'>
+                                                        <h2 className='font-bold text-xl'>Payment Details</h2>
+                                                        <span className='font-semibold text-gray-500 text-sm inline-block w-full'>Fill the form to search for a completed payment </span>
+                                                        <div className='py-2'>
+                                                            {
+                                                                paymentLink.form && paymentLink.form.length ? (
+                                                                    <div className='mt-8 mb-8'>
+                                                                        <Grid container spacing={2}>
+                                                                            {
+                                                                                paymentLink.form.map((link, index) => (
+                                                                                    <Grid item xs={12} md={6} key={index}>
+                                                                                        <div className='flex flex-col space-y-3 mb-8'>
+                                                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Enter {link.field_name}</label>
+                                                                                            {
+                                                                                                link.field_type === 'text' ? (
+                                                                                                    <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                                                ) : (
+                                                                                                    <select placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                                                                        <option value={''}>Select {link.field_name} </option>
+                                                                                                        {
+                                                                                                            link.options.map((option, i) => (
+                                                                                                                <option key={option + i} value={option}>{option} </option>
+                                                                                                            ))
+                                                                                                        }
+                                                                                                    </select>
+                                                                                                )
+                                                                                            }
+                                                                                            {
+                                                                                                link.error ? (
+                                                                                                    <small className='c-pay-error'>{link.error}</small>
+                                                                                                ) : ''
+                                                                                            }
+                                                                                        </div>
+                                                                                    </Grid>
+                                                                                ))
+                                                                            }
+                                                                        </Grid>
+                                                                    </div>
+                                                                ) : ''
+                                                            }
+                                                        
+                                                            <div>
+                                                                <button disabled={loading || delay ? true : false} className='c-bg-primary-light' onClick={(e) => makePaymentHandler(e)}>
+                                                                    {loading ? 'Processing.....' : 'Make Payment'}
+                                                                </button> 
+                                                                <span className=" pl-4 text-sm "> Not paid yet?
+                                                                    <span className='text-underline  text-base cursor-pointer text-green-700 hover:text-green-900 font-bold '
+                                                                        onClick={(e) => handleOpenModal()} >  Make a New Payment </span>
+                                                                </span>
+
+                                                                <PaystackConsumer
+                                                                    className='hidden'
+                                                                    onSuccess={(reference) => handleSuccess(reference)}
+                                                                    onClose={(reference) => handleClose(reference)}
+                                                                    {...paymentData}
+                                                                >
+                                                                    {({ initializePayment }) => <button className='hidden' disabled={loading ? true : false} ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
+                                                                        {loading ? 'Searching...' : 'Verify Payment'}
+                                                                    </button>}
+                                                                </PaystackConsumer>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ): ''
+                                            
+                                            }                   
+
+                                        
+                                            
                                             {/* <Divider className='creat-payment-divider' /> */}
                                         </form>
                                     </div>
@@ -864,13 +856,35 @@ const MakePayment = () => {
                 theme="light"
             />
 
+            <Dialog open={openModal} onClose={handleCloseModal}>
+                <div className='p-4' > 
+                    <DialogTitle ><span className='font-bold text-xl'> {"Select An Action"} </span></DialogTitle>
+                    <DialogContent>
+                        <p> Make a new payment or verify a completed payment.</p>
+                    </DialogContent>
+                    <DialogActions>
+                        
+                        
+                        <button className='c-bg-primary-light' onClick={() => { setTabLg(1); setOpenModal(false) } } >
+                                {loading ? 'Processing.....' : 'Make Payment'}
+                        </button> 
+
+                        {/* <p className='font-medium text-[#D3D4D4] text-sm c-elipses'>If youve made a payment already , Click to very</p> */}
+
+                        <button className='c-bg-secondary' onClick={() => { setTabLg(2); setOpenModal(false) }} >
+                                {loading ? 'Processing.....' : 'Verify Existing Payment'}
+                        </button> 
+                                            
+                    </DialogActions>
+                </div>
+            </Dialog>
         </>
     )
 }
 
 {/* {fields}
-                                            <div className='flex flex-col space-y-3'>
-                                                <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
-                                            </div> */}
+<div className='flex flex-col space-y-3'>
+    <span className='bg-[#0d1510] cursor-pointer py-3 px-4 w-2/5  rounded-md text-white' onClick={generateField}>Generate Fields</span>
+</div> */}
 
 export default MakePayment;
