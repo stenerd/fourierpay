@@ -247,6 +247,7 @@ const SinglePaymentLink = () => {
             console.log(response.data.data.data)
             setData(response.data.data.data)
             setMeta(response.data.data.meta)
+            // console.log(response.data.data.data)
             checkPayerSheetUpdate(response.data.data.data)
             if (response.data.data.data.paymentLink.state === 'private') {
                 FetchPayersSheet()
