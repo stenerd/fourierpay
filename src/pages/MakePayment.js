@@ -1,6 +1,6 @@
 import * as React from 'react';
 import dayjs from 'dayjs';
-import { FormControl, Grid, Divider, Backdrop, Dialog, DialogActions ,IconButton,DialogTitle,  DialogContent,Button, CircularProgress } from '@mui/material';
+import { FormControl, Grid, Divider, Backdrop, Dialog, DialogActions, IconButton, DialogTitle, DialogContent, Button, CircularProgress } from '@mui/material';
 
 
 import DashboardLayout from '../components/DashboardLayout';
@@ -26,6 +26,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
+import { TRANSACTION_HISTORY } from '../redux/DashboardSlice';
 // import XIcon from '@mui/icons-material/X';
 
 const MakePayment = () => {
@@ -42,6 +43,8 @@ const MakePayment = () => {
     const paystackButtonRef = React.useRef(null);
     const [delay, setDelay] = React.useState(false)
     const [removeDownloadButton, setRemoveDownloadButton] = React.useState(false)
+    const [unique_object, setUniqueObject] = React.useState()
+    const [unique_data, setUniqueData] = React.useState()
 
 
     // Modal Code
@@ -49,17 +52,17 @@ const MakePayment = () => {
 
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
-    
+
     const navigateToPageOne = () => {
-            navigate('/page-one');
-            handleCloseModal();
-        };
+        navigate('/page-one');
+        handleCloseModal();
+    };
 
     const navigateToPageTwo = () => {
         navigate('/page-two');
         handleCloseModal();
     };
-            
+
     const handleClosed = () => {
         setDelay(false)
     }
@@ -68,13 +71,36 @@ const MakePayment = () => {
             const response = await axios.get(`${BASE_URL}/api/payment-link/${code}`)
             console.log('ppp >> ', response.data.data)
             setPaymentLink(response.data.data)
-
+            const data = await response?.data?.data?.form.find((form) => response?.data?.data?.unique_field === form.field_name)
+            setUniqueObject(data)
         } catch (error) {
             console.log(error)
         }
     }
 
- 
+    const verifyPayment = async () => {
+        setLoading(true)
+        try {
+            setLoading(true)
+            const res = await axios.get(`${BASE_URL}/api/payment/verify/${code}/${unique_data}`)
+
+            const response = await axios.get(`${BASE_URL}/api/payment/reciept/${res.data.data.transaction_id.reference}`)
+            console.log('payment >> ', response.data.data)
+            // setPayment(response.data.data)
+            await dispatch(TRANSACTION_HISTORY(response.data.data))
+
+            await navigate(`/reciept/${res.data.data.transaction_id.reference}`)
+            setLoading(false)
+        } catch (error) {
+            setLoading(false)
+            toast.error(error?.response?.data?.message)
+            // console.log(error.response.data.message)
+        }
+    }
+
+
+
+
 
     React.useEffect(() => {
         FetchPaymentLink()
@@ -321,6 +347,8 @@ const MakePayment = () => {
         });
     }
 
+
+
     return (
         <>
             {/* <div className='block lg:hidden'>
@@ -466,7 +494,7 @@ const MakePayment = () => {
                         ) : ''
                     }
                     {
-                            (tab === 3) ? (
+                        (tab === 3) ? (
                             <div className='absolute cm-mobile-make-payment-panel info'>
                                 <div className='pt-3 flex justify-center'>
                                     <span className='controller'></span>
@@ -477,45 +505,42 @@ const MakePayment = () => {
                                             <KeyboardBackspaceOutlinedIcon style={{ color: '#0067ffe3' }} />
                                             <span className='pl-1 text-[#0067ffe3] font-bold'>Back</span>
                                         </span>
-
                                         {
-                                            paymentLink.form && paymentLink.form.length ? (
+                                            unique_object ? (
                                                 <div className='mt-4 mb-8'>
                                                     <Grid container spacing={2}>
-                                                        {
-                                                            paymentLink.form.map((link, index) => (
-                                                                <Grid item xs={12} key={index}>
-                                                                    <div className='flex flex-col space-y-3 mb-4'>
-                                                                        <label for={'for' + index + 1} className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Enter {link.field_name}</label>
-                                                                        {
-                                                                            link.field_type === 'text' ? (
-                                                                                <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="pb-2 px-4 w-full outline-none c-text-input" />
-                                                                            ) : (
-                                                                                <select id={'for' + index + 1} placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="pb-2 px-4 w-full outline-none c-text-input">
-                                                                                    <option value={''}>Select {link.field_name} </option>
-                                                                                    {
-                                                                                        link.options.map((option, i) => (
-                                                                                            <option key={option + i} value={option}>{option} </option>
-                                                                                        ))
-                                                                                    }
-                                                                                </select>
-                                                                            )
-                                                                        }
-                                                                        {
-                                                                            link.error ? (
-                                                                                <small className='c-pay-error'>{link.error}</small>
-                                                                            ) : ''
-                                                                        }
-                                                                    </div>
-                                                                </Grid>
-                                                            ))
-                                                        }
+                                                        <Grid item xs={12}>
+
+                                                            <div className='flex flex-col space-y-3 mb-4'>
+                                                                <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{unique_object.field_name}</label>
+                                                                {
+                                                                    unique_object.field_type === 'text' ? (
+                                                                        <input required placeholder={unique_object.field_name} name={unique_object.field_name} onChange={(e) => setUniqueData(e.target.value)} className="pb-2 px-4 w-full outline-none c-text-input" />
+                                                                    ) : (
+                                                                        <select id={'for'} placeholder={unique_object.field_name} name={unique_object.field_name} className="pb-2 px-4 w-full outline-none c-text-input">
+                                                                            <option value={''}>Select {unique_object.field_name} </option>
+                                                                            {
+                                                                                unique_object.options.map((option, i) => (
+                                                                                    <option key={option + i} onChange={(e) => setUniqueData(e.target.value)} value={option}>{option} </option>
+                                                                                ))
+                                                                            }
+                                                                        </select>
+                                                                    )
+                                                                }
+                                                                {
+                                                                    unique_object?.error ? (
+                                                                        <small className='c-pay-error'>{unique_object?.error}</small>
+                                                                    ) : ''
+                                                                }
+                                                            </div>
+                                                        </Grid>
                                                     </Grid>
+                                                   
                                                 </div>
                                             ) : ''
                                         }
                                     </div>
-                                    <button className='cm-buttom' onClick={(e) => makePaymentHandler(e)}> {delay ? `Loading....` : `Find My Payment`}</button>
+                                    <button className='cm-buttom' onClick={() => verifyPayment()}>{loading ? "Processing..." : 'Verify Payment'}</button>
                                 </div>
                             </div>
                         ) : ''
@@ -551,7 +576,7 @@ const MakePayment = () => {
                             {/* <Sidebar /> */}
                             <div className="min-h-screen w-[32%] shadow-lg cm-mobile-make-payments fixed">
                                 <div className="py-8 px-12 flex flex-col min-h-screen relative">
-                                    {}
+                                    { }
                                     <div className=''>
                                         <Link to="/">
                                             {/* <h2 className='text-2xl fourier w-5/6 px-2 mx-auto text-white font-semibold pt-4'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}
@@ -568,7 +593,7 @@ const MakePayment = () => {
                                             <p className='font-bold break-all text-white text-xl uppercase '>{paymentLink.creator_id ? `${paymentLink.creator_id.firstname}` : 'Nill'}</p>
                                         </div> */}
 
-                                        
+
 
                                         <div className='w-full p-4 flex cm-mobile-make-payment-topic'>
                                             <div className='flex items-center justify-center'>
@@ -582,7 +607,7 @@ const MakePayment = () => {
                                                 </p>
                                             </div>
                                         </div>
-                        
+
                                         <div className=''>
 
                                             <div className='relative pt-8 w-full'>
@@ -623,9 +648,29 @@ const MakePayment = () => {
                                                     <span className='text-[#97F675] font-bold text-3xl'>{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}</span>
                                                 </p>
                                             </div>
-                                            
-
                                         </div>
+                                    </div>
+                                    <div className="hidden md:block">
+                                        <Dialog open={openModal} onClose={handleCloseModal}>
+                                            <div className='p-4 hidden md:block'>
+                                                <DialogTitle ><span className='font-bold text-xl'> {"Select An Action"} </span></DialogTitle>
+                                                <DialogContent>
+                                                    <p> Make a new payment or verify a completed payment.</p>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <button className='c-bg-primary-light' onClick={() => { setTabLg(1); setOpenModal(false) }} >
+                                                        {loading ? 'Processing.....' : 'Make Payment'}
+                                                    </button>
+
+                                                    {/* <p className='font-medium text-[#D3D4D4] text-sm c-elipses'>If youve made a payment already , Click to very</p> */}
+
+                                                    <button className='c-bg-secondary' onClick={() => { setTabLg(2); setOpenModal(false) }} >
+                                                        {loading ? 'Processing.....' : 'Verify Existing Payment'}
+                                                    </button>
+
+                                                </DialogActions>
+                                            </div>
+                                        </Dialog>
                                     </div>
                                     {/* <div className="py-8 mt-10 px-6 flex-1">
                                         <div>
@@ -685,88 +730,10 @@ const MakePayment = () => {
 
                                             {
                                                 (tab_lg === 1) ? (
-                                                    
-                                                <div className='space-y-2 py-10 mt-15'>
-                                                    <h2 className='font-bold text-xl'>Payment Details</h2>
-                                                    {/* <span className='font-semibold text-gray-500 text-sm inline-block w-full'>{paymentLink.description}</span> */}
-                                                    <div className='py-2'>
-                                                        {
-                                                            paymentLink.form && paymentLink.form.length ? (
-                                                                <div className='mt-8 mb-8'>
-                                                                    <Grid container spacing={2}>
-                                                                        {
-                                                                            paymentLink.form.map((link, index) => (
-                                                                                <Grid item xs={12} md={6} key={index}>
-                                                                                    <div className='flex flex-col space-y-3 mb-8'>
-                                                                                        <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
-                                                                                        {
-                                                                                            link.field_type === 'text' ? (
-                                                                                                <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input" />
-                                                                                            ) : (
-                                                                                                <select placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input">
-                                                                                                    <option value={''}>Select {link.field_name} </option>
-                                                                                                    {
-                                                                                                        link.options.map((option, i) => (
-                                                                                                            <option key={option + i} value={option}>{option} </option>
-                                                                                                        ))
-                                                                                                    }
-                                                                                                </select>
-                                                                                            )
-                                                                                        }
-                                                                                        {
-                                                                                            link.error ? (
-                                                                                                <small className='c-pay-error'>{link.error}</small>
-                                                                                            ) : ''
-                                                                                        }
-                                                                                    </div>
-                                                                                </Grid>
-                                                                            ))
-                                                                        }
-                                                                    </Grid>
-                                                                </div>
-                                                            ) : ''
-                                                        }
-                                                        <div className="py-2">
-                                                            <div className='bg-[#FEF8E8] py-4 px-4 rounded-md warning-border'>
-                                                                <div className="flex items-start space-x-1">
-                                                                    <img src="/images/warnings.svg" alt='warnings' />
-                                                                    <div>
-                                                                        <h2 className='text-[#D29A09] font-bold'>Important Notice: Non-Refundable Transactions</h2>
-                                                                        <p className='text-[#889C92] warning-sub-text'>All transactions are non-refundable.  Once payments are processed via the link, our payment providers handle the rest.</p>
-                                                                        
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className='py-4'>
-                                                            <button disabled={loading || delay ? true : false} className='c-bg-primary-light' onClick={(e) => makePaymentHandler(e)}>
-                                                                {loading ? 'Processing.....' : 'Make Payment'}
-                                                            </button> 
-                                                            <span className=" pl-4 text-sm "> I have paid already,
-                                                                <span className='text-underline  cursor-pointer text-green-700 hover:text-green-900 font-bold '
-                                                                    onClick={(e) => handleOpenModal()} >  Verify Payment </span>
-                                                            </span>
 
-                                                            <PaystackConsumer
-                                                                className='hidden'
-                                                                onSuccess={(reference) => handleSuccess(reference)}
-                                                                onClose={(reference) => handleClose(reference)}
-                                                                {...paymentData}
-                                                            >
-                                                                {({ initializePayment }) => <button className='hidden' disabled={loading ? true : false} ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
-                                                                    {loading ? 'Paying...' : 'Make Payment'}
-                                                                </button>}
-                                                            </PaystackConsumer>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                ) : ''
-                                            }
-                                            {
-                                                (tab_lg === 2) ? (
                                                     <div className='space-y-2 py-10 mt-15'>
                                                         <h2 className='font-bold text-xl'>Payment Details</h2>
-                                                        <span className='font-semibold text-gray-500 text-sm inline-block w-full'>Fill the form to search for a completed payment </span>
+                                                        {/* <span className='font-semibold text-gray-500 text-sm inline-block w-full'>{paymentLink.description}</span> */}
                                                         <div className='py-2'>
                                                             {
                                                                 paymentLink.form && paymentLink.form.length ? (
@@ -776,7 +743,7 @@ const MakePayment = () => {
                                                                                 paymentLink.form.map((link, index) => (
                                                                                     <Grid item xs={12} md={6} key={index}>
                                                                                         <div className='flex flex-col space-y-3 mb-8'>
-                                                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Enter {link.field_name}</label>
+                                                                                            <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{link.field_name}</label>
                                                                                             {
                                                                                                 link.field_type === 'text' ? (
                                                                                                     <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input" />
@@ -804,14 +771,25 @@ const MakePayment = () => {
                                                                     </div>
                                                                 ) : ''
                                                             }
-                                                        
-                                                            <div>
+                                                            <div className="py-2">
+                                                                <div className='bg-[#FEF8E8] py-4 px-4 rounded-md warning-border'>
+                                                                    <div className="flex items-start space-x-1">
+                                                                        <img src="/images/warnings.svg" alt='warnings' />
+                                                                        <div>
+                                                                            <h2 className='text-[#D29A09] font-bold'>Important Notice: Non-Refundable Transactions</h2>
+                                                                            <p className='text-[#889C92] warning-sub-text'>All transactions are non-refundable.  Once payments are processed via the link, our payment providers handle the rest.</p>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className='py-4'>
                                                                 <button disabled={loading || delay ? true : false} className='c-bg-primary-light' onClick={(e) => makePaymentHandler(e)}>
                                                                     {loading ? 'Processing.....' : 'Make Payment'}
-                                                                </button> 
-                                                                <span className=" pl-4 text-sm "> Not paid yet?
-                                                                    <span className='text-underline  text-base cursor-pointer text-green-700 hover:text-green-900 font-bold '
-                                                                        onClick={(e) => handleOpenModal()} >  Make a New Payment </span>
+                                                                </button>
+                                                                <span className=" pl-4 text-sm "> I have paid already,
+                                                                    <span className='text-underline  cursor-pointer text-green-700 hover:text-green-900 font-bold '
+                                                                        onClick={(e) => handleOpenModal()} >  Verify Payment </span>
                                                                 </span>
 
                                                                 <PaystackConsumer
@@ -821,18 +799,120 @@ const MakePayment = () => {
                                                                     {...paymentData}
                                                                 >
                                                                     {({ initializePayment }) => <button className='hidden' disabled={loading ? true : false} ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
-                                                                        {loading ? 'Searching...' : 'Verify Payment'}
+                                                                        {loading ? 'Paying...' : 'Make Payment'}
                                                                     </button>}
                                                                 </PaystackConsumer>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                ): ''
-                                            
-                                            }                   
+                                                ) : ''
+                                            }
+                                            {
+                                                (tab_lg === 2) ? (
+                                                    <div className='space-y-2 py-10 mt-15'>
+                                                        <h2 className='font-bold text-xl'>Payment Details</h2>
+                                                        <span className='font-semibold text-gray-500 text-sm inline-block w-full'>Fill the form to search for a completed payment </span>
+                                                        <div className='py-2'>
+                                                            {
+                                                                // paymentLink.form && paymentLink.form.length ? (
+                                                                //     <div className='mt-8 mb-8'>
+                                                                //         <Grid container spacing={2}>
+                                                                //             {
+                                                                //                 paymentLink.form.map((link, index) => (
+                                                                //                     <Grid item xs={12} md={6} key={index}>
+                                                                //                         <div className='flex flex-col space-y-3 mb-8'>
+                                                                //                             <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>Enter {link.field_name}</label>
+                                                                //                             {
+                                                                //                                 link.field_type === 'text' ? (
+                                                                //                                     <input required placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input" />
+                                                                //                                 ) : (
+                                                                //                                     <select placeholder={link.field_name} name={link.field_name + index} onChange={(e) => handleFieldChanges(e, index)} className="py-2 px-4 w-full outline-none c-text-input">
+                                                                //                                         <option value={''}>Select {link.field_name} </option>
+                                                                //                                         {
+                                                                //                                             link.options.map((option, i) => (
+                                                                //                                                 <option key={option + i} value={option}>{option} </option>
+                                                                //                                             ))
+                                                                //                                         }
+                                                                //                                     </select>
+                                                                //                                 )
+                                                                //                             }
+                                                                //                             {
+                                                                //                                 link.error ? (
+                                                                //                                     <small className='c-pay-error'>{link.error}</small>
+                                                                //                                 ) : ''
+                                                                //                             }
+                                                                //                         </div>
+                                                                //                     </Grid>
+                                                                //                 ))
+                                                                //             }
+                                                                //         </Grid>
+                                                                //     </div>
+                                                                // ) : ''
+                                                                unique_object ? (
+                                                                    <div className='mt-4 mb-8'>
+                                                                        <Grid container spacing={2}>
+                                                                            <Grid item xs={12} md={6}>
+                                                                                <div className='flex flex-col space-y-3 mb-4'>
+                                                                                    <label className='text-sm font-bold block mt-0 mb-0 text-gray-700'>{unique_object.field_name}</label>
+                                                                                    {
+                                                                                        unique_object.field_type === 'text' ? (
+                                                                                            <input required placeholder={unique_object.field_name} name={unique_object.field_name} onChange={(e) => setUniqueData(e.target.value)} className="pb-2 px-4 w-full outline-none c-text-input" />
+                                                                                        ) : (
+                                                                                            <select id={'for'} placeholder={unique_object.field_name} name={unique_object.field_name} className="pb-2 px-4 w-full outline-none c-text-input">
+                                                                                                <option value={''}>Select {unique_object.field_name} </option>
+                                                                                                {
+                                                                                                    unique_object.options.map((option, i) => (
+                                                                                                        <option key={option + i} onChange={(e) => setUniqueData(e.target.value)} value={option}>{option} </option>
+                                                                                                    ))
+                                                                                                }
+                                                                                            </select>
+                                                                                        )
+                                                                                    }
+                                                                                    {
+                                                                                        unique_object?.error ? (
+                                                                                            <small className='c-pay-error'>{unique_object?.error}</small>
+                                                                                        ) : ''
+                                                                                    }
+                                                                                </div>
+                                                                            </Grid>
+                                                                        </Grid>
+                                                                    </div>
+                                                                ) : ''
+                                                            }
 
-                                        
-                                            
+                                                            <div>
+                                                                <button disabled={loading || delay ? true : false} className='c-bg-primary-light' onClick={() => verifyPayment()}>
+                                                                    {loading ? 'Processing.....' : 'Verify Payment'}
+                                                                </button>
+                                                                <span className=" pl-4 text-sm "> Not paid yet?
+                                                                    <span className='text-underline  text-base cursor-pointer text-green-700 hover:text-green-900 font-bold '
+                                                                        onClick={(e) => handleOpenModal()} >  Make a New Payment </span>
+                                                                </span>
+
+                                                                {/* <PaystackConsumer
+                                                                    className='hidden'
+                                                                    onSuccess={(reference) => handleSuccess(reference)}
+                                                                    onClose={(reference) => handleClose(reference)}
+                                                                    {...paymentData}
+                                                                >
+                                                                    {({ initializePayment }) => <button className='hidden' disabled={loading ? true : false} ref={paystackButtonRef} onClick={(e) => openPaystack(e, initializePayment)}>
+                                                                        {loading ? 'Searching...' : 'Verify Payment'}
+                                                                    </button>}
+                                                                </PaystackConsumer> */}
+                                                                {/* <button className='c-bg-secondary' 
+                                                                onClick={() => verifyPayment()}> 
+                                                                {loading ? "Processing..." : 'Verify Payment'}
+                                                                    {loading ? 'Processing.....' : 'Verify Existing Payment'}
+                                                                </button> */}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ) : ''
+
+                                            }
+
+
+
                                             {/* <Divider className='creat-payment-divider' /> */}
                                         </form>
                                     </div>
@@ -856,28 +936,6 @@ const MakePayment = () => {
                 theme="light"
             />
 
-            <Dialog open={openModal} onClose={handleCloseModal}>
-                <div className='p-4' > 
-                    <DialogTitle ><span className='font-bold text-xl'> {"Select An Action"} </span></DialogTitle>
-                    <DialogContent>
-                        <p> Make a new payment or verify a completed payment.</p>
-                    </DialogContent>
-                    <DialogActions>
-                        
-                        
-                        <button className='c-bg-primary-light' onClick={() => { setTabLg(1); setOpenModal(false) } } >
-                                {loading ? 'Processing.....' : 'Make Payment'}
-                        </button> 
-
-                        {/* <p className='font-medium text-[#D3D4D4] text-sm c-elipses'>If youve made a payment already , Click to very</p> */}
-
-                        <button className='c-bg-secondary' onClick={() => { setTabLg(2); setOpenModal(false) }} >
-                                {loading ? 'Processing.....' : 'Verify Existing Payment'}
-                        </button> 
-                                            
-                    </DialogActions>
-                </div>
-            </Dialog>
         </>
     )
 }

@@ -107,7 +107,7 @@ const MyDocument = ({ transactions }) => {
                     </View>
                     <View style={styles.container}>
                         <Text style={styles.small}>AMOUNT</Text>
-                        <Text style={styles.amount}>#{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(transactions?.payment_link?.amount + { minimumFractionDigits: 2 }).format(transactions?.payment_link?.charges || 0)}(Charges Included)</Text>
+                        <Text style={styles.amount}># {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(transactions?.payment_link?.amount || 0)}</Text>
                     </View>
                     <View style={styles.general}>
                         <Text style={styles.small}>TRANSACTION REFERENCE</Text>
