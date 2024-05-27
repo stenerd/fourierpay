@@ -148,8 +148,8 @@ const Signup = () => {
                                         </Grid>
 
                                         <div className=' mb-6'>
-                                            <p className='text-sm font-bold text-gray-500'> Signing into Fourier
-                                                <span className='c-primary-color'>pay</span> account means you agree to the
+                                            <p className='text-sm font-bold text-gray-500'> Signing up to 
+                                                <span className='c-primary-color'>Fourierpay</span> account means you agree to our
                                                 {/* <span className='c-primary-link-color'> Terms</span> and */}
                                                 <span className=''> Terms</span> and
                                                 <span className=''> Privacy Policy</span></p>
