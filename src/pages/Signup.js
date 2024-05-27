@@ -102,9 +102,9 @@ const Signup = () => {
                             
                             <div className='min-h-[100vh] flex flex-col justify-center p-3'>
                                 <div className='w-[90%] md:w-[85%] mx-auto mb-0 py-6 md:py-0'>
-                                    <h2 className='text-xl md:mb-8 mb-4 font-bold home c-auth-title'>Sign Up</h2>
-                                    <p className='font-bold font-2xl text-gray-700'>The better way to manage your payments.</p>
-                                    <small className='font-bold text-gray-500 inline-block w-full md:w-[70%]'>Fill the form to get started.</small>
+                                    <h2 className='text-xl md:mb-4 mb-4 font-bold home c-auth-title'>Sign Up</h2>
+                                    <p className='font-2xl text-gray-700'>Fill the form to get started.</p>
+                                    {/* <small className='font-bold text-gray-500 inline-block w-full md:w-[70%]'></small> */}
                                 </div>
                                 <div className='w-[85%] mx-auto md:py-4 py-2'>
                                     <form onSubmit={handleSubmit}>

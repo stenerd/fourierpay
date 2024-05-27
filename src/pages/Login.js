@@ -90,9 +90,9 @@ const Login = () => {
                             <div className='min-h-[100vh] justify-center w-[85%] mx-auto flex flex-col '>
                                 <div className=''>
 
-                                    {/* <p className='font-bold text-gray-700'>Welcome back <span className='c-login-emoji'></span></p> */}
+                                    <p className=' text-gray-700'>Welcome back <span className='c-login-emoji'></span></p>
                     
-                                    <h2 className='text-xl mb-8 font-bold home c-auth-title'>Sign in to your account</h2>
+                                    <h2 className='text-xl mb-4 font-bold home c-auth-title'>Sign in to your account</h2>
 
                                     {/* <small className='font-bold text-gray-500 inline-block w-[70%]'>Thanks for visiting again. Lets .</small> */}
                                 </div>
