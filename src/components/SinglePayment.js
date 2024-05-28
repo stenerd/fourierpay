@@ -7,7 +7,7 @@ import FilterDialog from './FilterDialog';
 import Pagination from './molecule/web/Pagination';
 import PaymentDialog from './PaymentsDialog';
 
-const SinglePayment = ({ data, onChange, handleKeyDown, start, end, status, setStatus, setEnd, setStart, filterData, opener, setOpener, handleClickOpen, handleCloser, loading, setSearch, meta, setMeta }) => {
+const SinglePayment = ({ data, onChange, handleKeyDown, start, end, status, setStatus, setEnd, setStart, filterData, opener, setOpener, handleClickOpen, handleCloser, loading, setSearch, meta, setMeta ,  recentTransactionData,paymentName }) => {
     const [open21, setOpen21] = React.useState(false);
     const handleClickOpen21 = () => {
         setOpen21(true);
@@ -109,7 +109,7 @@ const SinglePayment = ({ data, onChange, handleKeyDown, start, end, status, setS
                     }
                 </div>
             </div>
-            <FilterDialog loading={loading} open21={open21} setOpen21={setOpener} handleClickOpen21={handleClickOpen21} handleClose21={handleClose21} data={data} onChange={onChange} handleKeyDown={handleKeyDown} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} setStatus={setStatus} filterData={filterData} />
+        <FilterDialog loading={loading} open21={open21} setOpen21={setOpener} handleClickOpen21={handleClickOpen21} handleClose21={handleClose21} data={data} onChange={onChange} handleKeyDown={handleKeyDown} start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} setStatus={setStatus} filterData={filterData} recentTransactionData={recentTransactionData} paymentName={paymentName}/>
             <PaymentDialog open1={open1} transact={transact} setOpen1={setOpen1} handleClickOpen1={handleClickOpen1} handleClose1={handleClose1} />
         </>
     )

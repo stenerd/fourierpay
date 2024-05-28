@@ -10,8 +10,39 @@ import { useTheme } from '@mui/material/styles';
 import { IconButton } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import BottomNav from './bottomNav';
+import { exportToExcel } from '../utils/jsonToExcel';
 
-export default function FilterDialog({ open21, setOpen21, handleClickOpen21, handleClose21, transactions, setSearch, search, start, end, status, setStatus, setEnd, setStart, filterData, entity, setEntity, type, setType, load, loading, formRef, startRef, endRef, statusRef, typeRef, entityRef, filterLink, clearData }) {
+export default function FilterDialog({ 
+  open21, 
+  setOpen21, 
+  handleClickOpen21, 
+  handleClose21, 
+  transactions, 
+  setSearch, search, 
+  start, 
+  end, 
+  status, 
+  setStatus, 
+  setEnd, 
+  setStart, 
+  filterData,
+  entity, 
+  setEntity, 
+  type, 
+  setType, 
+  load, 
+  loading, 
+  formRef, 
+  startRef, 
+  endRef, 
+  statusRef, 
+  typeRef, 
+  entityRef, 
+  filterLink, 
+  clearData,
+  recentTransactionData,
+  paymentName
+}) {
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -22,6 +53,10 @@ export default function FilterDialog({ open21, setOpen21, handleClickOpen21, han
   // const statusRef = React.useRef()
   // const typeRef = React.useRef()
   // const entityRef = React.useRef()
+
+  const handleExport = () => {
+    exportToExcel(recentTransactionData, `${paymentName ? paymentName :'Fourier Pay Transactions History'}`);
+  };
 
   const clearAll = () => {
     formRef.current.reset()
@@ -156,9 +191,12 @@ export default function FilterDialog({ open21, setOpen21, handleClickOpen21, han
                 {/* </Grid> */}
               </div>
             </form>
-            <div className='w-full py-4'>
+            <div className='w-full py-4 space-y-4'>
               <button className='c-primary-button rounded-md w-full' onClick={() => filterData()}>
-                {loading ? 'Loading....' : 'Fliter'}
+                {loading ? 'Loading....' : 'Filter'}
+              </button>
+              <button className='c-primary-button rounded-md w-full' onClick={() => handleExport()}>
+                {loading ? 'Loading....' : 'Export'}
               </button>
             </div>
           </div>

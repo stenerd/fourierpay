@@ -65,6 +65,8 @@ const Transactions = () => {
 
     const [opener, setOpener] = React.useState(false);
     const [value, setValue] = React.useState(0);
+
+    const [recentTransactionData, setRecentTransactionData] = React.useState()
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -188,11 +190,26 @@ const Transactions = () => {
         }
     };
 
+    const filterFields = (originalArray) => {
+        return originalArray.map(item => ({
+            AMOUNT: item.amount,
+            DESCRIPTION: item.payment_link_id.description,
+            STATUS: item.status,
+            TRANSACTION_REFERENCE: item.reference,
+            LINK: item.payment_link_id.link,
+            DATE:moment(item.createdAt).format('dddd, DD MMMM YYYY'),
+            TIME:moment(item.createdAt).format('hh:mm:ss A')
+        }));
+    };
+
+
+
     const fetchTransaction = async () => {
         setLoading(true)
         try {
             const response = await Protected.get(`${BASE_URL}/api/transaction?q=${search}&status=${status}`)
             setTransaction(response?.data?.data.data)
+            setRecentTransactionData(filterFields(response?.data?.data.data))
             console.log(response?.data?.data.data);
             setMeta(response?.data?.data?.meta)
             setLoading(false)
@@ -207,6 +224,7 @@ const Transactions = () => {
             const data = filterLink(status, start, end, type, entity)
             const response = await Protected.get(`${data}&page=${page || 1}`)
             setTransaction(response.data.data.data)
+            setRecentTransactionData(filterFields(response?.data?.data.data))
             setMeta(response.data.data.meta)
             setLoading(false)
             // console.log(data)
@@ -290,6 +308,7 @@ const Transactions = () => {
                                 BASE_URL={BASE_URL}
                                 Protected={Protected}
                                 onPageChange={(page) => onPageChange(page)}
+                                recentTransactionData={recentTransactionData}
                             />
                         ) : <PayOutTable />}
                     </div>
@@ -454,6 +473,7 @@ const Transactions = () => {
                     typeRef={typeRef}
                     entityRef={entityRef}
                     filterLink={filterLink}
+                    recentTransactionData={recentTransactionData}
                     clearData={clearData}
                 />
                 <TransactionDialog

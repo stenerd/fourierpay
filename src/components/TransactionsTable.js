@@ -14,6 +14,7 @@ import TransactionDialog from './TraansactionDialog';
 // import Pagination from './Pagination';
 import StatusBadge from './atom/web/StatusBadge';
 import Pagination from './molecule/web/Pagination';
+import { exportToExcel } from '../utils/jsonToExcel';
 
 
 export default function TransactionTable({
@@ -43,7 +44,8 @@ export default function TransactionTable({
   setMeta,
   setTransaction,
   Protected,
-  BASE_URL
+  BASE_URL,
+  recentTransactionData
 }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -83,6 +85,12 @@ export default function TransactionTable({
 
   }
   const [recentTransaction, setRecentTransaction] = React.useState()
+  
+
+
+  const handleExport = () => {
+    exportToExcel(recentTransactionData, 'Transactions');
+  };
   // const [search, setSearch] = React.useState('');
 
   // const handleChange = e => {
@@ -217,9 +225,12 @@ export default function TransactionTable({
             </form>
 
 
-            <div className='flex justify-end items-end'>
+            <div className='flex justify-end items-end space-x-6'>
               <button className='c-primary-button rounded-md' onClick={() => filterData()}>
-                {loading ? 'Loading....' : 'Fliter'}
+                {loading ? 'Loading....' : 'Filter'}
+              </button>
+              <button className='c-primary-button rounded-md' onClick={() => handleExport()}>
+                {loading ? 'Loading....' : 'Export'}
               </button>
             </div>
           </div>

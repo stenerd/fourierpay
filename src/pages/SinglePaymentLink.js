@@ -57,6 +57,7 @@ const SinglePaymentLink = () => {
     const [loading, setLoading] = useState(false)
     const [load, setLoad] = useState(false)
     const [loadPayersSheet, setLoadPayersSheet] = useState(false)
+    const [paymentName,setName] = useState("")
     const [linkData, setLinkData] = useState({
         isPublic: true
     })
@@ -64,8 +65,8 @@ const SinglePaymentLink = () => {
     const [payments, setPayments] = useState(true)
     const [pending, setPending] = useState(false)
     const [settings, setSettings] = useState(false)
-
-      const [meta, setMeta] = useState({ page: 1, lastPage: 1 })
+    const [recentTransactionData, setRecentTransactionData] = React.useState()
+    const [meta, setMeta] = useState({ page: 1, lastPage: 1 })
 
     const [tabList, setTabList] = useState([
         {
@@ -115,6 +116,17 @@ const SinglePaymentLink = () => {
             ])
         }
     }
+
+    const filterFields = (originalArray) => {
+        return originalArray.payments.map(item => ({
+            [item.unique_field]:item.unique_answer,
+            AMOUNT: item.amount,
+            STATUS: item.status,
+            TRANSACTION_REFERENCE: item.transaction_id.reference,
+            DATE:moment(item.createdAt).format('dddd, DD MMMM YYYY'),
+            TIME:moment(item.createdAt).format('hh:mm:ss A')
+        }));
+    };
 
     const navigate = useNavigate()
 
@@ -203,6 +215,7 @@ const SinglePaymentLink = () => {
             console.log(response.data.data.data)
             setLoading(false)
             setData(response.data.data.data)
+            setRecentTransactionData(filterFields(response?.data?.data.data))
             setMeta(response.data.data.meta)
             checkPayerSheetUpdate(response.data.data.data)
             console.log(data)
@@ -246,6 +259,8 @@ const SinglePaymentLink = () => {
             // console.log(res.data.data.data)
             console.log(response.data.data.data)
             setData(response.data.data.data)
+            setRecentTransactionData(filterFields(response?.data?.data.data))
+            setName(response.data.data.data.paymentLink?.name)
             setMeta(response.data.data.meta)
             // console.log(response.data.data.data)
             checkPayerSheetUpdate(response.data.data.data)
@@ -475,6 +490,7 @@ const SinglePaymentLink = () => {
                                                             status={status}
                                                             setStatus={setStatus}
                                                             filterData={filterData}
+                                                            recentTransactionData={recentTransactionData}
                                                             meta={meta}
                                                             setMeta={setMeta} />
                                                     </div>)
@@ -662,6 +678,8 @@ const SinglePaymentLink = () => {
                                     data={data}
                                     meta={meta}
                                     setMeta={setMeta}
+                                    recentTransactionData={recentTransactionData}
+                                    paymentName={paymentName}
                                 />
                             )}
                             {pending && (

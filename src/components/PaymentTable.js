@@ -14,9 +14,10 @@ import SinglePaymentModal from './SinglePaymentModal';
 import FilterDialog from './FilterDialog';
 import StatusBadge from './atom/web/StatusBadge';
 import Pagination from './molecule/web/Pagination';
+import { exportToExcel } from '../utils/jsonToExcel';
 
 
-export default function PaymentTable({ data, onChange, handleKeyDown, start, end, status, setStatus, setEnd, setStart, filterData, opener, setOpener, handleClickOpen, handleCloser, loading, meta, setMeta }) {
+export default function PaymentTable({ data, onChange, handleKeyDown, start, end, status, setStatus, setEnd, setStart, filterData, opener, setOpener, handleClickOpen, handleCloser, loading, meta, setMeta, recentTransactionData}) {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -60,6 +61,11 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
   // );
 
   const [recentPayment, setRecentPayment] = React.useState()
+
+
+  const handleExport = () => {
+    exportToExcel(recentTransactionData, `${data?.paymentLink?.name}`);
+  };
 
   return (
     <>
@@ -135,11 +141,12 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
                 </div>
               </div>
             </form>
-
-
-            <div className='flex justify-end items-end'>
+            <div className='flex justify-end items-end space-x-4'>
               <button className='c-primary-button rounded-md' onClick={() => filterData()}>
                 {loading ? 'Loading....' : 'Filter'}
+              </button>
+              <button className='c-primary-button rounded-md' onClick={() => handleExport()}>
+                {loading ? 'Loading....' : 'Export'}
               </button>
             </div>
           </div>
