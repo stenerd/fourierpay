@@ -50,7 +50,21 @@ const MakePayment = () => {
     // Modal Code
     const [openModal, setOpenModal] = React.useState(false);
 
-    const handleOpenModal = () => setOpenModal(true);
+    // const desktopMediaQuery = window.matchMedia('(min-width: 1024px)');
+
+    const handleOpenModal = () => {
+        const desktopMediaQuery = window.matchMedia('(min-width: 1024px)');
+        if (desktopMediaQuery.matches) {
+            setOpenModal(true);
+        }
+
+    }
+
+    // if (desktopMediaQuery.matches) {
+    //     // Call the function if the media query matches (i.e., on desktop screens)
+    //     handleOpenModal()
+    //  }
+
     const handleCloseModal = () => setOpenModal(false);
 
     const navigateToPageOne = () => {
@@ -535,7 +549,7 @@ const MakePayment = () => {
                                                             </div>
                                                         </Grid>
                                                     </Grid>
-                                                   
+
                                                 </div>
                                             ) : ''
                                         }
