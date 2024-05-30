@@ -131,7 +131,7 @@ const Signup = () => {
                                             <Grid item lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Confirm Password</label>
                                                 <div>
-                                                    <input placeholder='Password' name='password' onChange={handleChange} required type={text ? "text" : "password"} className='py-2 px-4 w-full outline-none c-text-input' />
+                                                    <input placeholder='Password' name='confirm_password' onChange={handleChange} required type={text ? "text" : "password"} className='py-2 px-4 w-full outline-none c-text-input' />
                                                     <IconButton className="absolute left-[92%] bottom-10" onClick={togglePassword}>
                                                         {text ? (<VisibilityOffIcon />) : (<VisibilityIcon />)}
                                                     </IconButton>
