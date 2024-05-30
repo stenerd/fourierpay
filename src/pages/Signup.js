@@ -92,7 +92,7 @@ const Signup = () => {
                             <img src="/images/registration.jpg" className='w-full h-screen object-cover hidden md:block' />
                         </Grid>
                         <Grid item xs={12} md={7}>
-                            <div className='w-[85%] mx-auto mt-[5%]'>
+                            <div className='w-[90%] ml-[8%] block mt-[5%]'>
                                 <Link to='/'>
                                     {/* <img src='/images/logo-header.svg' className='absolute' alt="alt-img" /> */}
                                     <img src='/images/five.svg' width="110" className='absolute' alt="alt-img" />
