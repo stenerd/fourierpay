@@ -92,47 +92,55 @@ const Signup = () => {
                             <img src="/images/registration.jpg" className='w-full h-screen object-cover hidden md:block' />
                         </Grid>
                         <Grid item xs={12} md={7}>
+                            <div className='w-[90%] ml-[8%] block mt-[5%]'>
+                                <Link to='/'>
+                                    {/* <img src='/images/logo-header.svg' className='absolute' alt="alt-img" /> */}
+                                    <img src='/images/five.svg' width="110" className='absolute' alt="alt-img" />
+                                </Link>
+                                {/* <p className='text-center text-white text-2xl font-bold'>Pay</p> */}
+                            </div>
+                            
                             <div className='min-h-[100vh] flex flex-col justify-center p-3'>
-                                <div className='w-[90%] md:w-[80%] mx-auto mb-0 py-10 md:py-0'>
-                                    <h2 className='text-xl md:mb-16 mb-4 font-bold home c-auth-title'>Register</h2>
-                                    <p className='font-bold text-gray-700'>Manage and monitor your payment links.</p>
-                                    <small className='font-bold text-gray-500 inline-block w-full md:w-[70%]'>Let's get you all set up so you can create your personal account and begin setting up your profile.</small>
+                                <div className='w-[90%] md:w-[85%] mx-auto mb-0 py-6 md:py-0'>
+                                    <h2 className='text-xl md:mb-4 mb-4 font-bold home c-auth-title'>Sign Up</h2>
+                                    <p className='font-2xl text-gray-700'>Fill the form to get started.</p>
+                                    {/* <small className='font-bold text-gray-500 inline-block w-full md:w-[70%]'></small> */}
                                 </div>
-                                <div className='w-[90%] md:w-4/5 mx-auto md:py-8 py-4'>
+                                <div className='w-[85%] mx-auto md:py-4 py-2'>
                                     <form onSubmit={handleSubmit}>
 
                                         <Grid container spacing={3}>
                                             <Grid item sm={12} lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>First Name</label>
-                                                <input placeholder='First Name' onChange={handleChange} required name='firstname' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                                                <input placeholder='' onChange={handleChange} required name='firstname' type="text" className='py-2 px-4 w-full outline-none order rounded-lg border-gray-400 focus:border-green-500 c-text-input' />
                                             </Grid>
                                             <Grid item lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Last Name</label>
-                                                <input placeholder='Last Name' onChange={handleChange} required type="text" name='lastname' className='py-2 px-4 w-full outline-none c-text-input' />
+                                                <input placeholder='' onChange={handleChange} required type="text" name='lastname' className='py-2 px-4 w-full outline-none  order rounded-lg border-gray-400 focus:border-green-500 c-text-input' />
                                             </Grid>
                                             <Grid item lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Email</label>
-                                                <input placeholder='Email' onChange={handleChange} required type='email' name='email' className='py-2 px-4 w-full outline-none c-text-input' />
+                                                <input placeholder='' onChange={handleChange} required type='email' name='email' className='py-2 px-4 w-full outline-none order rounded-lg border-gray-400 focus:border-green-500 c-text-input' />
                                             </Grid>
                                             <Grid item lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Phone Number</label>
-                                                <input placeholder='Phone Number' onChange={handleChange} name='phone_number' required type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                                                <input placeholder='' onChange={handleChange} name='phone_number' required type="text" className='py-2 px-4 w-full outline-none order rounded-lg border-gray-400 focus:border-green-500 c-text-input' />
                                             </Grid>
                                             <Grid item lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Password</label>
                                                 <div className="relative">
-                                                    <input placeholder='Password' name='password' onChange={handleChange} required type={text ? "text" : "password"} className='py-2 px-4 w-full outline-none c-text-input' />
-                                                    <IconButton className="absolute left-[80%]  md:left-[92%] bottom-10" onClick={togglePassword}>
+                                                    <input placeholder='' name='password' onChange={handleChange} required type={text ? "text" : "password"} className='py-2 px-4 w-full outline-none order rounded-lg border-gray-400 focus:border-green-500 c-text-input' />
+                                                    <IconButton className="absolute left-[80%]  md:left-[90%] bottom-10" onClick={togglePassword}>
                                                         {text ? (<VisibilityOffIcon />) : (<VisibilityIcon />)}
                                                     </IconButton>
                                                 </div>
-
                                             </Grid>
                                             <Grid item lg={6} md={12} className='w-full'>
                                                 <label className='text-sm font-bold block my-2 text-gray-700'>Confirm Password</label>
                                                 <div>
-                                                    <input placeholder='Password' name='password' onChange={handleChange} required type={text ? "text" : "password"} className='py-2 px-4 w-full outline-none c-text-input' />
-                                                    <IconButton className="absolute left-[92%] bottom-10" onClick={togglePassword}>
+                                                    <input placeholder='' name='confirm_password' onChange={handleChange} required type={text ? "text" : "password"} className='py-2 px-4 order rounded-lg border-gray-400 focus:border-green-500 w-full outline-none c-text-input' />
+                                                    <IconButton className="absolute left-[90%] bottom-10" onClick={togglePassword}>
+
                                                         {text ? (<VisibilityOffIcon />) : (<VisibilityIcon />)}
                                                     </IconButton>
                                                 </div>
@@ -140,11 +148,12 @@ const Signup = () => {
                                             </Grid>
                                         </Grid>
 
-                                        <div className='mt-6 mb-6'>
-                                            <p className='text-sm font-bold text-gray-500'>👍 Signing into Fourier
-                                                <span className='c-primary-color'>pay</span> account means you agree to the
-                                                <span className='c-primary-link-color'> Terms</span> and
-                                                <span className='c-primary-link-color'> Privacy Policy</span></p>
+                                        <div className=' mb-6'>
+                                            <p className='text-sm font-bold text-gray-500'> Signing up to 
+                                                <span className='c-primary-color'> Fourierpay</span> account means you agree to our
+                                                {/* <span className='c-primary-link-color'> Terms</span> and */}
+                                                <span className=''> Terms</span> and
+                                                <span className=''> Privacy Policy</span></p>
                                         </div>
 
                                         <div className='md:block hidden'>
@@ -159,7 +168,7 @@ const Signup = () => {
                                         </div>
                                     </form>
                                     <div className='py-4'>
-                                        <p className="text-gray-700 font-bold">Already have an account?
+                                        <p className="text-gray-700 ">Already have an account?
                                             <Link to="/login">
                                                 <span className='cursor-pointer c-primary-link-color'> Log in</span>
                                             </Link>
