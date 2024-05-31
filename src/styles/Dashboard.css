@@ -9,8 +9,9 @@
     color: #0d1510;
 }
 
-.dashboard-wallet{
-    border: 1px solid #214242;
+.dashboard-border{
+    border: 1px solid #c8c8c8b5;
+    border-radius: 5px;
 }
 
 .dashboard-spending-limit{
@@ -31,12 +32,18 @@
     height: 9rem;
     background: #f1f3f0;
     border-radius: 50%;
+    
 }
 .dashboard-matrix .content{
     position: relative;
     z-index: 2;
 }
 
+
+.dashboard-icon{
+    color: #065143;
+    opacity: 50%;
+}
 .status-pill{
     background: #f8faf7;
     display: inline-block;
@@ -61,16 +68,18 @@
 }
 
 .status-paid{
+    text-transform: uppercase;
     display: inline-block;
-    padding: 0.05rem 1rem;
+    padding: 0.05rem 0.8rem;
     font-weight: bold;
     border-radius: 0.8rem;
-    font-size: 70%;
-    color: #ffffff;
+    font-size: 65%;
+    color: #00bf00;
     border: 1px solid;
-    background: #00bf00;
+    border: 1px solid #00bf00;
 }
 .status-paid2{
+    text-transform: uppercase;
     display: inline-block;
     padding: 0.05rem 1rem;
     font-weight: bold;
@@ -87,14 +96,14 @@
     color: #01b133;
 }
 .status-fail{
+    text-transform: uppercase;
     color: #f8faf7;
     display: inline-block;
     padding: 0.05rem 1rem;
     font-weight: bold;
     border-radius: 0.8rem;
     font-size: 70%;
-    background: #f10707;
-    border: 1px solid;
+    border: 1px solid #f10707;
 }
 .status-fail2{
     color: #E83812;
@@ -443,6 +452,18 @@
     border-radius: 0.3rem;
 }
 
+.c-bg-secondary{
+    background-color: #b9b4b445;
+    font-weight: 600;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    color: #008950;
+    border-radius: 0.3rem;
+    border: 1px solid #008950;;
+}
+
 @media (max-width:950px){
     .mobile-grid-1{
         display: none;
@@ -608,7 +629,11 @@
     color: #276e3a;
     border-radius: .5rem;
     border: 1px solid #276e3a;
-    animation: bounce 1s infinite;
+
+}
+
+.bounce{
+        animation: bounce 1s infinite;
 }
 .cm-buttom{
     background: #97F675;
