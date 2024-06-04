@@ -585,7 +585,7 @@ const Dashboard = () => {
                                                 <div className='w-[90%] mx-auto'>
                                                     <div className='spacing-y-3 flex justify-between items-center'>
                                                         <div className='py-4'>
-                                                            {wallet.amount ? (<h1 className='fourier text-[20px] font-bold'>₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(wallet.amount || 0)}</h1>) : <h1 className='fourier text-[20px] font-bold'>₦0</h1>}
+                                                            {wallet.amount ? (<h1 className='fourier text-[20px] font-bold'>₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(wallet.amount || 0)}</h1>) : <h1 className='fourier text-[20px] font-bold'>₦0.00</h1>}
                                                             <h3 className="text-gray-400 font-bold">Total Balance</h3>
                                                         </div>
                                                         <IconButton onClick={() => handleOpen()}>

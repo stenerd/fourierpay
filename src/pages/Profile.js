@@ -414,7 +414,7 @@ const Profile = () => {
                                                 </div>
                                                 <div className='flex justify-between items-center'>
                                                     <div className='py-0'>
-                                                        <h1 className='fourier text-[20px] text-white font-bold'>₦ {Intl.NumberFormat('en-US').format(wallet?.amount || 0)}</h1>
+                                                        <h1 className='fourier text-[20px] text-white font-bold'>₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(wallet?.amount || 0)}</h1>
                                                         <h3 className="text-white font-bold">Total Balance</h3>
                                                     </div>
                                                     <div className='items-end'>
@@ -497,7 +497,7 @@ const Profile = () => {
                                                     </div>
                                                     <div className='flex flex-col'>
                                                         <h2 className='text-sm p-0 text-gray-500 font-bold lowercase self-end'>{each.in_entity !== 'Wallet' ? each.in_entity : 'Withdrawal'}</h2>
-                                                        <small className={each.in_entity !== 'Wallet' ? 'pt-1 self-end flex-1 font-bold text-[#01b133]' : 'pt-1 self-end flex-1 font-bold c-text-danger'}>{each.in_entity !== 'Wallet' ? '+' : '-'} ₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
+                                                        <small className={each.in_entity !== 'Wallet' ? 'pt-1 self-end flex-1 font-bold text-[#01b133]' : 'pt-1 self-end flex-1 font-bold c-text-danger'}>{each.in_entity !== 'Wallet' ? '+' : '-'} ₦{Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(each.in_entity_id.amount || 0)}</small>
                                                         <StatusBadgeMobile status={each.status} />
 
                                                     </div>
@@ -524,7 +524,7 @@ const Profile = () => {
                                             <div className='py-2'>
                                                 <div className='flex justify-between items-center'>
                                                     <div className='py-2'>
-                                                        <h2 className='font-bold text-xl'>Recent Withdrawal</h2>
+                                                        <h2 className='font-bold text-xl'>Recent Withdrawals</h2>
                                                     </div>
                                                     <Link to='/dashboard/transaction'>
                                                         <div>
@@ -552,7 +552,7 @@ const Profile = () => {
                                                             </div>
                                                             <div className='flex flex-col items-end'>
                                                                 <h2 className='text-sm p-0 c-text-danger font-bold lowercase self-end'>
-                                                                    - ₦ {Intl.NumberFormat('en-US').format(each.amount)}</h2>
+                                                                    - ₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(each.amount)}</h2>
                                                                 <StatusBadgeMobile status={each.status} />
                                                             </div>
                                                         </div>
@@ -602,10 +602,17 @@ const Profile = () => {
                                         {/* <IconButton onClick={() => handleOpen()}> */}
                                         {/* </IconButton> */}
                                     </h2>
-                                    <AutoFixHighIcon className="mx-2 mb-2 text-gray-500 fourier-profile-icon cursor-pointer" onClick={() => handleOpen5()} />
+                                
                                 </div>
                             )}
-                            {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<small className='font-bold text-gray-500'>{profile?.email} {profile?.phonenumber}</small>)}
+                                <div className='flex items-center space-x-5 mt-2'>
+                                    {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<p className='font-semibold text-gray-500'>{profile?.email} {profile?.phonenumber}</p>)}
+
+                                    <div className='flex border border-2 cursor-pointer rounded-sm hover:font-bold p-1 ' onClick={() => handleOpen5()}>
+                                        <p className='font-extralight m-auto'>Edit profile</p>
+                                        <AutoFixHighIcon className="pl-2 text-gray-500 fourier-profile-icon cursor-pointer"  />
+                                    </div>
+                                </div>
                         </div>
                         <div>
                             <button className='c-bg-primary-light' onClick={handleOpened}>Change Password</button>
@@ -618,19 +625,19 @@ const Profile = () => {
                             <Grid container spacing={4} alignItems="">
                                 <Grid item xs={12} md={4}>
                                     <Stack spacing={4}>
-                                        <div className='bg-[#f1f3f0] rounded-md dashboard-wallet'>
-                                            <div className='py-6 px-3 w-[90%] mx-auto'>
+                                        <div className='bg-[#f1f3f0] rounded-md dashboard-wallet dashboard-border'>
+                                            <div className='py-6 w-[90%] mx-auto '>
                                                 <div className='spacing-y-3'>
                                                     {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<h2 style={{ textTransform: 'uppercase' }} className='fourier font-bold'>{profile.firstname} {profile.lastname} </h2>)}
                                                     {/* <h1 className='fourier font-bold' style={{ textTransform: 'uppercase' }}>{profile.firstname} {profile.lastname}</h1> */}
-                                                    <h3 className="text-gray-400 font-bold">{moment(new Date()).format('dddd, MMMM DD YYYY')}</h3>
+                                                    <h3 className="text-gray-500 ">{moment(new Date()).format('dddd, MMMM DD YYYY')}</h3>
                                                 </div>
                                             </div>
                                             <div className='py-2 px-2 bg-[#f8faf7]'>
                                                 <div className='w-[90%] mx-auto'>
                                                     <div className='spacing-y-3 flex justify-between items-center'>
                                                         <div className='py-4'>
-                                                            <h1 className='fourier text-[20px] font-bold'>₦ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>
+                                                            <h1 className='fourier text-[20px] font-bold'>₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(wallet.amount || 0)}</h1>
                                                             <h3 className="text-gray-400 font-bold">Total Balance</h3>
                                                         </div>
                                                         <IconButton onClick={() => handleOpen()}>
@@ -658,7 +665,7 @@ const Profile = () => {
                                                     <List>
                                                         {beneficiaries.map((beneficiary) => (
                                                             <ListItem key={beneficiary._id} disablePadding alignItems="flex-center" onClick={() => Retrieve(beneficiary)}>
-                                                                <div className='py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden'>
+                                                                <div className='dashboard-border py-4 mb-4 px-6 cursor-pointer w-full profile-beneficiary relative overflow-hidden '>
                                                                     <span className='profile-beneficiary-overlay'></span>
                                                                     <Grid container spacing={3}>
                                                                         <Grid item xs={12}>
@@ -719,15 +726,19 @@ const Profile = () => {
                                                                                 </div>
                                                                             </Grid>
                                                                             <Grid item xs={3}>
-                                                                                <div className='set-item-left'>
-                                                                                    <h2 className='font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
-                                                                                </div>
-                                                                            </Grid>
-                                                                            <Grid item xs={3}>
-                                                                                <div className="text-left">
+                                                                                <div className="">
                                                                                     <StatusBadge status={each?.status} />
                                                                                 </div>
                                                                             </Grid>
+                                                                            <Grid item xs={3}>
+                                                                                <div className='set-item-left'>
+                                                                                    <h2 className={`font-bold text-left ${each.amount > 0 ? 'text-green-500' : 'text-gray-500'}`}>
+                                                                                        
+                                                                                    {each.amount > 0 ? `+₦ ${Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(each.amount)}` : `-₦ ${Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(Math.abs(each.amount))}`}
+                                                                                    </h2>
+                                                                                </div>
+                                                                            </Grid>
+
                                                                         </Grid>
                                                                     </div>
                                                                 </ListItemButton>
@@ -748,7 +759,7 @@ const Profile = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className='pt-4 px-3'>
+                                    <div className='pt-4 px-3 dashboard-border'>
                                         <div className=''>
                                             <div className='flex justify-between items-center'>
                                                 <h2 className='font-bold fourier text-xl'>Recent Transactions</h2>
@@ -760,11 +771,11 @@ const Profile = () => {
                                                 <List>
                                                     {
                                                         profileTables.recentTransaction ? profileTables.recentTransaction.map((trnx, index) => (
-                                                            <ListItem disablePadding alignItems="flex-center" key={index} onClick={() => singleTransact(trnx)} >
+                                                            <ListItem className='dashboard-border' disablePadding alignItems="flex-center" key={index} onClick={() => singleTransact(trnx)} >
                                                                 <ListItemButton>
 
-                                                                    <Grid container spacing={3}>
-                                                                        <Grid item xs={5}>
+                                                                    <Grid container spacing={3} >
+                                                                        <Grid item xs={7}>
                                                                             <h2 className={`text-sm font-bold uppercase ${trnx.is_charges && 'text-[#f10506]'}`}>
                                                                                 {trnx.in_entity === 'Wallet' ? 'Withdrawal' + (!trnx.is_charges ? '' : ' Charges') : trnx.in_entity}
                                                                             </h2>
@@ -774,18 +785,15 @@ const Profile = () => {
                                                                                     (trnx.is_charges ? '' : `${trnx.out_entity_id.name} | ${trnx.out_entity_id.account_number} | ${trnx.out_entity_id.bank_name}`)}</small>
                                                                             {/* <small className='text-sm text-gray-400'>{trnx.reference}</small> */}
                                                                         </Grid>
-                                                                        <Grid item xs={3}>
-                                                                            <h2 className='text-sm font-bold text-center py-2 px-2'>{trnx.type === 'debit' ? '-' : '+'} ₦ {Intl.NumberFormat('en-US').format(trnx.amount || 0)}</h2>
-                                                                        </Grid>
-                                                                        <Grid item xs={2}>
-                                                                            <div className="text-left">
-                                                                                <p className={trnx.type === 'credit' ? 'py-2 px-2 rounded-lg text-sm text-[#00bf00] font-bold' : 'py-2 px-2 rounded-lg text-sm text-[#f10506] font-bold'}>{trnx.type}</p>
-                                                                            </div>
-                                                                        </Grid>
                                                                         <Grid item xs={2}>
                                                                             <div className="text-left">
                                                                                 <StatusBadge status={trnx?.status} />
                                                                             </div>
+                                                                        </Grid>
+                                                                        <Grid item xs={3} className='text-right'>                                                                            
+                                                                            <h2 className={`font-bold ${trnx.amount > 0 ? 'text-green-500' : 'text-gray-500'}`}>
+                                                                                {trnx.amount > 0 ? `+₦ ${Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(trnx.amount)}` : `-₦ ${Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(Math.abs(trnx.amount))}`}
+                                                                            </h2>
                                                                         </Grid>
                                                                     </Grid>
 

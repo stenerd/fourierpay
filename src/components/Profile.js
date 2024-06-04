@@ -83,27 +83,27 @@ export default function ProfileModal({ open5, handleOpen5, handleClose5, setOpen
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <h2 className='text-center text-xl'>Edit Profile</h2>
+                    <h2 className='text-center font-bold text-xl'>Edit Profile</h2>
                     <form onSubmit={EditProfile}>
                         <div className='py-4 px-2'>
-                            <div>
-                                <label className='text-sm font-bold block my-2 text-gray-700'>First Name</label>
-                                <input placeholder='First Name' onChange={handleChange} value={state?.firstname} required name='firstname' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                            <div className='my-4'>
+                                <label className='text-sm font-bold block my-1 text-gray-500 mt-4'>First Name</label>
+                                <input placeholder='' onChange={handleChange} value={state?.firstname} required name='firstname' type="text" className='py-1 px-2 w-full outline-none c-text-input' />
                             </div>
-                            <div>
-                                <label className='text-sm font-bold block my-2 text-gray-700'>Last Name</label>
-                                <input placeholder='Last Name' onChange={handleChange} value={state?.lastname}  required name='lastname' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                            <div className='my-4'>
+                                <label className='text-sm font-bold block my-1 text-gray-500 '>Last Name</label>
+                                <input placeholder='' onChange={handleChange} value={state?.lastname}  required name='lastname' type="text" className='py-1 px-w w-full outline-none c-text-input' />
                             </div>
                             {/* <div>
                                 <label className='text-sm font-bold block my-2 text-gray-700'>Email</label>
                                 <input placeholder='Email' onChange={handleChange} required name='email' type="email" className='py-2 px-4 w-full outline-none c-text-input' />
                             </div> */}
-                            <div>
-                                <label className='text-sm font-bold block my-2 text-gray-700'>Phone Number</label>
-                                <input placeholder='Phone Number' onChange={handleChange} value={state?.phonenumber}  required name='phonenumber' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                            <div className='my-4'>
+                                <label className='text-sm font-bold block my-1 text-gray-500  mt-4'>Phone Number</label>
+                                <input placeholder='' onChange={handleChange} value={state?.phonenumber}  required name='phonenumber' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
                             </div>
-                            <div className='py-4'>
-                                <button className='c-primary-button'>
+                            <div className='mt-7'>
+                                <button className='c-primary-button w-full'>
                                     {loading ? 'Loading....' : 'Save'}
                                 </button>
                             </div>
