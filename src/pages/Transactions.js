@@ -258,7 +258,20 @@ const Transactions = () => {
             <div className="hidden lg:block">
                 <DashboardLayout>
                     <Titlebar>
-                        <h2 className='fourier font-bold'>Transactions</h2>
+                        
+                        <div className="flex-1">
+                            {loading ? <Skeleton variant="text" sx={{ fontSize: '1rem' }} /> : (
+                                <div className='flex items-center space-x-5'>
+                                    <h2 className='fourier profile font-bold'>Transactions</h2>
+                                </div>)}
+                            
+                                <div className='flex items-center space-x-5 mt-2'>
+                                    {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<p className=' text-gray-600'>View your most recent payments and withdrawals.</p>)}
+
+                                
+                                </div>
+                        </div>
+
                     </Titlebar>
                     <div className='py-4 px-3 w-[90%] my-8 mx-auto'>
 
