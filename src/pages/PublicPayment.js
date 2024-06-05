@@ -176,7 +176,7 @@ const PublicPayment = () => {
                                             <h2 className='font-bold'>{row.unique_answer}</h2>
                                         </TableCell>
                                         <TableCell>{row.payment_id ? moment(row.payment_id.createdAt).format('dddd, DD MMMM YYYY') : 'N/A'}</TableCell>
-                                        <TableCell>{row.payment_id ? moment(row.payment_id.createdAt).format('hh:mm:ss A') : 'N/A'}</TableCell>
+                                        <TableCell>{row.payment_id ? moment(row.payment_id.createdAt).format('hh:mm A') : 'N/A'}</TableCell>
                                         <TableCell>
                                                 <p className='font-bold'>₦
                                                     {Intl.NumberFormat('en-US').format(

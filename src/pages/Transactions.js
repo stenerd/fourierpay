@@ -370,7 +370,6 @@ const Transactions = () => {
                                                                     </div>
                                                                 )
                                                             }
-
                                                             <div className='flex flex-col'>
                                                                 <h2 className='font-bold text-base text-[#2d2d2d] c-text-elipses'>{(each.in_entity === 'Wallet' || each.in_entity === 'Withdrawal') ? each.out_entity_id.name : each.payment_link_id.name}</h2>
                                                                 <small className='text-xs font-medium pt-1 flex-1 text-gray-500'>{moment(each.createdAt
@@ -378,12 +377,11 @@ const Transactions = () => {
                                                                 <small className='block text-xs font-bold pt-1 text-gray-500'>
                                                                     {each.in_entity === 'Wallet' ? 'Wallet | ' : `${each.in_entity_id.unique_answer} | `} {each.reference}
                                                                 </small>
-
                                                             </div>
                                                         </div>
                                                         <div className='flex flex-col'>
                                                             <h2 className='text-sm p-0 text-gray-500 font-bold lowercase self-end'>{each.in_entity !== 'Wallet' ? each.in_entity : 'Withdrawal'}</h2>
-                                                            <small className={each.in_entity !== 'Wallet' ? 'pt-1 self-end flex-1 font-bold text-[#01b133]' : 'pt-1 self-end flex-1 font-bold c-text-danger'}>{each.in_entity !== 'Wallet' ? '+' : '-'} ₦{Intl.NumberFormat('en-US').format(each.in_entity_id.amount || 0)}</small>
+                                                            <small className={each.in_entity !== 'Wallet' ? 'pt-1 self-end flex-1 font-bold text-[#01b133]' : 'pt-1 self-end flex-1 font-bold c-text-danger'}>{each.in_entity !== 'Wallet' ? '+' : '-'} ₦{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(each.in_entity_id.amount || 0)}</small>
                                                             <StatusBadge status={each.status} />
                                                         </div>
                                                     </div>

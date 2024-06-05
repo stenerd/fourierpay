@@ -326,7 +326,7 @@ const PaymentReciept = () => {
 
                                         <div className='flex justify-between py-2'>
                                             <p>Time</p>
-                                            <p>{moment(transactions?.transaction?.createdAt).format('hh:mm:ss A')}</p>
+                                            <p>{moment(transactions?.transaction?.createdAt).format('hh:mm A')}</p>
                                         </div>
                                         <div className='flex justify-between py-2'>
                                             <p>Amount</p>
@@ -444,7 +444,7 @@ const PaymentReciept = () => {
 
                                     <div className='flex justify-between py-2'>
                                         <p className='text-gray-400'>Time</p>
-                                        <p className='font-bold'>{moment(payment?.createdAt).format('hh:mm:ss A')}</p>
+                                        <p className='font-bold'>{moment(payment?.createdAt).format('hh:mm A')}</p>
                                     </div>
 
                                     <div className='py-2'>

@@ -153,8 +153,8 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
               <TableCell style={{ fontWeight: '600' }}>REFERENCE</TableCell>
               <TableCell style={{ fontWeight: '600' }}>Date</TableCell>
               <TableCell style={{ fontWeight: '600' }}>TIME</TableCell>
-              <TableCell style={{ fontWeight: '600' }}>Amount</TableCell>
               <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
+              <TableCell style={{ fontWeight: '600' }}>Amount</TableCell>
             </TableRow>
           </TableHead>
           {data.payments.length !== 0 ? (
@@ -175,14 +175,15 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
                   </TableCell>
                   <TableCell className='text-gray-400'>{row.transaction_id.reference}</TableCell>
                   <TableCell>{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
-                  <TableCell>{moment(row.createdAt).format('hh:mm:ss A')}</TableCell>
-                  <TableCell>
-                    <p className='font-bold'>₦ {Intl.NumberFormat('en-US').format(row.amount || 0)}</p>
-                  </TableCell>
+                  <TableCell>{moment(row.createdAt).format('hh:mm A')}</TableCell>
+                  
                   <TableCell>
                     <div className="text-left">
                       <StatusBadge status={row?.status} />
                     </div>
+                  </TableCell>
+                  <TableCell>
+                    <p className='font-bold'>₦ {Intl.NumberFormat('en-US').format(row.amount || 0)}</p>
                   </TableCell>
                 </TableRow>
               ))}

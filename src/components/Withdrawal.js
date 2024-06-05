@@ -154,11 +154,12 @@ export default function WithdrawalTable({
                         <TableRow className='font-bold'>
                             <TableCell className='font-bold' style={{ fontWeight: '600' }}>Recipient</TableCell>
                             <TableCell style={{ fontWeight: '600' }}>Reference Number</TableCell>
-                            <TableCell style={{ fontWeight: '600' }}>Amount</TableCell>
+                        
                             <TableCell style={{ fontWeight: '600' }}>Date</TableCell>
                             <TableCell style={{ fontWeight: '600' }}>Time</TableCell>
                             <TableCell style={{ fontWeight: '600' }}>Vendor Reference</TableCell>
                             <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
+                            <TableCell style={{ fontWeight: '600' }}>Amount</TableCell>
                         </TableRow>
                     </TableHead>
                     {/* {withdrawals } */}
@@ -184,15 +185,16 @@ export default function WithdrawalTable({
                                         </div>
                                     </TableCell>
                                     <TableCell align="left">{row.transaction_id.reference}</TableCell>
-                                    <TableCell align="left" style={{ fontWeight: '600' }}>₦{Intl.NumberFormat('en-US').format(row.amount || 0)}</TableCell>
                                     <TableCell align="left" >{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
-                                    <TableCell align="left" >{moment(row.createdAt).format('hh:mm:ss A')}</TableCell>
+                                    <TableCell align="left" >{moment(row.createdAt).format('hh:mm A')}</TableCell>
                                     <TableCell align="left" >{row.paystack_reference}</TableCell>
                                     <TableCell align="left">
                                         <div className="text-left">
                                             <StatusBadge status={row?.status} />
                                         </div>
                                     </TableCell>
+                                    <TableCell align="left" className={`${row.amount > 0 ? 'text-green-500' : 'text-gray-500'}`} style={{ fontWeight: '600' }}>₦{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(row.amount || 0)}</TableCell>
+
                                 </TableRow>
                             ))}
                         </TableBody>

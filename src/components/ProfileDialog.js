@@ -123,7 +123,7 @@ export default function ProfileDialog({ open11, handleClickOpen11, handleClose11
 
                             <div className='py-4 px-2'>
                                 <div>
-                                    <label className='text-sm font-bold block my-2 text-gray-700'>First Name</label>
+                                    <label className='text-sm font-bold block my-2 text-gray-700'>First Names</label>
                                     <input placeholder='First Name' onChange={handleChange} value={state?.firstname} required name='firstname' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
                                 </div>
                                 <div>

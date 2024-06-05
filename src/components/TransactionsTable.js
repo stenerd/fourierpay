@@ -235,9 +235,10 @@ export default function TransactionTable({
               <TableCell style={{ fontWeight: '600' }}>REFERENCE</TableCell>
               <TableCell style={{ fontWeight: '600' }}>Date</TableCell>
               <TableCell style={{ fontWeight: '600' }}>TIME</TableCell>
-              <TableCell style={{ fontWeight: '600' }}>Amount</TableCell>
-              <TableCell style={{ fontWeight: '600' }}>Type</TableCell>
+            
+              {/* <TableCell style={{ fontWeight: '600' }}>Type</TableCell> */}
               <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
+              <TableCell style={{ fontWeight: '600' }}>Amount</TableCell>
             </TableRow>
           </TableHead>
           {transactions?.length && !loading ? (
@@ -259,21 +260,24 @@ export default function TransactionTable({
                         `${row.payment_link_id.name} | ${row.in_entity_id.unique_answer}` :
                         (row.is_charges ? '' : `${row.out_entity_id.name} | ${row.out_entity_id.account_number} | ${row.out_entity_id.bank_name}`)}</small>
                   </TableCell>
-                  <TableCell className='text-gray-400'>{row.reference}</TableCell>
+                  <TableCell className='text-gray-400 uppercase'>{row.reference}</TableCell>
                   <TableCell>{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
-                  <TableCell>{moment(row.createdAt).format('hh:mm:ss A')}</TableCell>
-                  <TableCell>
-                    <p className='font-bold'>{ row.type === 'debit' ? '-' : '+' } ₦ {Intl.NumberFormat('en-US').format(row.amount || 0)}</p>
-                  </TableCell>
-                  <TableCell>
+                  <TableCell>{moment(row.createdAt).format('hh:mm A')}</TableCell>
+              
+                  {/* <TableCell>
                     <div className="text-left">
                       <p className={(row.type === 'credit') ? 'py-2 px-2 rounded-lg text-sm text-[#00bf00] font-bold' : 'py-2 px-2 rounded-lg text-sm text-[#f10506] font-bold'}>{row.type}</p>
                     </div>
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <div className="text-left uppercase">
                       <StatusBadge status={row?.status} />
                     </div>
+                  </TableCell>
+                  <TableCell>
+                        <p className={`font-bold ${row.type === 'debit' ? 'text-red-500' : 'text-green-500'}`}>
+                            {row.type === 'debit' ? '-' : '+'} ₦ {Intl.NumberFormat('en-US').format(row.amount || 0)}
+                    </p>
                   </TableCell>
                 </TableRow>
               ))}

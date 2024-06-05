@@ -705,7 +705,7 @@ const Profile = () => {
                                 <Grid item xs={12} md={8} className=''>
                                     <div className="px-3 py-3 mb-8 dashboard-border">
                                         <div className='flex justify-between items-center'>
-                                            <h2 className='font-bold fourier text-xl'>Recent Withdrawals</h2>
+                                            <h2 className='font-bold fourier text-xl' >Recent Withdrawals</h2>
                                             <Link to="/dashboard/withdrawal">
                                                 <p className='text-sm c-primary-color cursor-pointer font-bold'>View All</p>
                                             </Link>
@@ -790,7 +790,7 @@ const Profile = () => {
                                                                                 <StatusBadge status={trnx?.status} />
                                                                             </div>
                                                                         </Grid>
-                                                                        <Grid item xs={3} className='    flex items-center justify-end'>                                                                            
+                                                                        <Grid item xs={3} className=' flex items-center justify-end'>                                                                            
                                                                             <h2 className={`font-bold ${trnx.amount > 0 ? 'text-green-500' : 'text-gray-500'}`}>
                                                                                 {trnx.amount > 0 ? `+₦ ${Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(trnx.amount)}` : `-₦ ${Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(Math.abs(trnx.amount))}`}
                                                                             </h2>
