@@ -127,7 +127,7 @@ const Sidebar = () => {
                     <p className="text-gray-700">Are you sure you want to Logout?          
                     </p>
                     <div className="flex justify-end mt-6">
-                        <button className="c-secondary-button-sm mr-3" onClick={() => handleClose()}>No</button>
+                        <button className=" mr-3" onClick={() => handleClose()}>No</button>
                         <button className="c-secondary-button-2" onClick={() => Logout()}>Yes</button>
                     </div>
                 </div>

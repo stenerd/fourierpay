@@ -702,8 +702,8 @@ const Profile = () => {
                                         </div>
                                     </Stack>
                                 </Grid>
-                                <Grid item xs={12} md={8}>
-                                    <div className="px-3 pt-0 mb-8">
+                                <Grid item xs={12} md={8} className=''>
+                                    <div className="px-3 py-3 mb-8 dashboard-border">
                                         <div className='flex justify-between items-center'>
                                             <h2 className='font-bold fourier text-xl'>Recent Withdrawals</h2>
                                             <Link to="/dashboard/withdrawal">
@@ -785,12 +785,12 @@ const Profile = () => {
                                                                                     (trnx.is_charges ? '' : `${trnx.out_entity_id.name} | ${trnx.out_entity_id.account_number} | ${trnx.out_entity_id.bank_name}`)}</small>
                                                                             {/* <small className='text-sm text-gray-400'>{trnx.reference}</small> */}
                                                                         </Grid>
-                                                                        <Grid item xs={2}>
-                                                                            <div className="text-left">
+                                                                        <Grid item xs={2} className="flex items-center">
+                                                                            <div className="text-left ">
                                                                                 <StatusBadge status={trnx?.status} />
                                                                             </div>
                                                                         </Grid>
-                                                                        <Grid item xs={3} className='text-right'>                                                                            
+                                                                        <Grid item xs={3} className='    flex items-center justify-end'>                                                                            
                                                                             <h2 className={`font-bold ${trnx.amount > 0 ? 'text-green-500' : 'text-gray-500'}`}>
                                                                                 {trnx.amount > 0 ? `+₦ ${Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(trnx.amount)}` : `-₦ ${Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(Math.abs(trnx.amount))}`}
                                                                             </h2>
