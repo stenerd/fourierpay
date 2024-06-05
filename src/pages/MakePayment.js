@@ -738,9 +738,9 @@ const MakePayment = () => {
                                             // <p className='font-bold text-gray-700 text-lg'>{paymentLink.name}</p> */}
                                             {/* <span className='font-bold text-gray-500 inline-block w-full'>{paymentLink.description}</span> */}
                                             <Divider className='creat-payment-divider' />
-                                            {/* <p className='font-bold text-gray-700 text-lg mt-8'>Amount: ₦ {Intl.NumberFormat('en-US').format(paymentLink.amount || 0)}</p>
-                                            <p className='font-bold text-gray-700 text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US').format(paymentLink.charges || 0)}</p>
-                                            <p className='font-bold text-[#39c531] text-xl mt-4'>Total: ₦ {Intl.NumberFormat('en-US').format((paymentLink.amount + paymentLink.charges) || 0)}</p> */}
+                                            {/* <p className='font-bold text-gray-700 text-lg mt-8'>Amount: ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.amount || 0)}</p>
+                                            <p className='font-bold text-gray-700 text-sm mt-0'>Charges: ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges || 0)}</p>
+                                            <p className='font-bold text-[#39c531] text-xl mt-4'>Total: ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format((paymentLink.amount + paymentLink.charges) || 0)}</p> */}
 
                                             {
                                                 (tab_lg === 1) ? (

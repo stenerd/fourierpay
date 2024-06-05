@@ -104,7 +104,7 @@ const PublicPayment = () => {
                                 <img src='/images/ep.svg' alt="alt-img" />
                                 <p className='text-[.88rem] pt-3 pb-1 font-medium text-gray-700'>Expected Payment</p>
                                 <p><span className='text-sm text-gray-500'>₦</span><span className='font-bold text-lg'>{
-                                    Intl.NumberFormat('en-US').format(
+                                    Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(
                                         ((result.data && result.data.paymentLink) ? result.data.paymentLink.amount : 0) *
                                         ((result.data && result.data.paymentLink) ? result.data.paymentLink.expected_number_of_payments : 0)
                                     )
@@ -116,7 +116,7 @@ const PublicPayment = () => {
                                 <p className='text-[.88rem] pt-3 pb-1 font-medium text-gray-700'>Amount Per Payment</p>
                                 <p><span className='text-sm text-gray-500'>₦</span><span className='font-bold text-lg'>
                                     {
-                                        Intl.NumberFormat('en-US').format(
+                                        Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(
                                             ((result.data && result.data.paymentLink) ? result.data.paymentLink.amount : 0)
                                         )
                                     }
@@ -128,7 +128,7 @@ const PublicPayment = () => {
                                 <p className='text-[.88rem] pt-3 pb-1 font-medium text-gray-700'>Recieved Payment</p>
                                 <p><span className='text-sm text-gray-500'>₦</span><span className='font-bold text-lg'>
                                 {
-                                        Intl.NumberFormat('en-US').format(
+                                        Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(
                                             ((result.data && result.data.recievedAmount) ? result.data.recievedAmount : 0)
                                         )
                                     }
@@ -179,7 +179,7 @@ const PublicPayment = () => {
                                         <TableCell>{row.payment_id ? moment(row.payment_id.createdAt).format('hh:mm A') : 'N/A'}</TableCell>
                                         <TableCell>
                                                 <p className='font-bold'>₦
-                                                    {Intl.NumberFormat('en-US').format(
+                                                    {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(
                                                         ((result.data && result.data.paymentLink) ? result.data.paymentLink.amount : 0)
                                                     )}
                                                 </p>

@@ -501,7 +501,7 @@ const Payment = () => {
                                                 </div>
                                                 {/* <div className='flex flex-col'>
                                                     <small className='font-bold text-gray-500'>Charges</small>
-                                                    <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US').format((+state.amount >= 2000 ? +state.amount * 0.02 + 100 : +state.amount * 0.02) || 0)}</h2>
+                                                    <h2 className='text-lg font-bold mt-0'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format((+state.amount >= 2000 ? +state.amount * 0.02 + 100 : +state.amount * 0.02) || 0)}</h2>
                                                 </div> */}
                                                 {
                                                     state.expected_number_of_payment ? (

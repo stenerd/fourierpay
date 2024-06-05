@@ -183,7 +183,7 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
                     </div>
                   </TableCell>
                   <TableCell>
-                    <p className='font-bold'>₦ {Intl.NumberFormat('en-US').format(row.amount || 0)}</p>
+                    <p className='font-bold'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(row.amount || 0)}</p>
                   </TableCell>
                 </TableRow>
               ))}

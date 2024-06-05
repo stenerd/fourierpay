@@ -180,8 +180,8 @@ export default function TransactionTable({
                   <div className='font-bold'>Status</div>
                   <select ref={statusRef} className="py-2 px-4 w-full outline-none c-text-input" onChange={(e) => setStatus(e.target.value)}>
                     <option value={""}>Select One</option>
-                    <option value={"pending"}>pending</option>
-                    <option value={"paid"}>paid</option>
+                    <option value={"pending"}>Pending</option>
+                    <option value={"paid"}>Paid</option>
                     {/* <option value={"declined"}>declined</option>
                     <option value={"abandoned"}>abandoned</option> */}
                   </select>
@@ -230,15 +230,12 @@ export default function TransactionTable({
       <TableContainer className='relative'>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
-            <TableRow className='font-bold'>
-              <TableCell className='font-bold' style={{ fontWeight: '600' }}>RECIPIENT</TableCell>
-              <TableCell style={{ fontWeight: '600' }}>REFERENCE</TableCell>
-              <TableCell style={{ fontWeight: '600' }}>Date</TableCell>
-              <TableCell style={{ fontWeight: '600' }}>TIME</TableCell>
-            
-              {/* <TableCell style={{ fontWeight: '600' }}>Type</TableCell> */}
-              <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
-              <TableCell style={{ fontWeight: '600' }}>Amount</TableCell>
+            <TableRow >
+              <TableCell  style={{ fontWeight: '500' }}>Recipient</TableCell>
+              <TableCell style={{ fontWeight: '500' }}>Reference</TableCell>
+              <TableCell style={{ fontWeight: '500' }}>Date</TableCell>            
+              <TableCell style={{ fontWeight: '500' }}>Status</TableCell>
+              <TableCell style={{ fontWeight: '500' }}>Amount</TableCell>
             </TableRow>
           </TableHead>
           {transactions?.length && !loading ? (
@@ -258,17 +255,13 @@ export default function TransactionTable({
                     <small className='text-gray-400'>{
                       row.in_entity === 'Payment' ?
                         `${row.payment_link_id.name} | ${row.in_entity_id.unique_answer}` :
-                        (row.is_charges ? '' : `${row.out_entity_id.name} | ${row.out_entity_id.account_number} | ${row.out_entity_id.bank_name}`)}</small>
+                        (row.is_charges ? '' : `${row.out_entity_id.name} | ${row.out_entity_id.account_number} | ${row.out_entity_id.bank_name}`)}
+                    </small>
                   </TableCell>
                   <TableCell className='text-gray-400 uppercase'>{row.reference}</TableCell>
-                  <TableCell>{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
-                  <TableCell>{moment(row.createdAt).format('hh:mm A')}</TableCell>
-              
-                  {/* <TableCell>
-                    <div className="text-left">
-                      <p className={(row.type === 'credit') ? 'py-2 px-2 rounded-lg text-sm text-[#00bf00] font-bold' : 'py-2 px-2 rounded-lg text-sm text-[#f10506] font-bold'}>{row.type}</p>
-                    </div>
-                  </TableCell> */}
+                  <TableCell scope="row" >{moment(row.createdAt).format('dddd, DD MMMM YYYY')}<br/>
+                    <small className='text-gray-700'>  {moment(row.createdAt).format('hh:mm A')}</small>
+                  </TableCell>
                   <TableCell>
                     <div className="text-left uppercase">
                       <StatusBadge status={row?.status} />
@@ -276,7 +269,7 @@ export default function TransactionTable({
                   </TableCell>
                   <TableCell>
                         <p className={`font-bold ${row.type === 'debit' ? 'text-red-500' : 'text-green-500'}`}>
-                            {row.type === 'debit' ? '-' : '+'} ₦ {Intl.NumberFormat('en-US').format(row.amount || 0)}
+                            {row.type === 'debit' ? '-' : '+'} ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(row.amount || 0)}
                     </p>
                   </TableCell>
                 </TableRow>

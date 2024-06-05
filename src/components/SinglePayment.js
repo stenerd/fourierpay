@@ -81,7 +81,7 @@ const SinglePayment = ({ data, onChange, handleKeyDown, start, end, status, setS
                                                 </small> */}
                             </div>
                             <div className='flex flex-1 flex-col items-end space-y-2'>
-                                <h2 className='self-end'>₦{Intl.NumberFormat('en-US').format(row.amount || 0)}</h2>
+                                <h2 className='self-end'>₦{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(row.amount || 0)}</h2>
                                 <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid2 self-end' : 'py-2 px-2 rounded-lg text-sm status-fail2 self-end'}>{row.status}</p>
                             </div>
                         </div>

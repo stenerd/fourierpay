@@ -152,8 +152,8 @@ const PaymentReciept = () => {
                                     </div>
                                     <div className='w-[85%]'>
                                         <p className='text-lg text-[#d6d8d5] font-medium'>Amount</p>
-                                        <p className='font-bold text-2xl' style={{color: '#97f675'}}>₦ {Intl.NumberFormat('en-US').format(payment.amount || 0)}</p>
-                                        <small className='font-bold'>Charges - ₦ {Intl.NumberFormat('en-US').format(payment.in_entity_id ? payment.in_entity_id.charges : 0)}</small>
+                                        <p className='font-bold text-2xl' style={{color: '#97f675'}}>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(payment.amount || 0)}</p>
+                                        <small className='font-bold'>Charges - ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(payment.in_entity_id ? payment.in_entity_id.charges : 0)}</small>
                                     </div>
                                    
                                 </div>

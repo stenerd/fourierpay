@@ -173,7 +173,7 @@ const PaymentLinks = () => {
                                 //             {each.expected_number_of_payments && (
                                 //                 <div>
                                 //                     <h2 className='text-[10px] text-gray-400'>Expected Amount</h2>
-                                //                     <p className='font-semibold'>  {Intl.NumberFormat('en-US').format(each.amount * each.expected_number_of_payments)}</p>
+                                //                     <p className='font-semibold'>  {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(each.amount * each.expected_number_of_payments)}</p>
                                 //                 </div>
                                 //             )}
                                 //             <div>

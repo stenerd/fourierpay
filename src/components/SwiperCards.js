@@ -68,7 +68,7 @@ const SwiperCards = () => {
                             <h3 className="text-gray-400 font-bold">{moment(new Date()).format('dddd, MMMM DD YYYY')}</h3>
                             <div className='spacing-y-3 flex justify-between items-center mt-4'>
                                 <div className='pt-3'>
-                                    {wallet.amount ? (<h1 className='fourier text-[20px] text-white font-bold'>₦ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>) : <h1 className='fourier text-white text-[20px] font-bold'>₦0</h1>}
+                                    {wallet.amount ? (<h1 className='fourier text-[20px] text-white font-bold'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(wallet.amount || 0)}</h1>) : <h1 className='fourier text-white text-[20px] font-bold'>₦0</h1>}
                                     <h3 className="text-white fourier text-sm uppercase font-bold text-[#98f675]">Total Balance</h3>
                                 </div>
                                 <div className='h-full pt-3'>
@@ -90,12 +90,12 @@ const SwiperCards = () => {
                                         </IconButton>
                                     </div>
                                     <div className='self-end'>
-                                        <h1 className='font-bold fourier text-white text-[40px]'>₦ {Intl.NumberFormat('en-US').format(matrics.income || 0)}</h1>
+                                        <h1 className='font-bold fourier text-white text-[40px]'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(matrics.income || 0)}</h1>
                                     </div>
                                 </div> */}
                                 <div className='spacing-y-3 flex justify-between items-center mt-4'>
                                     <div className='pt-3'>
-                                        {wallet.amount ? (<h1 className='fourier text-[20px] text-white font-bold'>₦ {Intl.NumberFormat('en-US').format(matrics.income || 0)}</h1>) : <h1 className='fourier text-white text-[20px] font-bold'>₦0</h1>}
+                                        {wallet.amount ? (<h1 className='fourier text-[20px] text-white font-bold'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(matrics.income || 0)}</h1>) : <h1 className='fourier text-white text-[20px] font-bold'>₦0</h1>}
                                         <h3 className="text-white fourier text-sm uppercase font-bold text-[#fadc8b]">Total Income</h3>
                                     </div>
                                     <div className='h-full pt-3'>
@@ -176,12 +176,12 @@ const SwiperCards = () => {
                                         </IconButton>
                                     </div>
                                     <div className='self-end'>
-                                        <h1 className='font-bold fourier text-white text-[40px]'>₦ {Intl.NumberFormat('en-US').format(matrics.withdrawal || 0)}</h1>
+                                        <h1 className='font-bold fourier text-white text-[40px]'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(matrics.withdrawal || 0)}</h1>
                                     </div>
                                 </div> */}
                                 <div className='spacing-y-3 flex justify-between items-center mt-4'>
                                     <div className='pt-3'>
-                                        <h1 className='fourier text-[20px] text-white font-bold'>₦ {Intl.NumberFormat('en-US').format(matrics.withdrawal || 0)}</h1>
+                                        <h1 className='fourier text-[20px] text-white font-bold'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(matrics.withdrawal || 0)}</h1>
                                         <h3 className="text-white fourier text-sm uppercase font-bold text-[#ffb100]">WITHDRAWALS</h3>
                                     </div>
                                     <div className='h-full pt-3'>

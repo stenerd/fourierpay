@@ -386,7 +386,7 @@ const SinglePaymentLink = () => {
                                                                     {/* </IconButton> */}
                                                                     <div className='pt-8'>
                                                                         <h2 className='text-sm text-gray-400 font-bold'>Expected Amount</h2>
-                                                                        <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.amount * data.paymentLink.expected_number_of_payments || 0)}</h1>
+                                                                        <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(data.paymentLink.amount * data.paymentLink.expected_number_of_payments || 0)}</h1>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -398,7 +398,7 @@ const SinglePaymentLink = () => {
                                                             <div className="p-2 w-[90%] mx-auto relative">
                                                                 <div className='space-y-3 flex flex-col items-start justify-start'>
                                                                     <div className='c-charges-matrics'>
-                                                                        <p className='font-bold text-red-700 text-sm'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.charges || 0)}</p>
+                                                                        <p className='font-bold text-red-700 text-sm'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(data.paymentLink.charges || 0)}</p>
                                                                         <small className='italic text-right font-medium  text-gray-600'>VAT</small>
                                                                     </div>
                                                                     <div className='content' style={{ marginTop: '0' }}>
@@ -406,7 +406,7 @@ const SinglePaymentLink = () => {
                                                                     </div>
                                                                     <div className='pt-8'>
                                                                         <h2 className='text-sm text-gray-400 font-bold'>Amount Per Payment</h2>
-                                                                        <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.amount || 0)}</h1>
+                                                                        <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(data.paymentLink.amount || 0)}</h1>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -422,7 +422,7 @@ const SinglePaymentLink = () => {
                                                                     </div>
                                                                     <div className='pt-8'>
                                                                         <h2 className='text-sm text-gray-400 font-bold'>Recieved Payment</h2>
-                                                                        <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.recievedAmount || 0)}</h1>
+                                                                        <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(data.recievedAmount || 0)}</h1>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -591,7 +591,7 @@ const SinglePaymentLink = () => {
                                             <div className='py-4 px-2 border border-[#FFD469] rounded-[10px]' style={{ background: 'rgba(199, 199, 199, 0.15)' }}>
                                                 <div className='overlay'></div>
                                                 <h2 className='text-gray-400 text-[12px]'>Expected Amount</h2>
-                                                <h6 className='font-bold text-[14px] fourier'>₦ {Intl.NumberFormat('en-US').format(data?.paymentLink?.amount * data?.paymentLink?.expected_number_of_payments || 0)}</h6>
+                                                <h6 className='font-bold text-[14px] fourier'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(data?.paymentLink?.amount * data?.paymentLink?.expected_number_of_payments || 0)}</h6>
                                             </div>
                                         </div>
                                     </Grid>
@@ -600,7 +600,7 @@ const SinglePaymentLink = () => {
                                             <div className='py-4 px-2 border border-[#0D9823] rounded-[10px]' style={{ background: 'rgba(199, 199, 199, 0.15)' }}>
                                                 <div className='overlay'></div>
                                                 <h2 className='text-gray-400 text-[12px]'>Amount Per Amount</h2>
-                                                <h6 className='font-bold text-[14px] fourier'>₦ {Intl.NumberFormat('en-US').format(data?.paymentLink?.amount || 0)}</h6>
+                                                <h6 className='font-bold text-[14px] fourier'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(data?.paymentLink?.amount || 0)}</h6>
                                             </div>
                                         </div>
                                     </Grid>
@@ -608,7 +608,7 @@ const SinglePaymentLink = () => {
                                         <div>
                                             <div className='py-4 px-2 border border-[#F6AE9E] rounded-md' style={{ background: ' rgba(199, 199, 199, 0.15)' }}>
                                                 <h2 className='text-gray-400 text-[12px]'>Recieved Payment</h2>
-                                                <h6 className='font-bold text-[14px] fourier'>₦ {Intl.NumberFormat('en-US').format(data?.recievedAmount || 0)}</h6>
+                                                <h6 className='font-bold text-[14px] fourier'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(data?.recievedAmount || 0)}</h6>
                                             </div>
                                         </div>
                                     </Grid>
