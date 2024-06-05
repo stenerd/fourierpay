@@ -132,7 +132,7 @@ const Withdrawal = ({}) => {
                         <div className="flex-1">
                             {loading ? <Skeleton variant="text" sx={{ fontSize: '1rem' }} /> : (
                                 <div className='flex items-center space-x-5'>
-                                    <h2 className='fourier profile font-bold'>Withdrawls</h2>
+                                    <h2 className='fourier profile font-bold'>Withdrawals</h2>
                                 </div>)}
                             
                                 <div className='flex items-center space-x-5 mt-2'>

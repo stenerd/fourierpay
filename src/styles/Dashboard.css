@@ -41,8 +41,9 @@
 
 
 .dashboard-icon{
-    color: #065143;
-    opacity: 50%;
+    color: #06514321;
+    position:absolute;
+    right:1rem;
 }
 .status-pill{
     background: #f8faf7;

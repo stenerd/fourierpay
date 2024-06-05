@@ -148,11 +148,10 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
       <TableContainer className='relative'>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
-            <TableRow className='font-bold'>
-              <TableCell className='font-bold' style={{ fontWeight: '600' }}>{data.paymentLink.unique_field}</TableCell>
-              <TableCell style={{ fontWeight: '600' }}>REFERENCE</TableCell>
+            <TableRow className='capitalize'>
+              <TableCell className='capitalize' style={{ fontWeight: '600' }}>{data.paymentLink.unique_field}</TableCell>
+              <TableCell style={{ fontWeight: '600' }}>Reference</TableCell>
               <TableCell style={{ fontWeight: '600' }}>Date</TableCell>
-              <TableCell style={{ fontWeight: '600' }}>TIME</TableCell>
               <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
               <TableCell style={{ fontWeight: '600' }}>Amount</TableCell>
             </TableRow>
@@ -174,9 +173,9 @@ export default function PaymentTable({ data, onChange, handleKeyDown, start, end
                     <h2 className='font-bold'>{row.unique_answer}</h2>
                   </TableCell>
                   <TableCell className='text-gray-400'>{row.transaction_id.reference}</TableCell>
-                  <TableCell>{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
-                  <TableCell>{moment(row.createdAt).format('hh:mm A')}</TableCell>
-                  
+                  <TableCell>{moment(row.createdAt).format('dddd, DD MMMM YYYY')}
+                    <small className='text-gray-700'>  {moment(row.createdAt).format('hh:mm A')}</small>
+                  </TableCell>
                   <TableCell>
                     <div className="text-left">
                       <StatusBadge status={row?.status} />

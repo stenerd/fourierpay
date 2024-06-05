@@ -335,9 +335,15 @@ const SinglePaymentLink = () => {
                                         <Grid item xs={12} md={5}>
                                             <div className='min-h-full c-single-payment-description relative'>
                                                 <div className='flex justify-between'>
-                                                    <div className='pb-8'>
-                                                        <div className='font-bold'>Description:</div>
-                                                        <div className='italic text-gray-500'>{data.paymentLink.description}</div>
+                                                    <div className='pb-4'>
+                                                        <div className=''>Description:</div>
+                                                        <div className='text-gray-500'>{data.paymentLink.description}</div>
+
+                                                        <div className='flex space-x-2 items-center mt-2  w-[70%] no-wrap'>                                                        
+                                                        <h2 className='break-all text-[13px] text-[#1d3329] font-bold'>{data.paymentLink.link}</h2>
+                                                        <ContentPasteIcon onClick={() => copyText(data.paymentLink.link)} className="cursor-pointer c-fs-1 border border-1 p-1 font-bold"/>
+
+                                                    </div>
                                                     </div>
                                                     <div className='cursor-pointer relative'>
                                                         <Tooltip title='Click to download QRCode as an Image'>
@@ -345,24 +351,16 @@ const SinglePaymentLink = () => {
                                                                 <img src={data.paymentLink && data.paymentLink.qr_code} alt="qrcode" className='c-box-shadow-qr' />
                                                             </a>
                                                         </Tooltip>
-                                                        {/* <IconButton className='top-2 right-3 absolute'>
-                                                            <KeyboardArrowDownIcon/>
-                                                        </IconButton> */}
                                                     </div>
-
                                                 </div>
                                                 <div className='absolute w-[95%] bottom-4'>
-                                                    <div className='flex space-x-2 items-center mt-2'>
-                                                        {/* <IconButton>
-                                                        <ContentPasteIcon onClick={copyText} />
-                                                    </IconButton> */}
-                                                        <ContentPasteIcon onClick={() => copyText(data.paymentLink.link)} className="cursor-pointer c-fs-1" />
-                                                        <h2 className='break-all text-[13px] text-[#1d3329] font-bold'>{data.paymentLink.link}</h2>
-                                                    </div>
+                                                
                                                     <div className='mt-2'>
+                                                        <div className='pb-1'>Progress:</div>
+
                                                         {
                                                             data.paymentLink.expected_number_of_payments ? (
-                                                                <div className='pb-0 w-[100%] rounded-lg'>
+                                                                <div className='pb-0 w-[100%] rounded-lg dashboard-border'>
                                                                     <BorderLinearProgress variant="determinate" value={((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100) > 100 ? 100 : ((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100)} />
                                                                 </div>
                                                             ) : ''
@@ -372,78 +370,90 @@ const SinglePaymentLink = () => {
                                             </div>
                                         </Grid>
                                         <Grid item xs={12} md={7}>
-                                            <div className='create-payment-details p-8'>
+                                            <div className='create-payment-details p-4'>
                                                 <Grid container spacing={3}>
                                                     <Grid item xs={3}>
-                                                        <div className='bg-white py-2 min-h-full rounded-md dashboard-matrix'>
-                                                            <div className='overlay'></div>
+                                                        <div className='h-[95%] bg-[#f8faf7] dashboard-border py-2 rounded-md dashboard-matrix'>
                                                             <div className="p-2 w-[90%] mx-auto">
-                                                                <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                                    {/* <IconButton> */}
-                                                                    <div className='content'>
-                                                                        <AccountBalanceIcon className='text-[#1d3329]' />
+                                                                <div className='flex flex-col justify-between h-full'>
+                                                                    <div className='space-y-3'>
+                                                                        <div className='pb-8'>
+                                                                            <h2 className='text-gray-500  font-bold'>Expected Amount</h2>
+                                                                        </div>
+                                                                        <div className='my-5'></div>
                                                                     </div>
-                                                                    {/* </IconButton> */}
-                                                                    <div className='pt-8'>
-                                                                        <h2 className='text-sm text-gray-400 font-bold'>Expected Amount</h2>
+                                                                    <div className='flex justify-between items-center mt-auto'>
                                                                         <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(data.paymentLink.amount * data.paymentLink.expected_number_of_payments || 0)}</h1>
+                                                                        <AccountBalanceIcon className='dashboard-icon  ml-auto' />
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </Grid>
+                                                            
                                                     <Grid item xs={3}>
-                                                        <div className='bg-white py-2 min-h-full rounded-md dashboard-matrix'>
-                                                            <div className='overlay'></div>
-                                                            <div className="p-2 w-[90%] mx-auto relative">
-                                                                <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                                    <div className='c-charges-matrics'>
-                                                                        <p className='font-bold text-red-700 text-sm'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(data.paymentLink.charges || 0)}</p>
-                                                                        <small className='italic text-right font-medium  text-gray-600'>VAT</small>
+                                                        <div className='h-[95%] bg-[#f8faf7] dashboard-border py-2 rounded-md dashboard-matrix'>
+                                                            <div className="p-2 w-[90%] mx-auto">
+                                                                <div className='flex flex-col justify-between h-full'>
+                                                                    <div className='space-y-3'>
+                                                                        <div className='pb-4'>
+                                                                            <h2 className='  text-gray-500  font-bold'>Amount Per Payment</h2>
+
+                                                                            <div className='py-1'>
+                                                                                <small className='text-left text-gray-800'>VAT: ₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(data.paymentLink.charges || 0)}</small>
+                                                                            </div>
+                                                                            
+                                                                        </div>
                                                                     </div>
-                                                                    <div className='content' style={{ marginTop: '0' }}>
-                                                                        <DatasetLinkedIcon className='text-[#1d3329]' />
-                                                                    </div>
-                                                                    <div className='pt-8'>
-                                                                        <h2 className='text-sm text-gray-400 font-bold'>Amount Per Payment</h2>
+                                                                    <div className='flex justify-between items-center mt-auto'>
                                                                         <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(data.paymentLink.amount || 0)}</h1>
+                                                                        <DatasetLinkedIcon className='dashboard-icon' />
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </Grid>
-                                                    <Grid item xs={3}>
-                                                        <div className='bg-white py-2 min-h-full rounded-md dashboard-matrix'>
-                                                            <div className='overlay'></div>
-                                                            <div className="p-2 w-[90%] mx-auto">
-                                                                <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                                    <div className='content'>
-                                                                        <PaymentsIcon className='text-[#1d3329]' />
+                    
+
+
+                                            <Grid item xs={3}>
+                                                <div className='h-[95%] bg-[#f8faf7] py-2 rounded-md dashboard-border dashboard-matrix'>
+                                                     <div className="p-2 w-[90%] z-20 mx-auto">
+                                                        <div className='flex flex-col justify-between h-full'>
+                                                            <div className='space-y-3'>
+                                                                <div className='pb-8'>
+                                                                    <h2 className=' text-gray-500  font-bold'>Payments Recieved</h2>
+                                                                        </div>    
+                                                                <div className='my-4'></div>
+                                                            </div>
+                                                            <div className='flex justify-between items-center mt-auto'>
+                                                                <h1 className='font-bold fourier  z-10'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(data.recievedAmount || 0)}</h1>
+                                                                <PaymentsIcon className='dashboard-icon ' />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Grid>
+                                                
+                                                <Grid item xs={3}>
+                                                        <div className='h-[95%] bg-[#f8faf7] py-2 rounded-md  dashboard-border dashboard-matrix'>
+                                                            <div className="p-2 w-[90%] z-20 ">
+                                                                <div className='flex flex-col justify-between h-full'>
+                                                                    <div className='space-y-3'>
+                                                                        <div className='pb-8'>
+                                                                            <h2 className=' text-gray-500 font-bold'>No. of Recipients </h2>
+                                                                        </div>
+                                                                        <div className='my-4'></div>
                                                                     </div>
-                                                                    <div className='pt-8'>
-                                                                        <h2 className='text-sm text-gray-400 font-bold'>Recieved Payment</h2>
-                                                                        <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(data.recievedAmount || 0)}</h1>
+                                                                    <div className='flex justify-between items-center mt-auto '>
+                                                                        <h1 className='font-bold fourier z-10'>{data.numberOfRecipient}</h1>
+                                                                        <ConfirmationNumberIcon className='dashboard-icon ' />
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </Grid>
-                                                    <Grid item xs={3}>
-                                                        <div className='bg-white py-2 min-h-full rounded-md dashboard-matrix'>
-                                                            <div className='overlay'></div>
-                                                            <div className="p-2 w-[90%] mx-auto">
-                                                                <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                                    <div className='content'>
-                                                                        <ConfirmationNumberIcon className='text-[#1d3329]' />
-                                                                    </div>
-                                                                    <div className='pt-8'>
-                                                                        <h2 className='text-sm text-gray-400 font-bold'>Number Of Recipient</h2>
-                                                                        <h1 className='font-bold fourier'>{data.numberOfRecipient}</h1>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </Grid>
+                                                </Grid>
+        
                                                 </Grid>
                                             </div>
                                         </Grid>
@@ -551,13 +561,13 @@ const SinglePaymentLink = () => {
                                         <p className='text-[12px]'>{data?.paymentLink?.name}</p>
                                     </div>
                                     <div className='py-2 mt-2'>
-                                        <div className='bg-gray-200 px-2 py-1 rounded-md flex items-center space-x-1'>
+                                        <div className='bg-gray-200 px-2 py-2 rounded-md flex items-center space-x-1 '>
                                             <IconButton onClick={() => {
                                                 // setCopied()
                                                 copyText(data?.paymentLink?.link)
                                                 // console.log(link, index)
                                             }}>
-                                                <ContentPasteIcon fontSize='small' />
+                                                <ContentPasteIcon fontSize='large' />
                                             </IconButton>
                                             <h1 className='break-all text-[10px]'>{data?.paymentLink?.link}</h1>
                                         </div>
@@ -705,41 +715,6 @@ const SinglePaymentLink = () => {
                         </div>
                     </div>
                     <BottomNav />
-                    {/* <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
-                        <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-                            <BottomNavigationAction
-                                label="Dashboard"
-                                value="dashboard"
-                                onClick={() => navigate('/dashboard')}
-                                icon={<DashboardIcon />}
-                            />
-                            <BottomNavigationAction
-                                label="Transactions"
-                                value="transactions"
-                                onClick={() => navigate('/dashboard/transaction')}
-                                icon={<ReceiptIcon />}
-                            />
-                            <BottomNavigationAction
-                                label="New Link"
-                                value="new link"
-                                icon={<AddIcon className='c-primary-link-color ' />}
-                                onClick={() => navigate('/dashboard/payment')}
-                            />
-                            <BottomNavigationAction
-                                label="Links"
-                                value="links"
-                                icon={<InsertLinkIcon />}
-                            />
-                            <BottomNavigationAction
-                                label="Profile"
-                                value="profile"
-                                icon={<AccountCircleIcon />}
-                                onClick={() => navigate('/dashboard/profile')}
-                            />
-                           
-                            <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
-                        </BottomNavigation>
-                    </Paper> */}
 
                 </div>
                 <ToastContainer

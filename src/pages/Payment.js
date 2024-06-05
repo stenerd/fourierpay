@@ -13,10 +13,6 @@ import ToggleButton from '../components/ToggleButton';
 import BottomNav from '../components/bottomNav';
 
 
-
-
-
-
 const Payment = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = React.useState(false);

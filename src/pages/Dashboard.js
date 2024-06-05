@@ -7,16 +7,8 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import PaymentDrawer from '../components/PaymentDrawer';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import PaidIcon from '@mui/icons-material/Paid';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import CircularProgress, {
-    circularProgressClasses,
-} from '@mui/material/CircularProgress';
 import { linearProgressClasses } from '@mui/material/LinearProgress';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import Titlebar from '../components/TitleBar'
@@ -791,7 +783,7 @@ const Dashboard = () => {
                                                     </div>
                                                 </div>
                                             </Grid>
-                                                <Grid item xs={3}>
+                                            <Grid item xs={3}>
                                                 <div className='bg-[#f8faf7] py-2 rounded-md  dashboard-border dashboard-matrix'>
                                                      <div className="p-2 w-[90%] z-20 mx-auto">
                                                         <div className='flex flex-col justify-between h-full'>

@@ -295,7 +295,17 @@ const PaymentLinks = () => {
             <div className='hidden lg:block'>
                 <DashboardLayout>
                     <Titlebar>
-                        <h2 className='fourier font-bold'>Payment Links</h2>
+                            <div className="flex-1">
+                            {loading ? <Skeleton variant="text" sx={{ fontSize: '1rem' }} /> : (
+                                <div className='flex items-center space-x-5'>
+                                    <h2 className='fourier profile font-bold'>Payment Links</h2>
+                                </div>)}
+                            
+                                <div className='flex items-center space-x-5 mt-2'>
+                                    {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<p className=' text-gray-600'>View and manage your created Links.</p>)}
+                                </div>
+                        </div>
+
                         <div>
                             <Link to="/dashboard/payment">
                                 <button className='c-bg-primary-light'>Create Payment</button>
@@ -321,7 +331,7 @@ const PaymentLinks = () => {
                                                         <div className='p-4'>
                                                             <div className=''>
                                                                 <div className='flex justify-between'>
-                                                                    <h2 className='fourier text-2xl text-[#1d3329] max-w-[60%] font-bold hover:text-blue-500 cursor-pointer'>{link.name}</h2>
+                                                                    <h2 className='fourier text-2xl text-[#1d3329] max-w-[60%] font-bold hover:text-blue-500 cursor-pointer capitalize'>{link.name}</h2>
                                                                     {/* {moment(link.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? (
                                                                         <small className='text-sm text-[#00bf00] status-pill'>{link.status} {link.expires_at && `- ${moment(link.expires_at).format('MMMM DD, YYYY')}`}</small>
                                                                     ) : (
@@ -342,7 +352,7 @@ const PaymentLinks = () => {
                                                                         {link.expected_number_of_payments ?
                                                                             (
                                                                                 <div>
-                                                                                    <h2 className='text-sm text-gray-400 font-bold '>Total Expected Amount</h2>
+                                                                                    <h2 className='text-sm text-gray-500'>Total Expected Amount</h2>
                                                                                     <h1 className='text-xl font-bold '>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(link.amount * link.expected_number_of_payments || 0)}</h1>
                                                                                 </div>
                                                                             )
@@ -351,13 +361,13 @@ const PaymentLinks = () => {
                                                                     
                                                                     </div>
                                                                     <div>
-                                                                        <h2 className='text-sm text-gray-400 font-bold'>Amount Recieved </h2>
+                                                                        <h2 className='text-sm text-gray-500 '>Amount Recieved </h2>
                                                                         <h1 className='text-xl font-bold'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(link.amount || 0)}</h1>
                                                                     </div>
 
                                                                 </div>
                                                                 <div className="mt-2">
-                                                                    <h2 className='text-base text-gray-400 '>Payment Link  </h2>
+                                                                    <h2 className='text-base text-gray-500 '>Payment Link  </h2>
                                                                     <div className='bg-gray-100 py-1 px-2 c-border-gray'>
                                                                         <div className='flex space-x-2 items-center'>
                                                                             <IconButton onClick={() => {
