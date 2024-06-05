@@ -1,4 +1,4 @@
-import { Button, Divider, IconButton, InputBase, Skeleton, Stack } from '@mui/material'
+import { IconButton, InputBase, Skeleton, Stack } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
 import TransactionTable from '../components/TransactionsTable'
@@ -266,9 +266,7 @@ const Transactions = () => {
                                 </div>)}
                             
                                 <div className='flex items-center space-x-5 mt-2'>
-                                    {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<p className=' text-gray-600'>View your most recent payments and withdrawals.</p>)}
-
-                                
+                                    {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<p className=' text-gray-600'>View and manage all your payments.</p>)}
                                 </div>
                         </div>
 

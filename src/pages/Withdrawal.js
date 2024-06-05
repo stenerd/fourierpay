@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import DashboardLayout from '../components/DashboardLayout'
 import Titlebar from '../components/TitleBar'
 import TuneIcon from '@mui/icons-material/Tune';
-import { Button } from '@mui/material';
+import {Skeleton} from '@mui/material';
 // import TransactionTable from '../components/TransactionsTable';
 import WithdrawalTable from '../components/Withdrawal';
 import WithdrawalPopup from '../components/WIthdrawalPopup';
@@ -128,7 +128,19 @@ const Withdrawal = ({}) => {
         <>
             <DashboardLayout>
                 <Titlebar>
-                    <h2>Withdrawal</h2>
+
+                        <div className="flex-1">
+                            {loading ? <Skeleton variant="text" sx={{ fontSize: '1rem' }} /> : (
+                                <div className='flex items-center space-x-5'>
+                                    <h2 className='fourier profile font-bold'>Withdrawls</h2>
+                                </div>)}
+                            
+                                <div className='flex items-center space-x-5 mt-2'>
+                                    {loading ? <Skeleton variant="text" width={250} height={40} sx={{ fontSize: '1rem' }} /> : (<p className=' text-gray-600'>View and manage all your withdrawals.</p>)}
+                                </div>
+                        </div>
+
+                    
                     <div>
                         <button className='c-bg-primary-light' onClick={() => handleOpen()}>Withdraw</button>
                     </div>

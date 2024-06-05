@@ -151,15 +151,13 @@ export default function WithdrawalTable({
             <TableContainer className='relative'>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
-                        <TableRow className='font-bold'>
-                            <TableCell className='font-bold' style={{ fontWeight: '600' }}>Recipient</TableCell>
-                            <TableCell style={{ fontWeight: '600' }}>Reference Number</TableCell>
-                        
-                            <TableCell style={{ fontWeight: '600' }}>Date</TableCell>
-                            <TableCell style={{ fontWeight: '600' }}>Time</TableCell>
-                            <TableCell style={{ fontWeight: '600' }}>Vendor Reference</TableCell>
-                            <TableCell style={{ fontWeight: '600' }}>Status</TableCell>
-                            <TableCell style={{ fontWeight: '600' }}>Amount</TableCell>
+                        <TableRow >
+                            <TableCell   style={{ fontWeight: '600', textTransform: 'capitalize' }}>Recipient</TableCell>
+                            <TableCell  style={{ fontWeight: '600', textTransform: 'capitalize' }}>Reference Number</TableCell>
+                            <TableCell  style={{ fontWeight: '600', textTransform: 'capitalize' }}>Date</TableCell>
+                            <TableCell style={{ fontWeight: '600', textTransform: 'capitalize' }}>Vendor Reference</TableCell>
+                            <TableCell  style={{ fontWeight: '600', textTransform: 'capitalize' }}>Status</TableCell>
+                            <TableCell  style={{ fontWeight: '600', textTransform: 'capitalize' }}>Amount</TableCell>
                         </TableRow>
                     </TableHead>
                     {/* {withdrawals } */}
@@ -185,8 +183,9 @@ export default function WithdrawalTable({
                                         </div>
                                     </TableCell>
                                     <TableCell align="left">{row.transaction_id.reference}</TableCell>
-                                    <TableCell align="left" >{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
-                                    <TableCell align="left" >{moment(row.createdAt).format('hh:mm A')}</TableCell>
+                                    <TableCell align="left" >{moment(row.createdAt).format('dddd, DD MMMM YYYY')}<br/>
+                                    <small className='text-gray-700'>  {moment(row.createdAt).format('hh:mm A')}</small>
+                                    </TableCell>
                                     <TableCell align="left" >{row.paystack_reference}</TableCell>
                                     <TableCell align="left">
                                         <div className="text-left">

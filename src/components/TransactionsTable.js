@@ -231,11 +231,11 @@ export default function TransactionTable({
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow >
-              <TableCell  style={{ fontWeight: '500' }}>Recipient</TableCell>
-              <TableCell style={{ fontWeight: '500' }}>Reference</TableCell>
-              <TableCell style={{ fontWeight: '500' }}>Date</TableCell>            
-              <TableCell style={{ fontWeight: '500' }}>Status</TableCell>
-              <TableCell style={{ fontWeight: '500' }}>Amount</TableCell>
+              <TableCell   style={{ fontWeight: '600', textTransform: 'capitalize' }}>Recipient</TableCell>
+              <TableCell  style={{ fontWeight: '600', textTransform: 'capitalize' }}>Reference</TableCell>
+              <TableCell  style={{ fontWeight: '600', textTransform: 'capitalize' }}>Date</TableCell>            
+              <TableCell  style={{ fontWeight: '600', textTransform: 'capitalize' }}>Status</TableCell>
+              <TableCell  style={{ fontWeight: '600', textTransform: 'capitalize' }}>Amount</TableCell>
             </TableRow>
           </TableHead>
           {transactions?.length && !loading ? (
