@@ -100,7 +100,7 @@ const Sidebar = () => {
                                     <IconButton>
                                         <AccountBalanceWalletIcon className="text-white" />
                                     </IconButton>
-                                    <h2 className='font-bold text-[#f8faf7]'>Withdrawal</h2>
+                                    <h2 className='font-bold text-[#f8faf7]'>Request Withdrawal</h2>
                                 </div>
                             </Link>
                             {/* <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#ffffff26] py-2 px-2 rounded-md mb-4">
