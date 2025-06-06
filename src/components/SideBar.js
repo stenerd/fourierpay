@@ -12,6 +12,7 @@ import { Icon, IconButton } from '@mui/material';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 
 
 // import LogoutIcon from '@mui/icons-material/Logout';
@@ -101,6 +102,14 @@ const Sidebar = () => {
                                         <AccountBalanceWalletIcon className="text-white" />
                                     </IconButton>
                                     <h2 className='font-bold text-[#f8faf7]'>Request Withdrawal</h2>
+                                </div>
+                            </Link>
+                             <Link to="/dashboard/agent">
+                                <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#ffffff26] py-2 px-2 rounded-md mb-4">
+                                    <IconButton>
+                                        <SupportAgentIcon className="text-white" />
+                                    </IconButton>
+                                    <h2 className='font-bold text-[#f8faf7]'>Fourier Agent</h2>
                                 </div>
                             </Link>
                             {/* <div className="flex items-center space-x-3 cursor-pointer hover:bg-[#ffffff26] py-2 px-2 rounded-md mb-4">

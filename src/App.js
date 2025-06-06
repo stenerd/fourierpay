@@ -21,6 +21,7 @@ import AdminLogin from './pages/Admin/Login'
 import ProtectedRoute from "./pages/ProtectedRoute";
 import Waitlist from "./pages/Waitlist";
 import About from "./pages/About";
+import FourierAgent from "./pages/Agent";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
           <Route path="/dashboard/transaction" element={<Transactions />} />
           <Route path="/dashboard/paymentlinks" element={<PaymentLinks />} />
           <Route path="/dashboard/payment" element={<Payment />} />
+          <Route path="/dashboard/agent" element={<FourierAgent />} />
           <Route path="/dashboard/withdrawal" element={<Withdrawal />} />
           <Route path="/dashboard/payment/:code" element={<SinglePaymentLink />} />
         </Route>
