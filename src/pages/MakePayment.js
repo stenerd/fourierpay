@@ -785,7 +785,7 @@ const MakePayment = () => {
                                                                     </div>
                                                                 ) : ''
                                                             }
-                                                            <div className="py-2">
+                                                            {/* <div className="py-2">
                                                                 <div className='bg-[#FEF8E8] py-4 px-4 rounded-md warning-border'>
                                                                     <div className="flex items-start space-x-1">
                                                                         <img src="/images/warnings.svg" alt='warnings' />
@@ -796,7 +796,7 @@ const MakePayment = () => {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div> */}
                                                             <div className='py-4'>
                                                                 <button disabled={loading || delay ? true : false} className='c-bg-primary-light' onClick={(e) => makePaymentHandler(e)}>
                                                                     {loading ? 'Processing.....' : 'Make Payment'}
