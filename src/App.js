@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import AffiliateSignup from './pages/AffiliateSignup'
-import AffiliateLogin from './pages/AffiliateLogin'
+import AffiliateSignup from './pages/AffiliateSignup';
+import AffiliateLogin from './pages/AffiliateLogin';
+import AffiliateDashboard from './pages/AffiliateDashboard';
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
@@ -35,11 +36,13 @@ function App() {
 					{/* <Route path="/signup" element={<Navigate to="/login" />} /> */}
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/login" element={<Login />} />
-					<Route path="/affiliate-signup" element={<AffiliateSignup />} />
-					<Route path="/affiliate-login" element={<AffiliateLogin />} />
+					<Route path="/affiliate/signup" element={<AffiliateSignup />} />
+					<Route path="/affiliate/login" element={<AffiliateLogin />} />
 					<Route path="/forgot-password" element={<ForgotPassword />} />
 					<Route path="/about" element={<About />} />
 					<Route path="/reset-password/:token" element={<ResetPassword />} />
+
+					<Route path="/affiliate/dashboard" element={<AffiliateDashboard />} />
 				</Route>
 				<Route path="/pay/:code" element={<MakePayment />} />
 				<Route path="/external-link/:code" element={<PublicPayment />} />
