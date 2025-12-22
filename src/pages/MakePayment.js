@@ -5,7 +5,7 @@ import { FormControl, Grid, Divider, Backdrop, Dialog, DialogActions, IconButton
 
 import DashboardLayout from '../components/DashboardLayout';
 import Titlebar from '../components/TitleBar';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useLocation } from 'react-router-dom'
 import Fields from '../components/Fields';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
@@ -32,6 +32,7 @@ import { TRANSACTION_HISTORY } from '../redux/DashboardSlice';
 const MakePayment = () => {
     let { code } = useParams();
     const dispatch = useDispatch()
+    const location = useLocation();
     const navigate = useNavigate();
     const [loading, setLoading] = React.useState(false);
     const [value, setValue] = React.useState(0);
@@ -80,6 +81,17 @@ const MakePayment = () => {
     const handleClosed = () => {
         setDelay(false)
     }
+
+    const handleBecomeAffiliate = () => {
+			const currentParams = new URLSearchParams(location.search)
+			const ref = currentParams.get('ref')
+
+			let targetPath = `/affiliate/signup?link=${code}`
+			if (ref) targetPath += `&ref=${ref}`
+
+			navigate(targetPath)
+    }
+    
     const FetchPaymentLink = async () => {
         try {
             const response = await axios.get(`${BASE_URL}/api/payment-link/${code}`)
@@ -431,17 +443,16 @@ const MakePayment = () => {
 									{Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(paymentLink.charges + paymentLink.amount || 0)}
 								</span>
 							</p>
-                    </div>
-                    
-                    	<div className="relative mt-8 pt-6 w-full flex-1 border border-green-500 rounded-xl p-4 backdrop-blur-sm">
-                            <p className="text-[#e7f6e6] font-medium text-sm uppercase tracking-wider">Earn Commission</p>
-                            <h3 className="text-green-100 text-lg md:text-xl font-semibold">Get paid when others pay with your link</h3>
-                            <button className="mt-4 bg-green-200 hover:bg-green-300 text-black font-semibold py-2 px-4 rounded-lg transition duration-200">
-                                Become an Affiliate →
-                            </button>
-                        </div>
-                    
-                        
+						</div>
+
+						<div className="relative mt-8 pt-6 w-full flex-1 border border-green-500 rounded-xl p-4 backdrop-blur-sm">
+							<p className="text-[#e7f6e6] font-medium text-sm uppercase tracking-wider">Earn Commission</p>
+							<h3 className="text-green-100 text-lg md:text-xl font-semibold">Get paid when others pay with your link</h3>
+							<button onClick={handleBecomeAffiliate} className="mt-4 bg-green-200 hover:bg-green-300 text-black font-semibold py-2 px-4 rounded-lg transition duration-200">
+								Become an Affiliate →
+							</button>
+						</div>
+
 						{tab === 1 ? (
 							<div className="absolute cm-mobile-make-payment-panel">
 								<div className="pt-3 flex justify-center">
@@ -593,8 +604,8 @@ const MakePayment = () => {
 							theme="light"
 						/>
 					</div>
-            </div>
-            
+				</div>
+
 				<div className="hidden md:block">
 					<div className="min-h-screen">
 						{delay && (
@@ -678,9 +689,6 @@ const MakePayment = () => {
 													</p>
 												</div>
 											</div>
-
-                                        
-
 										</div>
 										<div className="hidden md:block">
 											<Dialog open={openModal} onClose={handleCloseModal}>
@@ -862,7 +870,10 @@ const MakePayment = () => {
 															<div className="relative mt-12 pt-6 w-full flex-1 border border-green-800  rounded-xl p-6 backdrop-blur-sm">
 																<p className="text-[#3e4141] font-medium text-sm uppercase tracking-wider">Earn Commission</p>
 																<h3 className="text-black text-lg md:text-xl font-semibold mt-2">Get paid when others pay with your link</h3>
-																<button className="mt-5 bg-green-700 hover:bg-green-900 text-white font-semibold py-3 px-6 rounded-lg transition duration-200">
+																<button
+																	onClick={handleBecomeAffiliate}
+																	className="mt-4 bg-green-200 hover:bg-green-300 text-black font-semibold py-2 px-4 rounded-lg transition duration-200"
+																>
 																	Become an Affiliate →
 																</button>
 															</div>
