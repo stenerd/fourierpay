@@ -42,7 +42,6 @@ import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
 
-
 const SinglePaymentLink = () => {
     const topRef = useRef()
     let { code } = useParams();
