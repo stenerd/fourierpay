@@ -31,48 +31,46 @@ const AffiliateSignup = () => {
 
 	const togglePassword = () => setText(!text)
 
-	const handleSubmit = async (e) => {
-		e.preventDefault()
-		setLoading(true)
+const handleSubmit = async (e) => {
+	e.preventDefault()
+	setLoading(true)
 
-		// Basic validation
-		if (!state.name || !state.phone_number || !state.password) {
-			toast.error('Please fill all fields')
-			setLoading(false)
-			return
-		}
-
-		if (state.password.length < 6) {
-			toast.error('Password must be at least 6 characters')
-			setLoading(false)
-			return
-		}
-
-		try {
-			const payload = {
-				name: state.name.trim(),
-				phone_number: state.phone_number.trim(),
-				password: state.password,
-				// Send affiliate-specific data
-				affiliate_link_id: paymentLinkId || null, // which payment link they're joining
-				parent_ref: parentRef || null, // who referred them (for Tier 2)
-			}
-
-			const res = await axios.post(`${BASE_URL}/api/auth/affiliate-registration`, payload)
-
-			console.log(res.data)
-			toast.success('Welcome! You can now start earning commissions.')
-			setLoading(false)
-
-			// Redirect to affiliate dashboard
-			navigate('/affiliate/dashboard')
-		} catch (error) {
-			console.log(error)
-			const message = error.response?.data?.message || 'Signup failed. Try again.'
-			toast.error(message)
-			setLoading(false)
-		}
+	// Basic validation
+	if (!state.name || !state.phonenumber || !state.email || !state.password) {
+		toast.error('Please fill all fields')
+		setLoading(false)
+		return
 	}
+
+	if (state.password.length < 6) {
+		toast.error('Password must be at least 6 characters')
+		setLoading(false)
+		return
+	}
+
+	try {
+		const payload = {
+			name: state.name.trim(),
+			phonenumber: state.phonenumber.trim(),
+			email: state.email.trim().toLowerCase(),
+			password: state.password,
+		}
+
+		const res = await axios.post(`${BASE_URL}/api/auth/affiliate-registration`, payload)
+
+		console.log(res.data)
+		toast.success('Welcome! You can now start earning commissions.')
+		setLoading(false)
+
+		// Redirect to affiliate dashboard
+		navigate('/affiliate/dashboard')
+	} catch (error) {
+		console.log(error)
+		const message = error.response?.data?.message || 'Signup failed. Try again.'
+		toast.error(message)
+		setLoading(false)
+	}
+}
 
 	return (
 		<>
@@ -117,6 +115,18 @@ const AffiliateSignup = () => {
 												required
 												name="phone_number"
 												type="text"
+												className="py-2 px-4 w-full outline-none rounded-lg border-gray-400 focus:border-green-500 c-text-input"
+											/>
+										</Grid>
+
+										<Grid item xs={12}>
+											<label className="text-sm font-bold block my-2 text-gray-700">Email Address</label>
+											<input
+												placeholder="you@example.com"
+												onChange={handleChange}
+												required
+												name="email"
+												type="email"
 												className="py-2 px-4 w-full outline-none rounded-lg border-gray-400 focus:border-green-500 c-text-input"
 											/>
 										</Grid>

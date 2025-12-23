@@ -14,7 +14,7 @@ const AffiliateLogin = () => {
 	const location = useLocation()
 	const [loading, setLoading] = useState(false)
 	const [state, setState] = useState({
-		phone_number: '',
+		email: '',
 		password: '',
 	})
 	const [text, setText] = useState(false) // password visibility
@@ -34,7 +34,7 @@ const AffiliateLogin = () => {
 		e.preventDefault()
 		setLoading(true)
 
-		if (!state.phone_number || !state.password) {
+		if (!state.email || !state.password) {
 			toast.error('Please fill in both fields')
 			setLoading(false)
 			return
@@ -42,7 +42,7 @@ const AffiliateLogin = () => {
 
 		try {
 			const payload = {
-				phone_number: state.phone_number.trim(),
+				email: state.email.trim(),
 				password: state.password,
 				// Optional: send context if needed on backend
 				affiliate_link_id: paymentLinkId || null,
@@ -91,17 +91,20 @@ const AffiliateLogin = () => {
 							<div className="py-4">
 								<form onSubmit={handleSubmit}>
 									<Grid container spacing={3}>
+
 										<Grid item xs={12}>
-											<label className="text-sm font-bold block py-1 text-gray-700">Phone Number</label>
+											<label className="text-sm font-bold block my-2 text-gray-700">Email Address</label>
 											<input
-												placeholder="e.g. 08012345678"
-												name="phone_number"
+												placeholder="you@example.com"
 												onChange={handleChange}
 												required
-												type="text"
-												className="py-2 px-4 w-full outline-none border rounded-lg border-gray-400 focus:border-green-500 c-text-input"
+												name="email"
+												type="email"
+												className="py-2 px-4 w-full outline-none rounded-lg border-gray-400 focus:border-green-500 c-text-input"
 											/>
 										</Grid>
+
+							
 
 										<Grid item xs={12}>
 											<label className="text-sm font-bold block py-1 text-gray-700">Password</label>
