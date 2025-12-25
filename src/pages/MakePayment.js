@@ -454,7 +454,7 @@ const MakePayment = () => {
 									<div className="pt-0 overflow-y-scroll">
 										<span className="cursor-pointer" onClick={() => setTab(1)}>
 											<KeyboardBackspaceOutlinedIcon style={{ color: '#0067ffe3' }} />
-											<span className="pl-1 text-[#0067ffe3] font-bold">Back</span>
+											<span className="pl-1 text-green-700 font-bold">Back</span>
 										</span>
 
 										{paymentLink.form && paymentLink.form.length ? (
