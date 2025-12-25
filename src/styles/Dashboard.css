@@ -587,6 +587,16 @@
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
 }
+
+.cm-mobile-make-payment-panel-light {
+    bottom: 0;
+    max-height: 22%;
+    width: 100%;
+    background: #f5f5f5;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+}
+
 .cm-mobile-make-payment-panel.info{
     max-height: 75%;
 }
