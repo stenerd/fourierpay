@@ -382,7 +382,7 @@ const MakePayment = () => {
 						<div className="relative px-6 py-6 w-full">
 							<Link to="/">
 								{/* <img src='/images/logo-header.svg' className='absolute' alt="alt-img" /> */}
-								<img src="/images/image-two.svg" width="110" className="absolute" alt="alt-img" />
+								<img src="/images/image-three.svg" width="80" className="absolute" alt="alt-img" />
 							</Link>
 							{/* <p className='text-center text-white text-2xl font-bold'>Pay</p> */}
 						</div>
@@ -518,7 +518,7 @@ const MakePayment = () => {
 									<div className="pt-0 overflow-y-scroll">
 										<span className="cursor-pointer" onClick={() => setTab(1)}>
 											<KeyboardBackspaceOutlinedIcon style={{ color: '#0067ffe3' }} />
-											<span className="pl-1 text-[#0067ffe3] font-bold">Back</span>
+											<span className="pl-1 text-green font-bold">Back</span>
 										</span>
 										{unique_object ? (
 											<div className="mt-4 mb-8">
