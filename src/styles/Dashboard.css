@@ -587,9 +587,11 @@
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
 }
+
 .cm-mobile-make-payment-panel.info{
     max-height: 75%;
 }
+
 .cm-mobile-make-payment-panel .controller{
     width: 5rem;
     height: 0.5rem;
@@ -598,7 +600,6 @@
 }
 
 @keyframes bounce {
-
     0%,
     20%,
     50%,
@@ -629,7 +630,6 @@
     color: #276e3a;
     border-radius: .5rem;
     border: 1px solid #276e3a;
-
 }
 
 .bounce{

@@ -1,5 +1,5 @@
 import { CircularProgress, Grid, TextField } from '@mui/material'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
@@ -11,19 +11,21 @@ import { IconButton } from '@mui/material'
 
 const AffiliateSignup = () => {
 	const [loading, setLoading] = useState(false)
-	const [state, setState] = useState({
-		name: '', // changed from firstname
-		phone_number: '',
-		password: '',
-	})
 	const [text, setText] = useState(false) // password visibility
 	const navigate = useNavigate()
 	const location = useLocation()
 
 	// Capture query params: ?link=abc123&ref=xyz789
 	const queryParams = new URLSearchParams(location.search)
-	const paymentLinkId = queryParams.get('link') // e.g., the payment link slug/id
-	const parentRef = queryParams.get('ref') // parent's referral code
+	const paymentLinkId = queryParams.get('link')
+	const parentRef = queryParams.get('ref')
+
+	const [state, setState] = useState({
+		name: '',
+		phonenumber: '', // matches backend
+		email: '',
+		password: '',
+	})
 
 	const handleChange = (e) => {
 		setState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -31,46 +33,49 @@ const AffiliateSignup = () => {
 
 	const togglePassword = () => setText(!text)
 
-const handleSubmit = async (e) => {
-	e.preventDefault()
-	setLoading(true)
+	const handleSubmit = async (e) => {
+		e.preventDefault()
+		setLoading(true)
 
-	// Basic validation
-	if (!state.name || !state.phonenumber || !state.email || !state.password) {
-		toast.error('Please fill all fields')
-		setLoading(false)
-		return
-	}
-
-	if (state.password.length < 6) {
-		toast.error('Password must be at least 6 characters')
-		setLoading(false)
-		return
-	}
-
-	try {
-		const payload = {
-			name: state.name.trim(),
-			phonenumber: state.phonenumber.trim(),
-			email: state.email.trim().toLowerCase(),
-			password: state.password,
+		// Basic validation
+		if (!state.name.trim() || !state.phonenumber.trim() || !state.email.trim() || !state.password) {
+			toast.error('Please fill all fields')
+			setLoading(false)
+			return
 		}
 
-		const res = await axios.post(`${BASE_URL}/api/auth/affiliate-registration`, payload)
+		if (state.password.length < 6) {
+			toast.error('Password must be at least 6 characters')
+			setLoading(false)
+			return
+		}
 
-		console.log(res.data)
-		toast.success('Welcome! You can now start earning commissions.')
-		setLoading(false)
+		try {
+			const payload = {
+				name: state.name.trim(),
+				phonenumber: state.phonenumber.trim(),
+				email: state.email.trim().toLowerCase(),
+				password: state.password,
+			}
 
-		// Redirect to affiliate dashboard
-		navigate('/affiliate/dashboard')
-	} catch (error) {
-		console.log(error)
-		const message = error.response?.data?.message || 'Signup failed. Try again.'
-		toast.error(message)
-		setLoading(false)
+			const res = await axios.post(`${BASE_URL}/api/auth/affiliate-registration`, payload)
+
+			// Save token (assuming your app uses localStorage)
+			localStorage.setItem('token', res.data.token)
+			localStorage.setItem('user', JSON.stringify(res.data.user))
+
+			toast.success('Welcome! Account created successfully.')
+			setLoading(false)
+
+			// Redirect to dashboard
+			navigate('/affiliate/dashboard')
+		} catch (error) {
+			console.log(error)
+			const message = error.response?.data?.message || 'Signup failed. Please try again.'
+			toast.error(message)
+			setLoading(false)
+		}
 	}
-}
 
 	return (
 		<>
@@ -103,7 +108,7 @@ const handleSubmit = async (e) => {
 												required
 												name="name"
 												type="text"
-												className="py-2 px-4 w-full outline-none rounded-lg border-gray-400 focus:border-green-500 c-text-input"
+												className="py-2 px-4 w-full outline-none rounded-lg border border-gray-400 focus:border-green-500 c-text-input"
 											/>
 										</Grid>
 
@@ -113,9 +118,9 @@ const handleSubmit = async (e) => {
 												placeholder="e.g. 08012345678"
 												onChange={handleChange}
 												required
-												name="phone_number"
+												name="phonenumber"
 												type="text"
-												className="py-2 px-4 w-full outline-none rounded-lg border-gray-400 focus:border-green-500 c-text-input"
+												className="py-2 px-4 w-full outline-none rounded-lg border border-gray-400 focus:border-green-500 c-text-input"
 											/>
 										</Grid>
 
@@ -127,7 +132,7 @@ const handleSubmit = async (e) => {
 												required
 												name="email"
 												type="email"
-												className="py-2 px-4 w-full outline-none rounded-lg border-gray-400 focus:border-green-500 c-text-input"
+												className="py-2 px-4 w-full outline-none rounded-lg border border-gray-400 focus:border-green-500 c-text-input"
 											/>
 										</Grid>
 
@@ -140,7 +145,7 @@ const handleSubmit = async (e) => {
 													onChange={handleChange}
 													required
 													type={text ? 'text' : 'password'}
-													className="py-2 px-4 w-full outline-none rounded-lg border-gray-400 focus:border-green-500 c-text-input"
+													className="py-2 px-4 w-full outline-none rounded-lg border border-gray-400 focus:border-green-500 c-text-input"
 												/>
 												<IconButton className="absolute right-2 top-1" onClick={togglePassword}>
 													{text ? <VisibilityOffIcon /> : <VisibilityIcon />}
@@ -151,27 +156,30 @@ const handleSubmit = async (e) => {
 
 									<div className="my-6">
 										<p className="text-sm font-bold text-gray-500">
-											By signing up, you agree to our <span className="">Terms</span> and <span className="">Privacy Policy</span>.
+											By signing up, you agree to our <span className="c-primary-link-color cursor-pointer">Terms</span> and{' '}
+											<span className="c-primary-link-color cursor-pointer">Privacy Policy</span>.
 										</p>
 									</div>
 
-									<div className="md:block hidden">
-										<button disabled={loading} className="c-primary-button">
-											{loading ? 'Creating Account...' : 'Start Earning'}
-										</button>
-									</div>
-									<div className="block md:hidden">
-										<button disabled={loading} className="c-primary-button w-full">
-											{loading ? 'Creating Account...' : 'Start Earning'}
+									<div className="my-6">
+										<button type="submit" disabled={loading} className="c-primary-button w-full md:w-auto px-12">
+											{loading ? (
+												<>
+													<CircularProgress size={20} color="inherit" className="mr-2" />
+													Creating Account...
+												</>
+											) : (
+												'Start Earning'
+											)}
 										</button>
 									</div>
 								</form>
 
-								<div className="py-4">
+								<div className="py-4 text-center">
 									<p className="text-gray-700">
 										Already have an account?{' '}
 										<Link to={`/affiliate/login?link=${paymentLinkId || ''}&ref=${parentRef || ''}`}>
-											<span className="cursor-pointer c-primary-link-color">Log in</span>
+											<span className="c-primary-link-color cursor-pointer font-bold">Log in</span>
 										</Link>
 									</p>
 								</div>
