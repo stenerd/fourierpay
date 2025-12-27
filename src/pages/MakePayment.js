@@ -80,15 +80,47 @@ const MakePayment = () => {
 	}
 
 
-	const handleBecomeAffiliate = () => {
+	const handleBecomeAffiliate = async () => {
+		const token = localStorage.getItem('token')
 		const currentParams = new URLSearchParams(location.search)
-		const ref = currentParams.get('ref')
+		const parentRef = currentParams.get('ref')
 
-		let targetPath = `/affiliate/signup?link=${code}`
-		if (ref) targetPath += `&ref=${ref}`
+		// If not logged in → go to signup (preserve context)
+		if (!token) {
+			let targetPath = `/affiliate/signup?link=${code}`
+			if (parentRef) targetPath += `&ref=${parentRef}`
+			navigate(targetPath)
+			return
+		}
 
-		navigate(targetPath)
+		// If logged in → generate affiliate link
+		try {
+			const payload = {
+				paymentLinkId: paymentLink._id, // or however you get the ObjectId
+				...(parentRef && { parentAffiliateCode: parentRef }),
+			}
+
+			const res = await axios.post(`${BASE_URL}/api/payment-link-affiliate/`, payload, {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+
+			const { shareableLink } = res.data
+
+			// Show the link (you can toast or open a modal)
+			toast.success('Your affiliate link is ready!')
+			// Optional: copy to clipboard
+			navigator.clipboard.writeText(shareableLink)
+			toast.info('Link copied to clipboard!')
+
+			// Or open a small modal with the link + copy button
+			// We'll build that next if you want
+		} catch (error) {
+			console.log(error)
+			const message = error.response?.data?.message || 'Failed to generate link. Try again.'
+			toast.error(message)
+		}
 	}
+	
 	
 	const FetchPaymentLink = async () => {
 		try {
