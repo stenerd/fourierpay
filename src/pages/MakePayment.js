@@ -4,7 +4,7 @@ import { FormControl, Grid, Divider, Backdrop, Dialog, DialogActions, IconButton
 
 import DashboardLayout from '../components/DashboardLayout'
 import Titlebar from '../components/TitleBar'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useLocation } from 'react-router-dom'
 import Fields from '../components/Fields'
 import AddIcon from '@mui/icons-material/Add'
 import CloseIcon from '@mui/icons-material/Close'
@@ -31,6 +31,7 @@ import { TRANSACTION_HISTORY } from '../redux/DashboardSlice'
 const MakePayment = () => {
 	let { code } = useParams()
 	const dispatch = useDispatch()
+	const location = useLocation()
 	const navigate = useNavigate()
 	const [loading, setLoading] = React.useState(false)
 	const [value, setValue] = React.useState(0)
@@ -77,6 +78,18 @@ const MakePayment = () => {
 	const handleClosed = () => {
 		setDelay(false)
 	}
+
+
+	const handleBecomeAffiliate = () => {
+		const currentParams = new URLSearchParams(location.search)
+		const ref = currentParams.get('ref')
+
+		let targetPath = `/affiliate/signup?link=${code}`
+		if (ref) targetPath += `&ref=${ref}`
+
+		navigate(targetPath)
+	}
+	
 	const FetchPaymentLink = async () => {
 		try {
 			const response = await axios.get(`${BASE_URL}/api/payment-link/${code}`)
@@ -410,6 +423,15 @@ const MakePayment = () => {
 							</span>
 						</p>
 					</div>
+
+					<div className="relative mt-8 pt-6 w-full flex-1 border border-green-500 rounded-xl p-4 backdrop-blur-sm">
+						<p className="text-gray-800 font-medium text-sm uppercase tracking-wider">Earn Commission</p>
+						<h3 className="text-green-600 text-lg md:text-xl font-semibold">Get paid when others pay with your link</h3>
+						<button onClick={handleBecomeAffiliate} className="mt-2 bg-green-900 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+							Become an Affiliate →
+						</button>
+					</div>
+
 					{tab === 1 ? (
 						<div className="absolute cm-mobile-make-payment-panel  cm-mobile-make-payment-panel-light">
 							<div className="pt-3 flex justify-center">
@@ -780,6 +802,15 @@ const MakePayment = () => {
 																)}
 															</PaystackConsumer>
 														</div>
+
+														<div className="relative mt-12 pt-6 w-full flex-1 border border-green-800  rounded-xl p-6 backdrop-blur-sm">
+															<p className="text-[#3e4141] font-medium text-sm uppercase tracking-wider">Earn Commission</p>
+															<h3 className="text-black text-lg md:text-xl font-semibold mt-2">Get paid when others pay with your link</h3>
+															<button className="mt-5 bg-green-700 hover:bg-green-900 text-white font-semibold py-3 px-6 rounded-lg transition duration-200">
+																Become an Affiliate → 
+															</button>
+														</div>
+
 													</div>
 												</div>
 											) : (

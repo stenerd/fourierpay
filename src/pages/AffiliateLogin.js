@@ -8,18 +8,20 @@ import { BASE_URL } from '../utils/axios'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { IconButton } from '@mui/material'
+import { CircularProgress } from '@mui/material'
 
 const AffiliateLogin = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
 	const [loading, setLoading] = useState(false)
+	const [text, setText] = useState(false) // password visibility
+
 	const [state, setState] = useState({
 		email: '',
 		password: '',
 	})
-	const [text, setText] = useState(false) // password visibility
 
-	// Capture query params to preserve context (link + ref)
+	// Preserve context in links (optional — not used in backend login)
 	const queryParams = new URLSearchParams(location.search)
 	const paymentLinkId = queryParams.get('link')
 	const parentRef = queryParams.get('ref')
@@ -34,34 +36,32 @@ const AffiliateLogin = () => {
 		e.preventDefault()
 		setLoading(true)
 
-		if (!state.email || !state.password) {
-			toast.error('Please fill in both fields')
+		if (!state.email.trim() || !state.password) {
+			toast.error('Please fill in both email and password')
 			setLoading(false)
 			return
 		}
 
 		try {
 			const payload = {
-				email: state.email.trim(),
+				email: state.email.trim().toLowerCase(),
 				password: state.password,
-				// Optional: send context if needed on backend
-				affiliate_link_id: paymentLinkId || null,
-				parent_ref: parentRef || null,
 			}
 
 			const res = await axios.post(`${BASE_URL}/api/auth/affiliate-login`, payload)
 
-			// Store token (same as merchant for now — can change later if needed)
-			window.localStorage.setItem('bearer_token', res?.data?.data?.token)
+			// Save token and user data
+			localStorage.setItem('token', res.data.token)
+			localStorage.setItem('user', JSON.stringify(res.data.user))
 
-			toast.success('Welcome back! Ready to earn?')
+			toast.success('Welcome back! Ready to earn.')
 			setLoading(false)
 
-			// Redirect to affiliate dashboard
+			// Redirect to dashboard
 			navigate('/affiliate/dashboard')
 		} catch (error) {
 			console.log(error)
-			const message = error.response?.data?.message || 'Login failed. Check your details.'
+			const message = error.response?.data?.message || 'Login failed. Please check your email and password.'
 			toast.error(message)
 			setLoading(false)
 		}
@@ -91,7 +91,6 @@ const AffiliateLogin = () => {
 							<div className="py-4">
 								<form onSubmit={handleSubmit}>
 									<Grid container spacing={3}>
-
 										<Grid item xs={12}>
 											<label className="text-sm font-bold block my-2 text-gray-700">Email Address</label>
 											<input
@@ -100,11 +99,9 @@ const AffiliateLogin = () => {
 												required
 												name="email"
 												type="email"
-												className="py-2 px-4 w-full outline-none rounded-lg border-gray-400 focus:border-green-500 c-text-input"
+												className="py-2 px-4 w-full outline-none rounded-lg border border-gray-400 focus:border-green-500 c-text-input"
 											/>
 										</Grid>
-
-							
 
 										<Grid item xs={12}>
 											<label className="text-sm font-bold block py-1 text-gray-700">Password</label>
@@ -115,7 +112,7 @@ const AffiliateLogin = () => {
 													onChange={handleChange}
 													required
 													type={text ? 'text' : 'password'}
-													className="py-2 px-4 w-full rounded-lg border-gray-400 focus:border-green-500 outline-none c-text-input"
+													className="py-2 px-4 w-full rounded-lg border border-gray-400 focus:border-green-500 outline-none c-text-input"
 												/>
 												<IconButton className="absolute right-3 top-2" onClick={togglePassword}>
 													{text ? <VisibilityOffIcon /> : <VisibilityIcon />}
@@ -124,23 +121,25 @@ const AffiliateLogin = () => {
 										</Grid>
 									</Grid>
 
-									<div className="mb-6 hidden md:block">
-										<button disabled={loading} className="c-primary-button">
-											{loading ? 'Logging in...' : 'Log In'}
-										</button>
-									</div>
-									<div className="mt-4 mb-6 block md:hidden">
-										<button disabled={loading} className="c-primary-button w-full">
-											{loading ? 'Logging in...' : 'Log In'}
+									<div className="my-6">
+										<button type="submit" disabled={loading} className="c-primary-button w-full md:w-auto px-12">
+											{loading ? (
+												<>
+													<CircularProgress size={20} color="inherit" className="mr-2" />
+													Logging in...
+												</>
+											) : (
+												'Log In'
+											)}
 										</button>
 									</div>
 								</form>
 
-								<div>
+								<div className="text-center">
 									<p className="text-gray-700">
 										Don't have an account?{' '}
 										<Link to={`/affiliate/signup?link=${paymentLinkId || ''}&ref=${parentRef || ''}`}>
-											<span className="cursor-pointer c-primary-link-color">Sign Up</span>
+											<span className="c-primary-link-color cursor-pointer font-bold">Sign Up</span>
 										</Link>
 									</p>
 								</div>
