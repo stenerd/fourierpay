@@ -21,8 +21,9 @@ const AffiliateSignup = () => {
 	const parentRef = queryParams.get('ref')
 
 	const [state, setState] = useState({
-		name: '',
-		phonenumber: '', // matches backend
+		firstname: '',
+		lastname: '',
+		phonenumber: '', 
 		email: '',
 		password: '',
 	})
@@ -38,7 +39,7 @@ const AffiliateSignup = () => {
 		setLoading(true)
 
 		// Basic validation
-		if (!state.name.trim() || !state.phonenumber.trim() || !state.email.trim() || !state.password) {
+		if (!state.firstname.trim() || !state.lastname.trim() || !state.phonenumber.trim() || !state.email.trim() || !state.password) {
 			toast.error('Please fill all fields')
 			setLoading(false)
 			return
@@ -52,7 +53,8 @@ const AffiliateSignup = () => {
 
 		try {
 			const payload = {
-				name: state.name.trim(),
+				firstname: state.firstname.trim(),
+				lastname: state.lastname.trim(),
 				phonenumber: state.phonenumber.trim(),
 				email: state.email.trim().toLowerCase(),
 				password: state.password,
@@ -100,17 +102,30 @@ const AffiliateSignup = () => {
 							<div className="w-[85%] mx-auto md:py-4 py-2">
 								<form onSubmit={handleSubmit}>
 									<Grid container spacing={3}>
-										<Grid item xs={12}>
-											<label className="text-sm font-bold block my-2 text-gray-700">Full Name</label>
+										<Grid item xs={6}>
+											<label className="text-sm font-bold block my-2 text-gray-700">First Name</label>
 											<input
-												placeholder="Enter your name"
+												placeholder="First name"
 												onChange={handleChange}
 												required
-												name="name"
+												name="firstname"
 												type="text"
 												className="py-2 px-4 w-full outline-none rounded-lg border border-gray-400 focus:border-green-500 c-text-input"
 											/>
 										</Grid>
+
+										<Grid item xs={6}>
+											<label className="text-sm font-bold block my-2 text-gray-700">Last Name</label>
+											<input
+												placeholder="Last name"
+												onChange={handleChange}
+												required
+												name="lastname"
+												type="text"
+												className="py-2 px-4 w-full outline-none rounded-lg border border-gray-400 focus:border-green-500 c-text-input"
+											/>
+										</Grid>
+
 
 										<Grid item xs={12}>
 											<label className="text-sm font-bold block my-2 text-gray-700">Phone Number</label>
