@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, List, ListItem, ListItemText, IconButton, Tooltip, Divider, Skeleton } from '@mui/material'
-import DashboardLayout from '../components/DashboardLayout'
+import { Grid, List, ListItem, ListItemText, IconButton, Tooltip, Skeleton, Button } from '@mui/material'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import NearMeIcon from '@mui/icons-material/NearMe'
+import LogoutIcon from '@mui/icons-material/Logout'
 import { useNavigate } from 'react-router-dom'
 import Protected, { BASE_URL } from '../utils/axios'
 import WithdrawDialog from '../components/WithdrawDialog'
@@ -14,12 +14,10 @@ const AffiliateDashboard = () => {
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState(null)
 	const [affiliateData, setAffiliateData] = useState({
-		name: '',
 		totalEarnings: 0,
 		tier1Earnings: 0,
 		tier2Earnings: 0,
-		affiliateLinks: [], // { paymentLinkName, linkUrl }
-		recentCommissions: [], // { paymentLinkName, tier, amount, date }
+		sharedLinks: [],
 	})
 	const [openWithdraw, setOpenWithdraw] = useState(false)
 	const navigate = useNavigate()
@@ -31,16 +29,13 @@ const AffiliateDashboard = () => {
 
 			const response = await Protected.get(`${BASE_URL}/api/payment-link-affiliate/dashboard`)
 
-			const data = response.data.data || response.data
+			const data = response.data.data
 
-			// Safeguard against missing data
 			setAffiliateData({
-				name: data.name || 'Affiliate',
 				totalEarnings: Number(data.totalEarnings) || 0,
 				tier1Earnings: Number(data.tier1Earnings) || 0,
 				tier2Earnings: Number(data.tier2Earnings) || 0,
-				affiliateLinks: data.sharedLinks || [],
-				recentCommissions: data.recentCommissions || [],
+				sharedLinks: data.sharedLinks || [],
 			})
 		} catch (err) {
 			console.error('Dashboard fetch error:', err)
@@ -64,6 +59,13 @@ const AffiliateDashboard = () => {
 		setOpenWithdraw(true)
 	}
 
+	const handleLogout = () => {
+		localStorage.removeItem('bearer_token')
+		localStorage.removeItem('user')
+		toast.success('Logged out successfully')
+		navigate('/affiliate/login')
+	}
+
 	if (error) {
 		return (
 			<div className="p-6 text-center text-red-600">
@@ -80,19 +82,19 @@ const AffiliateDashboard = () => {
 			{/* Mobile View */}
 			<div className="block md:hidden">
 				<div className="py-6 px-4">
-					<h2 className="text-2xl font-bold fourier">Welcome, {loading ? '...' : affiliateData.name || 'Affiliate'}! 👋</h2>
-					<p className="text-gray-600 mt-2">Share your links and earn when people pay.</p>
+					<h2 className="text-2xl font-bold text-gray-800">Affiliate Dashboard</h2>
+					<p className="text-gray-600 mt-2">Share your links and earn commissions.</p>
 				</div>
 
-				{/* Total Earnings Card */}
-				<div className="mx-4 mt-4 mb-6 border-2 border-green-600 rounded-2xl p-6 bg-green-50">
-					<h3 className="text-lg font-bold text-gray-800">Total Earnings</h3>
+				{/* Total Earnings */}
+				<div className="mx-4 mt-4 mb-6 border-2 border-gray-400 rounded-2xl p-6 bg-gray-50">
+					<h3 className="text-lg font-semibold text-gray-700">Total Earnings</h3>
 					{loading ? (
 						<Skeleton variant="text" width={120} height={40} />
 					) : (
-						<h1 className="text-4xl font-bold text-green-700 mt-3">₦ {affiliateData.totalEarnings.toLocaleString('en-US', { minimumFractionDigits: 2 })}</h1>
+						<h1 className="text-3xl font-bold text-green-700 mt-3">₦ {affiliateData.totalEarnings.toLocaleString('en-US', { minimumFractionDigits: 2 })}</h1>
 					)}
-					<p className="text-gray-600 mt-2">All commissions earned so far</p>
+					<p className="text-gray-600 mt-2 text-sm">All commissions earned so far</p>
 					<button
 						onClick={handleWithdraw}
 						disabled={loading}
@@ -103,52 +105,25 @@ const AffiliateDashboard = () => {
 					</button>
 				</div>
 
-				{/* Tier 1 & Tier 2 Cards */}
-				<div className="mx-4 grid grid-cols-1 gap-4 mb-8">
-					<div className="border-2 border-blue-500 rounded-2xl p-6 bg-blue-50">
-						<h3 className="text-lg font-bold">Tier 1 Earnings</h3>
-						<p className="text-gray-600 mt-1 text-sm">
-							From people who pay using <strong>your direct link</strong>
-						</p>
-						{loading ? (
-							<Skeleton variant="text" width={80} height={32} />
-						) : (
-							<h2 className="text-3xl font-bold text-blue-700 mt-4">₦ {affiliateData.tier1Earnings.toLocaleString()}</h2>
-						)}
-					</div>
-
-					<div className="border-2 border-purple-500 rounded-2xl p-6 bg-purple-50">
-						<h3 className="text-lg font-bold">Tier 2 Earnings</h3>
-						<p className="text-gray-600 mt-1 text-sm">
-							From people recruited by <strong>your referrals</strong>
-						</p>
-						{loading ? (
-							<Skeleton variant="text" width={80} height={32} />
-						) : (
-							<h2 className="text-3xl font-bold text-purple-700 mt-4">₦ {affiliateData.tier2Earnings.toLocaleString()}</h2>
-						)}
-					</div>
-				</div>
-
-				{/* Affiliate Links Card */}
-				<div className="mx-4 border-2 border-gray-300 rounded-2xl p-6 bg-white mb-8">
-					<h3 className="text-xl font-bold mb-4">Your Affiliate Links</h3>
+				{/* Affiliate Links */}
+				<div className="mx-4 mb-6 border-2 border-gray-300 rounded-2xl p-6 bg-white">
+					<h3 className="text-lg font-bold text-gray-800 mb-4">Your Affiliate Links ({affiliateData.sharedLinks.length})</h3>
 					{loading ? (
 						<Skeleton variant="rectangular" height={80} className="rounded-lg" />
-					) : affiliateData.affiliateLinks.length > 0 ? (
+					) : affiliateData.sharedLinks.length > 0 ? (
 						<div className="space-y-4">
-							{affiliateData.affiliateLinks.map((link, i) => (
+							{affiliateData.sharedLinks.map((link, i) => (
 								<div key={i} className="border border-gray-300 rounded-xl p-4">
-									<p className="font-semibold">{link.paymentLinkName}</p>
+									<p className="font-semibold text-gray-800">{link.name}</p>
+									<p className="text-sm text-gray-600 mt-1">Commission: ₦{link.yourCommissionPerSale.toLocaleString()} per sale</p>
 									<div className="flex items-center mt-3 bg-gray-100 rounded-lg p-3">
-										<p className="text-sm truncate flex-1">{link.shareableLink}</p>
+										<p className="text-sm truncate flex-1 text-gray-700">{link.shareableLink}</p>
 										<Tooltip title="Copy">
 											<IconButton onClick={() => copyLink(link.shareableLink)}>
-												<ContentCopyIcon className="text-green-600" />
+												<ContentCopyIcon className="text-gray-600" />
 											</IconButton>
 										</Tooltip>
 									</div>
-									<p className="text-xs text-gray-500 mt-2">You earn ₦{link.yourCommissionPerSale.toLocaleString()} per payment</p>
 								</div>
 							))}
 						</div>
@@ -157,145 +132,153 @@ const AffiliateDashboard = () => {
 					)}
 				</div>
 
-				{/* Recent Commissions Card */}
+				{/* Tier 1 & Tier 2 (grayscale) */}
+				<div className="mx-4 grid grid-cols-1 gap-4 mb-8">
+					<div className="border-2 border-gray-400 rounded-2xl p-6 bg-gray-50">
+						<h3 className="text-lg font-bold text-gray-800">Tier 1 Earnings</h3>
+						<p className="text-gray-600 mt-1 text-sm">
+							From people who pay using <strong>your direct link</strong>
+						</p>
+						{loading ? (
+							<Skeleton variant="text" width={80} height={32} />
+						) : (
+							<h2 className="text-2xl font-bold text-gray-800 mt-4">₦ {affiliateData.tier1Earnings.toLocaleString()}</h2>
+						)}
+					</div>
+
+					<div className="border-2 border-gray-400 rounded-2xl p-6 bg-gray-50">
+						<h3 className="text-lg font-bold text-gray-800">Tier 2 Earnings</h3>
+						<p className="text-gray-600 mt-1 text-sm">
+							From people recruited by <strong>your referrals</strong>
+						</p>
+						{loading ? (
+							<Skeleton variant="text" width={80} height={32} />
+						) : (
+							<h2 className="text-2xl font-bold text-gray-800 mt-4">₦ {affiliateData.tier2Earnings.toLocaleString()}</h2>
+						)}
+					</div>
+				</div>
+
+				{/* Recent Commissions */}
 				<div className="mx-4 border-2 border-gray-300 rounded-2xl p-6 bg-white pb-20">
-					<h3 className="text-xl font-bold mb-4">Recent Commissions</h3>
+					<h3 className="text-lg font-bold text-gray-800 mb-4">Recent Commissions</h3>
 					{loading ? (
 						<Skeleton variant="rectangular" height={120} className="rounded-lg" />
-					) : affiliateData.recentCommissions?.length > 0 ? (
-						<div className="space-y-3">
-							{affiliateData.recentCommissions.map((c, i) => (
-								<div key={i} className="border-b pb-3 last:border-0">
-									<div className="flex justify-between items-start">
-										<div>
-											<p className="font-medium">{c.paymentLinkName}</p>
-											<p className="text-sm text-gray-500">
-												{c.tier === 1 ? 'Direct referral' : "Your recruit's referral"} • {c.date}
-											</p>
-										</div>
-										<p className="font-bold text-green-600">+₦ {c.amount.toLocaleString()}</p>
-									</div>
-								</div>
-							))}
-						</div>
 					) : (
 						<p className="text-center text-gray-500 py-6">No commissions yet — keep sharing your links!</p>
 					)}
+				</div>
+
+				{/* Logout Button */}
+				<div className="mx-4 mb-20">
+					<Button fullWidth variant="outlined" color="error" startIcon={<LogoutIcon />} onClick={handleLogout}>
+						Logout
+					</Button>
 				</div>
 
 				<BottomNav />
 			</div>
 
 			{/* Desktop View */}
-			<div className="hidden md:block">
-				<DashboardLayout>
-					<div className="px-16 py-8">
-						<h1 className="text-3xl font-bold fourier">Affiliate Dashboard</h1>
-						<p className="text-gray-600 text-lg mt-2">
-							Welcome back, <strong>{loading ? '...' : affiliateData.name || 'Affiliate'}</strong>! Share your links and earn commissions.
-						</p>
+			<div className="hidden md:block min-h-screen bg-gray-50">
+				<div className="max-w-6xl mx-auto py-12 px-8">
+					<div className="flex justify-between items-center mb-8">
+						<div>
+							<h1 className="text-3xl font-bold text-gray-800">Affiliate Dashboard</h1>
+							<p className="text-gray-600 text-lg mt-2">Track your earnings and share your links</p>
+						</div>
+						<Button variant="outlined" color="error" startIcon={<LogoutIcon />} onClick={handleLogout} size="large">
+							Logout
+						</Button>
+					</div>
 
-						{loading ? (
-							<div className="mt-8 space-y-8">
-								<Skeleton variant="rectangular" height={200} />
-								<Skeleton variant="rectangular" height={200} />
+					{loading ? (
+						<div className="space-y-8">
+							<Skeleton variant="rectangular" height={200} />
+							<Skeleton variant="rectangular" height={400} />
+						</div>
+					) : (
+						<>
+							{/* Total Earnings */}
+							<div className="mb-12">
+								<div className="border-2 border-gray-400 rounded-3xl p-10 bg-gray-50 text-center">
+									<h2 className="text-xl font-bold text-gray-700">Total Earnings</h2>
+									<h1 className="text-5xl font-bold text-green-700 mt-6">₦ {affiliateData.totalEarnings.toLocaleString('en-US', { minimumFractionDigits: 2 })}</h1>
+									<p className="text-gray-600 mt-4 text-base">All commissions earned so far</p>
+									<button
+										onClick={handleWithdraw}
+										className="mt-8 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-5 rounded-2xl text-lg flex items-center justify-center gap-3"
+									>
+										<NearMeIcon fontSize="large" />
+										Request Withdrawal
+									</button>
+								</div>
 							</div>
-						) : (
-							<Grid container spacing={6} className="mt-8">
-								{/* Total Earnings Card */}
-								<Grid item xs={12} md={4}>
-									<div className="border-2 border-green-600 rounded-3xl p-10 bg-green-50 text-center">
-										<h2 className="text-2xl font-bold">Total Earnings</h2>
-										<h1 className="text-6xl font-bold text-green-700 mt-6">₦ {affiliateData.totalEarnings.toLocaleString('en-US', { minimumFractionDigits: 2 })}</h1>
-										<p className="text-gray-600 mt-4 text-lg">All your commissions combined</p>
-										<button
-											onClick={() => setOpenWithdraw(true)}
-											className="mt-8 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-5 rounded-2xl text-xl flex items-center justify-center gap-3"
-										>
-											<NearMeIcon fontSize="large" />
-											Request Withdrawal
-										</button>
-									</div>
-								</Grid>
 
-								{/* Tier 1 Card */}
-								<Grid item xs={12} md={4}>
-									<div className="border-2 border-blue-500 rounded-3xl p-10 bg-blue-50">
-										<h2 className="text-2xl font-bold text-center">Tier 1 Earnings</h2>
-										<p className="text-gray-700 text-center mt-4 text-lg">
-											From people who pay using <strong>your personal link</strong>
-										</p>
-										<h1 className="text-5xl font-bold text-blue-700 text-center mt-8">₦ {affiliateData.tier1Earnings.toLocaleString()}</h1>
-									</div>
-								</Grid>
-
-								{/* Tier 2 Card */}
-								<Grid item xs={12} md={4}>
-									<div className="border-2 border-purple-500 rounded-3xl p-10 bg-purple-50">
-										<h2 className="text-2xl font-bold text-center">Tier 2 Earnings</h2>
-										<p className="text-gray-700 text-center mt-4 text-lg">
-											From sales made by <strong>people you recruited</strong>
-										</p>
-										<h1 className="text-5xl font-bold text-purple-700 text-center mt-8">₦ {affiliateData.tier2Earnings.toLocaleString()}</h1>
-									</div>
-								</Grid>
-
-								{/* Affiliate Links Card */}
-								<Grid item xs={12} md={7}>
-									<div className="border-2 border-gray-300 rounded-3xl p-8 bg-white">
-										<h2 className="text-2xl font-bold mb-6">Your Affiliate Links</h2>
-										{affiliateData.sharedLinks.length > 0 ? (
-											<div className="space-y-6">
-												{affiliateData.sharedLinks.map((link, i) => (
-													<div key={i} className="border-2 border-gray-300 rounded-2xl p-6">
-														<p className="font-bold text-lg">{link.name}</p>
+							{/* Affiliate Links */}
+							<div className="mb-12">
+								<div className="border-2 border-gray-300 rounded-3xl p-8 bg-white">
+									<h2 className="text-2xl font-bold text-gray-800 mb-6">Your Affiliate Links ({affiliateData.sharedLinks.length})</h2>
+									{affiliateData.sharedLinks.length > 0 ? (
+										<Grid container spacing={4}>
+											{affiliateData.sharedLinks.map((link, i) => (
+												<Grid item xs={12} key={i}>
+													<div className="border-2 border-gray-300 rounded-2xl p-6">
+														<p className="font-bold text-lg text-gray-800">{link.name}</p>
+														<p className="text-sm text-gray-600 mt-1">Commission: ₦{link.yourCommissionPerSale.toLocaleString()} per sale</p>
 														<div className="flex items-center mt-4 bg-gray-100 rounded-xl p-4">
-															<code className="flex-1 text-sm truncate pr-4">{link.shareableLink}</code>
-															<Tooltip title="Copy link">
+															<code className="flex-1 text-sm truncate pr-4 text-gray-700">{link.shareableLink}</code>
+															<Tooltip title="Copy">
 																<IconButton onClick={() => copyLink(link.shareableLink)}>
-																	<ContentCopyIcon fontSize="large" className="text-green-600" />
+																	<ContentCopyIcon fontSize="large" className="text-gray-600" />
 																</IconButton>
 															</Tooltip>
 														</div>
-														<p className="text-gray-600 mt-3">You earn ₦{link.yourCommissionPerSale.toLocaleString()} per payment</p>
 													</div>
-												))}
-											</div>
-										) : (
-											<p className="text-center text-gray-500 py-12 text-lg">No links yet. Visit a payment page and click "Get my affiliate link" to start!</p>
-										)}
+												</Grid>
+											))}
+										</Grid>
+									) : (
+										<p className="text-center text-gray-500 py-12 text-lg">No links yet. Visit a payment page and click "Get my affiliate link" to start earning!</p>
+									)}
+								</div>
+							</div>
+
+							{/* Tier 1 & Tier 2 (grayscale, stacked) */}
+							<Grid container spacing={6} className="mb-12">
+								<Grid item xs={12} md={6}>
+									<div className="border-2 border-gray-400 rounded-3xl p-8 bg-gray-50">
+										<h2 className="text-xl font-bold text-gray-800">Tier 1 Earnings</h2>
+										<p className="text-gray-600 mt-3 text-base">
+											From people who pay using <strong>your direct link</strong>
+										</p>
+										<h1 className="text-4xl font-bold text-gray-800 mt-6">₦ {affiliateData.tier1Earnings.toLocaleString()}</h1>
 									</div>
 								</Grid>
 
-								{/* Recent Commissions Card */}
-								<Grid item xs={12} md={5}>
-									<div className="border-2 border-gray-300 rounded-3xl p-8 bg-white">
-										<h2 className="text-2xl font-bold mb-6">Recent Commissions</h2>
-										{affiliateData.recentCommissions?.length > 0 ? (
-											<List>
-												{affiliateData.recentCommissions.map((c, i) => (
-													<ListItem key={i} className="border-b last:border-0 py-4">
-														<ListItemText
-															primary={<span className="font-semibold">{c.paymentLinkName}</span>}
-															secondary={
-																<span className="text-gray-600">
-																	{c.tier === 1 ? 'You shared directly' : 'From your recruit'} • {c.date}
-																</span>
-															}
-														/>
-														<span className="font-bold text-green-600 text-xl">+₦ {c.amount.toLocaleString()}</span>
-													</ListItem>
-												))}
-											</List>
-										) : (
-											<p className="text-center text-gray-500 py-12 text-lg">No commissions yet — start sharing your links!</p>
-										)}
+								<Grid item xs={12} md={6}>
+									<div className="border-2 border-gray-400 rounded-3xl p-8 bg-gray-50">
+										<h2 className="text-xl font-bold text-gray-800">Tier 2 Earnings</h2>
+										<p className="text-gray-600 mt-3 text-base">
+											From people recruited by <strong>your referrals</strong>
+										</p>
+										<h1 className="text-4xl font-bold text-gray-800 mt-6">₦ {affiliateData.tier2Earnings.toLocaleString()}</h1>
 									</div>
 								</Grid>
 							</Grid>
-						)}
-					</div>
-				</DashboardLayout>
+
+							{/* Recent Commissions — full width */}
+							<div className="border-2 border-gray-300 rounded-3xl p-8 bg-white">
+								<h2 className="text-2xl font-bold text-gray-800 mb-6">Recent Commissions</h2>
+								{loading ? (
+									<Skeleton variant="rectangular" height={200} />
+								) : (
+									<p className="text-center text-gray-500 py-12 text-lg">No commissions yet — keep sharing your links!</p>
+								)}
+							</div>
+						</>
+					)}
+				</div>
 			</div>
 
 			<WithdrawDialog opener={openWithdraw} handleClosed={() => setOpenWithdraw(false)} handleClickOpen={() => setOpenWithdraw(true)} setOpener={setOpenWithdraw} />
