@@ -51,8 +51,8 @@ const AffiliateLogin = () => {
 			const res = await axios.post(`${BASE_URL}/api/auth/affiliate-login`, payload)
 
 			// Save token and user data
-			localStorage.setItem('token', res.data.token)
-			localStorage.setItem('user', JSON.stringify(res.data.user))
+			window.localStorage.setItem('bearer_token', res?.data?.data.token)
+			window.localStorage.setItem('user', JSON.stringify(res?.data?.data))
 
 			toast.success('Welcome back! Ready to earn.')
 			setLoading(false)

@@ -63,8 +63,8 @@ const AffiliateSignup = () => {
 			const res = await axios.post(`${BASE_URL}/api/auth/affiliate-registration`, payload)
 
 			// Save token (assuming your app uses localStorage)
-			localStorage.setItem('token', res.data.token)
-			localStorage.setItem('user', JSON.stringify(res.data.user))
+			window.localStorage.setItem('bearer_token', res?.data?.data.token)
+			window.localStorage.setItem('user', JSON.stringify(res?.data?.data))
 
 			toast.success('Welcome! Account created successfully.')
 			setLoading(false)

@@ -25,6 +25,7 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 import Waitlist from "./pages/Waitlist";
 import About from "./pages/About";
 import FourierAgent from "./pages/Agent";
+import AffiliatePrivateRoutes from "./pages/AffiliatePrivateRoutes";
 
 function App() {
   return (
@@ -41,8 +42,6 @@ function App() {
 					<Route path="/forgot-password" element={<ForgotPassword />} />
 					<Route path="/about" element={<About />} />
 					<Route path="/reset-password/:token" element={<ResetPassword />} />
-
-					<Route path="/affiliate/dashboard" element={<AffiliateDashboard />} />
 				</Route>
 				<Route path="/pay/:code" element={<MakePayment />} />
 				<Route path="/external-link/:code" element={<PublicPayment />} />
@@ -59,6 +58,11 @@ function App() {
 					<Route path="/dashboard/agent" element={<FourierAgent />} />
 					<Route path="/dashboard/withdrawal" element={<Withdrawal />} />
 					<Route path="/dashboard/payment/:code" element={<SinglePaymentLink />} />
+				</Route>
+
+				<Route element={<AffiliatePrivateRoutes />}>
+					<Route path="/affiliate/dashboard" element={<AffiliateDashboard />} />
+					{/* Add more affiliate routes here later */}
 				</Route>
 			</Routes>
 		</div>
