@@ -21,18 +21,18 @@ import Tabs from '../components/Tabs';
 import PaymentLinkSettings from '../components/PaymentLinkSettings';
 import PayersSheetTable from '../components/PayersSheetTable';
 import moment from 'moment'
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import Paper from '@mui/material/Paper';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
-import FolderIcon from '@mui/icons-material/Folder';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AddIcon from '@mui/icons-material/Add';
+// import BottomNavigation from '@mui/material/BottomNavigation';
+// import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+// import RestoreIcon from '@mui/icons-material/Restore';
+// import FavoriteIcon from '@mui/icons-material/Favorite';
+// import ArchiveIcon from '@mui/icons-material/Archive';
+// import Paper from '@mui/material/Paper';
+// import DashboardIcon from '@mui/icons-material/Dashboard';
+// import ReceiptIcon from '@mui/icons-material/Receipt';
+// import InsertLinkIcon from '@mui/icons-material/InsertLink';
+// import FolderIcon from '@mui/icons-material/Folder';
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+// import AddIcon from '@mui/icons-material/Add';
 import BottomNav from '../components/bottomNav';
 import StatusBadge from '../components/atom/web/StatusBadge';
 import SinglePayment from '../components/SinglePayment';
@@ -40,6 +40,7 @@ import LinkStatusBadge from '../components/atom/web/LinkStatusBadge';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+import { Button } from '@mui/material'
 
 
 const SinglePaymentLink = () => {
@@ -97,6 +98,9 @@ const SinglePaymentLink = () => {
 			},
 		])
     const [tab, setTab] = useState(tabList[0])
+    const [selectedAffiliate, setSelectedAffiliate] = useState(null)
+    const [commissions, setCommissions] = useState([])
+    const [commLoading, setCommLoading] = useState(false)
     const [affiliateLoading, setAffiliateLoading] = useState(false)
 	const [affiliateData, setAffiliateData] = useState([])
 
@@ -324,22 +328,26 @@ const SinglePaymentLink = () => {
 
     useEffect(() => {
 			if (tab.key === 'affiliates' && data.paymentLink?._id) {
-				const fetchAffiliateData = async () => {
+				const fetchCommissions = async () => {
 					try {
-						setAffiliateLoading(true)
-						const res = await Protected.get(`${BASE_URL}/api/commission/link/${data.paymentLink._id}`)
-						setAffiliateData(res.data.data || [])
+						setCommLoading(true)
+						let url = `${BASE_URL}/api/commission/link/${data.paymentLink._id}`
+						if (selectedAffiliate) {
+							url = `${BASE_URL}/api/commission/affiliate/${selectedAffiliate._id}`
+						}
+						const res = await Protected.get(url)
+						setCommissions(res.data.data || [])
 					} catch (err) {
 						console.error(err)
-						toast.error('Failed to load affiliate data')
-						setAffiliateData([])
+						toast.error('Failed to load commissions')
+						setCommissions([])
 					} finally {
-						setAffiliateLoading(false)
+						setCommLoading(false)
 					}
 				}
-				fetchAffiliateData()
+				fetchCommissions()
 			}
-    }, [tab.key, data.paymentLink])
+		}, [tab.key, data.paymentLink, selectedAffiliate])
     
     useEffect(() => {
         topRef.current.scrollIntoView({ behaviour: "smoooth" })
@@ -537,6 +545,96 @@ const SinglePaymentLink = () => {
 									) : (
 										''
 									)}
+									{tab.key === 'affiliates' ? (
+										<div className="py-6">
+											<h2 className="text-xl font-bold mb-4">Affiliates & Commissions</h2>
+
+											<Grid container spacing={4}>
+												{/* Left: Affiliate List */}
+												<Grid item xs={12} md={4}>
+													<div className="border rounded-lg bg-white h-full overflow-y-auto max-h-[600px]">
+														<div className="p-4 border-b">
+															<h3 className="font-bold">Affiliates ({affiliateData.length})</h3>
+														</div>
+														{affiliateLoading ? (
+															<div className="p-4 space-y-3">
+																{[1, 2, 3].map((i) => (
+																	<Skeleton key={i} height={80} />
+																))}
+															</div>
+														) : affiliateData.length > 0 ? (
+															<div className="divide-y">
+																{affiliateData.map((aff) => (
+																	<div
+																		key={aff._id}
+																		className={`p-4 cursor-pointer hover:bg-gray-50 ${selectedAffiliate?._id === aff._id ? 'bg-blue-50' : ''}`}
+																		onClick={() => setSelectedAffiliate(aff)}
+																	>
+																		<p className="font-medium">{aff.name || 'N/A'}</p>
+																		<p className="text-sm text-gray-600">{aff.email}</p>
+																		<p className="text-xs text-gray-500 mt-1">Code: {aff.affiliateCode}</p>
+																		<p className="font-bold text-green-600 mt-2">₦{(aff.earnings || 0).toLocaleString()}</p>
+																	</div>
+																))}
+															</div>
+														) : (
+															<p className="p-8 text-center text-gray-500">No affiliates have joined this link yet.</p>
+														)}
+													</div>
+												</Grid>
+
+												{/* Right: Commissions */}
+												<Grid item xs={12} md={8}>
+													<div className="border rounded-lg bg-white h-full">
+														<div className="p-4 border-b flex justify-between items-center">
+															<h3 className="font-bold">{selectedAffiliate ? `${selectedAffiliate.name}'s Commissions` : 'All Commissions'}</h3>
+															{selectedAffiliate && (
+																<Button variant="outlined" size="small" onClick={() => setSelectedAffiliate(null)}>
+																	View All Commissions
+																</Button>
+															)}
+														</div>
+
+														{commLoading ? (
+															<div className="p-4 space-y-3">
+																{[1, 2, 3, 4].map((i) => (
+																	<Skeleton key={i} height={60} />
+																))}
+															</div>
+														) : commissions.length > 0 ? (
+															<div className="overflow-x-auto">
+																<table className="w-full">
+																	<thead className="bg-gray-50">
+																		<tr>
+																			<th className="text-left p-4 text-sm font-medium">Date</th>
+																			<th className="text-left p-4 text-sm font-medium">Affiliate</th>
+																			<th className="text-left p-4 text-sm font-medium">Tier</th>
+																			<th className="text-left p-4 text-sm font-medium">Amount (₦)</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		{commissions.map((comm) => (
+																			<tr key={comm._id} className="border-t">
+																				<td className="p-4 text-sm">{moment(comm.createdAt).format('MMM DD, YYYY')}</td>
+																				<td className="p-4 text-sm">{comm.affiliateName || comm.affiliateCode}</td>
+																				<td className="p-4 text-sm">{comm.tier === 1 ? 'Tier 1' : 'Tier 2'}</td>
+																				<td className="p-4 text-sm font-bold text-green-600">₦{comm.amount.toLocaleString()}</td>
+																			</tr>
+																		))}
+																	</tbody>
+																</table>
+															</div>
+														) : (
+															<p className="p-8 text-center text-gray-500">No commissions recorded yet.</p>
+														)}
+													</div>
+												</Grid>
+											</Grid>
+										</div>
+									) : (
+										''
+									)}
+
 									{tab.key === 'payers_sheet' ? (
 										<div className="py-6">
 											<PayersSheetTable
@@ -562,47 +660,6 @@ const SinglePaymentLink = () => {
 										''
 									)}
 									{tab.key === 'settings' ? <PaymentLinkSettings linkData={linkData} paymentLink={data.paymentLink} recallServerData={recallServerData} copyText={copyText} /> : ''}
-									{tab.key === 'affiliates' ? (
-										<div className="py-6">
-											<h2 className="text-xl font-bold mb-4">Affiliates & Commissions</h2>
-											{affiliateLoading ? (
-												<div className="space-y-4">
-													{[1, 2, 3].map((i) => (
-														<Skeleton key={i} height={60} />
-													))}
-												</div>
-											) : affiliateData.length > 0 ? (
-												<div className="border rounded-lg overflow-hidden">
-													<table className="w-full">
-														<thead className="bg-gray-100">
-															<tr>
-																<th className="text-left p-4">Affiliate Code</th>
-																<th className="text-left p-4">Name</th>
-																<th className="text-left p-4">Tier</th>
-																<th className="text-left p-4">Sales</th>
-																<th className="text-left p-4">Earnings (₦)</th>
-															</tr>
-														</thead>
-														<tbody>
-															{affiliateData.map((aff) => (
-																<tr key={aff._id} className="border-t">
-																	<td className="p-4">{aff.affiliateCode}</td>
-																	<td className="p-4">{aff.name || 'N/A'}</td>
-																	<td className="p-4">{aff.tier === 1 ? 'Tier 1' : 'Tier 2'}</td>
-																	<td className="p-4">{aff.sales || 0}</td>
-																	<td className="p-4 font-bold text-green-600">₦{(aff.earnings || 0).toLocaleString()}</td>
-																</tr>
-															))}
-														</tbody>
-													</table>
-												</div>
-											) : (
-												<p className="text-center text-gray-500 py-8">No affiliates have joined this link yet.</p>
-											)}
-										</div>
-									) : (
-										''
-									)}
 								</div>
 							) : (
 								''
