@@ -26,6 +26,7 @@ import Waitlist from "./pages/Waitlist";
 import About from "./pages/About";
 import FourierAgent from "./pages/Agent";
 import AffiliatePrivateRoutes from "./pages/AffiliatePrivateRoutes";
+import Affiliates from './pages/Affiliates'
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
 					<Route path="/dashboard/agent" element={<FourierAgent />} />
 					<Route path="/dashboard/withdrawal" element={<Withdrawal />} />
 					<Route path="/dashboard/payment/:code" element={<SinglePaymentLink />} />
+					<Route path="/dashboard/affiliates" element={<Affiliates />} /> 
 				</Route>
 
 				<Route element={<AffiliatePrivateRoutes />}>
