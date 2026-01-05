@@ -327,28 +327,47 @@ const SinglePaymentLink = () => {
     }
 
     useEffect(() => {
-			if (tab.key === 'affiliates' && data.paymentLink?._id) {
-				const fetchCommissions = async () => {
-					try {
-						setCommLoading(true)
-						let url = `${BASE_URL}/api/commission/link/${data.paymentLink._id}`
-						if (selectedAffiliate) {
-							url = `${BASE_URL}/api/commission/affiliate/${selectedAffiliate._id}`
-						}
-						const res = await Protected.get(url)
-						setCommissions(res.data.data || [])
-					} catch (err) {
-						console.error(err)
-						toast.error('Failed to load commissions')
-						setCommissions([])
-					} finally {
-						setCommLoading(false)
-					}
-				}
-				fetchCommissions()
-			}
-		}, [tab.key, data.paymentLink, selectedAffiliate])
-    
+        if (tab.key === 'affiliates' && data.paymentLink?._id) {
+            // Fetch affiliates who joined this link (left side)
+            const fetchAffiliateData = async () => {
+                try {
+                    setAffiliateLoading(true)
+                    const res = await Protected.get(`${BASE_URL}/api/commission/link/${data.paymentLink._id}/affiliates`)
+                    console.log( "RESPONSES FROM THE AFFILIATE FETCHING ", res.data.data)
+                    setAffiliateData(res.data.data || [])
+                } catch (err) {
+                    console.error(err)
+                    toast.error('Failed to load affiliates')
+                    setAffiliateData([])
+                } finally {
+                    setAffiliateLoading(false)
+                }
+            }
+
+            // Fetch commissions (right side - all or per selected affiliate)
+            const fetchCommissions = async () => {
+                try {
+                    setCommLoading(true)
+                    let url = `${BASE_URL}/api/commission/link/${data.paymentLink._id}`
+                    if (selectedAffiliate) {
+                        url = `${BASE_URL}/api/commission/affiliate/${selectedAffiliate._id}`
+                    }
+                    const res = await Protected.get(url)
+                    setCommissions(res.data.data || [])
+                } catch (err) {
+                    console.error(err)
+                    toast.error('Failed to load commissions')
+                    setCommissions([])
+                } finally {
+                    setCommLoading(false)
+                }
+            }
+
+            fetchAffiliateData()
+            fetchCommissions()
+        }
+    }, [tab.key, data.paymentLink, selectedAffiliate])
+
     useEffect(() => {
         topRef.current.scrollIntoView({ behaviour: "smoooth" })
         FetchLinks()
@@ -545,6 +564,7 @@ const SinglePaymentLink = () => {
 									) : (
 										''
 									)}
+
 									{tab.key === 'affiliates' ? (
 										<div className="py-6">
 											<h2 className="text-xl font-bold mb-4">Affiliates & Commissions</h2>
@@ -553,29 +573,44 @@ const SinglePaymentLink = () => {
 												{/* Left: Affiliate List */}
 												<Grid item xs={12} md={4}>
 													<div className="border rounded-lg bg-white h-full overflow-y-auto max-h-[600px]">
-														<div className="p-4 border-b">
+														<div className="p-4 border-b sticky top-0 bg-white z-10">
 															<h3 className="font-bold">Affiliates ({affiliateData.length})</h3>
 														</div>
 														{affiliateLoading ? (
 															<div className="p-4 space-y-3">
 																{[1, 2, 3].map((i) => (
-																	<Skeleton key={i} height={80} />
+																	<Skeleton key={i} height={80} className="rounded" />
 																))}
 															</div>
 														) : affiliateData.length > 0 ? (
-															<div className="divide-y">
-																{affiliateData.map((aff) => (
-																	<div
-																		key={aff._id}
-																		className={`p-4 cursor-pointer hover:bg-gray-50 ${selectedAffiliate?._id === aff._id ? 'bg-blue-50' : ''}`}
-																		onClick={() => setSelectedAffiliate(aff)}
-																	>
-																		<p className="font-medium">{aff.name || 'N/A'}</p>
-																		<p className="text-sm text-gray-600">{aff.email}</p>
-																		<p className="text-xs text-gray-500 mt-1">Code: {aff.affiliateCode}</p>
-																		<p className="font-bold text-green-600 mt-2">₦{(aff.earnings || 0).toLocaleString()}</p>
-																	</div>
-																))}
+															<div className="overflow-x-auto">
+																<table className="w-full">
+																	<thead className="bg-gray-50 sticky top-0 z-10">
+																		<tr>
+																			<th className="text-left p-4 text-sm font-medium">Name / Email</th>
+																			<th className="text-left p-4 text-sm font-medium">Code</th>
+																			<th className="text-right p-4 text-sm font-medium">Earnings (₦)</th>
+																		</tr>
+																	</thead>
+																	<tbody className="bg-white">
+																		{affiliateData.map((aff) => (
+																			<tr
+																				key={aff._id}
+																				className={`cursor-pointer hover:bg-gray-50 ${selectedAffiliate?._id === aff._id ? 'bg-blue-50' : ''}`}
+																				onClick={() => setSelectedAffiliate(aff)}
+																			>
+																				<td className="p-4 border-t">
+																					<p className="font-medium">{aff.name || 'N/A'}</p>
+																					<p className="text-sm text-gray-600">{aff.email}</p>
+																				</td>
+																				<td className="p-4 border-t">
+																					<code className="text-sm">{aff.affiliateCode}</code>
+																				</td>
+																				<td className="p-4 border-t text-right font-bold text-green-600">₦{(aff.earnings || 0).toLocaleString()}</td>
+																			</tr>
+																		))}
+																	</tbody>
+																</table>
 															</div>
 														) : (
 															<p className="p-8 text-center text-gray-500">No affiliates have joined this link yet.</p>
