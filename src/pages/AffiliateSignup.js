@@ -62,9 +62,35 @@ const AffiliateSignup = () => {
 
 			const res = await axios.post(`${BASE_URL}/api/auth/affiliate-registration`, payload)
 
-			// Save token (assuming your app uses localStorage)
 			window.localStorage.setItem('bearer_token', res?.data?.data.token)
 			window.localStorage.setItem('user', JSON.stringify(res?.data?.data))
+
+			// Auto-join affiliate link if pending referral exists
+			const pendingRef = localStorage.getItem('pendingAffiliateRef')
+			const pendingLinkCode = localStorage.getItem('pendingPaymentLinkCode')
+
+			if (pendingRef && pendingLinkCode) {
+				try {
+					const token = res?.data?.data.token
+					const payload = {
+						paymentLinkId: pendingLinkCode,
+						parentAffiliateCode: pendingRef,
+					}
+
+					await axios.post(`${BASE_URL}/api/payment-link-affiliate/`, payload, {
+						headers: { Authorization: `Bearer ${token}` },
+					})
+
+					toast.success('You have been automatically joined to the affiliate program!')
+				} catch (err) {
+					console.error('Auto-join failed:', err)
+					toast.warn('Could not auto-join affiliate link. You can join manually from the link.')
+				} finally {
+					// Clean up localStorage
+					localStorage.removeItem('pendingAffiliateRef')
+					localStorage.removeItem('pendingPaymentLinkCode')
+				}
+			}
 
 			toast.success('Welcome! Account created successfully.')
 			setLoading(false)

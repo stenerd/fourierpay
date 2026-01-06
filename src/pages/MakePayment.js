@@ -88,12 +88,14 @@
 				
 				// If not logged in → go to signup (preserve context)
 				if (!token) {
-					let targetPath = `/affiliate/signup?link=${code}`
-					if (parentRef) targetPath += `&ref=${parentRef}`
-					navigate(targetPath)
+					if (parentRef) {
+						localStorage.setItem('pendingAffiliateRef', parentRef)
+						localStorage.setItem('pendingPaymentLinkCode', code)
+					}
+					navigate(`/affiliate/signup?link=${code}`)
 					return
 				}
-
+				
 				// Logged in → generate affiliate link
 				try {
 					const payload = {
@@ -108,9 +110,9 @@
 					})
 					const { shareableLink } = res.data
 
+					navigate(`/affiliate/dashboard`)
 					// Show feedback
 					toast.success('Your affiliate link is ready!')
-					navigator.clipboard.writeText(shareableLink)
 					toast.info('Link copied to clipboard!')
 
 					// Then redirect to affiliate dashboard (they can see all links there)
