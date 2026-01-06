@@ -297,6 +297,8 @@
 			e.preventDefault()
 			e.stopPropagation()
 			setLoading(true)
+			const currentParams = new URLSearchParams(window.location.search)
+			const affiliateCode = currentParams.get('ref')
 			const check = validateInput()
 			if (!check) {
 				setLoading(false)
@@ -307,6 +309,7 @@
 					amount: paymentLink.amount,
 					payment_link_id: paymentLink._id,
 					form: paymentLink.form,
+					affiliateCode: affiliateCode || null, 
 				})
 
 				console.log('initiateTrnx >> ', initiateTrnx.data.data)

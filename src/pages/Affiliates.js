@@ -9,7 +9,8 @@ import { toast } from 'react-toastify'
 const Affiliates = () => {
 	const [loading, setLoading] = useState(true)
 	const [affiliates, setAffiliates] = useState([])
-
+	const [commissions, setCommissions] = useState([])
+	const [commLoading, setCommLoading] = useState(true)
 	const fetchAffiliates = async () => {
 		try {
 			setLoading(true)
@@ -27,6 +28,23 @@ const Affiliates = () => {
 
 	useEffect(() => {
 		fetchAffiliates()
+	}, [])
+	useEffect(() => {
+		const fetchAllCommissions = async () => {
+			try {
+				setCommLoading(true)
+				const res = await Protected.get(`${BASE_URL}/api/commission/all`)
+				setCommissions(res.data.data || [])
+			} catch (err) {
+				console.error(err)
+				toast.error('Failed to load commissions')
+				setCommissions([])
+			} finally {
+				setCommLoading(false)
+			}
+		}
+
+		fetchAllCommissions()
 	}, [])
 
 	const copyCode = (code) => {
@@ -111,6 +129,49 @@ const Affiliates = () => {
 								<div className="text-center py-16">
 									<p className="text-gray-500 text-lg">No affiliates yet. When someone joins your affiliate program, they will appear here.</p>
 								</div>
+							)}
+						</div>
+
+						<div className="mt-16">
+							<h2 className="text-2xl font-bold mb-6">All Commissions Log</h2>
+							{commLoading ? (
+								<div className="space-y-4">
+									{[1, 2, 3, 4].map((i) => (
+										<Skeleton key={i} height={60} className="rounded-lg" />
+									))}
+								</div>
+							) : commissions.length > 0 ? (
+								<div className="border-2 border-gray-300 rounded-3xl bg-white overflow-hidden">
+									<table className="w-full">
+										<thead className="bg-gray-100">
+											<tr>
+												<th className="text-left p-6 font-bold text-gray-700">Date</th>
+												<th className="text-left p-6 font-bold text-gray-700">Affiliate</th>
+												<th className="text-left p-6 font-bold text-gray-700">Link</th>
+												<th className="text-left p-6 font-bold text-gray-700">Tier</th>
+												<th className="text-right p-6 font-bold text-gray-700">Amount (₦)</th>
+											</tr>
+										</thead>
+										<tbody>
+											{commissions.map((comm) => (
+												<tr key={comm._id} className="border-t hover:bg-gray-50">
+													<td className="p-6">{new Date(comm.createdAt).toLocaleDateString()}</td>
+													<td className="p-6">
+														<p className="font-medium">
+															{comm.affiliateId?.firstname} {comm.affiliateId?.lastname}
+														</p>
+														<p className="text-sm text-gray-500">{comm.affiliateId?.email}</p>
+													</td>
+													<td className="p-6">{comm.paymentLinkId?.name || 'N/A'}</td>
+													<td className="p-6">{comm.tier === 1 ? 'Tier 1' : 'Tier 2'}</td>
+													<td className="p-6 text-right font-bold text-green-600">₦{comm.amount.toLocaleString()}</td>
+												</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
+							) : (
+								<p className="text-center text-gray-500 py-12 text-lg">No commissions have been logged yet.</p>
 							)}
 						</div>
 					</div>
