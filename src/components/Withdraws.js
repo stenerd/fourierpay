@@ -35,7 +35,7 @@ export default function WithDraws({ open, setOpen, handleOpen, handleClose, tran
                 <Box sx={style}>
                     <>
                         <div>
-                            <h2 className='text-center font-semibold text-xl'>Withdrawal</h2>
+                            <h2 className='text-center font-semibold text-xl'>Request Withdrawal</h2>
                         </div>
                         <div className='py-3 divide-y-2'>
                             {/* <h1 className='text-center font-bold'>{recentPayment?.payment_link_id?.name}</h1> */}

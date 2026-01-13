@@ -607,13 +607,6 @@ const Payment = () => {
                 />
             </div>
 
-
-
-
-
-
-
-
             <div className='block lg:hidden mb-6 min-h-screen'>
                 <div className='w-[90%] mx-auto py-5'>
                     <div className='py-2'>

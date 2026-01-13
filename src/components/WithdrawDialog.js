@@ -113,7 +113,7 @@ export default function WithdrawDialog({ opener, setOpener, handleClosed, handle
                 </div>
                 <div className='flex flex-col justify-center h-[80vh] items-center'>
                     <div className='title'>
-                        <h2 className='text-2xl font-bold fourier text-left'>Withdraw</h2>
+                        <h2 className='text-2xl font-bold fourier text-left'>Request Withdrawal</h2>
                     </div>
                     <form className='w-full'>
                         <div className='py-4 px-2'>
