@@ -69,7 +69,11 @@ const AffiliateSignup = () => {
 			const pendingRef = localStorage.getItem('pendingAffiliateRef')
 			const pendingLinkCode = localStorage.getItem('pendingPaymentLinkCode')
 
-			if (pendingRef && pendingLinkCode) {
+
+			if (pendingRef || pendingLinkCode) {
+
+				console.log("REFS or LINKCODE EXIST");
+				
 				try {
 					const token = res?.data?.data.token
 					const payload = {
