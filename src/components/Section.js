@@ -23,71 +23,62 @@ const Section = () => {
     let dropDown = useRef()
     let containRef = useRef()
 
-    useEffect(() => {
-        // ScrollTrigger.matchMedia()
+    // useEffect(() => {
+      
 
-        let mm = gsap.matchMedia()
+    //     let mm = gsap.matchMedia()
 
-        mm.add("(min-width:850px)", () => {
+    //     mm.add("(min-width:850px)", () => {
 
-            const scaleDownTween = gsap.timeline({
-                ease: "none",
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: "center center",
-                    scrub: true,
-                    pin: true
-                },
+    //         const scaleDownTween = gsap.timeline({
+    //             ease: "none",
+    //             scrollTrigger: {
+    //                 trigger: containerRef.current,
+    //                 start: "center center",
+    //                 scrub: true,
+    //                 pin: true
+    //             },
 
-            });
-
-
-            scaleDownTween.fromTo(firstGrid.current, { x: '-50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, duration: .8, scale: 1 }).to(overlayRef.current, { opacity: 1 })
-
-            const secondTween = gsap.timeline({
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: secondContainerRef.current,
-                    start: 'center center',
-                    scrub: true,
-                    pin: true
-                }
+    //         });
 
 
-            })
-            secondTween.fromTo(leftRef.current, { x: '50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, scale: 1, duration: .8 }).to(shadowRef.current, { opacity: 1 })
+    //         scaleDownTween.fromTo(firstGrid.current, { x: '-50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, duration: .8, scale: 1 }).to(overlayRef.current, { opacity: 1 })
 
-            const thirdTween = gsap.timeline({
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: thirdContainerRef.current,
-                    start: 'center center',
-                    scrub: true,
-                    pin: true
-                }
-
-
-            })
-            thirdTween.fromTo(righttRef.current, { x: '-50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, scale: 1, duration: .8 }).to(shadow2.current, { opacity: 1 })
-
-            const fourthTween = gsap.timeline({
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: containRef.current,
-                    start: 'center center',
-                    scrub: true,
-                    pin: true
-                }
+    //         const secondTween = gsap.timeline({
+    //             ease: 'none',
+    //             scrollTrigger: {
+    //                 trigger: secondContainerRef.current,
+    //                 start: 'center center',
+    //                 scrub: true,
+    //                 // pin: true
+    //             }
 
 
-            })
-            fourthTween.fromTo(dropDown.current, { y: '-50%', opacity: 0, scale: .5 }, { y: '0%', opacity: 1, scale: 1, duration: .8 })
+    //         })
+    //         secondTween.fromTo(leftRef.current, { x: '50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, scale: 1, duration: .8 }).to(shadowRef.current, { opacity: 1 })
 
-
-        })
-
-
-    }, [])
+    //         const thirdTween = gsap.timeline({
+    //             ease: 'none',
+    //             scrollTrigger: {
+    //                 trigger: thirdContainerRef.current,
+    //                 start: 'center center',
+    //                 scrub: true,
+    //                 pin: true
+    //             }
+    //         })
+    //         thirdTween.fromTo(righttRef.current, { x: '-50%', opacity: 0, scale: .5 }, { x: '0%', opacity: 1, scale: 1, duration: .8 }).to(shadow2.current, { opacity: 1 })
+    //         const fourthTween = gsap.timeline({
+    //             ease: 'none',
+    //             scrollTrigger: {
+    //                 trigger: containRef.current,
+    //                 start: 'center center',
+    //                 scrub: true,
+    //                 pin: true
+    //             }
+    //         })
+    //         fourthTween.fromTo(dropDown.current, { y: '-50%', opacity: 0, scale: .5 }, { y: '0%', opacity: 1, scale: 1, duration: .8 })
+    //     })
+    // }, [])
 
 
     return (
@@ -97,12 +88,12 @@ const Section = () => {
                     <div className="w-[90%] md:w-4/5 mx-auto flex-col md:flex-row flex justify-between items-center">
                         <div>
                             <h1 className='text-5xl font-semibold text-center'>250K</h1>
-                            <p className='text-center font-bold text-gray-500'>Registared Users</p>
+                            <p className='text-center font-bold text-gray-500'>Registered Users</p>
                         </div>
                         <div className='c-vertical-divider'></div>
                         <div>
                             <h1 className='text-5xl font-semibold  text-center'>250M+</h1>
-                            <p className='text-center font-bold text-gray-500'>Revenue Total</p>
+                            <p className='text-center font-bold text-gray-500'>Total Revenue</p>
                         </div>
                         <div className='c-vertical-divider'></div>
                         <div>
@@ -120,7 +111,7 @@ const Section = () => {
                     </div>
                     <div className='py-3 w-full md-w-[45%] space-y-8'>
                         {/* <h1 className='text-[40px] font-bold'>Financial experience built for tomorrow</h1> */}
-                        <h2 className='text-xl font-medium text-gray-700'>Fourier Pay was built from scratch to inspire embedded Financial experience. We Provide you products and tools you need to grow your revenue and collect payment instantly with just one link.</h2>
+                        <h2 className='text-xl font-medium text-gray-700'>Fourier Pay was built to inspire embedded Financial experience. We Provide you products and tools you need to grow your revenue and collect payment instantly with just one link.</h2>
                         <button className='bg-[#1f332b] font-medium text-white py-4 px-6 rounded-sm mb-24 md:mb-0'>Learn More</button>
                     </div>
                 </div>
@@ -351,9 +342,7 @@ const Section = () => {
                     </div>
                 </div>
             </div>
-
             <div className='md:py-28 py-8  bg-[#ebefe6] mx-auto relative' style={{ zIndex: -1 }}>
-
                 <div className='bg-[#ebefe6] w-[90%] md:w-4/5 mx-auto'>
                     <div className='py-6 w-[95%] md:w-[70%]'>
                         <p className='text-[46px] font-bold text-center md:text-left leading-none text-[#1f332b]'>Our Pricing</p>
@@ -362,10 +351,7 @@ const Section = () => {
                             link.it also helps you create payment links that can be accessed by whoever you want
                             payment from thereby enabling mass payments.
                         </p>
-
-
                     </div>
-
                     <div className='w-[95%] md:w-4/6  mx-auto my-16 hidden md:block'>
                         <Grid container spacing={8} justifyContent='space-between'>
                             <Grid item xs={12} md={6} >
@@ -373,7 +359,6 @@ const Section = () => {
                                     <div className='absolute c-pricing-background'></div>
                                     <div className='absolute c-pricing-background-right'></div>
                                     <div className='relative c-pricinig-pre-background' style={{ zIndex: 1 }}>
-
                                         <div className='bg-white px-8 py-6' style={{ borderRadius: '0.5rem', boxShadow: '0 0 1rem 0 #ccc' }}>
                                             <div className=''>
                                                 <p className='text-center font-medium text-gray-600 text-xl'>BASIC</p>
@@ -383,8 +368,6 @@ const Section = () => {
                                                     <img src="/images/basic-plan.svg" style={{ width: '12rem' }} alt='our basic package' />
                                                 </p>
                                             </div>
-                                            {/* <p>Free</p> */}
-
                                             <p className='flex justify-center' style={{ marginTop: '4.75rem' }}>
                                                 <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
@@ -409,7 +392,6 @@ const Section = () => {
                                         </div>
                                     </div>
                                 </div>
-
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <div className="relative">
@@ -417,7 +399,6 @@ const Section = () => {
                                     <div className='absolute c-pricing-background-right'></div>
                                     <div className='relative c-pricinig-pre-background' style={{ zIndex: 1 }}>
                                         <div className='absolute c-premium-package'>popular</div>
-
                                         <div className='bg-white px-8 py-6' style={{ borderRadius: '0.5rem', boxShadow: '0 0 1rem 0 #ccc' }}>
                                             <div className=''>
                                                 <p className='text-center font-medium text-gray-600 text-xl'>PREMIUM</p>
@@ -427,8 +408,6 @@ const Section = () => {
                                                     <img src="/images/premium-plan.svg" style={{ width: '12rem' }} alt='our premium package' />
                                                 </p>
                                             </div>
-                                            {/* <p>Free</p> */}
-
                                             <p className='mt-12 flex justify-center'>
                                                 <img src="/images/good.svg" alt='good' /> &nbsp; &nbsp; <span className='text-gray-700' style={{ fontSize: '1.1rem' }}>Easy online payments processing.</span>
                                             </p>
@@ -458,7 +437,6 @@ const Section = () => {
                     </div>
                 </div>
             </div>
-
             <div className='py-8 bg-[#1f332b]'>
                 <div className=''>
                     <div className='py-20 flex justify-center items-center'>
@@ -480,7 +458,7 @@ const Section = () => {
 
                                     </div>
                                 </Grid>
-                                <Grid item xs={12} md={5} sx={{display:{sm:'none',md:'block'}}}>
+                                <Grid item xs={12} md={5} sx={{ display: { sm: 'none', md: 'block' } }}>
                                     <div className='py-3'>
                                         <img src="/images/ochuko.png" className='w-full h-[500px] object-cover c-home-section-image hidden md:block' />
                                     </div>

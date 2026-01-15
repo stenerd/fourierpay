@@ -6,7 +6,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../utils/axios';
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { IconButton } from "@mui/material"
 const Login = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
@@ -14,6 +16,10 @@ const Login = () => {
         email: '',
         password: ''
     })
+
+    const [text, setText] = useState(false)
+
+    const togglePassword = () => setText(!text)
 
     const handleChange = (e) => {
         setState((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -69,65 +75,76 @@ const Login = () => {
         <>
             <div className='bg-gray-100 h-screen'>
                 <div className=''>
-                    {/* <div className='w-4/5 mx-auto flex flex-col justify-between'>
-                        <Link to="/">
-                            <h2 className='text-xl fourier'>Fourier<span className='text-[#1d3329]'>Pay</span></h2>
-                        </Link>
-                    </div> */}
                     <Grid container>
+                        <Grid item xs={12} md={7}>
+                            <img src="/images/registration.jpg" className='w-full h-screen object-cover hidden md:block' />
+                        </Grid>
                         <Grid item xs={12} md={5}>
-                            <div className='min-h-[100vh] flex flex-col justify-center p-3'>
-                                <div className='w-[80%] mx-auto mb-0'>
-                                    <h2 className='text-xl mb-12 font-bold home c-auth-title'>Log in</h2>
-                                    <p className='font-bold text-gray-700'>Welcome back <span className='c-login-emoji'>🤗</span></p>
-                                    <small className='font-bold text-gray-500 inline-block w-[70%]'>Thanks for visiting again. Lets do some monitoring.</small>
+                                <div className='w-[80%] ml-[8%] block mt-[5%]'>
+                                        <Link to='/'>
+                                            {/* <img src='/images/logo-header.svg' className='absolute' alt="alt-img" /> */}
+                                            <img src='/images/five.svg' width="110" className='absolute' alt="alt-img" />
+                                        </Link>
+                                        {/* <p className='text-center text-white text-2xl font-bold'>Pay</p> */}
+                                </div>
+                            <div className='min-h-[100vh] justify-center w-[85%] mx-auto flex flex-col '>
+                                <div className=''>
+
+                                    <p className=' text-gray-700'>Welcome back <span className='c-login-emoji'></span></p>
+                    
+                                    <h2 className='text-xl mb-4 font-bold home c-auth-title'>Sign in to your account</h2>
+
+                                    {/* <small className='font-bold text-gray-500 inline-block w-[70%]'>Thanks for visiting again. Lets .</small> */}
                                 </div>
                                 {/* <h2 className='text-xl font-bold main'>Welcome Back</h2> */}
-                                <div className='w-[80%] mx-auto py-8'>
+                                <div className='py-4'>
                                     <form onSubmit={handleSubmit}>
                                         <Grid container spacing={3}>
                                             <Grid item xs={12} md={12}>
-                                                <label className='text-sm font-bold block my-2 text-gray-700'>Email</label>
-                                                <input placeholder='Email' name='email' onChange={handleChange} required type="email" className='py-2 px-4 w-full outline-none c-text-input' />
+                                                <label className='text-sm font-bold block py-1 text-gray-700'>Email</label>
+                                                <input placeholder='' name='email' onChange={handleChange} required type="email"   className="py-2 px-4 w-full outline-none border rounded-lg border-gray-400 focus:border-green-500 c-text-input" />
                                             </Grid>
                                             <Grid item xs={12} md={12}>
-                                                <label className='text-sm font-bold block my-2 text-gray-700'>Password</label>
-                                                <input placeholder='Password' name='password' onChange={handleChange} required type="password" className='py-2 px-4 w-full outline-none c-text-input' />
+                                                <label className='text-sm font-bold block py-1 text-gray-700'>Password</label>
+                                                <div >
+                                                    <input placeholder='' name='password' onChange={handleChange} required type={text ? "text" : "password"} className='py-2 px-4 w-full rounded-lg border-gray-400 focus:border-green-500 outline-none c-text-input' />
+                                                    <IconButton className="absolute md:left-[92%] left-[80%] bottom-10" onClick={togglePassword}>
+                                                        {text ? (<VisibilityIcon />) : (<VisibilityOffIcon />)}
+                                                    </IconButton>
+                                                </div>
                                             </Grid>
                                         </Grid>
-                                        <div className='mt-12 mb-6 hidden md:block'>
+                                        <div className='mb-6 hidden md:block'>
                                             <button disabled={loading ? true : false} className='c-primary-button'>
-                                                {loading ? 'loading....' : 'Login'}
+                                                {loading ? 'Loading...' : 'Login'}
                                             </button>
                                         </div>
-                                        <div className='mt-12 mb-6 block md:hidden'>
+                                        <div className='mt-4 mb-6 block md:hidden'>
                                             <button disabled={loading ? true : false} className='c-primary-button w-full'>
-                                                {loading ? 'loading....' : 'Login'}
+                                                {loading ? 'Loading....' : 'Login'}
                                             </button>
                                         </div>
                                     </form>
                                     <div className=''>
-                                        <p className="text-gray-700 font-bold">Do not have an account?
+                                        <p className="text-gray-700 m-auto ">I dont have an account.
                                             <Link to="/signup">
-                                                <span className='cursor-pointer c-primary-link-color'> Register</span>
+                                                <span className='cursor-pointer c-primary-link-color'> Sign Up</span>
                                             </Link>
                                         </p>
-                                        <p className="text-gray-700 font-bold">Can't remember your password?
+                                        {/* <p className="text-gray-700 font-bold">Can't remember your password?
                                             <Link to="/forgot-password">
                                                 <span className='cursor-pointer c-primary-link-color'> Click here</span>
                                             </Link>
-                                        </p>
+                                        </p> */}
                                     </div>
                                 </div>
                             </div>
                         </Grid>
-                        <Grid item xs={12} md={7}>
-                            <img src="/images/registration.jpg" className='w-full h-screen object-cover hidden md:block' />
-                        </Grid>
+                        
                     </Grid>
-
                 </div>
             </div>
+
             <ToastContainer
                 position="top-right"
                 autoClose={5000}

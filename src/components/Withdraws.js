@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import moment from 'moment';
+import StatusBadge from './atom/web/StatusBadge';
 
 const style = {
     position: 'absolute',
@@ -18,7 +19,7 @@ const style = {
     borderRadius: 2
 };
 
-export default function WithDraws({ open, setOpen, handleOpen, handleClose, transactions, recentWithdraws:recentTransaction }) {
+export default function WithDraws({ open, setOpen, handleOpen, handleClose, transactions, recentWithdraws: recentTransaction }) {
     console.log(recentTransaction)
 
     let recentPayment = 'paid'
@@ -33,11 +34,15 @@ export default function WithDraws({ open, setOpen, handleOpen, handleClose, tran
             >
                 <Box sx={style}>
                     <>
-                    <div>
-                        <h2 className='text-center font-semibold text-xl'>Withdrawal</h2>
-                    </div>
+                        <div>
+                            <h2 className='text-center font-semibold text-xl'>Request Withdrawal</h2>
+                        </div>
                         <div className='py-3 divide-y-2'>
                             {/* <h1 className='text-center font-bold'>{recentPayment?.payment_link_id?.name}</h1> */}
+                            <div className='flex justify-between items-center py-3'>
+                                <h2 className='text-gray-400'>Status</h2>
+                                <StatusBadge status={recentTransaction?.status} />
+                            </div>
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Name</h2>
                                 <p className='font-bold text-sm'>{recentTransaction?.name}</p>
@@ -57,10 +62,6 @@ export default function WithDraws({ open, setOpen, handleOpen, handleClose, tran
                             <div className='flex justify-between items-center py-3'>
                                 <h2 className='text-gray-400'>Amount</h2>
                                 <p className='font-bold text-sm'>{recentTransaction?.amount}</p>
-                            </div>
-                            <div className='flex justify-between items-center py-3'>
-                                <h2 className='text-gray-400'>Status</h2>
-                                <p className={recentTransaction?.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{recentTransaction?.status}</p>
                             </div>
                             {/* <h2>Amount :</h2> */}
                         </div>

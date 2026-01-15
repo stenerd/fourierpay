@@ -7,7 +7,7 @@ const WithdrawalSkeleton = () => {
                 <div className='absolute top-[30%] left-[40%]'>
                     <img src="/images/nolinks.svg" />
                     <div className='py-2'>
-                       <p className='text-black text-center'>No Links Yet</p>
+                       <p className='text-black text-center'>No Withdrawals Yet</p>
                     </div>
                 </div>
                 <div className='py-2 border border-gray-200'>

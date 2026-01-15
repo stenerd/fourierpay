@@ -32,7 +32,6 @@ import { DashBoardContext } from '../context/Dashboard';
 import moment from 'moment'
 import RecentModal from '../components/RecentPayment';
 import DashboardChart from '../components/DashboardChart';
-import Piechart from '../components/DashboardPieChart';
 import Skeletons from '../components/Skeletons';
 import RecentLinksSkeleton from '../components/RecentLinksSkeleton';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -43,30 +42,19 @@ import SendIcon from '@mui/icons-material/Send';
 import AddIcon from '@mui/icons-material/Add';
 // import BarChart from '../components/BarChart';
 import BarCharted from '../components/BarChart';
-import ContentPasteIcon from '@mui/icons-material/ContentPaste';
-// import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import Paper from '@mui/material/Paper';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-// import List from '@mui/material/List';
-// import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-// import ListItemText from '@mui/material/ListItemText';
-import Avatar from '@mui/material/Avatar';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import FolderIcon from '@mui/icons-material/Folder';
-// import RestoreIcon from '@mui/icons-material/Restore';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WithdrawDialog from '../components/WithdrawDialog';
-// import DashboardChart from '../components/DashboardChart';
+import PaymentDialog from '../components/PaymentsDialog';
+import Menu from '../components/Menu';
+import MenuDropDown from '../components/Menu';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import BottomNav from '../components/bottomNav';
+import StatusBadge from '../components/atom/web/StatusBadge';
+import StatusBadgeMobile from '../components/atom/mobile/StatusBadge';
+import LinkStatusBadge from '../components/atom/web/LinkStatusBadge';
+import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 const Dashboard = () => {
     const [state, setState] = React.useState({
@@ -90,7 +78,7 @@ const Dashboard = () => {
 
     const [matrics, setMatrics] = React.useState({});
     const [selectedFilters, setSelectedFilters] = React.useState({
-        year: '2023',
+        year: '2024',
         type: 'week',
         week: Math.ceil(days / 7)
     });
@@ -98,10 +86,19 @@ const Dashboard = () => {
     const [tables, setTables] = React.useState({});
     const [pieChartData, setPieChartData] = React.useState([]);
     const [opener, setOpener] = React.useState(false);
+    const [transact, setTransact] = useState()
+    const [openup, setOpenup] = useState(false)
 
-    const [openup ,setOpenup] = useState(false)
+    const [open1, setOpen1] = React.useState(false);
+
+    const handleClickOpen1 = () => {
+        setOpen1(true);
+    };
+    const handleClose1 = () => {
+        setOpen1(false);
+    };
     // const [] = useState()
-    
+
     const handleClickOpened = () => {
         setOpenup(true);
     };
@@ -110,7 +107,7 @@ const Dashboard = () => {
         setOpenup(false);
     };
 
-        const handleChange = (event, newValue) => {
+    const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
@@ -156,6 +153,16 @@ const Dashboard = () => {
     const [recentPayment, setRecentPayment] = useState()
     const { open, setOpen, handleOpen, handleClose } = useContext(DashBoardContext)
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open20 = Boolean(anchorEl);
+    const handleClick = (event) => {
+        event.stopPropagation()
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose20 = () => {
+        setAnchorEl(null);
+    };
+
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 10,
         borderRadius: 5,
@@ -164,7 +171,7 @@ const Dashboard = () => {
         },
         [`& .${linearProgressClasses.bar}`]: {
             borderRadius: 5,
-            backgroundColor: theme.palette.mode === 'light' ? '#1d3329' : '#1d3329',
+            backgroundColor: theme.palette.mode === 'light' ? '#065143' : '#065143',
         },
     }));
     const recentPay = (each) => {
@@ -350,58 +357,70 @@ const Dashboard = () => {
         <>
             {/* mobile screens page dashboard */}
             <div className='block md:hidden relative'>
-                <div className='py-6 flex justify-between items-center  w-[85%] mx-auto '>
+                <div className='py-6 flex justify-between items-center w-[90%] mx-auto '>
                     <div className=''>
                         {/* <img src="/images/two.svg" className='h-24'/> */}
                         <h2 className='text-xl title fourier font-bold'>Fourier<span>Pay</span></h2>
                     </div>
-                    {/* <IconButton className='bg-[#1D3329]'> */}
-                    <div className='py-2 px-3 rounded-full bg-[#1D3329]'>
+                    {/* <IconButton className='bg-[#065143]'> */}
+                    {/* <div className='py-2 px-3 rounded-full bg-[#065143]'
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                    >
                         <Person3Icon className="text-white" />
-                    </div>
-
+                    </div> */}
+                    <MenuDropDown open20={open20} handleClose20={handleClose20} handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl} name={`${wallet?.user_id?.firstname} ${wallet?.user_id?.lastname}`} />
                     {/* </IconButton> */}
                 </div>
-                <div className='py-4'>
+                <div className='pb-2'>
                     <SwiperCards />
                 </div>
-                <div className='py-4 w-[85%] flex justify-between gap-3 items-center mx-auto '>
-                    <div className='flex items-center px-2 space-x-1 py-3 flex-1 bg-[#FADB8B] rounded-[15px]' onClick={() => handleClickOpen()}>
-                        <IconButton>
-                            <SendIcon />
-                        </IconButton>
-                        <h1 className='font-bold'>Withdraw</h1>
+                <div className='py-4 w-[90%] flex justify-between gap-3 items-center mx-auto '>
+                    <div className='flex items-center justify-center p-3 space-x-1 flex-1 bg-[#FADB8B] rounded-[10px] w-[50%]' onClick={() => handleClickOpen()}>
+                        {/* <SendIcon /> */}
+                        <img src="/images/arrow-pointer.svg" alt="alt-img" className='w-[20px]' />
+                        <h1 className='font-bold text-[#856100]'>Withdraw</h1>
                     </div>
-                    <Link to='/dashboard/payment'>
-                        <div className='flex items-center px-2 py-3 flex-1  bg-[#97F675] rounded-[15px]'>
-                            <IconButton>
-                                <AddIcon />
-                            </IconButton>
-                            <h1 className='font-bold text-center'>Payment Link</h1>
+                    <Link to='/dashboard/payment' className='w-[50%]'>
+                        <div className='flex justify-center items-center p-3 flex-1  bg-[#97F675] rounded-[10px]'>
+                            {/* <AddIcon /> */}
+                            <img src="/images/plus.svg" alt="alt-img" className='w-[15px]' />
+                            <h1 className='font-bold pl-1 text-center text-[#008950]'>Create Link</h1>
                         </div>
                     </Link>
 
                 </div>
-                <div className='py-4'>
+                <div className='py-0'>
                     <BarCharted />
                     {/* <DashboardChart/> */}
                 </div>
-                <div className='py-3 w-[85%] mx-auto'>
-                    <h2 className='font-bold text-xl py-4 fourier'>Recent Payments</h2>
+                <div className=' w-[90%] mx-auto'>
+                    <div className='flex items-center justify-between pt-4'>
+                        <h2 className='font-bold text-xl pt-0 fourier'>Recent Payments</h2>
+                        <Link to='/dashboard/transaction'>
+                            <p className='c-primary-link-color font-bold'>View All</p>
+                        </Link>
+                    </div>
                     <div className='py-2 '>
                         {tables.recentPayments ? tables.recentPayments.map((each, index) => (
-                            <div className='flex justify-between items-center' key={index}>
-                                <div className='flex flex-col'>
-                                    <h2 className='text-sm py-2 font-bold'>{each.payment_link_id.name}</h2>
-                                    <small className='text-sm py-2  flex-1  font-bold text-gray-400'>{moment(each.createdAt
-                                    ).format('MMM DD, YYYY')} | {moment(each.createdAt).format('h:mma')}</small>
-
+                            <div className='flex w-full items-center mb-2 cursor-pointer' key={index} onClick={() => { console.log(each); handleClickOpen1(); setTransact(each) }}>
+                                <div className='mr-2'>
+                                    <div className='p-2 c-icon-bg'>
+                                        <img src="/images/in-icon.svg" alt="alt-img" className='w-[28px]' />
+                                    </div>
                                 </div>
-                                <div className='flex flex-col'>
-                                    <small className='text-sm py-2 self-end  flex-1  font-bold text-gray-400'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</small>
-                                    <h2 className='text-sm py-2 text-gray-400 font-bold self-end'>{each.unique_answer}</h2>
-
-
+                                <div className='flex justify-between w-full items-center'>
+                                    <div className='flex flex-col'>
+                                        <h2 className='text-base pt-2 font-bold'>{each.payment_link_id.name}</h2>
+                                        <h2 className='text-sm text-gray-500 font-medium'>{each.unique_answer}</h2>
+                                        <small className='text-xs pb-3 flex-1 font-medium text-gray-500'>{moment(each.createdAt
+                                        ).format('MMMM DD, YYYY')} | {moment(each.createdAt).format('h:mm A')}</small>
+                                    </div>
+                                    <div className='flex flex-col'>
+                                        <small className='text-sm pt-2 pb-1 self-end flex-1 font-bold text-[#01b133]'>+ ₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(each.amount || 0)}</small>
+                                        <StatusBadgeMobile status={each.status} />
+                                    </div>
                                 </div>
                             </div>
                         )) : (
@@ -416,96 +435,89 @@ const Dashboard = () => {
                                 </div>
                             </div>
                         )}
+                        {tables?.recentPayments?.length === 0 && (
+                            <div className='flex flex-col justify-center py-2 px-2'>
+                                <img src="/images/nolinks.svg" alt='alt-img' className='w-2/5 mx-auto' />
+                                <p className='text-gray-500 text-center'>No Transactions Yet!</p>
+                            </div>
+                        )}
                     </div>
                 </div>
-                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
-                    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-                        <BottomNavigationAction
-                            label="Dashboard"
-                            value="dashboard"
-                            icon={<DashboardIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="Transactions"
-                            value="transactions"
-                            onClick={() => navigate('/dashboard/transaction')}
-                            icon={<ReceiptIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="Links"
-                            value="links"
-                            icon={<InsertLinkIcon />}
-                            onClick={() => navigate('/dashboard/paymentlinks')}
-                        />
-                        <BottomNavigationAction
-                            label="Profile"
-                            value="profile"
-                            icon={<AccountCircleIcon />}
-                            onClick={() => navigate('/dashboard/profile')}
-                        />
-                        {/* <BottomNavigationAction
-                            label="Favorites"
-                            value="favorites"
-                            icon={<FavoriteIcon />}
-                        /> */}
-                        {/* <BottomNavigationAction
-                            label="Nearby"
-                            value="nearby"
-                            icon={<LocationOnIcon />}
-                        /> */}
-                        <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
-                    </BottomNavigation>
-                </Paper>
-
-                <div className='py-3 mb-14 w-[85%] mx-auto'>
+                <BottomNav />
+                <div className='py-4 mb-14 w-[90%] mx-auto'>
                     <div className='flex items-center justify-between'>
-                        <h2 className='font-bold text-xl fourier'>Recent Links</h2>
-                        <p className='text-sm text-gray-400'>View all</p>
+                        <h2 className='font-bold text-gray-700  text-xl fourier'>Recent Links</h2>
+                        <Link to='/dashboard/paymentlinks'>
+                            <p className='font-bold c-primary-link-color '>View All</p>
+                        </Link>
                     </div>
                     <div className='py-4 '>
-                        <div className='space-y-2'>
-                            {tables.recentPayments ? tables.recentPayments.map((each, index) => {
-                                console.log(index)
-                                if (index % 2 === 0) {
+                        <div className='space-y-4'>
+                            {tables.recentPaymentLinks ? tables.recentPaymentLinks.map((each, index) => {
+                                if (index % 3 === 0) {
                                     return (
-                                        <div className=' border border-2  rounded-[10px]' key={index}>
+                                        <div className='border border-1 overflow-hidden rounded-[10px] cursor-pointer' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
                                             <div className='flex justify-center items-center odd_numbers'>
-                                                <img src='/images/illustration (2).png' />
+                                                <img src='/images/target1.svg' alt='alt-img' />
                                             </div>
-                                            <div className='px-2 py-6'>
+                                            <div className='p-5'>
                                                 <div>
-                                                    <h2 className='text-xl font-bold'>{each.payment_link_id.name}</h2>
+                                                    <h2 className='text-xl capitalize font-bold'>{each.name}</h2>
                                                 </div>
                                                 <div className=' flex justify-between items-center'>
-                                                    <div className='space-y-1'>
-                                                        <p className='text-gray-400'>Amount</p>
-                                                        <h2 className='text-[#15C01A] font-bold'>{each.payment_link_id.amount}</h2>
+                                                    <div className='pt-2'>
+                                                        <p className='text-gray-500 font-medium'>Amount</p>
+                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
                                                     </div>
-                                                    <IconButton>
-                                                        <ContentPasteIcon />
-                                                    </IconButton>
+                                                    <button className='c-bg-primary-light-mobile'>
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px' }} />
+                                                        Share
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                } else if (index % 2 === 0) {
+                                    return (
+                                        <div className='border border-1 overflow-hidden rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
+                                            <div className='flex justify-center items-center three_numbers'>
+                                                <img src='/images/target3.svg' alt='alt-img' />
+                                            </div>
+                                            <div className='p-5'>
+                                                <div>
+                                                    <h2 className='text-xl capitalize font-bold'>{each.name}</h2>
+                                                </div>
+                                                <div className=' flex justify-between items-center'>
+                                                    <div className='pt-2'>
+                                                        <p className='text-gray-500 font-medium'>Amount</p>
+                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(each.amount || 0)}</h2>
+                                                    </div>
+                                                    <button className='c-bg-primary-light-mobile'>
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px' }} />
+                                                        Share
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                     )
                                 } else {
                                     return (
-                                        <div className='border border-2  rounded-[10px]' key={index}>
+                                        <div className='border border-1 overflow-hidden rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
                                             <div className='flex justify-center items-center even_numbers'>
-                                                <img src='/images/illustration (1).png' />
+                                                <img src='/images/target2.svg' alt='alt-img' />
                                             </div>
-                                            <div className='py-6 px-2'>
+                                            <div className='p-5'>
                                                 <div>
-                                                    <h2 className='text-xl font-bold'>{each.payment_link_id.name}</h2>
+                                                    <h2 className='text-xl capitalize font-bold'>{each.name}</h2>
                                                 </div>
                                                 <div className=' flex justify-between items-center'>
-                                                    <div className='space-y-1'>
-                                                        <p className='text-gray-400'>Amount</p>
-                                                        <h2 className='text-[#15C01A] font-bold'>{each.payment_link_id.amount}</h2>
+                                                    <div className='pt-2'>
+                                                        <p className='text-gray-500 font-medium'>Amount</p>
+                                                        <h2 className='c-text-green font-bold'>₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(each.amount || 0)}</h2>
                                                     </div>
-                                                    <IconButton>
-                                                        <ContentPasteIcon />
-                                                    </IconButton>
+                                                    <button className='c-bg-primary-light-mobile'>
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px' }} />
+                                                        Share</button>
                                                 </div>
                                             </div>
 
@@ -526,21 +538,23 @@ const Dashboard = () => {
                                 </div>
                             )}
 
-                            {tables?.recentPayments?.length && (
-                                <div className='flex justify-center py-2 px-2'>
-                                    <img src="/images/payments.svg" />
+                            {tables?.recentPaymentLinks?.length === 0 && (
+                                <div className='flex flex-col justify-center py-2 px-2'>
+                                    <img src="/images/payments.svg" className='w-2/5 mx-auto' alt='alt' />
+                                    <p className='text-gray-500 text-center'>No Links Yet!</p>
                                 </div>
                             )}
                         </div>
                     </div>
                 </div>
+                <PaymentDialog open1={open1} transact={transact} setOpen1={setOpen1} handleClickOpen1={handleClickOpen1} handleClose1={handleClose1} />
                 <WithdrawDialog opener={opener} handleClosed={handleClosed} handleClickOpen={handleClickOpen} setOpener={setOpener} />
             </div>
             {/* Desktop screen page */}
             <div className='hidden md:block'>
                 <DashboardLayout>
                     <Titlebar>
-                        <h2 className='fourier font-bold'>DashBoard</h2>
+                        <h2 className='fourier '>Dashboard</h2>
                         <div>
                             <button onClick={() => navigate('/dashboard/payment')} className='c-bg-primary-light'>Create Payment</button>
                         </div>
@@ -548,14 +562,14 @@ const Dashboard = () => {
                     <div className='px-16 py-8'>
                         {/* <div className='flex justify-between items-center w-[90%] mx-auto'>
                         <h2 className='fourier text-xl font-bold'>DashBoard</h2>
-                        <button onClick={()=>navigate("/dashboard/payment")} className='px-4 py-2 rounded-md text-white bg-[#1d3329]'>Create Payment</button>
+                        <button onClick={()=>navigate("/dashboard/payment")} className='px-4 py-2 rounded-md text-white bg-[#065143]'>Create Payment</button>
                     </div> */}
                         <div className='py-4'>
                             <Grid container spacing={4} alignItems="">
                                 <Grid item xs={12} md={4}>
                                     <Stack spacing={4}>
-                                        <div className='bg-[#f1f3f0] rounded-md dashboard-wallet'>
-                                            <div className='py-6 px-3 w-[90%] mx-auto'>
+                                        <div className='bg-[#f1f3f0]  dashboard-border'>
+                                            <div className='py-6 px-2 w-[90%] mx-auto'>
                                                 <div className='spacing-y-3'>
                                                     {
                                                         wallet.user_id ? (
@@ -564,18 +578,18 @@ const Dashboard = () => {
                                                             <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
                                                         )
                                                     }
-                                                    <h3 className="text-gray-400 font-bold">{moment(new Date()).format('dddd, MMMM DD YYYY')}</h3>
+                                                    <p className="text-gray-400 ">{moment(new Date()).format('dddd, MMMM DD YYYY')}</p>
                                                 </div>
                                             </div>
                                             <div className='py-2 px-2 bg-[#f8faf7]'>
                                                 <div className='w-[90%] mx-auto'>
                                                     <div className='spacing-y-3 flex justify-between items-center'>
                                                         <div className='py-4'>
-                                                            {wallet.amount ? (<h1 className='fourier text-[20px] font-bold'>₦ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>) : <h1 className='fourier text-[20px] font-bold'>₦0</h1>}
+                                                            {wallet.amount ? (<h1 className='fourier text-[20px] font-bold'>₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(wallet.amount || 0)}</h1>) : <h1 className='fourier text-[20px] font-bold'>₦0</h1>}
                                                             <h3 className="text-gray-400 font-bold">Total Balance</h3>
                                                         </div>
                                                         <IconButton onClick={() => handleOpen()}>
-                                                            <NearMeIcon className='text-[#1d3329]' />
+                                                            <NearMeIcon className='dashboard-icon' />
                                                         </IconButton>
                                                     </div>
                                                 </div>
@@ -594,19 +608,33 @@ const Dashboard = () => {
                                                     <p className='text-sm font-bold'>
                                                         <span className='text-[#f10707]'>₦ 199</span>
                                                         <span className='text-[#9aa3ae]'> spent out of </span>
-                                                        <span className='text-[#1d3329]'>₦ 2,4000</span>
+                                                        <span className='dashboard-icon'>₦ 2,4000</span>
                                                     </p>
                                                     <p className='text-sm font-bold'>10%</p>
                                                 </div>
                                             </div>
                                         </div> */}
-                                        <div className='bg-[#f8faf7] shadow-md rounded-md dashboard-spending-limit pb-4'>
+                                        {
+                                            (tables.recentPaymentLinks && tables.recentPaymentLinks[0]) ? 
+                                                (
+                                                <div className='bg-[#f8faf7] shadow-md rounded-md dashboard-spending-limit'>
+                                                    <div className=" mx-auto flex justify-between items-center">
+                                                        
+                                                        <img className='w-full' alt='qrcode' src={tables.recentPaymentLinks && tables.recentPaymentLinks[0] && tables.recentPaymentLinks[0].qr_code} />
+                                                        {/* <img className='w-full' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAYAAAAZtYVBAAAAAklEQVR4AewaftIAAAY3SURBVO3BQY4kyRHAQDLQ//8yNUc/JZSo6tnQys3sD9a6xGGtixzWushhrYsc1rrIYa2LHNa6yGGtixzWushhrYsc1rrIYa2LHNa6yGGtixzWushhrYv88CGVv6niicobFW+oPKl4Q2WqmFTeqJhU/qaKTxzWushhrYsc1rrID19W8U0qb1S8oTJVfJPKVDFVPKl4ovJGxTepfNNhrYsc1rrIYa2L/PDLVN6oeENlqphUPqEyVUwqTyomlTcqfpPKGxW/6bDWRQ5rXeSw1kV++JdReaPiScWkMlU8UZkqnqhMKlPFVPFvcljrIoe1LnJY6yI//MtUTCqfUHmiMlVMFU9UnlT8PzmsdZHDWhc5rHWRH35ZxT+pYlKZVKaKqeITKk8qJpW/qeImh7UucljrIoe1LvLDl6ncRGWqmFSeqEwVk8pU8aRiUpkqJpWpYlKZKp6o3Oyw1kUOa13ksNZFfvhQxfrvqTxRmSomlTcq/pcc1rrIYa2LHNa6iP3BB1SmiknlmyreUPlExTepTBVvqEwVT1S+qeI3Hda6yGGtixzWuoj9wRepPKl4ojJVTCpvVEwqU8Wk8psqJpUnFZPKJyqeqEwVf9NhrYsc1rrIYa2L/PBlFW+oTBWTylTxROVJxd9U8aTijYpJZap4Q+UNlanimw5rXeSw1kUOa13E/uADKk8qJpWpYlKZKiaVqeKJyicqJpWpYlJ5UvFEZap4ovJGxaTyRsVvOqx1kcNaFzmsdZEfvqziExWTyicqPqHyRGWqeKLypOITFZ+o+Ccd1rrIYa2LHNa6yA8fqphUpoo3VKaKSWVSmSomlaliUnlSMalMFZPKk4o3VJ5UTCpvVEwqU8UTlaniE4e1LnJY6yKHtS7yw4dUnqg8UZkqJpU3VN6omFTeUJkq3lCZKp5UTCpTxROVT6hMFd90WOsih7UucljrIj98WcUTlaniScUTlScVk8qTijcqPlExqbxRMak8qXhDZar4TYe1LnJY6yKHtS7yw4cqJpWp4onKVDGpfFPFpPJE5YnKk4o3KiaVT1RMKk8qJpVJ5UnFJw5rXeSw1kUOa13E/uCLVN6oeENlqphU3qiYVJ5UTCpTxaQyVUwqf1PFGypvVHzisNZFDmtd5LDWRX74soonKpPKVDGpTBWTypOKSeVJxaQyqfyTKp6oTBWTylQxqUwVk8pU8U2HtS5yWOsih7UuYn/wRSpTxd+k8kbFE5Wp4hMqb1RMKm9UTCq/qeITh7UucljrIoe1LvLDL1O5ScWkMlU8UZkqnqg8qZhUJpWp4onKJyr+SYe1LnJY6yKHtS5if/ABlScVk8obFZ9QmSqeqEwVk8qTijdUnlS8ofKk4ptUpopPHNa6yGGtixzWusgPX1YxqUwVT1QmlaliUnlSMalMFW9UPFF5o2JSeUPlScWkMlVMKm9UfNNhrYsc1rrIYa2L/PCXqbxRMalMFd9UMalMFZPKVDGpPFF5Q+VJxZOKJxWTyt90WOsih7UucljrIj/8sopJZap4ojJVTCpTxaQyVUwqTyqeVEwqU8WkMlU8UZkqJpVJ5Zsq/qbDWhc5rHWRw1oXsT/4H6bypOINlb+pYlKZKiaVJxVvqEwVk8pU8ZsOa13ksNZFDmtd5IcPqfxNFVPFE5VPVEwqU8WkMlU8UZkqvkllqnii8kRlqvimw1oXOax1kcNaF/nhyyq+SeWJylTxpGJS+U0qU8VUMak8qZhUnlR8U8VvOqx1kcNaFzmsdZEffpnKGxWfUJkqJpWp4hMqU8UTlaliqphU3lD5RMUTlanimw5rXeSw1kUOa13kh3+ZikllqniiMlU8qZhUnlQ8UZkqnlS8ofJNKlPFJw5rXeSw1kUOa13kh38ZlScqb6g8UfmEyjepPKl4ovKk4jcd1rrIYa2LHNa6yA+/rOI3VTxReaNiUnlS8YbKVDGpTCpPKqaKSWVSmSqmiknlbzqsdZHDWhc5rHWRH75M5W9SeaPiicpUMalMKk8qnqhMFZPKVDGpTBVTxROVJxWTylTxTYe1LnJY6yKHtS5if7DWJQ5rXeSw1kUOa13ksNZFDmtd5LDWRQ5rXeSw1kUOa13ksNZFDmtd5LDWRQ5rXeSw1kUOa13kP847DW7p2d3GAAAAAElFTkSuQmCC" /> */}
+                                                    </div>
+                                                </div>
+                                                ) : ''
+                                        }
+
+
+                                        {/* <div className='bg-[#f8faf7] shadow-md rounded-md dashboard-spending-limit pb-4'>
                                             <div className='w-[90%] mx-auto pt-4 pb-6'>
                                                 <h2 className='font-bold'>Payment Links</h2>
                                             </div>
                                             <div className="w-[90%] mx-auto flex justify-between items-center">
                                                 <div className='flex items-center space-x-3'>
-                                                    <div className='h-4 w-4 rounded-full bg-[#1f332b]'></div>
+                                                    <div className='h-4 w-4 rounded-full bg-[#065143]'></div>
                                                     <h2>Available Links</h2>
                                                 </div>
                                                 <div className='flex items-center space-x-3'>
@@ -619,200 +647,12 @@ const Dashboard = () => {
                                                     <Piechart data={pieChartData} />
                                                 ) : ''
                                             }
-                                        </div>
-                                        <div className='bg-[#f8faf7] shadow-md rounded-md dashboard-spending-limit'>
-                                            <div className=''>
-                                                <div className='spacing-y-3 mb-0'>
-                                                    <div className='w-[90%] mx-auto pt-4'>
-                                                        <h2 className='font-bold'>Payment Payments</h2>
-                                                    </div>
-                                                    {/* <h1 className='fourier font-bold'>Recent Payments</h1> */}
-                                                    <div className='pt-2'>
-                                                        <List>
-                                                            {
-                                                                tables.recentPayments ?
-                                                                    tables.recentPayments.map(
-                                                                        (each, index) => (
-                                                                            <div key={index}>
-                                                                                <ListItem disablePadding alignItems="flex-center" onClick={() => recentPay(each)}>
-                                                                                    <ListItemButton>
-                                                                                        <Grid container spacing={3}>
-                                                                                            <Grid item xs={6}>
-                                                                                                <div className='flex flex-col'>
-                                                                                                    <h2 className='text-sm py-2 font-bold'>{each.payment_link_id.name}</h2>
-                                                                                                    <small className='text-sm py-2  flex-1  font-bold text-gray-400'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</small>
-                                                                                                </div>
-                                                                                            </Grid>
-                                                                                            <Grid item xs={6}>
-                                                                                                <div className="text-right flex-col">
-                                                                                                    <p className='py-2 px-2  rounded-lg text-sm font-bold'>{each.unique_answer.substring(0.12) || 'N/A'}</p>
-                                                                                                    <div className="text-right">
-                                                                                                        <p className={each.status === 'paid' ? 'py-2 flex-1 px-2 rounded-lg text-sm status-paid' : 'py-2 flex-1 px-2 rounded-lg text-sm status-fail'}>{each.status}</p>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </Grid>
+                                        </div> */}
+                                        
 
-                                                                                        </Grid>
-
-                                                                                    </ListItemButton>
-                                                                                </ListItem>
-                                                                            </div>
-                                                                        )
-                                                                    ) : (
-                                                                        <div>
-                                                                            <Stack spacing={3}>
-                                                                                <Skeleton animation="wave" variant="rectangular" width={"80%"} height={60} />
-                                                                                <Skeleton animation="wave" variant="rounded" width={"80%"} height={60} />
-                                                                            </Stack>
-                                                                        </div>
-                                                                    )
-                                                            }
-                                                        </List>
-                                                        {/* <Skeletons /> */}
-                                                        {tables?.recentPayments?.length === 0 && (
-                                                            <>
-                                                                <Skeletons />
-                                                            </>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {/* <div className='bg-white shadow-md rounded-md dashboard-spending-limit'> */}
-                                        <div className='py-6 px-3 w-[90%] mx-auto'>
-                                            {/* <div className='spacing-y-3 mb-8'>
-                                                    <h1 className='fourier font-bold'>OutCome Statistics</h1>                          
-                                                </div>
-                                                <div className='py-2'>
-                                                    <BorderLinearProgress variant="determinate" value={50} />
-                                                </div>
-                                                <div className='flex justify-between items-center font-bold'>
-                                                    <p className='text-[#1d3329] text-sm'>Withdrawals</p>
-                                                    <p className='text-sm font-bold'>20</p>
-                                                </div> */}
-                                            {/* </div> */}
-                                        </div>
-                                    </Stack>
-                                </Grid>
-                                <Grid item xs={12} md={8}>
-                                    <div className='px-2'>
-                                        <Grid container spacing={3}>
-                                            <Grid item xs={3}>
-                                                <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
-                                                    <div className='overlay'></div>
-                                                    <div className="p-2 w-[90%] mx-auto">
-                                                        <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                            {/* <IconButton> */}
-                                                            <div className='content'>
-                                                                <AttachMoneyIcon className='text-[#1d3329]' />
-                                                            </div>
-                                                            {/* </IconButton> */}
-                                                            <div className='pt-8'>
-                                                                <h2 className='text-sm text-gray-400 font-bold'>Income</h2>
-                                                                <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(matrics.income || 0)}</h1>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </Grid>
-                                            <Grid item xs={3}>
-                                                <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
-                                                    <div className='overlay'></div>
-                                                    <div className="p-2 w-[90%] mx-auto">
-                                                        <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                            <div className='content'>
-                                                                <LinkIcon className='text-[#1d3329]' />
-                                                            </div>
-                                                            <div className='pt-8'>
-                                                                <h2 className='text-sm text-gray-400 font-bold'>Payment Links</h2>
-                                                                <h1 className='font-bold fourier'>{matrics.paymentLinkCount || 0}</h1>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </Grid>
-                                            <Grid item xs={3}>
-                                                <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
-                                                    <div className='overlay'></div>
-                                                    <div className="p-2 w-[90%] mx-auto">
-                                                        <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                            <div className='content'>
-                                                                <PaidIcon className='text-[#1d3329]' />
-                                                            </div>
-                                                            <div className='pt-8'>
-                                                                <h2 className='text-sm text-gray-400 font-bold'>Payments</h2>
-                                                                <h1 className='font-bold fourier'>{matrics.paymentCount || 0}</h1>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </Grid>
-                                            <Grid item xs={3}>
-                                                <div className='bg-[#f8faf7] py-2 rounded-md dashboard-matrix'>
-                                                    <div className='overlay'></div>
-                                                    <div className="p-2 w-[90%] mx-auto">
-                                                        <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                            <div className='content'>
-                                                                <PaymentsIcon className='text-[#1d3329]' />
-                                                            </div>
-                                                            <div className='pt-8'>
-                                                                <h2 className='text-sm text-gray-400 font-bold'>Withdrawal</h2>
-                                                                <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(matrics.withdrawal || 0)}</h1>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </Grid>
-                                        </Grid>
-                                    </div>
-                                    <div className='py-8'>
-                                        <div className='flex justify-end'>
-                                            <div className='flex mb-4 w-[50%]'>
-                                                <select placeholder='Year' name='year' value={selectedFilters.year} onChange={(e) => handleFilterChanges(e)} className="py-2 px-4 w-full outline-none c-text-input" style={{ backgroundColor: '#f8faf7' }}>
-                                                    <option value='2022'>2022 </option>
-                                                    <option value='2023'>2023 </option>
-                                                    <option value='2024'>2024 </option>
-                                                </select>
-                                                <select placeholder='Type' name='type' value={selectedFilters.type} onChange={(e) => handleFilterChanges(e)} className="py-2 px-4 w-full outline-none c-text-input" style={{ backgroundColor: '#f8faf7' }}>
-                                                    <option value='week'>Week </option>
-                                                    <option value='month'>Month </option>
-                                                    <option value='year'>Year </option>
-                                                </select>
-                                                {
-                                                    selectedFilters.type === 'week' ? (
-                                                        <select placeholder='Week Number' name='week' value={selectedFilters.week || 1} onChange={(e) => handleFilterChanges(e)} className="py-2 px-4 w-full outline-none c-text-input" style={{ backgroundColor: '#f8faf7' }}>
-                                                            {
-                                                                ([...Array(52).keys()]).map((_, index) => (
-                                                                    <option key={index + 1} value={index + 1}>Week {index + 1}</option>
-                                                                ))
-                                                            }
-                                                        </select>
-                                                    ) : selectedFilters.type === 'month' ? (
-                                                        <select placeholder='Month' name='month' value={selectedFilters.month || 'January'} onChange={(e) => handleFilterChanges(e)} className="py-2 px-4 w-full outline-none c-text-input" style={{ backgroundColor: '#f8faf7' }}>
-                                                            {
-                                                                monthArr.map((month, index) => (
-                                                                    <option key={index + 1} value={month}>{month}</option>
-                                                                ))
-                                                            }
-                                                        </select>
-                                                    ) : ''
-                                                }
-
-                                                <Tooltip title='Run filter on chart'>
-                                                    <span className='dynamic-form-option-cta' style={{ backgroundColor: '#f8faf7' }} onClick={() => FetchDashboardChart()} >
-                                                        <FilterAltIcon className='text-gray-500' />
-                                                    </span>
-                                                </Tooltip>
-                                            </div>
-                                        </div>
-                                        {
-                                            chartData.length ? (
-                                                <DashboardChart data={chartData} />
-                                            ) : ''
-                                        }
-                                    </div>
-                                    <div className="px-3 pt-8">
-                                        <h2 className='font-bold fourier text-xl'>Recent Links</h2>
+                                    {/* Recent Links Section  */}
+                                    <div className="px-3 py-4 mt-12 dashboard-border">
+                                        <h2 className='font-semibold fourier'>Recent Links</h2>
                                         <div className='py-2 dashboard-payment-link'>
                                             <List>
                                                 {
@@ -823,28 +663,36 @@ const Dashboard = () => {
                                                                     <ListItem disablePadding alignItems="flex-center" onClick={() => Payments(each)}>
                                                                         <ListItemButton>
                                                                             <div className='py-1 w-full'>
-                                                                                <Grid container spacing={3}>
-                                                                                    <Grid item xs={7}>
-                                                                                        <div>
-                                                                                            <h2 className='font-bold'>{each.name}</h2>
-                                                                                            <small className='text-sm text-gray-400' style={{ fontSize: '80%' }}>
+                                                                                <Grid container spacing={3} >
+                                                                                    <Grid item xs={5} >
+                                                                                        <div className='overflow-hidden'>
+                                                                                            <h2 className='font-bold capitalize'>{each.name}</h2>
+                                                                                            {/* <small className='text-sm text-gray-400' style={{ fontSize: '80%' }}>
                                                                                                 {each.link}
-                                                                                            </small>
+                                                                                            </small> */}
                                                                                         </div>
 
                                                                                     </Grid>
-                                                                                    <Grid item xs={2}>
-                                                                                        <div className='set-item-center'>
-                                                                                            <h2 className='font-bold'>₦ {Intl.NumberFormat('en-US').format(each.amount || 0)}</h2>
-                                                                                        </div>
-
-                                                                                    </Grid>
+                                                                                
                                                                                     <Grid item xs={3}>
-                                                                                        <div className='set-item-center'>
-                                                                                            <small className='text-sm text-[#f10707] status-pill capitalize'>{each.status}{each.expires_at ? ` - ${moment(each.expires_at).format('MMM DD, YYYY')
-                                                                                                }` : ''}</small>
+                                                                                        <div className='set-item-center text-sm '>
+                                                                                            <LinkStatusBadge status={each.status}
+                                                                                                other={(each.status === 'active') && each.expires_at ? `  | UNTIL ${moment(each.expires_at).format(('MMM DD, YYYY'))}` :
+                                                                                                    ((each.status === 'expired') ? `  |  ON ${moment(each.expires_at).format(('MMM DD, YYYY'))}` : '')}
+                                                                                                
+                                                                                            />
+                                                                                            {/* <small className='text-sm text-[#f10707] status-pill capitalize'>{each.status}{each.expires_at ? ` - ${moment(each.expires_at).format('MMM DD, YYYY')
+                                                                                                }` : ''}</small> */}
                                                                                         </div>
                                                                                     </Grid>
+
+                                                                                        <Grid item xs={4}>
+                                                                                        <div>
+                                                                                            <h2 className='font-bold'>₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(each.amount || 0)}</h2>
+                                                                                        </div>
+
+                                                                                    </Grid>
+                                                                                    
                                                                                 </Grid>
                                                                             </div>
                                                                         </ListItemButton>
@@ -867,21 +715,118 @@ const Dashboard = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className='pt-4 px-3'>
+
+
+                                        {/* <div className='bg-white shadow-md rounded-md dashboard-spending-limit'> */}
+                                        <div className='py-6 px-3 w-[90%] mx-auto'>
+                                            {/* <div className='spacing-y-3 mb-8'>
+                                                    <h1 className='fourier font-bold'>OutCome Statistics</h1>                          
+                                                </div>
+                                                <div className='py-2'>
+                                                    <BorderLinearProgress variant="determinate" value={50} />
+                                                </div>
+                                                <div className='flex justify-between items-center font-bold'>
+                                                    <p className='dashboard-icon text-sm'>Withdrawals</p>
+                                                    <p className='text-sm font-bold'>20</p>
+                                                </div> */}
+                                            {/* </div> */}
+                                        </div>
+                                    </Stack>
+                                </Grid>
+                                
+                                {/* Dashboard stats cards Section */}
+                                <Grid item xs={12} md={8}>
+                                    <div className='px-2'>
+                                        <Grid container spacing={3}>
+                                            <Grid item xs={3}>
+                                                <div className='bg-[#f8faf7] dashboard-border py-2 rounded-md dashboard-matrix'>
+                                                    <div className="p-2 w-[90%] mx-auto">
+                                                        <div className='flex flex-col justify-between h-full'>
+                                                            <div className='space-y-3'>
+                                                                <div className='pb-8'>
+                                                                    <h2 className='text-sm text-gray-400 uppercase font-bold'>Total Income</h2>
+                                                                </div>
+                                                            </div>
+                                                            <div className='flex justify-between items-center mt-auto'>
+                                                                <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(matrics.income || 0)}</h1>
+                                                                <AccountBalanceIcon className='dashboard-icon  ml-auto' />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Grid>
+
+                                            <Grid item xs={3}>
+                                                <div className='bg-[#f8faf7] dashboard-border py-2 rounded-md dashboard-matrix'>
+                                                    <div className="p-2 w-[90%] mx-auto">
+                                                        <div className='flex flex-col justify-between h-full'>
+                                                            <div className='space-y-3'>
+                                                                <div className='pb-8'>
+                                                                    <h2 className='text-sm text-gray-400 uppercase font-bold'>Payment Links </h2>
+                                                                </div>
+                                                            </div>
+                                                            <div className='flex justify-between items-center mt-auto'>
+                                                                <h1 className='font-bold fourier'>{matrics.paymentLinkCount || 0}</h1>
+                                                                <DatasetLinkedIcon className='dashboard-icon' />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Grid>
+
+                                                <Grid item xs={3}>
+                                                <div className='bg-[#f8faf7] py-2 rounded-md dashboard-border dashboard-matrix'>
+                                                     <div className="p-2 w-[90%] z-20 mx-auto">
+                                                        <div className='flex flex-col justify-between h-full'>
+                                                            <div className='space-y-3'>
+                                                                <div className='pb-8'>
+                                                                    <h2 className='text-sm text-gray-400 uppercase font-bold'>Payments </h2>
+                                                                </div>
+                                                            </div>
+                                                            <div className='flex justify-between items-center mt-auto'>
+                                                                <h1 className='font-bold fourier'>{matrics.paymentCount || 0}</h1>
+                                                                <PaymentsIcon className='dashboard-icon' />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Grid>
+                                                <Grid item xs={3}>
+                                                <div className='bg-[#f8faf7] py-2 rounded-md  dashboard-border dashboard-matrix'>
+                                                     <div className="p-2 w-[90%] z-20 mx-auto">
+                                                        <div className='flex flex-col justify-between h-full'>
+                                                            <div className='space-y-3'>
+                                                                <div className='pb-8'>
+                                                                    <h2 className='text-sm text-gray-400 uppercase font-bold'>Withdrawal </h2>
+                                                                </div>
+                                                            </div>
+                                                            <div className='flex justify-between items-center mt-auto'>
+                                                                <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(matrics.withdrawal || 0)}</h1>
+                                                                <AccountBalanceWalletIcon className='dashboard-icon' />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Grid>
+                                        </Grid>
+                                    </div>
+
+                                    {/* Recent Payments section  */}
+                                    <div className='pt-4 my-16 px-3 dashboard-border'>
                                         <div className=''>
-                                            {/* <h1 className='fourier font-bold text-xl'>Recent Payments</h1> */}
-                                            <div className='py-2'>
-                                                {/* <List>
+                                            <h1 className='text-gray-700 font-bold'>Recent Payments</h1>
+                                            <div className='py-2 '>
+                                                { <List>
                                                     {
                                                         tables.recentPayments ?
                                                             tables.recentPayments.map(
                                                                 (each, index) => (
-                                                                    <div key={index}>
-                                                                        <ListItem disablePadding alignItems="flex-center" onClick={() => recentPay(each)}>
+                                                                    <div key={index} className='dashboard-border'>
+                                                                        <ListItem disablePadding alignItems="flex-center " onClick={() => recentPay(each)}>
                                                                             <ListItemButton>
                                                                                 <Grid container spacing={3}>
                                                                                     <Grid item xs={4}>
-                                                                                        <h2 className='text-sm font-bold'>{each.payment_link_id.name}</h2>
+                                                                                        <h2 className='text-sm font-bold capitalize'>{each.payment_link_id.name}</h2>
                                                                                         <small className='text-sm text-gray-400'>{each.transaction_id.reference}</small>
                                                                                     </Grid>
                                                                                     <Grid item xs={4}>
@@ -889,13 +834,17 @@ const Dashboard = () => {
                                                                                             <p className='py-2 px-2 rounded-lg text-sm font-bold'>{each.unique_answer || 'N/A'}</p>
                                                                                         </div>
                                                                                     </Grid>
-                                                                                    <Grid item xs={2}>
-                                                                                        <h2 className='text-sm font-bold text-left'>₦ {each.amount}</h2>
-                                                                                    </Grid>
+                                                                                
                                                                                     <Grid item xs={2}>
                                                                                         <div className="text-left">
-                                                                                            <p className={each.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{each.status}</p>
+                                                                                            <p className={each.status === 'paid' ? ' rounded-lg text-sm status-paid' : 'py-1 px-1 rounded-lg text-sm status-fail'}>{each.status}</p>
                                                                                         </div>
+                                                                                    </Grid>
+                                                                                    <Grid item xs={2}>
+                                                                                        <h2 className={`font-bold text-left ${each.amount > 0 ? 'text-green-500' : 'text-gray-500'}`}>
+                                                                                        
+                                                                                        {each.amount > 0 ? `+₦ ${Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(each.amount)}` : `-₦ ${Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(Math.abs(each.amount))}`}
+                                                                                        </h2>
                                                                                     </Grid>
                                                                                 </Grid>
                                                                               
@@ -912,10 +861,63 @@ const Dashboard = () => {
                                                                 </div>
                                                             )
                                                     }
-                                                </List> */}
+                                                </List> }
                                             </div>
                                         </div>
                                     </div>
+
+
+
+                                     {/* Dashboard Charts */}
+                                    <div className='py-8 '>
+                                        <div className='flex justify-end'>
+                                            <div className='flex mb-2 w-[50%]'>
+                                                <select placeholder='Year' name='year' value={selectedFilters.year} onChange={(e) => handleFilterChanges(e)} className="py-1 px-1 w-full outline-none c-text-input" style={{ backgroundColor: '#f8faf7' }}>
+                                                    <option value='2022'>2022 </option>
+                                                    <option value='2023'>2023 </option>
+                                                    <option value='2024'>2024 </option>
+                                                    <option value='2025'>2025 </option>
+                                                </select>
+                                                <select placeholder='Type' name='type' value={selectedFilters.type} onChange={(e) => handleFilterChanges(e)} className="py-1 px-1 w-full outline-none c-text-input" style={{ backgroundColor: '#f8faf7' }}>
+                                                    <option value='week'>Week </option>
+                                                    <option value='month'>Month </option>
+                                                    <option value='year'>Year </option>
+                                                </select>
+                                                {
+                                                    selectedFilters.type === 'week' ? (
+                                                        <select placeholder='Week Number' name='week' value={selectedFilters.week || 1} onChange={(e) => handleFilterChanges(e)} className="py-1 px-1 w-full outline-none c-text-input" style={{ backgroundColor: '#f8faf7' }}>
+                                                            {
+                                                                ([...Array(52).keys()]).map((_, index) => (
+                                                                    <option key={index + 1} value={index + 1}>Week {index + 1}</option>
+                                                                ))
+                                                            }
+                                                        </select>
+                                                    ) : selectedFilters.type === 'month' ? (
+                                                        <select placeholder='Month' name='month' value={selectedFilters.month || 'January'} onChange={(e) => handleFilterChanges(e)} className="py-2 px-4 w-full outline-none c-text-input" style={{ backgroundColor: '#f8faf7' }}>
+                                                            {
+                                                                monthArr.map((month, index) => (
+                                                                    <option key={index + 1} value={month}>{month}</option>
+                                                                ))
+                                                            }
+                                                        </select>
+                                                    ) : ''
+                                                }
+
+                                                <Tooltip title='Apply Filters'>
+                                                    <span className='dynamic-form-option-cta' style={{ backgroundColor: '#f8faf7' }} onClick={() => FetchDashboardChart()} >
+                                                        <FilterAltIcon className='text-gray-500' />
+                                                    </span>
+                                                </Tooltip>
+                                            </div>
+                                        </div>
+                                        {
+                                            chartData.length ? (
+                                                <DashboardChart data={chartData} />
+                                            ) : ''
+                                        }
+                                    </div>
+
+
                                 </Grid>
                             </Grid>
 

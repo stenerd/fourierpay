@@ -1,4 +1,4 @@
-import { Grid, IconButton, Skeleton } from '@mui/material'
+import { Grid, IconButton, Skeleton, Stack, Tooltip } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
@@ -21,19 +21,26 @@ import Tabs from '../components/Tabs';
 import PaymentLinkSettings from '../components/PaymentLinkSettings';
 import PayersSheetTable from '../components/PayersSheetTable';
 import moment from 'moment'
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import Paper from '@mui/material/Paper';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
-import FolderIcon from '@mui/icons-material/Folder';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
-
+// import BottomNavigation from '@mui/material/BottomNavigation';
+// import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+// import RestoreIcon from '@mui/icons-material/Restore';
+// import FavoriteIcon from '@mui/icons-material/Favorite';
+// import ArchiveIcon from '@mui/icons-material/Archive';
+// import Paper from '@mui/material/Paper';
+// import DashboardIcon from '@mui/icons-material/Dashboard';
+// import ReceiptIcon from '@mui/icons-material/Receipt';
+// import InsertLinkIcon from '@mui/icons-material/InsertLink';
+// import FolderIcon from '@mui/icons-material/Folder';
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+// import AddIcon from '@mui/icons-material/Add';
+import BottomNav from '../components/bottomNav';
+import StatusBadge from '../components/atom/web/StatusBadge';
+import SinglePayment from '../components/SinglePayment';
+import LinkStatusBadge from '../components/atom/web/LinkStatusBadge';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import DatasetLinkedIcon from '@mui/icons-material/DatasetLinked';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+import { Button } from '@mui/material'
 
 
 const SinglePaymentLink = () => {
@@ -41,14 +48,13 @@ const SinglePaymentLink = () => {
     let { code } = useParams();
     const [start, setStart] = React.useState("")
     const [end, setEnd] = React.useState("")
-    const [status, setStatus] = React.useState("")
+    const [status, setStatus] = React.useState("paid")
     const [data, setData] = useState({})
     const [payersSheet, setPayersSheet] = useState({})
 
-    const [isCopied, setIsCopied] = useState(false)
     const [search, setSearch] = useState('')
     const [paymentLink, setPaymentLink] = useState("")
-    const [loading,setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [load, setLoad] = useState(false)
     const [loadPayersSheet, setLoadPayersSheet] = useState(false)
     const [linkData, setLinkData] = useState({
@@ -59,24 +65,44 @@ const SinglePaymentLink = () => {
     const [pending, setPending] = useState(false)
     const [settings, setSettings] = useState(false)
 
+      const [meta, setMeta] = useState({ page: 1, lastPage: 1 })
+
     const [tabList, setTabList] = useState([
-        {
-            key: 'payments',
-            value: "Payments",
-            icon: <>
-                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
-            </>
-        },
-        {
-            key: 'settings',
-            value: 'Settings',
-            icon: <>
-                <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
-            </>
-        },
-    ])
-    const [tab, setTab] = useState(tabList[tabList.length - 1])
+			{
+				key: 'payments',
+				value: 'Payments',
+				icon: (
+					<>
+						<path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+						<path
+							fill-rule="evenodd"
+							d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+							clip-rule="evenodd"
+						></path>
+					</>
+				),
+			},
+			{
+				key: 'settings',
+				value: 'Settings',
+				icon: (
+					<>
+						<path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
+					</>
+				),
+			},
+			{
+				key: 'affiliates',
+				value: 'Affiliates',
+				icon: <PaidIcon />,
+			},
+		])
+    const [tab, setTab] = useState(tabList[0])
+    const [selectedAffiliate, setSelectedAffiliate] = useState(null)
+    const [commissions, setCommissions] = useState([])
+    const [commLoading, setCommLoading] = useState(false)
+    const [affiliateLoading, setAffiliateLoading] = useState(false)
+	const [affiliateData, setAffiliateData] = useState([])
 
     const checkPayerSheetUpdate = (data) => {
         if (data.paymentLink.state === 'private') {
@@ -132,7 +158,7 @@ const SinglePaymentLink = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    
+
     const SearchPayment = async () => {
         const res = await Protected.get(`${BASE_URL}/api/payment/${code}?q=${search}`)
         console.log(res?.data?.data?.data)
@@ -143,57 +169,59 @@ const SinglePaymentLink = () => {
     const [opener, setOpener] = React.useState(false);
 
     const handleClickOpen = () => {
-      setOpener(true);
-    };
-  
-    const handleCloser = () => {
-      setOpener(false);
+        setOpener(true);
     };
 
-    const filterLink = (status,start,end)=>{
+    const handleCloser = () => {
+        setOpener(false);
+    };
+
+    const filterLink = (status, start, end) => {
         let link = `${BASE_URL}/api/payment/${code}?q=${search}`
-        if(status!==''&&end!==''&&start!==''){
+        if (status !== '' && end !== '' && start !== '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&status=${status}&startDate=${start}&endDate=${end}`
             return link
-        }if(status!==''&&start===''&&end===''){
+        } if (status !== '' && start === '' && end === '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&status=${status}`
             return link
-        }if(status!==''&&end!==''&&start===''){
+        } if (status !== '' && end !== '' && start === '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&status=${status}&endDate=${end}`
             return link
-        }if(end!==''&&start===''&&status===''){
+        } if (end !== '' && start === '' && status === '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&endDate=${end}`
             return link;
-        }if(start!==''&&status===''&&end===''){
+        } if (start !== '' && status === '' && end === '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&startDate=${start}`
             return link
         }
-        if(start!==''&&end!==''&&status===''){
+        if (start !== '' && end !== '' && status === '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&startDate=${start}&endDate=${end}`
             return link
         }
-        if(start!==''&&end===''&&status!==''){
+        if (start !== '' && end === '' && status !== '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&startDate=${start}&status=${status}`
             return link
         }
-        if(start===''&&end===''&&status===''){
+        if (start === '' && end === '' && status === '') {
             return link
         }
-        if(start!==''&&end===''&&status===''){
+        if (start !== '' && end === '' && status === '') {
             link = `${BASE_URL}/api/payment/${code}?q=${search}&startDate=${start}`
             return link
         }
     }
 
-    const filterData = async()=>{
+    const filterData = async (page) => {
         setLoading(true)
         try {
             setLoading(true)
-            const data = filterLink(status,start,end)
-            const response = await Protected.get(data)
-            console.log(response.data.data.data)  
-            setLoading(false)    
+            const data = filterLink(status, start, end)
+            const response = await Protected.get(`${data}&page=${page || 1}`)
+            // const response = await Protected.get(data)
+            console.log(response.data.data.data)
+            setLoading(false)
             setData(response.data.data.data)
+            setMeta(response.data.data.meta)
             checkPayerSheetUpdate(response.data.data.data)
             console.log(data)
             // setEnd('')
@@ -201,9 +229,9 @@ const SinglePaymentLink = () => {
             // setStatus('')
             handleCloser()
         } catch (error) {
-             console.log(error.response)
-             setLoading(false)
-             console.log('error')
+            console.log(error.response)
+            setLoading(false)
+            console.log('error')
         }
     }
 
@@ -214,28 +242,30 @@ const SinglePaymentLink = () => {
         // }, 1000)
 
     }
-    const handleKeyDown =async (event) => {
+    const handleKeyDown = async (event) => {
         if (event.key === 'Enter') {
             // 👇 Get input value
-           const data = filterLink(status,start,end)
-           const response = await Protected.get(data)
-           setData(response?.data?.data?.data)
-           checkPayerSheetUpdate(response?.data?.data?.data)
+            const data = filterLink(status, start, end)
+            const response = await Protected.get(data)
+            setData(response?.data?.data?.data)
+            checkPayerSheetUpdate(response?.data?.data?.data)
         }
-   
+
     };
 
-   
+
 
     const FetchLinks = async () => {
         // setLoading(true)
         setLoad(true)
         try {
-            const response = await Protected.get(`${BASE_URL}/api/payment/${code}`)
+            const response = await Protected.get(`${BASE_URL}/api/payment/${code}?status=${status}`)
             // const res = await Protected.get(`${BASE_URL}/api/payment/${code}?q=${search}`)
             // console.log(res.data.data.data)
             console.log(response.data.data.data)
             setData(response.data.data.data)
+            setMeta(response.data.data.meta)
+            // console.log(response.data.data.data)
             checkPayerSheetUpdate(response.data.data.data)
             if (response.data.data.data.paymentLink.state === 'private') {
                 FetchPayersSheet()
@@ -267,7 +297,7 @@ const SinglePaymentLink = () => {
 
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-        height: 15,
+        height: 10,
         borderRadius: 10,
         [`&.${linearProgressClasses.colorPrimary}`]: {
             backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
@@ -278,10 +308,9 @@ const SinglePaymentLink = () => {
         },
     }));
 
-    const copyText = async () => {
+    const copyText = async (link) => {
         try {
-            await navigator.clipboard.writeText(data.paymentLink.link)
-            setIsCopied(true)
+            await navigator.clipboard.writeText(link)
             toast.success('Copied To Clipboard', {
                 position: "top-right",
                 autoClose: 5000,
@@ -292,338 +321,606 @@ const SinglePaymentLink = () => {
                 progress: undefined,
                 theme: "light",
             });
-            setTimeout(() => {
-                setIsCopied(false)
-            }, 1500)
         } catch (error) {
             console.log(error.response)
         }
     }
+
+    useEffect(() => {
+        if (tab.key === 'affiliates' && data.paymentLink?._id) {
+            // Fetch affiliates who joined this link (left side)
+            const fetchAffiliateData = async () => {
+                try {
+                    setAffiliateLoading(true)
+                    const res = await Protected.get(`${BASE_URL}/api/commission/link/${data.paymentLink._id}/affiliates`)
+                    console.log( "RESPONSES FROM THE AFFILIATE FETCHING ", res.data.data)
+                    setAffiliateData(res.data.data || [])
+                } catch (err) {
+                    console.error(err)
+                    toast.error('Failed to load affiliates')
+                    setAffiliateData([])
+                } finally {
+                    setAffiliateLoading(false)
+                }
+            }
+
+            // Fetch commissions (right side - all or per selected affiliate)
+            const fetchCommissions = async () => {
+                try {
+                    setCommLoading(true)
+                    let url = `${BASE_URL}/api/commission/link/${data.paymentLink._id}`
+                    if (selectedAffiliate) {
+                        url = `${BASE_URL}/api/commission/affiliate/${selectedAffiliate._id}`
+                    }
+                    const res = await Protected.get(url)
+                    setCommissions(res.data.data || [])
+                } catch (err) {
+                    console.error(err)
+                    toast.error('Failed to load commissions')
+                    setCommissions([])
+                } finally {
+                    setCommLoading(false)
+                }
+            }
+
+            fetchAffiliateData()
+            fetchCommissions()
+        }
+    }, [tab.key, data.paymentLink, selectedAffiliate])
+
     useEffect(() => {
         topRef.current.scrollIntoView({ behaviour: "smoooth" })
         FetchLinks()
     }, [])
+    return (
+			<>
+				<div className="hidden lg:block">
+					<DashboardLayout>
+						<div ref={topRef}>
+							<Titlebar>
+								{load ? (
+									<h2 className="text-xl">
+										{`Payment Links -`}{' '}
+										<span>
+											<Skeleton variant="rectangular" width={210} height={40} />
+										</span>
+									</h2>
+								) : (
+									<h2 className="text-xl">{`Payment Links - ${data.paymentLink && data.paymentLink.name}`}</h2>
+								)}
 
+								{/* <p className='text-xl text-[#00bf00] status-pill capitalize'>{data.paymentLink && data.paymentLink.status} {data.paymentLink && data.paymentLink.expires_at && '- 24th March 2023'}</p> */}
+								<div className="text-left uppercase">
+									<LinkStatusBadge
+										status={data.paymentLink && data.paymentLink.status}
+										other={
+											data.paymentLink && data.paymentLink.status === 'active' && data.paymentLink && data.paymentLink.expires_at
+												? `  | UNTIL ${moment(data.paymentLink && data.paymentLink.expires_at).format('MMM DD, YYYY')}`
+												: data.paymentLink && data.paymentLink.status === 'expired'
+												? `  |  ON ${moment(data.paymentLink && data.paymentLink.expires_at).format('MMM DD, YYYY')}`
+												: ''
+										}
+									/>
+								</div>
+							</Titlebar>
+							{data.paymentLink ? (
+								<div className="w-[90%] mx-auto py-6">
+									<Grid container spacing={2} className="mb-8">
+										<Grid item xs={12} md={5}>
+											<div className="min-h-full c-single-payment-description relative">
+												<div className="flex justify-between">
+													<div className="pb-8">
+														<div className="font-bold">Description:</div>
+														<div className="italic text-gray-500">{data.paymentLink.description}</div>
+													</div>
+													<div className="cursor-pointer relative">
+														<Tooltip title="Click to download QRCode as an Image">
+															<a href={data.paymentLink && data.paymentLink.qr_code} download={`${data?.paymentLink?.name}`}>
+																<img src={data.paymentLink && data.paymentLink.qr_code} alt="qrcode" className="c-box-shadow-qr" />
+															</a>
+														</Tooltip>
+														{/* <IconButton className='top-2 right-3 absolute'>
+                                                            <KeyboardArrowDownIcon/>
+                                                        </IconButton> */}
+													</div>
+												</div>
+												<div className="absolute w-[95%] bottom-4">
+													<div className="flex space-x-2 items-center mt-2">
+														{/* <IconButton>
+                                                        <ContentPasteIcon onClick={copyText} />
+                                                    </IconButton> */}
+														<ContentPasteIcon onClick={() => copyText(data.paymentLink.link)} className="cursor-pointer c-fs-1" />
+														<h2 className="break-all text-[13px] text-[#1d3329] font-bold">{data.paymentLink.link}</h2>
+													</div>
+													<div className="mt-2">
+														{data.paymentLink.expected_number_of_payments ? (
+															<div className="pb-0 w-[100%] rounded-lg">
+																<BorderLinearProgress
+																	variant="determinate"
+																	value={
+																		(data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100 > 100
+																			? 100
+																			: (data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100
+																	}
+																/>
+															</div>
+														) : (
+															''
+														)}
+													</div>
+												</div>
+											</div>
+										</Grid>
+										<Grid item xs={12} md={7}>
+											<div className="create-payment-details p-8">
+												<Grid container spacing={3}>
+													<Grid item xs={3}>
+														<div className="bg-white py-2 min-h-full rounded-md dashboard-matrix">
+															<div className="overlay"></div>
+															<div className="p-2 w-[90%] mx-auto">
+																<div className="space-y-3 flex flex-col items-start justify-start">
+																	{/* <IconButton> */}
+																	<div className="content">
+																		<AccountBalanceIcon className="text-[#1d3329]" />
+																	</div>
+																	{/* </IconButton> */}
+																	<div className="pt-8">
+																		<h2 className="text-sm text-gray-400 font-bold">Expected Amount</h2>
+																		<h1 className="font-bold fourier">
+																			₦ {Intl.NumberFormat('en-US').format(data.paymentLink.amount * data.paymentLink.expected_number_of_payments || 0)}
+																		</h1>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</Grid>
+													<Grid item xs={3}>
+														<div className="bg-white py-2 min-h-full rounded-md dashboard-matrix">
+															<div className="overlay"></div>
+															<div className="p-2 w-[90%] mx-auto relative">
+																<div className="space-y-3 flex flex-col items-start justify-start">
+																	<div className="c-charges-matrics">
+																		<p className="font-bold text-red-700 text-sm">₦ {Intl.NumberFormat('en-US').format(data.paymentLink.charges || 0)}</p>
+																		<small className="italic text-right font-medium  text-gray-600">VAT</small>
+																	</div>
+																	<div className="content" style={{ marginTop: '0' }}>
+																		<DatasetLinkedIcon className="text-[#1d3329]" />
+																	</div>
+																	<div className="pt-8">
+																		<h2 className="text-sm text-gray-400 font-bold">Amount Per Payment</h2>
+																		<h1 className="font-bold fourier">₦ {Intl.NumberFormat('en-US').format(data.paymentLink.amount || 0)}</h1>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</Grid>
+													<Grid item xs={3}>
+														<div className="bg-white py-2 min-h-full rounded-md dashboard-matrix">
+															<div className="overlay"></div>
+															<div className="p-2 w-[90%] mx-auto">
+																<div className="space-y-3 flex flex-col items-start justify-start">
+																	<div className="content">
+																		<PaymentsIcon className="text-[#1d3329]" />
+																	</div>
+																	<div className="pt-8">
+																		<h2 className="text-sm text-gray-400 font-bold">Recieved Payment</h2>
+																		<h1 className="font-bold fourier">₦ {Intl.NumberFormat('en-US').format(data.recievedAmount || 0)}</h1>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</Grid>
+													<Grid item xs={3}>
+														<div className="bg-white py-2 min-h-full rounded-md dashboard-matrix">
+															<div className="overlay"></div>
+															<div className="p-2 w-[90%] mx-auto">
+																<div className="space-y-3 flex flex-col items-start justify-start">
+																	<div className="content">
+																		<ConfirmationNumberIcon className="text-[#1d3329]" />
+																	</div>
+																	<div className="pt-8">
+																		<h2 className="text-sm text-gray-400 font-bold">Number Of Recipient</h2>
+																		<h1 className="font-bold fourier">{data.numberOfRecipient}</h1>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</Grid>
+												</Grid>
+											</div>
+										</Grid>
+									</Grid>
+									<Tabs tabList={tabList} currentTab={tabList[0]} switcher={(tab) => setTab(tab)} />
+									{tab.key === 'payments' ? (
+										!data.payments ? (
+											<>
+												<div className="flex justify-center items-center h-[30vh]">
+													<h2 className="text-center text-2xl">No Payments made yet</h2>
+												</div>
+											</>
+										) : (
+											<div className="py-6">
+												<PaymentTable
+													loading={loading}
+													opener={opener}
+													setOpener={setOpener}
+													handleClickOpen={handleClickOpen}
+													handleCloser={handleCloser}
+													data={data}
+													onChange={onChange}
+													handleKeyDown={handleKeyDown}
+													start={start}
+													end={end}
+													setStart={setStart}
+													setEnd={setEnd}
+													status={status}
+													setStatus={setStatus}
+													filterData={filterData}
+													meta={meta}
+													setMeta={setMeta}
+												/>
+											</div>
+										)
+									) : (
+										''
+									)}
 
+									{tab.key === 'affiliates' ? (
+										<div className="py-6">
+											<h2 className="text-xl font-bold mb-4">Affiliates & Commissions</h2>
 
+											<Grid container spacing={4}>
+												{/* Left: Affiliate List */}
+												<Grid item xs={12} md={4}>
+													<div className="border rounded-lg bg-white h-full overflow-y-auto max-h-[600px]">
+														<div className="p-4 border-b sticky top-0 bg-white z-10">
+															<h3 className="font-bold">Affiliates ({affiliateData.length})</h3>
+														</div>
+														{affiliateLoading ? (
+															<div className="p-4 space-y-3">
+																{[1, 2, 3].map((i) => (
+																	<Skeleton key={i} height={80} className="rounded" />
+																))}
+															</div>
+														) : affiliateData.length > 0 ? (
+															<div className="overflow-x-auto">
+																<table className="w-full">
+																	<thead className="bg-gray-50 sticky top-0 z-10">
+																		<tr>
+																			<th className="text-left p-4 text-sm font-medium">Name / Email</th>
+																			<th className="text-left p-4 text-sm font-medium">Code</th>
+																			<th className="text-right p-4 text-sm font-medium">Earnings (₦)</th>
+																		</tr>
+																	</thead>
+																	<tbody className="bg-white">
+																		{affiliateData.map((aff) => (
+																			<tr
+																				key={aff._id}
+																				className={`cursor-pointer hover:bg-gray-50 ${selectedAffiliate?._id === aff._id ? 'bg-blue-50' : ''}`}
+																				onClick={() => setSelectedAffiliate(aff)}
+																			>
+																				<td className="p-4 border-t">
+																					<p className="font-medium">{aff.name || 'N/A'}</p>
+																					<p className="text-sm text-gray-600">{aff.email}</p>
+																				</td>
+																				<td className="p-4 border-t">
+																					<code className="text-sm">{aff.affiliateCode}</code>
+																				</td>
+																				<td className="p-4 border-t text-right font-bold text-green-600">₦{(aff.earnings || 0).toLocaleString()}</td>
+																			</tr>
+																		))}
+																	</tbody>
+																</table>
+															</div>
+														) : (
+															<p className="p-8 text-center text-gray-500">No affiliates have joined this link yet.</p>
+														)}
+													</div>
+												</Grid>
 
-return (
-    <>
-        <div className='hidden lg:block'>
-            <DashboardLayout>
-                <div ref={topRef}>
-                    <Titlebar  >
-                        {load ?  <h2 className='text-xl'>{`Payment Links -`} <span><Skeleton variant="rectangular" width={210}  height={40} /></span></h2>:  <h2 className='text-xl'>{`Payment Links - ${data.paymentLink && data.paymentLink.name}`}</h2>}
-                      
-                        
-                        <p className='text-xl text-[#00bf00] status-pill capitalize'>{data.paymentLink && data.paymentLink.status} {data.paymentLink && data.paymentLink.expires_at && '- 24th March 2023'}</p>
-                    </Titlebar>
-                    {
-                        data.paymentLink ? (
-                            <div className='w-[90%] mx-auto py-6' >
-                                <Grid container spacing={2} className='mb-8'>
-                                    <Grid item xs={12} md={5}>
-                                        <div className='min-h-full c-single-payment-description'>
-                                            <div className='pb-8'>
-                                                <div className='font-bold'>Description:</div>
-                                                <div className='italic text-gray-500'>{data.paymentLink.description}</div>
-                                            </div>
-                                            <div className='flex space-x-2 items-center mt-4'>
-                                                {/* <IconButton>
-                                                    <ContentPasteIcon onClick={copyText} />
-                                                </IconButton> */}
-                                                <ContentPasteIcon onClick={copyText} className="cursor-pointer" />
-                                                <h2 className='break-all text-[13px] text-[#1d3329] font-bold'>{data.paymentLink.link}</h2>
-                                            </div>
-                                            <div className='mt-2'>
-                                                {
-                                                    data.paymentLink.expected_number_of_payments ? (
-                                                        <div className='pb-2 w-[100%] rounded-lg'>
-                                                            <BorderLinearProgress variant="determinate" value={((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100) > 100 ? 100 : ((data.recievedAmount / (data.paymentLink.amount * data.paymentLink.expected_number_of_payments)) * 100)} />
-                                                        </div>
-                                                    ) : ''
-                                                }
-                                            </div>
-                                        </div>
-                                    </Grid>
-                                    <Grid item xs={12} md={7}>
-                                        <div className='create-payment-details p-8'>
-                                            <Grid container spacing={3}>
-                                                <Grid item xs={3}>
-                                                    <div className='bg-white py-2 rounded-md dashboard-matrix'>
-                                                        <div className='overlay'></div>
-                                                        <div className="p-2 w-[90%] mx-auto">
-                                                            <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                                {/* <IconButton> */}
-                                                                <div className='content'>
-                                                                    <AttachMoneyIcon className='text-[#1d3329]' />
-                                                                </div>
-                                                                {/* </IconButton> */}
-                                                                <div className='pt-8'>
-                                                                    <h2 className='text-sm text-gray-400 font-bold'>Expected Amount</h2>
-                                                                    <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.amount * data.paymentLink.expected_number_of_payments || 0)}</h1>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                    <div className='bg-white py-2 rounded-md dashboard-matrix'>
-                                                        <div className='overlay'></div>
-                                                        <div className="p-2 w-[90%] mx-auto relative">
-                                                            <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                                <div className='c-charges-matrics'>
-                                                                    <p className='font-bold text-red-700 text-sm'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.charges || 0)}</p>
-                                                                    <small className='italic text-right font-medium  text-gray-600'>VAT</small>
-                                                                </div>
-                                                                <div className='content' style={{marginTop: '0'}}>
-                                                                    <LinkIcon className='text-[#1d3329]' />
-                                                                </div>
-                                                                <div className='pt-8'>
-                                                                    <h2 className='text-sm text-gray-400 font-bold'>Amount Per Payment</h2>
-                                                                    <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.paymentLink.amount || 0)}</h1>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                    <div className='bg-white py-2 rounded-md dashboard-matrix'>
-                                                        <div className='overlay'></div>
-                                                        <div className="p-2 w-[90%] mx-auto">
-                                                            <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                                <div className='content'>
-                                                                    <PaidIcon className='text-[#1d3329]' />
-                                                                </div>
-                                                                <div className='pt-8'>
-                                                                    <h2 className='text-sm text-gray-400 font-bold'>Recieved Payment</h2>
-                                                                    <h1 className='font-bold fourier'>₦ {Intl.NumberFormat('en-US').format(data.recievedAmount || 0)}</h1>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                    <div className='bg-white py-2 rounded-md dashboard-matrix'>
-                                                        <div className='overlay'></div>
-                                                        <div className="p-2 w-[90%] mx-auto">
-                                                            <div className='space-y-3 flex flex-col items-start justify-start'>
-                                                                <div className='content'>
-                                                                    <PaymentsIcon className='text-[#1d3329]' />
-                                                                </div>
-                                                                <div className='pt-8'>
-                                                                    <h2 className='text-sm text-gray-400 font-bold'>Number Of Recipient</h2>
-                                                                    <h1 className='font-bold fourier'>{data.numberOfRecipient}</h1>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </Grid>
-                                            </Grid>
-                                        </div>
-                                    </Grid>
-                                </Grid>
+												{/* Right: Commissions */}
+												<Grid item xs={12} md={8}>
+													<div className="border rounded-lg bg-white h-full">
+														<div className="p-4 border-b flex justify-between items-center">
+															<h3 className="font-bold">{selectedAffiliate ? `${selectedAffiliate.name}'s Commissions` : 'All Commissions'}</h3>
+															{selectedAffiliate && (
+																<Button variant="outlined" size="small" onClick={() => setSelectedAffiliate(null)}>
+																	View All Commissions
+																</Button>
+															)}
+														</div>
 
-                                <Tabs tabList={tabList} currentTab={tabList[tabList.length - 1]} switcher={(tab) => setTab(tab)} />
+														{commLoading ? (
+															<div className="p-4 space-y-3">
+																{[1, 2, 3, 4].map((i) => (
+																	<Skeleton key={i} height={60} />
+																))}
+															</div>
+														) : commissions.length > 0 ? (
+															<div className="overflow-x-auto">
+																<table className="w-full">
+																	<thead className="bg-gray-50">
+																		<tr>
+																			<th className="text-left p-4 text-sm font-medium">Date</th>
+																			<th className="text-left p-4 text-sm font-medium">Affiliate</th>
+																			<th className="text-left p-4 text-sm font-medium">Tier</th>
+																			<th className="text-left p-4 text-sm font-medium">Amount (₦)</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		{commissions.map((comm) => (
+																			<tr key={comm._id} className="border-t">
+																				<td className="p-4 text-sm">{moment(comm.createdAt).format('MMM DD, YYYY')}</td>
+																				<td className="p-4 text-sm">{comm.affiliateName || comm.affiliateCode}</td>
+																				<td className="p-4 text-sm">{comm.tier === 1 ? 'Tier 1' : 'Tier 2'}</td>
+																				<td className="p-4 text-sm font-bold text-green-600">₦{comm.amount.toLocaleString()}</td>
+																			</tr>
+																		))}
+																	</tbody>
+																</table>
+															</div>
+														) : (
+															<p className="p-8 text-center text-gray-500">No commissions recorded yet.</p>
+														)}
+													</div>
+												</Grid>
+											</Grid>
+										</div>
+									) : (
+										''
+									)}
 
-
-
-                                {
-                                    (tab.key === 'payments') ? 
-                                    (
-                                        !data.payments ?
-                                        (<>
-                                            <div className='flex justify-center items-center h-[30vh]'>
-                                                <h2 className='text-center text-2xl'>No  Payments made yet</h2>
-                                            </div>
-                                        </>) :
-                                        (<div className='py-6'>
-                                            <PaymentTable loading={loading} opener={opener} setOpener={setOpener} handleClickOpen={handleClickOpen} handleCloser={handleCloser} data={data} onChange={onChange} handleKeyDown={handleKeyDown}  start={start} end={end} setStart={setStart} setEnd={setEnd} status={status} setStatus={setStatus} filterData={filterData}/>
-                                        </div>)
-                                        
-                                    ) : ''
-                                }
-                                {
-                                    (tab.key === 'payers_sheet') ? 
-                                    (
-                                        <div className='py-6'>
-                                            <PayersSheetTable
-                                                loading={loadPayersSheet}
-                                                opener={opener}
-                                                setOpener={setOpener}
-                                                handleClickOpen={handleClickOpen}
-                                                handleCloser={handleCloser}
-                                                data={data}
-                                                payersSheet={payersSheet}
-                                                onChange={onChange}
-                                                handleKeyDown={handleKeyDown}
-                                                start={start}
-                                                end={end}
-                                                setStart={setStart}
-                                                setEnd={setEnd}
-                                                status={status}
-                                                setStatus={setStatus}
-                                                filterData={filterData}
-                                            />
-                                        </div>
-                                    ) : ''
-                                }
-                                {
-                                    (tab.key === 'settings') ? 
-                                    (
-                                        <PaymentLinkSettings
-                                            linkData={linkData}
-                                            paymentLink={data.paymentLink}
-                                            recallServerData={recallServerData}
-                                        />
-                                    ): ''
-                                }
-
-                            </div>
-                        ) : ''
-                    }
-                    <ToastContainer
-                        position="top-right"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="light"
-                    />
-
-                </div>
-
-            </DashboardLayout>
-        </div>
-
-
-        <div className='block lg:hidden'>
-                <div className='py-6'>
-                    <div className='w-[90%] mx-auto py-2'>
-                        <h2 className='font-bold fourier'>{data?.paymentLink?.name}</h2>
-                        <div className='py-4 mt-3'>
-                            <div className='border-2  border-gray-300 px-3 py-4 rounded-[10px]'>
-                                <div className='py-1 px-1'>
-                                    <div className='flex justify-between items-center'>
-                                        <h1 className='flex-1'>Description</h1>
-                                        <span className='text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-[#00832D] pills-expiry-date'>{moment(data?.paymentLink?.expires_at).format(('MMM DD, YYYY'))}</span>
-                                    </div>
-                                    <div className='py-2'>
-                                        <p className='text-[12px]'>{data?.paymentLink?.name}</p>
-                                    </div>
-                                    <div className='py-2 mt-2'>
-                                        <div className='bg-gray-200 px-2 py-1 rounded-md flex items-center space-x-1'>
-                                            <IconButton onClick={() => {
-                                                // setCopied()
-                                                copyText()
-                                                // console.log(link, index)
-                                            }}>
-                                                <ContentPasteIcon fontSize='small' />
-                                            </IconButton>
-                                            <h1 className='break-all text-[10px]'>{data?.paymentLink?.link}</h1>
-                                        </div>
-                                    </div>
-                                    <div className='py-2 mt-2'>
-                                        <div>
-                                            {
-                                                data?.paymentLink?.expected_number_of_payments ? (
-                                                    <div className='pb-2 w-full rounded-lg'>
-                                                        <BorderLinearProgress variant="determinate" value={((data?.recievedAmount / (data.paymentLink?.amount * data?.paymentLink?.expected_number_of_payments)) * 100) > 100 ? 100 : ((data?.recievedAmount / (data?.paymentLink?.amount * data?.paymentLink?.expected_number_of_payments)) * 100)} />
-                                                    </div>
-                                                ) : ''
-                                            }
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                            <div className='py-3 mt-2'>
-                                <Grid container spacing={2}>
-                                    <Grid item xs={4}>
-                                        <div>
-                                            <div className='py-4 px-2 border border-[#FFD469] rounded-[10px]' style={{ background: 'rgba(199, 199, 199, 0.15)' }}>
-                                                <div className='overlay'></div>
-                                                <h2 className='text-gray-400 text-[12px]'>Expected Amount</h2>
-                                                <h6 className='font-bold text-[14px] fourier'>₦ {Intl.NumberFormat('en-US').format(data?.paymentLink?.amount * data?.paymentLink?.expected_number_of_payments || 0)}</h6>
-                                            </div>
-                                        </div>
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                        <div>
-                                            <div className='py-4 px-2 border border-[#0D9823] rounded-[10px]' style={{ background: 'rgba(199, 199, 199, 0.15)' }}>
-                                                <div className='overlay'></div>
-                                                <h2 className='text-gray-400 text-[12px]'>Amount Per Amount</h2>
-                                                <h6 className='font-bold text-[14px] fourier'>₦ {Intl.NumberFormat('en-US').format(data?.paymentLink?.amount || 0)}</h6>
-                                            </div>
-                                        </div>
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                        <div>
-                                            <div className='py-4 px-2 border border-[#F6AE9E] rounded-md' style={{ background: ' rgba(199, 199, 199, 0.15)' }}>
-                                                <h2 className='text-gray-400 text-[12px]'>Recieved Payment</h2>
-                                                <h6 className='font-bold text-[14px] fourier'>₦ {Intl.NumberFormat('en-US').format(data?.recievedAmount || 0)}</h6>
-                                            </div>
-                                        </div>
-                                    </Grid>
-                                </Grid>
-                            </div>
-                        </div>
-                        <div className='py-2 mt-2'>
-                            <div className='px-1 rounded-md flex justify-between items-center py-1' style={{ background: 'rgba(0, 0, 0, 0.15)' }}>
-                                <div className='flex-1'>
-                                    <button className={payments ? 'bg-white rounded-md transition ease-in-out text-black px-4 py-1 fourier' : 'text-gray-500 transition ease-in-out px-4 text-center'} onClick={() => handlePayment()}>Payments</button>
-                                </div>
-                                <div className='flex-1 self-center' onClick={() => handlePending()}>
-                                    <button className={pending ? 'bg-white rounded-md text-black transition ease-in-out px-4 py-1 fourier' : 'text-gray-500 transition ease-in-out px-4 text-center'}>Pending</button>
-                                </div>
-                                <div className='flex-1 self-center' onClick={() => handleSettings()}>
-                                    <button className={settings ? 'bg-white transition ease-in-out rounded-md text-black px-4 py-1 fourier' : 'text-gray-500 px-4 transition ease-in-out text-center'}>Settings</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='py-2 mt-2 space-y-2'>
-                            {payments && (
-                                <>
-                                    {data ? data?.payments?.map((row, index) => (
-                                        <div className='flex justify-between items-center' key={index}>
-                                            <div className=' flex flex-1 flex-col items-start'>
-                                                <h2 className='font-semibold fourier text-[12px]'>{row?.unique_answer}</h2>
-                                                <small className='text-sm py-2  flex-1  text-gray-300'>{moment(row.createdAt
-                                                ).format('MMM DD, YYYY')} | {moment(row.createdAt).format('h:mma')}</small>
-                                            </div>
-                                            <div className=' flex flex-1 flex-col items-end'>
-                                                <h2 className=''>₦{Intl.NumberFormat('en-US').format(row.amount || 0)}</h2>
-                                                <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{row.status}</p>
-                                            </div>
-                                        </div>
-                                    )) : ''}
-                                </>
-
-                            )}
-
-                            {pending && (
-                                <>
-                                    <div>
-                                        <p>Pending</p>
-                                    </div>
-                                </>
-                            )}
-                            {settings && (
-                                <>
-                                    <div>
-                                        <p>settings</p>
-                                    </div>
-                                </>
-                            )}
-
-                        </div>
-                    </div>
-                    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
+									{tab.key === 'payers_sheet' ? (
+										<div className="py-6">
+											<PayersSheetTable
+												loading={loadPayersSheet}
+												opener={opener}
+												setOpener={setOpener}
+												handleClickOpen={handleClickOpen}
+												handleCloser={handleCloser}
+												data={data}
+												payersSheet={payersSheet}
+												onChange={onChange}
+												handleKeyDown={handleKeyDown}
+												start={start}
+												end={end}
+												setStart={setStart}
+												setEnd={setEnd}
+												status={status}
+												setStatus={setStatus}
+												filterData={filterData}
+											/>
+										</div>
+									) : (
+										''
+									)}
+									{tab.key === 'settings' ? <PaymentLinkSettings linkData={linkData} paymentLink={data.paymentLink} recallServerData={recallServerData} copyText={copyText} /> : ''}
+								</div>
+							) : (
+								''
+							)}
+							<ToastContainer
+								position="top-right"
+								autoClose={5000}
+								hideProgressBar={false}
+								newestOnTop={false}
+								closeOnClick
+								rtl={false}
+								pauseOnFocusLoss
+								draggable
+								pauseOnHover
+								theme="light"
+							/>
+						</div>
+					</DashboardLayout>
+				</div>
+				<div className="block lg:hidden">
+					<div className="py-6">
+						<div className="w-[90%] mx-auto py-2">
+							<h2 className="font-bold fourier">{data?.paymentLink?.name}</h2>
+							<div className="py-4 mt-3">
+								<div className="border-2  border-gray-300 px-3 py-4 rounded-[10px]">
+									<div className="py-1 px-1">
+										<div className="flex justify-between items-center">
+											<h1 className="flex-1">Description</h1>
+											<span className="text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-[#00832D] pills-expiry-date">
+												{moment(data?.paymentLink?.expires_at).format('MMM DD, YYYY')}
+											</span>
+										</div>
+										<div className="py-2">
+											<p className="text-[12px]">{data?.paymentLink?.name}</p>
+										</div>
+										<div className="py-2 mt-2">
+											<div className="bg-gray-200 px-2 py-1 rounded-md flex items-center space-x-1">
+												<IconButton
+													onClick={() => {
+														// setCopied()
+														copyText(data?.paymentLink?.link)
+														// console.log(link, index)
+													}}
+												>
+													<ContentPasteIcon fontSize="small" />
+												</IconButton>
+												<h1 className="break-all text-[10px]">{data?.paymentLink?.link}</h1>
+											</div>
+										</div>
+										<div className="py-2 mt-2">
+											<div>
+												{data?.paymentLink?.expected_number_of_payments ? (
+													<div className="pb-2 w-full rounded-lg">
+														<BorderLinearProgress
+															variant="determinate"
+															value={
+																(data?.recievedAmount / (data.paymentLink?.amount * data?.paymentLink?.expected_number_of_payments)) * 100 > 100
+																	? 100
+																	: (data?.recievedAmount / (data?.paymentLink?.amount * data?.paymentLink?.expected_number_of_payments)) * 100
+															}
+														/>
+													</div>
+												) : (
+													<>
+														{/* <div>
+                                                            <Stack spacing={3}>
+                                                                <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                                                <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
+                                                            </Stack>
+                                                        </div> */}
+													</>
+												)}
+											</div>
+										</div>
+									</div>
+								</div>
+								<div className="py-3 mt-2">
+									<Grid container spacing={2}>
+										<Grid item xs={4}>
+											<div>
+												<div className="py-4 px-2 border border-[#FFD469] rounded-[10px]" style={{ background: 'rgba(199, 199, 199, 0.15)' }}>
+													<div className="overlay"></div>
+													<h2 className="text-gray-400 text-[12px]">Expected Amount</h2>
+													<h6 className="font-bold text-[14px] fourier">
+														₦ {Intl.NumberFormat('en-US').format(data?.paymentLink?.amount * data?.paymentLink?.expected_number_of_payments || 0)}
+													</h6>
+												</div>
+											</div>
+										</Grid>
+										<Grid item xs={4}>
+											<div>
+												<div className="py-4 px-2 border border-[#0D9823] rounded-[10px]" style={{ background: 'rgba(199, 199, 199, 0.15)' }}>
+													<div className="overlay"></div>
+													<h2 className="text-gray-400 text-[12px]">Amount Per Amount</h2>
+													<h6 className="font-bold text-[14px] fourier">₦ {Intl.NumberFormat('en-US').format(data?.paymentLink?.amount || 0)}</h6>
+												</div>
+											</div>
+										</Grid>
+										<Grid item xs={4}>
+											<div>
+												<div className="py-4 px-2 border border-[#F6AE9E] rounded-md" style={{ background: ' rgba(199, 199, 199, 0.15)' }}>
+													<h2 className="text-gray-400 text-[12px]">Recieved Payment</h2>
+													<h6 className="font-bold text-[14px] fourier">₦ {Intl.NumberFormat('en-US').format(data?.recievedAmount || 0)}</h6>
+												</div>
+											</div>
+										</Grid>
+									</Grid>
+								</div>
+							</div>
+							<div className="py-2 mt-2">
+								<div className="px-1 rounded-md flex justify-between items-center py-1" style={{ background: 'rgba(0, 0, 0, 0.15)' }}>
+									{data?.paymentLink?.state === 'private' ? (
+										<>
+											<div className="flex-1 text-center">
+												<button
+													className={
+														payments ? 'bg-white rounded-md transition ease-in-out text-black px-4 py-1 fourier w-full' : 'text-gray-500 transition ease-in-out px-4 text-center'
+													}
+													onClick={() => handlePayment()}
+												>
+													Payments
+												</button>
+											</div>
+											<div className="flex-1 self-center text-center" onClick={() => handlePending()}>
+												<button
+													className={
+														pending ? 'bg-white rounded-md text-black transition ease-in-out px-4 py-1 fourier w-full' : 'text-gray-500 transition ease-in-out px-4 text-center'
+													}
+												>
+													Pending
+												</button>
+											</div>
+											<div className="flex-1 self-center text-center" onClick={() => handleSettings()}>
+												<button
+													className={
+														settings ? 'bg-white transition ease-in-out rounded-md text-black px-4 py-1 fourier w-full' : 'text-gray-500 px-4 transition ease-in-out text-center'
+													}
+												>
+													Settings
+												</button>
+											</div>
+										</>
+									) : (
+										<>
+											<div className="flex-1 text-center">
+												<button
+													className={
+														payments ? 'bg-white rounded-md transition ease-in-out text-black px-4 py-1 fourier w-full' : 'text-gray-500 transition ease-in-out px-4 text-center'
+													}
+													onClick={() => handlePayment()}
+												>
+													Payments
+												</button>
+											</div>
+											<div className="flex-1 self-center text-center" onClick={() => handleSettings()}>
+												<button
+													className={settings ? 'bg-white transition ease-in-out rounded-md text-black px-4 py-1 fourier w-full' : 'text-gray-500 px-4 transition ease-in-out'}
+												>
+													Settings
+												</button>
+											</div>
+										</>
+									)}
+								</div>
+							</div>
+							<div className="md:py-3 md:mt-3 md:space-y-3 space-y-4 md:mb-5">
+								{payments && data && (
+									<SinglePayment
+										loading={loading}
+										opener={opener}
+										setOpener={setOpener}
+										handleClickOpen={handleClickOpen}
+										handleCloser={handleCloser}
+										onChange={onChange}
+										handleKeyDown={handleKeyDown}
+										start={start}
+										setSearch={setSearch}
+										end={end}
+										setStart={setStart}
+										setEnd={setEnd}
+										status={status}
+										setStatus={setStatus}
+										filterData={filterData}
+										data={data}
+										meta={meta}
+										setMeta={setMeta}
+									/>
+								)}
+								{pending && (
+									<>
+										{/* <div className='py-4'> */}
+										<div className="py-2">
+											<PayersSheetTable
+												loading={loadPayersSheet}
+												opener={opener}
+												setOpener={setOpener}
+												handleClickOpen={handleClickOpen}
+												handleCloser={handleCloser}
+												data={data}
+												payersSheet={payersSheet}
+												onChange={onChange}
+												handleKeyDown={handleKeyDown}
+												start={start}
+												end={end}
+												j
+												setStart={setStart}
+												setEnd={setEnd}
+												status={status}
+												setStatus={setStatus}
+												filterData={filterData}
+											/>
+										</div>
+										{/* </div> */}
+									</>
+								)}
+								{settings && (
+									<>
+										<div className="py-2">
+											<PaymentLinkSettings linkData={linkData} paymentLink={data.paymentLink} recallServerData={recallServerData} copyText={copyText} />
+										</div>
+									</>
+								)}
+							</div>
+						</div>
+						<BottomNav />
+						{/* <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
                         <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
                             <BottomNavigationAction
                                 label="Dashboard"
@@ -638,10 +935,15 @@ return (
                                 icon={<ReceiptIcon />}
                             />
                             <BottomNavigationAction
+                                label="New Link"
+                                value="new link"
+                                icon={<AddIcon className='c-primary-link-color ' />}
+                                onClick={() => navigate('/dashboard/payment')}
+                            />
+                            <BottomNavigationAction
                                 label="Links"
                                 value="links"
                                 icon={<InsertLinkIcon />}
-                            // onClick={()=>navigate('/dashboard/paymentlinks')}
                             />
                             <BottomNavigationAction
                                 label="Profile"
@@ -649,37 +951,24 @@ return (
                                 icon={<AccountCircleIcon />}
                                 onClick={() => navigate('/dashboard/profile')}
                             />
-                            {/* <BottomNavigationAction
-                            label="Favorites"
-                            value="favorites"
-                            icon={<FavoriteIcon />}
-                        /> */}
-                            {/* <BottomNavigationAction
-                            label="Nearby"
-                            value="nearby"
-                            icon={<LocationOnIcon />}
-                        /> */}
                             <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
                         </BottomNavigation>
-                    </Paper>
-
-                </div>
-                <ToastContainer
-                    position="top-right"
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="light"
-                />
-            </div>
-            
-        </>
-    )
+                    </Paper> */}
+					</div>
+					<ToastContainer
+						position="top-right"
+						autoClose={5000}
+						hideProgressBar={false}
+						newestOnTop={false}
+						closeOnClick
+						rtl={false}
+						pauseOnFocusLoss
+						draggable
+						pauseOnHover
+						theme="light"
+					/>
+				</div>
+			</>
+		)
 }
-
 export default SinglePaymentLink

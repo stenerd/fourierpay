@@ -1,8 +1,6 @@
-import { Grid, IconButton, LinearProgress } from '@mui/material'
+import { Grid, IconButton, LinearProgress, Skeleton, Stack } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import DashboardLayout from '../components/DashboardLayout'
-import Avatar from '@mui/material/Avatar';
-import AvatarGroup from '@mui/material/AvatarGroup';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import Titlebar from '../components/TitleBar'
 import { styled } from '@mui/material/styles';
@@ -18,20 +16,17 @@ import moment from 'moment'
 import useClipboard from "react-use-clipboard";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import Paper from '@mui/material/Paper';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import InsertLinkIcon from '@mui/icons-material/InsertLink';
 
 // import moment from 'moment'
 
 import FolderIcon from '@mui/icons-material/Folder';
+import MenuDropDown from '../components/Menu';
+import BottomNav from '../components/bottomNav';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import RecentLinksSkeleton from '../components/RecentLinksSkeleton';
+import StatusBadge from '../components/atom/web/StatusBadge';
+import LinkStatusBadge from '../components/atom/web/LinkStatusBadge';
+
 
 const PaymentLinks = () => {
     const [loading, setLoading] = useState(false)
@@ -47,6 +42,17 @@ const PaymentLinks = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open20 = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose20 = () => {
+        setAnchorEl(null);
+    };
+    const { profile } = useSelector((state) => state.dashboard)
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 3,
@@ -109,9 +115,10 @@ const PaymentLinks = () => {
         } catch (error) {
             console.log(error.response)
         }
-
-
         console.log({ link, singleLink: link.link })
+    }
+    const compareDate = () => {
+        console.log(moment(Date.now()).format(('MMM DD, YYYY')))
     }
 
     useEffect(() => {
@@ -120,59 +127,154 @@ const PaymentLinks = () => {
 
     useEffect(() => {
         FetchLinks()
+        compareDate()
     }, [])
 
     return (
         <>
             <div className='block lg:hidden min-h-screen'>
-                <div classsName='py-8 mt-4 mb-24'>
-                    <div className='w-[90%] mx-auto py-5'>
-                        <div className='py-3'>
+                <div classsName=' mb-24'>
+                    <div className='w-[90%] mx-auto'>
+                        <div className='py-6'>
                             <div className='flex justify-between items-center'>
                                 <h2 className='text-xl font-bold fourier'>Payment Links</h2>
+                                <div className=''>
+                                    <MenuDropDown open20={open20} handleClose20={handleClose20} handleClick={handleClick} anchorEl={anchorEl} setAnchorEl={setAnchorEl} name={`${profile.firstname} ${profile.lastname}`} />
+                                </div>
                             </div>
                         </div>
-                        <div className='py-2'>
 
-                        </div>
-                        <div className='py-3 space-y-2'>
-                            {paymentLinks ? paymentLinks.map((each, index) => (
-                                <div className='border border-gray-300 px-3 py-4 rounded-[10px]' key={index}>
-                                    <div className='flex justify-between items-center'>
-                                        <h2 onClick={() => Payments(each)} className='font-bold fourier flex-1 hover:text-[#00832D]'>{each.name}</h2>
-                                        <span className='text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-[#00832D] pills-expiry-date'>{moment(each.expires_at).format(('MMM DD, YYYY'))}</span>
-                                    </div>
-                                    <div className='py-2'>
-                                        <div className='bg-gray-200 px-2 py-1 rounded-md flex items-center space-x-1'>
-                                            <IconButton onClick={() => {
-                                                // setCopied()
-                                                findLink(each, index)
-                                                // console.log(link, index)
-                                            }}>
-                                                <ContentPasteIcon fontSize='small' />
-                                            </IconButton>
-                                            <h1 className='break-all text-[10px]'>{each.link}</h1>
-                                        </div>
-                                    </div>
-                                    <div className='flex items-center space-x-3'>
-                                        {each.expected_number_of_payments && (
-                                            <div>
-                                                <h2 className='text-[10px] text-gray-400'>Expected Amount</h2>
-                                                <p className='font-semibold'>  {Intl.NumberFormat('en-US').format(each.amount * each.expected_number_of_payments)}</p>
+                        <div className='mb-32 space-y-4'>
+                            {paymentLinks ? paymentLinks.map((each, index) => {
+                                // return (
+                                //     <div className='border border-gray-300 px-3 py-4 rounded-[10px]' key={index}>
+                                //         <div className='flex justify-between items-center'>
+                                //             <h2 onClick={() => Payments(each)} className='font-bold fourier flex-1 hover:text-[#00832D]'>{each.name}</h2>
+                                //             {/* text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-[#00832D] pills-expiry-date */}
+                                //             {moment(each.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? (
+                                //                 <span className={moment(each.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? 'text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-[#00832D] pills-expiry-date' : 'text-[10px] w-3/5 mx-auto py-1 rounded-md text-center flex-[0.4] text-white bg-red-400'}>{moment(each.expires_at).format(('MMM DD, YYYY'))}</span>
+                                //             ) : (
+                                //                 <p className='text-red-500 italic text-[10px] font-bold'>Expired</p>
+                                //             )}
+                                //         </div>
+                                //         <div className='py-2'>
+                                //             <div className='bg-gray-200 px-2 py-1 rounded-md flex items-center space-x-1'>
+                                //                 <IconButton onClick={() => {
+                                //                     // setCopied()
+                                //                     findLink(each, index)
+                                //                     // console.log(link, index)
+                                //                 }}>
+                                //                     <ContentPasteIcon fontSize='small' />
+                                //                 </IconButton>
+                                //                 <h1 className='break-all text-[10px]'>{each.link}</h1>
+                                //             </div>
+                                //         </div>
+                                //         <div className='flex items-center space-x-3'>
+                                //             {each.expected_number_of_payments && (
+                                //                 <div>
+                                //                     <h2 className='text-[10px] text-gray-400'>Expected Amount</h2>
+                                //                     <p className='font-semibold'>  {Intl.NumberFormat('en-US').format(each.amount * each.expected_number_of_payments)}</p>
+                                //                 </div>
+                                //             )}
+                                //             <div>
+                                //                 <h2 className='text-[10px] text-gray-400'>Amount</h2>
+                                //                 <p className='font-semibold'>{each.amount}</p>
+                                //             </div>
+                                //         </div>
+                                //     </div>
+                                // )
+
+
+                                if (index % 3 === 0) {
+                                    return (
+                                        <div className='border border-1 overflow-hidden rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
+                                            <div className='flex justify-center items-center odd_numbers'>
+                                                <img src='/images/target1.svg' alt='alt-img' />
                                             </div>
-                                        )}
-                                        <div>
-                                            <h2 className='text-[10px] text-gray-400'>Amount</h2>
-                                            <p className='font-semibold'>{each.amount}</p>
+                                            <div className='p-5'>
+                                                <div>
+                                                    <h2 className='text-xl font-bold'>{each.name} </h2>
+                                                </div>
+                                                <div className=' flex justify-between items-center'>
+                                                    <div className='pt-2'>
+                                                        <p className='text-gray-500 font-medium'>Amount</p>
+                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(each.amount || 0)}</h2>
+                                                    </div>
+                                                    <button className='c-bg-primary-light-mobile'>
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
+                                                        Share
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            ))
+                                    )
+                                } else if (index % 2 === 0) {
+                                    return (
+                                        <div className='border border-1 overflow-hidden rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
+                                            <div className='flex justify-center items-center three_numbers'>
+                                                <img src='/images/target3.svg' alt='alt-img' />
+                                            </div>
+                                            <div className='p-5'>
+                                                <div>
+                                                    <h2 className='text-xl font-bold'>{each.name}</h2>
+                                                </div>
+                                                <div className=' flex justify-between items-center'>
+                                                    <div className='pt-2'>
+                                                        <p className='text-gray-500 font-medium'>Amount</p>
+                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(each.amount || 0)}</h2>
+                                                    </div>
+                                                    <button className='c-bg-primary-light-mobile'>
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
+                                                        Share
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                } else {
+                                    return (
+                                        <div className='border border-1 overflow-hidden rounded-[10px]' key={index} onClick={() => navigate(`/dashboard/payment/${each.code}`)}>
+                                            <div className='flex justify-center items-center even_numbers'>
+                                                <img src='/images/target2.svg' alt='alt-img' />
+                                            </div>
+                                            <div className='p-5'>
+                                                <div>
+                                                    <h2 className='text-xl font-bold'>{each.name}</h2>
+                                                </div>
+                                                <div className=' flex justify-between items-center'>
+                                                    <div className='pt-2'>
+                                                        <p className='text-gray-500 font-medium'>Amount</p>
+                                                        <h2 className='text-[#01b133] font-bold'>₦ {Intl.NumberFormat('en-US',  { minimumFractionDigits: 2 }).format(each.amount || 0)}</h2>
+                                                    </div>
+                                                    <button className='c-bg-primary-light-mobile'>
+                                                        <ContentCopyIcon style={{ color: '#008950', fontSize: '18px', paddingBottom: '3px', paddingRight: '4px'}} />
+                                                        Share</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    )
+                                }
+                            })
                                 : (
                                     <div>
-
+                                        <Stack spacing={3}>
+                                            <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                            <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
+                                            <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                            <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
+                                            <Skeleton animation="wave" variant="rectangular" width={"100%"} height={30} />
+                                            <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
+                                        </Stack>
                                     </div>
                                 )}
+                            {paymentLinks?.length === 0 && (
+                                <div className=''>
+                                    {/* <img src="/images/payments.svg" alt='alt-img' className='w-2/5 mx-auto' />
+                                    <p className='text-gray-500 text-center'>No Links Yet!</p> */}
+                                    <RecentLinksSkeleton/>
+                                </div>
+                            )}
                         </div>
                         <ToastContainer
                             position="top-right"
@@ -188,45 +290,7 @@ const PaymentLinks = () => {
                         />
                     </div>
                 </div>
-                <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}>
-                    <BottomNavigation sx={{ width: 500 }} value={value} onChange={handleChange}>
-                        <BottomNavigationAction
-                            label="Dashboard"
-                            value="dashboard"
-                            onClick={() => navigate('/dashboard')}
-                            icon={<DashboardIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="Transactions"
-                            value="transactions"
-                            onClick={() => navigate('/dashboard/transaction')}
-                            icon={<ReceiptIcon />}
-                        />
-                        <BottomNavigationAction
-                            label="Links"
-                            value="links"
-                            icon={<InsertLinkIcon />}
-                            onClick={() => navigate('/dashboard/paymentlinks')}
-                        />
-                        <BottomNavigationAction
-                            label="Profile"
-                            value="profile"
-                            icon={<AccountCircleIcon />}
-                            onClick={() => navigate('/dashboard/profile')}
-                        />
-                        {/* <BottomNavigationAction
-                            label="Favorites"
-                            value="favorites"
-                            icon={<FavoriteIcon />}
-                        /> */}
-                        {/* <BottomNavigationAction
-                            label="Nearby"
-                            value="nearby"
-                            icon={<LocationOnIcon />}
-                        /> */}
-                        <BottomNavigationAction label="Folder" value="folder" icon={<FolderIcon />} />
-                    </BottomNavigation>
-                </Paper>
+                <BottomNav />
             </div>
             <div className='hidden lg:block'>
                 <DashboardLayout>
@@ -253,12 +317,22 @@ const PaymentLinks = () => {
                                         {
                                             paymentLinks.map((link, index) => (
                                                 <Grid item xs={12} md={6} key={index}>
-                                                    <div className='bg-[#f8faf7] h-full border-dotted border-2 rounded-lg py-3 px-3'>
+                                                    <div className='bg-[#f8faf7] h-full  border-2 rounded-lg py-3 px-3 hover:border-gray-400 transition ease-in-out delay-100' onClick={() => Payments(link)}>
                                                         <div className='p-4'>
                                                             <div className=''>
                                                                 <div className='flex justify-between'>
-                                                                    <h2 className='fourier text-2xl text-[#1d3329] max-w-[60%] font-bold hover:text-blue-500 cursor-pointer' onClick={() => Payments(link)}>{link.name}</h2>
-                                                                    <small className='text-sm text-[#00bf00] status-pill'>{link.status} {link.expires_at && `- ${moment(link.expires_at).format('MMMM DD, YYYY')}`}</small>
+                                                                    <h2 className='fourier text-2xl text-[#1d3329] max-w-[60%] font-bold hover:text-blue-500 cursor-pointer'>{link.name}</h2>
+                                                                    {/* {moment(link.expires_at).format(('MMM DD, YYYY')) > moment(Date.now()).format(('MMM DD, YYYY')) ? (
+                                                                        <small className='text-sm text-[#00bf00] status-pill'>{link.status} {link.expires_at && `- ${moment(link.expires_at).format('MMMM DD, YYYY')}`}</small>
+                                                                    ) : (
+                                                                        <small className='text-sm text-red-500 italic font-bold'>expired</small>
+                                                                    )} */}
+                                                                    <div className="text-left uppercase">
+                                                                        <LinkStatusBadge status={link.status}
+                                                                            other={(link.status === 'active') && link.expires_at ? `  | UNTIL ${moment(link.expires_at).format(('MMM DD, YYYY'))}` :
+                                                                                ((link.status === 'expired') ? `  |  ON ${moment(link.expires_at).format(('MMM DD, YYYY'))}` : '')}
+                                                                        />
+                                                                    </div>
                                                                 </div>
                                                                 {/* <button onClick={setCopied}>
                                                                 Was it copied? {isCopied ? "Yes! 👍" : "Nope! 👎"}
@@ -268,24 +342,23 @@ const PaymentLinks = () => {
                                                                         {link.expected_number_of_payments ?
                                                                             (
                                                                                 <div>
-                                                                                    <h2 className='text-sm text-gray-400 font-bold'>Expected</h2>
-                                                                                    <h1 className='text-2xl font-bold '>₦ {Intl.NumberFormat('en-US').format(link.amount * link.expected_number_of_payments || 0)}</h1>
+                                                                                    <h2 className='text-sm text-gray-400 font-bold '>Total Expected Amount</h2>
+                                                                                    <h1 className='text-xl font-bold '>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(link.amount * link.expected_number_of_payments || 0)}</h1>
                                                                                 </div>
                                                                             )
                                                                             : ''
                                                                         }
-                                                                        {/* <div>
-                                                                        <h2 className='text-sm text-gray-400 font-bold'>Total Balance</h2>
-                                                                        <h1 className='text-2xl font-bold'>$90000</h1>
-                                                                    </div> */}
-                                                                        <div>
-                                                                            <h2 className='text-sm text-gray-400 font-bold'>Amount</h2>
-                                                                            <h1 className='text-2xl font-bold'>₦ {Intl.NumberFormat('en-US').format(link.amount || 0)}</h1>
-                                                                        </div>
+                                                                    
                                                                     </div>
+                                                                    <div>
+                                                                        <h2 className='text-sm text-gray-400 font-bold'>Amount Recieved </h2>
+                                                                        <h1 className='text-xl font-bold'>₦ {Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(link.amount || 0)}</h1>
+                                                                    </div>
+
                                                                 </div>
-                                                                <div className="pt-3">
-                                                                    <div className='bg-gray-100 pt-2 px-2 c-border-gray'>
+                                                                <div className="mt-2">
+                                                                    <h2 className='text-base text-gray-400 '>Payment Link  </h2>
+                                                                    <div className='bg-gray-100 py-1 px-2 c-border-gray'>
                                                                         <div className='flex space-x-2 items-center'>
                                                                             <IconButton onClick={() => {
                                                                                 // setCopied()
@@ -317,7 +390,6 @@ const PaymentLinks = () => {
                                                 </Grid>
                                             ))
                                         }
-
                                     </Grid>
                                 )
                             }
@@ -340,7 +412,7 @@ const PaymentLinks = () => {
                 </DashboardLayout>
             </div>
 
-
+            
         </>
     )
 }

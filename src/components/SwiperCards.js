@@ -12,6 +12,9 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import moment from 'moment';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import DatasetLinkedOutlinedIcon from '@mui/icons-material/DatasetLinkedOutlined';
+import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
+
 const SwiperCards = () => {
     const [wallet, setWallet] = useState({})
     const [matrics, setMatrics] = React.useState({});
@@ -53,8 +56,8 @@ const SwiperCards = () => {
                 className="mySwiper"
             >
                 <SwiperSlide>
-                    <div className='w-[85%] mx-auto py-10' >
-                        <div className='space-y-3'>
+                    <div className='w-[85%] mx-auto py-6' >
+                        <div className=''>
                             {
                                 wallet.user_id ? (
                                     <h1 className='fourier text-white font-bold' style={{ textTransform: 'uppercase' }}>{wallet.user_id.firstname} {wallet.user_id.lastname}</h1>
@@ -63,73 +66,97 @@ const SwiperCards = () => {
                                 )
                             }
                             <h3 className="text-gray-400 font-bold">{moment(new Date()).format('dddd, MMMM DD YYYY')}</h3>
-                            <div className='spacing-y-3 flex justify-between items-center'>
-                                <div className='py-4'>
+                            <div className='spacing-y-3 flex justify-between items-center mt-4'>
+                                <div className='pt-3'>
                                     {wallet.amount ? (<h1 className='fourier text-[20px] text-white font-bold'>₦ {Intl.NumberFormat('en-US').format(wallet.amount || 0)}</h1>) : <h1 className='fourier text-white text-[20px] font-bold'>₦0</h1>}
-                                    <h3 className="text-white fourier text-xl ">Total Balance</h3>
+                                    <h3 className="text-white fourier text-sm uppercase font-bold text-[#98f675]">Total Balance</h3>
                                 </div>
-                                <IconButton>
-                                    <NearMeIcon className='text-white' />
-                                </IconButton>
+                                <div className='h-full pt-3'>
+                                    <NearMeIcon style={{fontSize: '250%', color: 'white'}} />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <div className='w-[85%] mx-auto py-10 h-full relative'>
+                    <div className='w-[85%] mx-auto py-6 h-full relative'>
                         <div className='h-full'>
                             <div className='flex flex-col h-full'>
-                                <h1 className='text-3xl font-bold fourier text-white flex-1'>Income</h1>
-                                <div className='flex justify-between items-center'>
+                                <h1 className='text-3xl font-bold fourier text-white flex-1'>INCOME</h1>
+                                {/* <div className='flex justify-between items-center'>
                                     <div>
                                         <IconButton>
                                             <AddCardIcon className='text-white' fontSize='large' />
                                         </IconButton>
                                     </div>
                                     <div className='self-end'>
-                                        {/* <h2 className='text-sm text-gray-400 font-bold'>Income</h2> */}
                                         <h1 className='font-bold fourier text-white text-[40px]'>₦ {Intl.NumberFormat('en-US').format(matrics.income || 0)}</h1>
                                     </div>
+                                </div> */}
+                                <div className='spacing-y-3 flex justify-between items-center mt-4'>
+                                    <div className='pt-3'>
+                                        {wallet.amount ? (<h1 className='fourier text-[20px] text-white font-bold'>₦ {Intl.NumberFormat('en-US').format(matrics.income || 0)}</h1>) : <h1 className='fourier text-white text-[20px] font-bold'>₦0</h1>}
+                                        <h3 className="text-white fourier text-sm uppercase font-bold text-[#fadc8b]">Total Income</h3>
+                                    </div>
+                                    <div className='h-full pt-3'>
+                                        <AddCardIcon style={{fontSize: '250%', color: 'white'}} />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <div className='w-[85%] mx-auto py-10 h-full relative'>
+                    <div className='w-[85%] mx-auto py-8 h-full relative'>
                         <div className='h-full'>
                             <div className='flex flex-col h-full'>
-                                <h1 className='text-3xl font-bold text-white flex-1'>Payment Links</h1>
-                                <div className='flex justify-between items-center'>
+                                <h1 className='text-3xl font-bold text-white flex-1'>LINKS</h1>
+                                {/* <div className='flex justify-between items-center'>
                                     <div>
                                         <IconButton>
                                             <InsertLinkIcon fontSize='large' className='text-white' />
                                         </IconButton>
                                     </div>
                                     <div className='self-end'>
-                                        {/* <h2 className='text-sm text-gray-400 font-bold'>Income</h2> */}
                                         <h1 className='font-bold fourier text-white text-[50px] stroke-black'>{matrics.paymentLinkCount || 0}</h1>
                                     </div>
+                                </div> */}
+                                <div className='spacing-y-3 flex justify-between items-center mt-4'>
+                                    <div className='pt-3'>
+                                        {wallet.amount ? (<h1 className='fourier text-[20px] text-white font-bold'>{matrics.paymentLinkCount || 0}</h1>) : <h1 className='fourier text-white text-[20px] font-bold'>0</h1>}
+                                        <h3 className="text-white fourier text-sm uppercase font-bold text-[#00ff29]">PAYMENT LINK</h3>
+                                    </div>
+                                    <div className='h-full pt-3'>
+                                        <DatasetLinkedOutlinedIcon style={{fontSize: '250%', color: 'white'}} />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <div className='w-[85%] mx-auto py-10 h-full relative'>
+                    <div className='w-[85%] mx-auto py-8 h-full relative'>
                         <div className='h-full'>
                             <div className='flex flex-col h-full'>
 
-                                <h1 className='text-3xl font-bold text-white flex-1'>Payments</h1>
-                                <div className='flex justify-between items-center'>
+                                <h1 className='text-3xl font-bold text-white flex-1'>PAYMENTS</h1>
+                                {/* <div className='flex justify-between items-center'>
                                     <div>
                                         <IconButton>
                                             <InsertLinkIcon fontSize='large' className='text-white' />
                                         </IconButton>
                                     </div>
                                     <div className='self-end'>
-                                        {/* <h2 className='text-sm text-gray-400 font-bold'>Income</h2> */}
                                         <h1 className='font-bold fourier text-white text-[50px]'>{matrics.paymentCount || 0}</h1>
+                                    </div>
+                                </div> */}
+                                <div className='spacing-y-3 flex justify-between items-center mt-4'>
+                                    <div className='pt-3'>
+                                        {wallet.amount ? (<h1 className='fourier text-[20px] text-white font-bold'>{matrics.paymentCount || 0}</h1>) : <h1 className='fourier text-white text-[20px] font-bold'>0</h1>}
+                                        <h3 className="text-white fourier text-sm uppercase font-bold text-[#ffb100]">PAYMENTS</h3>
+                                    </div>
+                                    <div className='h-full pt-3'>
+                                        <AccountBalanceWalletOutlinedIcon style={{fontSize: '250%', color: 'white'}} />
                                     </div>
                                 </div>
 
@@ -138,19 +165,27 @@ const SwiperCards = () => {
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <div className='w-[85%] mx-auto py-10 h-full relative'>
+                    <div className='w-[85%] mx-auto py-8 h-full relative'>
                         <div className='h-full'>
                             <div className='flex flex-col h-full'>
-                                <h1 className='text-3xl font-bold text-white flex-1'>Withdrawal</h1>
-                                <div className='flex justify-between items-center'>
+                                <h1 className='text-3xl font-bold text-white flex-1'>WITHDRAWALS</h1>
+                                {/* <div className='flex justify-between items-center'>
                                     <div>
                                         <IconButton>
                                             <AccountBalanceWalletIcon fontSize='large' className='text-white' />
                                         </IconButton>
                                     </div>
                                     <div className='self-end'>
-                                        {/* <h2 className='text-sm text-gray-400 font-bold'>Income</h2> */}
                                         <h1 className='font-bold fourier text-white text-[40px]'>₦ {Intl.NumberFormat('en-US').format(matrics.withdrawal || 0)}</h1>
+                                    </div>
+                                </div> */}
+                                <div className='spacing-y-3 flex justify-between items-center mt-4'>
+                                    <div className='pt-3'>
+                                        <h1 className='fourier text-[20px] text-white font-bold'>₦ {Intl.NumberFormat('en-US').format(matrics.withdrawal || 0)}</h1>
+                                        <h3 className="text-white fourier text-sm uppercase font-bold text-[#ffb100]">WITHDRAWALS</h3>
+                                    </div>
+                                    <div className='h-full pt-3'>
+                                        <AccountBalanceWalletIcon style={{fontSize: '250%', color: 'white'}} />
                                     </div>
                                 </div>
                             </div>

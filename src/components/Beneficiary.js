@@ -6,6 +6,7 @@ import Modal from '@mui/material/Modal';
 import Protected, { BASE_URL } from '../utils/axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -18,7 +19,7 @@ const style = {
     p: 4,
 };
 
-export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, handleClose3,beneficiaries,setBeneficiaries }) {
+export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, handleClose3, beneficiaries, setBeneficiaries }) {
     const [loading, setLoading] = React.useState(false)
     console.log(data)
     console.log(beneficiaries)
@@ -30,7 +31,7 @@ export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, h
             const response = await Protected.delete(`${BASE_URL}/api/beneficiary/remove/${data._id}`)
             console.log(response.data)
             setLoading(false)
-            const newBeneficiaries = beneficiaries.filter((e)=>e._id!==data._id)
+            const newBeneficiaries = beneficiaries.filter((e) => e._id !== data._id)
             setBeneficiaries(newBeneficiaries)
             toast.success('Beneficiary Deleted!', {
                 position: "top-right",
@@ -50,7 +51,7 @@ export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, h
             setLoading(false)
             toast.error(error.response.data.message)
             console.log(error.response)
-        }
+          }
     }
 
     return (
@@ -67,15 +68,15 @@ export default function BenificiaryModal({ data, open3, handleOpen3, setOpen3, h
                     <form onSubmit={DeleteBenefiary}>
                         <div>
                             <label className='text-sm font-bold block my-2 text-gray-700'>Account Name</label>
-                            <input value={data.account_name} readOnly required name='Account Name' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                            <input value={data.account_name} readOnly required name='Account Name' type="text" className='py-2 px-4 w-full outline-none c-text-input'/>
                         </div>
                         <div>
                             <label className='text-sm font-bold block my-2 text-gray-700'>Bank Name</label>
-                            <input value={data.bank_name} readOnly required name='Bank Name' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                            <input value={data.bank_name} readOnly required name='Bank Name' type="text" className='py-2 px-4 w-full outline-none c-text-input'/>
                         </div>
                         <div>
                             <label className='text-sm font-bold block my-2 text-gray-700'>Account Number</label>
-                            <input value={data.account_number} readOnly name='Account Number' type="text" className='py-2 px-4 w-full outline-none c-text-input' />
+                            <input value={data.account_number} readOnly name='Account Number' type="text" className='py-2 px-4 w-full outline-none c-text-input'/>
                         </div>
                         <div className='py-4'>
                             <button className='c-secondary-button'>

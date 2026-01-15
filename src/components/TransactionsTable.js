@@ -11,13 +11,40 @@ import { Button, Skeleton, Stack } from '@mui/material'
 import TuneIcon from '@mui/icons-material/Tune';
 import moment from 'moment'
 import TransactionDialog from './TraansactionDialog';
+// import Pagination from './Pagination';
+import StatusBadge from './atom/web/StatusBadge';
+import Pagination from './molecule/web/Pagination';
 
 
-function createData(Description, Customer, Amount, Payment, Status) {
-  return { Description, Customer, Amount, Payment, Status };
-}
-
-export default function TransactionTable({ opener, setOpener, handleClickOpen, handleCloser, loading, transactions, handleKeyDown, setSearch, search, start, end, status, setStatus, setEnd, setStart, filterData, entity, setEntity, type, setType, load }) {
+export default function TransactionTable({
+  opener,
+  setOpener,
+  handleClickOpen,
+  handleCloser,
+  loading,
+  setLoading,
+  transactions,
+  handleKeyDown,
+  setSearch,
+  search,
+  start,
+  end,
+  status,
+  setStatus,
+  setEnd,
+  setStart,
+  filterData,
+  entity,
+  setEntity,
+  type,
+  setType,
+  meta,
+  onPageChange,
+  setMeta,
+  setTransaction,
+  Protected,
+  BASE_URL
+}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -30,15 +57,27 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
   const typeRef = React.useRef()
   const entityRef = React.useRef()
 
+  // const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [postsPerPage] = React.useState(meta?.length);
+
+  // Get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = transactions?.slice(indexOfFirstPost, indexOfLastPost);
+
+  // const paginate = pageNumber => setCurrentPage(pageNumber);
+
   const clearAll = () => {
     setEnd("")
     setStart("")
-    setStatus("")
+    setStatus("paid")
     setType("")
     setEntity("")
 
     formRef.current.reset()
     setTimeout(() => {
+      // formRef.current.reset()
       filterData()
     }, 1000)
 
@@ -57,17 +96,27 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
   //   (transaction.in_entity === 'Payment') ? transaction?.in_entity_id?.unique_answer?.toLowerCase().includes(search.toLowerCase()) : true
   // );
 
-  const array = [1, 2, 3, 4, 5, 6, 7]
-
   return (
     <>
       <div className='flex justify-between mb-4'>
         <div className='w-[20%]'>
           <input placeholder='Search' style={{ backgroundColor: '#f8faf7' }} onKeyDown={handleKeyDown} onChange={(e) => setSearch(e.target.value)} type="text" className='py-2 px-4 w-full outline-none c-text-input' />
         </div>
-        <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />} onClick={() => setToggle(!toggle)}>
-          Filter
-        </Button>
+
+        {
+          transactions?.length ? (
+            <div className='flex items-center space-x-4'>
+              <div className='mr-5'>
+
+                <Pagination currentPage={meta.page} lastPage={meta.lastPage} onPageChange={(page) => onPageChange(page)} />
+
+              </div>
+              <Button variant="outlined" className='text-black c-withdraw-page-filter' startIcon={<TuneIcon />} onClick={() => setToggle(!toggle)}>
+                Filter
+              </Button>
+            </div>
+          ) : ''
+        }
       </div>
       {toggle && (
         <div className='w-full mt-2 py-4 rounded-md border-2 border-gray-300'>
@@ -133,8 +182,8 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
                     <option value={""}>Select One</option>
                     <option value={"pending"}>pending</option>
                     <option value={"paid"}>paid</option>
-                    <option value={"declined"}>declined</option>
-                    <option value={"abandoned"}>abandoned</option>
+                    {/* <option value={"declined"}>declined</option>
+                    <option value={"abandoned"}>abandoned</option> */}
                   </select>
                 </div>
                 {/* <Grid item xs={12} md={6}> */}
@@ -176,6 +225,8 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
           </div>
         </div>
       )}
+
+
       <TableContainer className='relative'>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -191,27 +242,28 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
           </TableHead>
           {transactions?.length && !loading ? (
             <TableBody>
-              {transactions.map((row, index) => (
+              {transactions?.map((row, index) => (
                 <TableRow
                   key={index}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   className="hover:bg-gray-100 cursor-pointer"
                   onClick={() => {
-                    console.log(row)
                     setRecentTransaction(row)
-                    console.log(row)
                     handleOpen()
                   }}
                 >
-                  <TableCell component="th" scope="row" style={{ fontWeight: '700' }} >
-                    <h2 className='font-bold uppercase'>{row.in_entity}</h2>
-                    <small className='text-gray-400'>{row.in_entity === 'Payment' ? row.in_entity_id.unique_answer : ''}</small>
+                  <TableCell component="th" scope="row" style={{ fontWeight: '700', maxWidth: '15rem' }} >
+                    <h2 className={`font-bold uppercase ${row.is_charges && 'text-[#f10506]'}`}>{row.in_entity === 'Wallet' ? 'Withdrawal' + (!row.is_charges ? '' : ' Charges') : row.in_entity}</h2>
+                    <small className='text-gray-400'>{
+                      row.in_entity === 'Payment' ?
+                        `${row.payment_link_id.name} | ${row.in_entity_id.unique_answer}` :
+                        (row.is_charges ? '' : `${row.out_entity_id.name} | ${row.out_entity_id.account_number} | ${row.out_entity_id.bank_name}`)}</small>
                   </TableCell>
                   <TableCell className='text-gray-400'>{row.reference}</TableCell>
                   <TableCell>{moment(row.createdAt).format('dddd, DD MMMM YYYY')}</TableCell>
                   <TableCell>{moment(row.createdAt).format('hh:mm:ss A')}</TableCell>
                   <TableCell>
-                    <p className='font-bold'>₦ {Intl.NumberFormat('en-US').format(row.amount || 0)}</p>
+                    <p className='font-bold'>{ row.type === 'debit' ? '-' : '+' } ₦ {Intl.NumberFormat('en-US').format(row.amount || 0)}</p>
                   </TableCell>
                   <TableCell>
                     <div className="text-left">
@@ -219,93 +271,96 @@ export default function TransactionTable({ opener, setOpener, handleClickOpen, h
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="text-left">
-                      <p className={row.status === 'paid' ? 'py-2 px-2 rounded-lg text-sm status-paid' : 'py-2 px-2 rounded-lg text-sm status-fail'}>{row.status}</p>
+                    <div className="text-left uppercase">
+                      <StatusBadge status={row?.status} />
                     </div>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           ) : ''}
-          {
-            (loading || load) ? (
+          {/* {
+            (loading) ? (
 
-            <TableBody>
-              {[1,2,3,4,5,6,7].map((arr, index) => (
-                <TableRow>
-
-                  <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                  <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                  <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                  <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                  <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                  <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                  <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          ): ''
-          }
-          {transactions?.length===0 && !load && (
+              <TableBody>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((arr, index) => (
+                  <TableRow>
+                    <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                    <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                    <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                    <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                    <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                    <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                    <TableCell><Skeleton animation="wave" variant="rectangular" width={"100%"} height={20} /></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            ) : ''
+          } */}
+          {((transactions?.length === 0) || loading) && (
             <>
-              {/* <div className='relative'> */}
-              <div className='absolute top-[40%] left-[40%] z-20' >
-                <img src="/images/cuate.svg" alt="alt-img" className='w-40' />
-                <h2 className='text-gray-600 text-xl text-center font-bold'>No Transactions Yet!</h2>
-              </div>
+              {
+                (!loading) ? (
+                  <div className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-20' >
+                    <img src="/images/cuate.svg" alt="alt-img" className='w-60 mx-auto' />
+                    <h2 className='text-gray-600 text-xl text-center font-bold mt-4'>No Transactions Yet!</h2>
+                  </div>
+                ) : ''
+              }
+              
 
-              {array.map((arr) => (
+              {[1,2,3,4,5,6,7,8,9].map((arr) => (
                 <TableBody className='relative'>
 
                   <TableRow>
 
-                    <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-100 h-4 w-[60%]'>
+                    <TableCell> <div className='space-y-4 w-full'>
+                      <div className='bg-gray-100 h-6 w-[90%]'>
                       </div>
 
-                      {/* <div className='bg-gray-200 h-4 w-[40%]'>
+                      {/* <div className='bg-gray-200 h-6 w-[40%]'>
                           </div> */}
 
                     </div></TableCell>
-                    <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-100 h-4 w-[60%]'>
+                    <TableCell> <div className='space-y-4 w-full'>
+                      <div className='bg-gray-100 h-6 w-[90%]'>
                       </div>
 
-                      {/* <div className='bg-gray-100 h-4 w-[40%]'>
+                      {/* <div className='bg-gray-100 h-6 w-[40%]'>
                           </div> */}
 
                     </div></TableCell>
-                    <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-100 h-4 w-[60%]'>
+                    <TableCell> <div className='space-y-4 w-full'>
+                      <div className='bg-gray-100 h-6 w-[80%]'>
                       </div>
 
 
                     </div></TableCell>
-                    <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-100 h-4 w-[60%]'>
+                    <TableCell> <div className='space-y-4 w-full'>
+                      <div className='bg-gray-100 h-6 w-[80%]'>
                       </div>
 
 
 
                     </div></TableCell>
-                    <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-100 h-4 w-[60%]'>
+                    <TableCell> <div className='space-y-4 w-full'>
+                      <div className='bg-gray-100 h-6 w-[80%]'>
                       </div>
 
-                      {/* <div className='bg-gray-100 h-4 w-[40%]'>
+                      {/* <div className='bg-gray-100 h-6 w-[40%]'>
                           </div> */}
 
                     </div></TableCell>
-                    <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-100 h-4 w-[60%]'>
+                    <TableCell> <div className='space-y-4 w-full'>
+                      <div className='bg-gray-100 h-6 w-[80%]'>
                       </div>
 
-                      {/* <div className='bg-gray-100 h-4 w-[40%]'>
+                      {/* <div className='bg-gray-100 h-6 w-[40%]'>
                           </div> */}
 
                     </div></TableCell>
-                    <TableCell> <div className='space-y-2 w-full'>
-                      <div className='bg-gray-100 h-8 rounded-full w-[60%]'>
+                    <TableCell> <div className='space-y-4 w-full'>
+                      <div className='bg-gray-100 h-6 w-[100%]'>
                       </div>
 
 

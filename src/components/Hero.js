@@ -46,13 +46,13 @@ const Hero = () => {
 
         t2.play();
 
-        gsap.from(typewriter.current, { text: "All in one platform for accepting payment and embedded fintech experience to fast track your payment", ease: "power1.in", duration: 2, repeat: 10, yoyo: true, repeatDelay: 0.4 })
+        gsap.from(typewriter.current, { text: "Our comprehensive fintech platform is designed to simplify transactions and elevate your financial experience with ease.", ease: "power1.in", duration: 2, repeat: 10, yoyo: true, repeatDelay: 0.4 })
 
         t3.fromTo(topClear.current, {
             height: '100%'
-        }, { height: '50%', duration: 1.5}).fromTo(bottomRef.current, {
+        }, { height: '50%', duration: 1.5 }).fromTo(bottomRef.current, {
             height: '100%'
-        }, { height: '50%', duration: 1.5 }).to(bigCircle.current,{backgroundColor:'#f3f4f3',duration:.9}).to(smallCircle.current,{backgroundColor:'#f3f4f3',duration:.9})
+        }, { height: '50%', duration: 1.5 }).to(bigCircle.current, { backgroundColor: '#f3f4f3', duration: .9 }).to(smallCircle.current, { backgroundColor: '#f3f4f3', duration: .9 })
 
         t1.from(
             [firstRef.current, secondRef.current, thirdRef.current],
@@ -78,13 +78,16 @@ const Hero = () => {
                         <div className='flex justify-between items-center'>
                             {/* <h2 className='text-2xl hero font-bold text-white'>Fourier<span className='text-[#97f675]'>Pay</span></h2> */}
                             <div className='w-[7rem]  md:w-[10rem]'>
-                                <img src="/images/two.svg" />
+                                <img src="/images/two.svg"/>
                             </div>
                             <div className='flex items-center space-x-3 md:space-x-6'>
+                                <Link to='/about'>
+                                    <span className='text-white cursor-pointer font-bold'>About</span>
+                                </Link>
                                 <Link to='/login'>
                                     <span className='text-white cursor-pointer font-bold'>Login</span>
                                 </Link>
-                                <Link to='signup'>
+                                <Link to='/signup'>
                                     <button className='bg-[#354740] text-white font-bold rounded-sm py-2 px-4 md:py-3 md:px-6'>Register</button>
                                 </Link>
                             </div>
@@ -105,16 +108,14 @@ const Hero = () => {
 
                                                 onInit={(typewriter) => {
                                                     typewriter
-                                                        .typeString("All in one platform for accepting payment and embedded fintech experience to fast track your payment")
-                                                        // .pauseFor(1000)
+                                                        .typeString("Our comprehensive fintech platform is designed to simplify transactions and elevate your financial experience with ease.")
+                                                        .pauseFor(1000)
                                                         // .deleteAll()
                                                         // .typeString("Welcomes You")
-                                                        .start();
+                                                        .start()
                                                 }}
                                             />
                                         </h4>
-
-
                                     </div>
                                     <div className='py-5 mt-8 w-[90%] md:w-4/5 flex justify-center md:block md:mx-0 mx-auto'>
                                         <Link to='signup'>
@@ -164,8 +165,6 @@ const Hero = () => {
                                                                 <p className='text-gray-400 font-bold mt-0'>Department Lead</p>
                                                             </div>
                                                         </div>
-
-
                                                     </div>
                                                     {/* <h2>Emeke</h2> */}
                                                 </div>

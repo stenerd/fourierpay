@@ -1,3 +1,0 @@
-Docker image contains all the information that a container needs to build a container.
-
-Container communicate with each other through networking.

@@ -29,22 +29,20 @@ const style = {
     borderRadius: 2
 };
 
-export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleClose2,bankList,FetchBeneficiary }) {
+export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleClose2, bankList, FetchBeneficiary }) {
     const [bank, setBank] = React.useState('');
     const [bank_name, setBankName] = React.useState('')
     const [bank_code, setBankCode] = React.useState('')
     const [account_no, setAccountNo] = React.useState('')
     const [account_name, setAcoountName] = React.useState('')
     // const { bankList } = React.useContext(DashBoardContext)
-        // const [beneficiaries,setBeneficiary] = useState()
+    // const [beneficiaries,setBeneficiary] = useState()
 
     const token = window.localStorage.getItem('bearer_token')
 
     // console.log(token)
 
-
-    // console.log(bankList)
-    const {state,dispatch} = React.useContext(DashBoardContext)
+    const { state, dispatch } = React.useContext(DashBoardContext)
 
     const [loading, setLoading] = React.useState(false)
 
@@ -71,11 +69,11 @@ export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleCl
             setAcoountName('')
             setAccountNo('')
             setBankName('')
-            setTimeout(()=>{
+            setTimeout(() => {
                 handleClose2()
-            },1000)
-            
-           
+            }, 1000)
+
+
         } catch (error) {
             console.log(error.response)
             toast.error('An Error occurred', {
@@ -104,10 +102,21 @@ export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleCl
             setAcoountName(response.data.data.account_name)
             setLoading(false)
         } catch (error) {
-            console.log(error.response)
+            console.log(error.response.data.message)
+            toast.error(error.response.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
+            setLoading(false)
+
+            // handleClose2()
         }
-
-
     }
     // setLoading(false)
     return (
@@ -172,7 +181,7 @@ export default function WithdrawalModal({ open2, setOpen2, handleOpen2, handleCl
                     </form>
                 </Box>
             </Modal>
-          
+
             <ToastContainer
                 position="top-right"
                 autoClose={5000}

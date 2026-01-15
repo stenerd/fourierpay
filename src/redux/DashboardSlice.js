@@ -31,11 +31,18 @@ export const dashboardSlice = createSlice({
     },
     PAYMENTS:(state,action)=>{
       state.payments = action.payload
+    },
+    TRANSACTION_HISTORY:(state,action)=>{
+      state.transactions = action.payload
+    },
+    HISTORY:(state,action)=>{
+      state.history = action.payload
     }
+
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { ADD_BENEFICIARY,ADD_PROFILE,ADD_PAYMENTLINKS,SINGLE_PAYMENTLINK,PAYMENTS } = dashboardSlice.actions
+export const { ADD_BENEFICIARY,ADD_PROFILE,ADD_PAYMENTLINKS,SINGLE_PAYMENTLINK,PAYMENTS,TRANSACTION_HISTORY ,HISTORY} = dashboardSlice.actions
 
 export default dashboardSlice.reducer
