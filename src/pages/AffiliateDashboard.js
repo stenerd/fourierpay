@@ -89,7 +89,7 @@
 				{/* Mobile View */}
 				<div className="block md:hidden">
 					<div className="py-6 px-4">
-						<h2 className="text-2xl font-bold text-gray-800">Affiliate Dashboard</h2>
+						<h2 className="text-2xl font-bold text-gray-800">Affiliate Dashboard </h2>
 						<p className="text-gray-600 mt-2">Share your links and earn commissions.</p>
 						<p className="text-green-600 font-bold text-2xl mt-2">Payouts Every Friday</p>
 					</div>
