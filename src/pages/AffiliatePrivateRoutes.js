@@ -4,7 +4,10 @@ const AffiliatePrivateRoutes = () => {
 	const token = window.localStorage.getItem('bearer_token')
 	const userString = window.localStorage.getItem('user')
 
-	// Safely parse user
+	if (!token) {
+		return <Navigate to="/affiliate/login" replace />
+	}
+
 	let user = null
 	try {
 		user = userString ? JSON.parse(userString) : null
@@ -13,17 +16,12 @@ const AffiliatePrivateRoutes = () => {
 		user = null
 	}
 
-	// No token → redirect to login
-	if (!token) {
-		return <Navigate to="/affiliate/login" replace />
-	}
-
-	// Not an affiliate → redirect to main dashboard
-	if (user?.role !== 'Affiliate') {
+	// If NOT affiliate → block and redirect to merchant dashboard
+	if (user?.user?.role !== 'Affiliate') {
 		return <Navigate to="/dashboard" replace />
 	}
 
-	// Affiliate with token → allow access to affiliate routes
+	// Affiliate → allow affiliate routes
 	return <Outlet />
 }
 

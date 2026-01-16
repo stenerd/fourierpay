@@ -31,6 +31,7 @@ const Login = () => {
         try {
             const res = await axios.post(`${BASE_URL}/api/auth/login`, state)
             window.localStorage.setItem('bearer_token', res?.data?.data.token)
+            window.localStorage.setItem('user', JSON.stringify(res?.data?.data))
             console.log(res?.data?.data.token)
             navigate('/dashboard')
             setLoading(false)
