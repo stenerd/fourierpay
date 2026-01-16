@@ -64,7 +64,6 @@ function App() {
 
 				<Route element={<AffiliatePrivateRoutes />}>
 					<Route path="/affiliate/dashboard" element={<AffiliateDashboard />} />
-					{/* Add more affiliate routes here later */}
 				</Route>
 			</Routes>
 		</div>
