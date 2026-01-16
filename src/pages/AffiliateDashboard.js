@@ -6,7 +6,7 @@
 	import LogoutIcon from '@mui/icons-material/Logout'
 	import { useNavigate } from 'react-router-dom'
 	import Protected, { BASE_URL } from '../utils/axios'
-	import WithdrawDialog from '../components/WithdrawDialog'
+	import AffiliateWithdrawDialog from '../components/AffiliateWithdrawDialog'
 	import BottomNav from '../components/bottomNav'
 	import { toast } from 'react-toastify'
 
@@ -103,19 +103,18 @@
 							<h1 className="text-3xl font-bold text-green-700 mt-3">₦ {affiliateData.totalEarnings.toLocaleString('en-US', { minimumFractionDigits: 2 })}</h1>
 						)}
 						<p className="text-gray-600 mt-2 text-sm">All commissions earned so far</p>
-						{/* <button
+
+						<button
+							disabled={affiliateData.totalEarnings <= 0}
 							onClick={handleWithdraw}
-							disabled={loading}
-							className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2"
+							className={`mt-6 w-full ${
+								affiliateData.totalEarnings <= 0 ? 'bg-gray-300' : 'bg-green-600 hover:bg-green-700'
+							} text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2`}
 						>
 							<AccountBalanceWalletIcon />
-							Request Withdrawal
-						</button> */}
-
-						<button disabled className="mt-6 w-full bg-gray-300 hover:bg-green-700 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2">
-							<AccountBalanceWalletIcon />
-							Request Withdrawals
+							Get Payout
 						</button>
+						<p className="text-sm text-green-800 mt-1">Instant Payouts Every Friday.</p>
 					</div>
 
 					{/* Affiliate Links */}
@@ -128,7 +127,12 @@
 								{affiliateData.sharedLinks.map((link, i) => (
 									<div key={i} className="border border-gray-300 rounded-xl p-4">
 										<p className="font-semibold text-gray-800">{link.name}</p>
-										<p className="text-sm text-gray-600 mt-1">Commission: ₦{link.yourCommissionPerSale.toLocaleString()} per sale</p>
+										<p className="text-sm text-gray-800 mt-1">Commission: ₦{link.yourCommissionPerSale.toLocaleString()} per sale</p>
+										<p className="text-sm text-green-800 mt-1">
+											This is your link, Copy and Share it to your Parents and Friends. <br />
+											You get Commission: ₦{link.yourCommissionPerSale.toLocaleString()} for every sale made.
+										</p>
+
 										<div className="flex items-center mt-3 bg-gray-100 rounded-lg p-3">
 											<p className="text-sm truncate flex-1 text-gray-700">{link.shareableLink}</p>
 											<Tooltip title="Copy">
@@ -174,7 +178,9 @@
 
 					{/* Recent Commissions */}
 					<div className="mx-4 border-2 border-gray-300 rounded-2xl p-6 bg-white pb-20">
-						<h3 className="text-lg font-bold text-gray-800 mb-4">Recent Commissions</h3>
+						<h3 className="text-lg font-bold text-gray-800 ">Recent Commissions</h3>
+						<p className="text-sm text-green-800 mb-4">All your latest withdrawals here</p>
+
 						{loading ? (
 							<div className="space-y-3">
 								{[1, 2, 3].map((i) => (
@@ -200,7 +206,7 @@
 					</div>
 
 					{/* Logout Button */}
-					<div className="mx-4 mb-20">
+					<div className="mx-4 mt-8 mb-10">
 						<Button fullWidth variant="outlined" color="error" startIcon={<LogoutIcon />} onClick={handleLogout}>
 							Logout
 						</Button>
@@ -234,18 +240,17 @@
 										<h2 className="text-xl font-bold text-gray-700">Total Earnings</h2>
 										<h1 className="text-5xl font-bold text-green-700 mt-6">₦ {affiliateData.totalEarnings.toLocaleString('en-US', { minimumFractionDigits: 2 })}</h1>
 										<p className="text-gray-600 mt-4 text-base">All commissions earned so far</p>
-										{/* <button
+										<button
+											disabled={affiliateData.totalEarnings <= 0}
 											onClick={handleWithdraw}
-											className="mt-8 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-5 rounded-2xl text-lg flex items-center justify-center gap-3"
+											className={`mt-8 w-full ${
+												affiliateData.totalEarnings <= 0 ? 'bg-gray-300' : 'bg-green-600 hover:bg-green-700'
+											} text-white font-bold py-5 rounded-2xl text-lg flex items-center justify-center gap-3`}
 										>
-											<NearMeIcon fontSize="large" />
-											Request Withdrawal
-										</button> */}
-
-										<button disabled className="mt-8 w-full bg-gray-300 hover:bg-green-700 text-white font-bold py-5 rounded-2xl text-lg flex items-center justify-center gap-3">
-											<NearMeIcon fontSize="large" />
-											Request Withdrawal
+											<AccountBalanceWalletIcon fontSize="large" />
+											Request Payout
 										</button>
+										<p className="text-sm text-gray-800 mt-1">Instant Payouts Every Friday.</p>
 									</div>
 								</div>
 
@@ -304,7 +309,9 @@
 								{/* Recent Commissions — full width */}
 								{/* Recent Commissions */}
 								<div className="mx-4 border-2 border-gray-300 rounded-2xl p-6 bg-white pb-20">
-									<h3 className="text-lg font-bold text-gray-800 mb-4">Recent Commissions</h3>
+									<h3 className="text-lg font-bold text-gray-800">Recent Commissions</h3>
+									<p className="text-sm text-green-800  mb-4">All your latest withdrawals here</p>
+
 									{loading ? (
 										<div className="space-y-3">
 											{[1, 2, 3].map((i) => (
@@ -333,7 +340,13 @@
 					</div>
 				</div>
 
-				<WithdrawDialog opener={openWithdraw} handleClosed={() => setOpenWithdraw(false)} handleClickOpen={() => setOpenWithdraw(true)} setOpener={setOpenWithdraw} />
+				<AffiliateWithdrawDialog
+					opener={openWithdraw}
+					setOpener={setOpenWithdraw}
+					handleClosed={() => setOpenWithdraw(false)}
+					handleClickOpen={() => setOpenWithdraw(true)}
+					balance={affiliateData.totalEarnings} // ← PASS THE BALANCE HERE
+				/>
 			</>
 		)
 	}

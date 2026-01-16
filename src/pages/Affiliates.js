@@ -131,7 +131,7 @@ const Affiliates = () => {
 								</div>
 							)}
 						</div>
-
+{/* 
 						<div className="mt-16">
 							<h2 className="text-2xl font-bold mb-6">All Commissions Log</h2>
 							{commLoading ? (
@@ -173,7 +173,7 @@ const Affiliates = () => {
 							) : (
 								<p className="text-center text-gray-500 py-12 text-lg">No commissions have been logged yet.</p>
 							)}
-						</div>
+						</div> */}
 					</div>
 				</DashboardLayout>
 			</div>
