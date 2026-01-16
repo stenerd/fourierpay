@@ -89,8 +89,9 @@
 				{/* Mobile View */}
 				<div className="block md:hidden">
 					<div className="py-6 px-4">
-						<h2 className="text-2xl font-bold text-gray-800">Affiliate Dashboard</h2>
+						<h2 className="text-2xl font-bold text-gray-800">Affiliate Dashboard </h2>
 						<p className="text-gray-600 mt-2">Share your links and earn commissions.</p>
+						<p className="text-green-600 font-bold text-2xl mt-2">Payouts Every Friday</p>
 					</div>
 
 					{/* Total Earnings */}
@@ -102,13 +103,18 @@
 							<h1 className="text-3xl font-bold text-green-700 mt-3">₦ {affiliateData.totalEarnings.toLocaleString('en-US', { minimumFractionDigits: 2 })}</h1>
 						)}
 						<p className="text-gray-600 mt-2 text-sm">All commissions earned so far</p>
-						<button
+						{/* <button
 							onClick={handleWithdraw}
 							disabled={loading}
 							className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2"
 						>
 							<AccountBalanceWalletIcon />
 							Request Withdrawal
+						</button> */}
+
+						<button disabled className="mt-6 w-full bg-gray-300 hover:bg-green-700 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2">
+							<AccountBalanceWalletIcon />
+							Request Withdrawals
 						</button>
 					</div>
 
@@ -199,8 +205,6 @@
 							Logout
 						</Button>
 					</div>
-
-					<BottomNav />
 				</div>
 
 				{/* Desktop View */}
@@ -210,6 +214,7 @@
 							<div>
 								<h1 className="text-3xl font-bold text-gray-800">Affiliate Dashboard</h1>
 								<p className="text-gray-600 text-lg mt-2">Track your earnings and share your links</p>
+								<p className="text-green-600 font-bold text-2xl mt-2">Payouts Every Friday</p>
 							</div>
 							<Button variant="outlined" color="error" startIcon={<LogoutIcon />} onClick={handleLogout} size="large">
 								Logout
@@ -229,10 +234,15 @@
 										<h2 className="text-xl font-bold text-gray-700">Total Earnings</h2>
 										<h1 className="text-5xl font-bold text-green-700 mt-6">₦ {affiliateData.totalEarnings.toLocaleString('en-US', { minimumFractionDigits: 2 })}</h1>
 										<p className="text-gray-600 mt-4 text-base">All commissions earned so far</p>
-										<button
+										{/* <button
 											onClick={handleWithdraw}
 											className="mt-8 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-5 rounded-2xl text-lg flex items-center justify-center gap-3"
 										>
+											<NearMeIcon fontSize="large" />
+											Request Withdrawal
+										</button> */}
+
+										<button disabled className="mt-8 w-full bg-gray-300 hover:bg-green-700 text-white font-bold py-5 rounded-2xl text-lg flex items-center justify-center gap-3">
 											<NearMeIcon fontSize="large" />
 											Request Withdrawal
 										</button>
