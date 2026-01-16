@@ -7,23 +7,23 @@ const AffiliatePrivateRoutes = () => {
 	// Safely parse user
 	let user = null
 	try {
-		user = userString?.user ? JSON.parse(userString) : null
+		user = userString ? JSON.parse(userString) : null
 	} catch (error) {
 		console.error('Failed to parse user from localStorage:', error)
 		user = null
 	}
 
-	console.log('user in affiliate routes', user)
-	
-
+	// No token → redirect to login
 	if (!token) {
 		return <Navigate to="/affiliate/login" replace />
 	}
 
-	if (user?.role == 'Affiliate') {
-		return <Navigate to="/affiliate/dashboard" replace /> 
+	// Not an affiliate → redirect to main dashboard
+	if (user?.role !== 'Affiliate') {
+		return <Navigate to="/dashboard" replace />
 	}
 
+	// Affiliate with token → allow access to affiliate routes
 	return <Outlet />
 }
 
