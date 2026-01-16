@@ -86,9 +86,14 @@ const MakePayment = () => {
 
 		// If not logged in → go to signup (preserve context)
 		if (!token) {
+			console.log('payment link code started !!!!!!!!!!!!', code)
+
+			localStorage.setItem('pendingPaymentLinkCode', code)
+
 			if (parentRef) {
 				localStorage.setItem('pendingAffiliateRef', parentRef)
-				localStorage.setItem('pendingPaymentLinkCode', code)
+
+				console.log('Affiliate items saved ')
 			}
 			navigate(`/affiliate/signup?link=${code}`)
 			return
