@@ -426,7 +426,7 @@
 							</Link>
 							{/* <p className='text-center text-white text-2xl font-bold'>Pay</p> */}
 						</div>
-						<div className="relative px-6 pt-6 w-full">
+						<div className="relative px-6 pt-4 w-full">
 							<div className="w-full p-4 flex cm-mobile-make-payment-topic">
 								{/* <div className="flex items-center justify-center">
 										<img src="/images/make-payment-icon.svg" alt="alt-img" />
@@ -441,9 +441,9 @@
 								</div>
 							</div>
 						</div>
-						<div className="relative  mt-6 px-6 py-8 w-full bg-white ">
-							<p className="text-gray-500  py-4 font-medium text-sm ">AMOUNT</p>
-							<p className="text-green-800 pt-0 text-xl">{paymentLink.description}</p>
+						<div className="relative px-6 py-2 w-full bg-white ">
+							<p className="text-gray-500  py-4 font-medium text-sm ">About</p>
+							<p className="text-green-800 pt-0 text-sm">{paymentLink.description}</p>
 						</div>
 
 						{/* <div className="flex">
@@ -468,8 +468,8 @@
 							</p>
 						</div>
 
-						<div className="relative mt-8 pt-6 w-full flex-1 border border-green-500 rounded-xl p-4 backdrop-blur-sm">
-							<p className="text-gray-800 font-medium text-sm uppercase tracking-wider">Earn Commission</p>
+						<div className="relative mt-8 pt-6 mx-2 w-full flex-1 border border-green-500 rounded-xl p-4 backdrop-blur-sm">
+							<p className="text-gray-800 font-medium text-sm uppercase tracking-wider">How to Earn </p>
 							<h3 className="text-green-600 text-lg md:text-xl font-semibold">Get paid when others pay with your link</h3>
 							<button
 								type="button"
