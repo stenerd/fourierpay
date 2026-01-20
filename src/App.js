@@ -1,7 +1,7 @@
 import Hero from "./components/Hero";
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
-import Home from "./pages/Home";
-import Signup from "./pages/Signup";
+// import Home from "./pages/Home";
+// import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import AffiliateSignup from './pages/AffiliateSignup';
 import AffiliateLogin from './pages/AffiliateLogin';
@@ -36,8 +36,8 @@ function App() {
 					{/* <Route exact path="/" element={<Home />} /> */}
 					<Route exact path="/" element={<Login />} />
 					{/* <Route path="/signup" element={<Navigate to="/login" />} /> */}
-					<Route path="/signup" element={<Signup />} />
-					<Route path="/login" element={<Login />} />
+					{/* <Route path="/signup" element={<Signup />} /> */}
+					{/* <Route path="/login" element={<Login />} /> */}
 					<Route path="/affiliate/signup" element={<AffiliateSignup />} />
 					<Route path="/affiliate/login" element={<AffiliateLogin />} />
 					<Route path="/forgot-password" element={<ForgotPassword />} />
